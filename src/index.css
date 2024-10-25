@@ -15,9 +15,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --radius: 8px; /* Default value for your radius */
 }
 
-a {
+/* a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
@@ -70,3 +72,9 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+} */
