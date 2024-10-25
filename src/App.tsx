@@ -1,5 +1,4 @@
-import SimulationCanvas from "@/components/simulation/SimulationCanvas";
-// import { Button } from "@/components/ui/button";
+import Simulation from "@/components/simulation/Simulation";
 
 function App() {
   return (
@@ -9,7 +8,7 @@ function App() {
       </nav>
       <div className="h-full flex flex-col md:flex-row">
         <div className="bg-zinc-700 flex-grow">
-          <SimulationCanvas />
+          <Simulation />
         </div>
         <div className="bg-zinc-600 min-h-36 md:w-72">
           <h1>Controls</h1>
