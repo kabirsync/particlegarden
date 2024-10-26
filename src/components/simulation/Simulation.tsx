@@ -4,8 +4,15 @@ import { BlurFilter, TextStyle } from "pixi.js";
 import { useMemo } from "react";
 const Simulation = () => {
   const { containerRef, dimensions } = useContainerSize();
+
   const blurFilter = useMemo(() => new BlurFilter(2), []);
   const bunnyUrl = "https://pixijs.io/pixi-react/img/bunny.png";
+
+  const grainWidth = 4;
+  const columns = Math.floor(dimensions.width / grainWidth);
+  const rows = Math.floor(dimensions.height / grainWidth);
+  console.log({ dimensions, columns, rows });
+
   return (
     <div ref={containerRef} className="w-full h-full relative">
       <Stage
