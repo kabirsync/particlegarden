@@ -1,17 +1,31 @@
 import { useContainerSize } from "@/hooks/useContainerSize";
-import { Container, Sprite, Stage, Text } from "@pixi/react";
-import { BlurFilter, TextStyle } from "pixi.js";
-import { useMemo } from "react";
+import { Graphics, Stage } from "@pixi/react";
+
+interface GridSquareProps {
+  x: number;
+  y: number;
+  size: number;
+  color?: string;
+}
+
+const GridSquare = ({ x, y, size, color = "#a1a1aa" }: GridSquareProps) => (
+  <Graphics
+    draw={(g) => {
+      g.clear();
+      g.beginFill(color);
+      g.drawRect(x, y, size - 2, size - 2);
+      g.endFill();
+    }}
+  />
+);
+
 const Simulation = () => {
   const { containerRef, dimensions } = useContainerSize();
 
-  const blurFilter = useMemo(() => new BlurFilter(2), []);
-  const bunnyUrl = "https://pixijs.io/pixi-react/img/bunny.png";
-
-  const grainWidth = 4;
+  const grainWidth = 20;
   const columns = Math.floor(dimensions.width / grainWidth);
   const rows = Math.floor(dimensions.height / grainWidth);
-  console.log({ dimensions, columns, rows });
+  const grid = new Array(columns * rows).fill(0);
 
   return (
     <div ref={containerRef} className="w-full h-full relative">
@@ -20,29 +34,14 @@ const Simulation = () => {
         height={dimensions.height}
         options={{ backgroundColor: "black" }}
       >
-        <Sprite image={bunnyUrl} x={300} y={150} />
-        <Sprite image={bunnyUrl} x={500} y={150} />
-        <Sprite image={bunnyUrl} x={400} y={200} />
-        <Container x={200} y={200}>
-          <Text
-            text="Hello World"
-            anchor={0.5}
-            x={220}
-            y={150}
-            filters={[blurFilter]}
-            style={
-              new TextStyle({
-                align: "center",
-                fill: "0xffffff",
-                fontSize: 50,
-                letterSpacing: 20,
-                dropShadow: true,
-                dropShadowColor: "#E72264",
-                dropShadowDistance: 6,
-              })
-            }
-          />
-        </Container>
+        {grid.map((_, index) => {
+          const gridItemColumn = index % columns;
+          const gridItemRow = Math.floor(index / columns);
+          const x = gridItemColumn * grainWidth;
+          const y = gridItemRow * grainWidth;
+
+          return <GridSquare x={x} y={y} size={grainWidth} />;
+        })}
       </Stage>
     </div>
   );
