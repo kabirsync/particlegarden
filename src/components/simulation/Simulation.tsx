@@ -1,5 +1,6 @@
 import { useContainerSize } from "@/hooks/useContainerSize";
-import { Graphics, Stage } from "@pixi/react";
+import { Stage, Sprite, ParticleContainer } from "@pixi/react";
+import * as PIXI from "pixi.js";
 
 const Simulation = () => {
   const { containerRef, dimensions } = useContainerSize();
@@ -9,6 +10,9 @@ const Simulation = () => {
   const rows = Math.floor(dimensions.height / grainWidth);
   const grid = new Array(columns * rows).fill(0);
 
+  // Create a single texture for the squares
+  const squareTexture = PIXI.Texture.WHITE;
+
   return (
     <div ref={containerRef} className="w-full h-full relative">
       <Stage
@@ -16,23 +20,34 @@ const Simulation = () => {
         height={dimensions.height}
         options={{ backgroundColor: "black" }}
       >
-        <Graphics
-          draw={(g) => {
-            g.clear();
-            g.beginFill(0xa1a1aa);
-            for (let index = 0; index < grid.length; index++) {
-              const gridItemColumn = index % columns;
-              const gridItemRow = Math.floor(index / columns);
-              const x = gridItemColumn * grainWidth;
-
-              // const y = gridItemRow * grainWidth; // renders grid from top
-              const y = (rows - gridItemRow) * grainWidth; // Renders grid from bottom
-
-              g.drawRect(x, y, grainWidth - 2, grainWidth - 2);
-            }
-            g.endFill();
+        <ParticleContainer
+          maxSize={grid.length}
+          properties={{
+            scale: true,
+            position: true,
+            alpha: true,
+            tint: true,
           }}
-        />
+        >
+          {grid.map((_, index) => {
+            const gridItemColumn = index % columns;
+            const gridItemRow = Math.floor(index / columns);
+            const x = gridItemColumn * grainWidth;
+            const y = (rows - gridItemRow) * grainWidth; // Renders grid from bottom
+
+            return (
+              <Sprite
+                key={index}
+                texture={squareTexture}
+                x={x}
+                y={y}
+                width={grainWidth - 2}
+                height={grainWidth - 2}
+                tint={"white"}
+              />
+            );
+          })}
+        </ParticleContainer>
       </Stage>
     </div>
   );
