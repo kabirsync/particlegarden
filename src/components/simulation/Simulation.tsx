@@ -1,24 +1,6 @@
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Graphics, Stage } from "@pixi/react";
 
-interface GridSquareProps {
-  x: number;
-  y: number;
-  size: number;
-  color?: string;
-}
-
-const GridSquare = ({ x, y, size, color = "#a1a1aa" }: GridSquareProps) => (
-  <Graphics
-    draw={(g) => {
-      g.clear();
-      g.beginFill(color);
-      g.drawRect(x, y, size - 2, size - 2);
-      g.endFill();
-    }}
-  />
-);
-
 const Simulation = () => {
   const { containerRef, dimensions } = useContainerSize();
 
@@ -34,14 +16,23 @@ const Simulation = () => {
         height={dimensions.height}
         options={{ backgroundColor: "black" }}
       >
-        {grid.map((_, index) => {
-          const gridItemColumn = index % columns;
-          const gridItemRow = Math.floor(index / columns);
-          const x = gridItemColumn * grainWidth;
-          const y = gridItemRow * grainWidth;
+        <Graphics
+          draw={(g) => {
+            g.clear();
+            g.beginFill(0xa1a1aa);
+            for (let index = 0; index < grid.length; index++) {
+              const gridItemColumn = index % columns;
+              const gridItemRow = Math.floor(index / columns);
+              const x = gridItemColumn * grainWidth;
 
-          return <GridSquare x={x} y={y} size={grainWidth} />;
-        })}
+              // const y = gridItemRow * grainWidth; // renders grid from top
+              const y = (rows - gridItemRow) * grainWidth; // Renders grid from bottom
+
+              g.drawRect(x, y, grainWidth - 2, grainWidth - 2);
+            }
+            g.endFill();
+          }}
+        />
       </Stage>
     </div>
   );
