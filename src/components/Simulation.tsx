@@ -1,3 +1,4 @@
+import { Grid } from "@/components/Grid";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Stage, Sprite, ParticleContainer } from "@pixi/react";
 import * as PIXI from "pixi.js";
@@ -8,7 +9,8 @@ const Simulation = () => {
   const grainWidth = 20;
   const columns = Math.floor(dimensions.width / grainWidth);
   const rows = Math.floor(dimensions.height / grainWidth);
-  const grid = new Array(columns * rows).fill(0);
+
+  const gridInstance = new Grid({ columns, rows });
 
   // Create a single neutral base texture for the squares
   const squareTexture = PIXI.Texture.WHITE;
@@ -24,7 +26,7 @@ const Simulation = () => {
         options={{ backgroundColor }}
       >
         <ParticleContainer
-          maxSize={grid.length}
+          maxSize={gridInstance.grid.length}
           properties={{
             scale: true,
             position: true,
@@ -32,7 +34,7 @@ const Simulation = () => {
             tint: true,
           }}
         >
-          {grid.map((_, index) => {
+          {gridInstance.grid.map((_, index) => {
             const gridItemColumn = index % columns;
             const gridItemRow = Math.floor(index / columns);
             const x = gridItemColumn * grainWidth;
