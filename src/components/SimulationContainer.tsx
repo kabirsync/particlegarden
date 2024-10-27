@@ -3,6 +3,7 @@ import { useContainerSize } from "@/hooks/useContainerSize";
 import { Grid } from "@/simulations/Grid";
 import { Stage } from "@pixi/react";
 import { PointerEvent, useEffect, useRef, useState } from "react";
+import { backgroundColor } from "@/lib/colors";
 
 const SimulationContainer = () => {
   const { containerRef, dimensions } = useContainerSize();
@@ -21,20 +22,15 @@ const SimulationContainer = () => {
     }
   }, [dimensions.width, dimensions.height, columns, rows]);
 
-  const backgroundColor = 0x09090b; // Dark - Stage does not accept Pixi.Color needs numerical color
-
   const handleMouseDown = (event: PointerEvent<HTMLCanvasElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = Math.round(event.clientX - rect.left);
     const y = Math.round(event.clientY - rect.top);
     mousePosition.current = { x, y };
-    console.log(mousePosition.current);
 
     // Calculate grid indices
     const mouseColumn = Math.floor(x / grainWidth);
     const mouseRow = rows - Math.floor(y / grainWidth);
-
-    console.log({ mouseColumn, mouseRow });
 
     gridRef.current?.set(mouseColumn, mouseRow, 1);
   };
