@@ -2,12 +2,13 @@ import { Grid } from "@/components/Grid";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Stage, Sprite, ParticleContainer } from "@pixi/react";
 import * as PIXI from "pixi.js";
-import { useEffect, useRef, useState } from "react";
+import { PointerEvent, useEffect, useRef, useState } from "react";
 
 const Simulation = () => {
   const { containerRef, dimensions } = useContainerSize();
   const gridRef = useRef<Grid>();
   const [isReady, setIsReady] = useState(false);
+  const mousePosition = useRef({ x: 0, y: 0 });
 
   const grainWidth = 20;
   const columns = Math.floor(dimensions.width / grainWidth);
@@ -26,12 +27,21 @@ const Simulation = () => {
   const backgroundColor = 0x09090b; // Dark - Stage does not accept Pixi.Color needs numerical color
   const grainColor = new PIXI.Color("#d4d4d8"); // Light
 
+  const handleMouseDown = (event: PointerEvent<HTMLCanvasElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    mousePosition.current = { x: Math.round(x), y: Math.round(y) };
+    console.log(mousePosition.current);
+  };
+
   return (
     <div ref={containerRef} className="w-full h-full relative">
       <Stage
         width={dimensions.width}
         height={dimensions.height}
         options={{ backgroundColor }}
+        onPointerDown={handleMouseDown}
       >
         {isReady && (
           <ParticleContainer
