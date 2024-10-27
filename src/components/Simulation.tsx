@@ -15,7 +15,7 @@ const Simulation = () => {
   // Create a single neutral base texture for the squares
   const squareTexture = PIXI.Texture.WHITE;
 
-  const backgroundColor = new PIXI.Color("#09090b"); // Dark
+  const backgroundColor = 0x09090b; // Dark - Stage does not accept Pixi.Color needs numerical color
   const grainColor = new PIXI.Color("#d4d4d8"); // Light
 
   return (
@@ -38,7 +38,7 @@ const Simulation = () => {
             const gridItemColumn = index % columns;
             const gridItemRow = Math.floor(index / columns);
             const x = gridItemColumn * grainWidth;
-            const y = (rows - gridItemRow) * grainWidth; // Renders grid from bottom
+            const y = (rows - gridItemRow) * grainWidth; // renders from bottom, use (rows - row) * grainWidth; for top to bottom
 
             return (
               <Sprite
