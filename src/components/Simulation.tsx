@@ -2,15 +2,23 @@ import { Grid } from "@/components/Grid";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Stage, Sprite, ParticleContainer } from "@pixi/react";
 import * as PIXI from "pixi.js";
+import { useEffect, useRef, useState } from "react";
 
 const Simulation = () => {
   const { containerRef, dimensions } = useContainerSize();
+  const gridRef = useRef<Grid>();
+  const [isReady, setIsReady] = useState(false);
 
   const grainWidth = 20;
   const columns = Math.floor(dimensions.width / grainWidth);
   const rows = Math.floor(dimensions.height / grainWidth);
 
-  const gridInstance = new Grid({ columns, rows });
+  useEffect(() => {
+    if (columns > 0 && rows > 0) {
+      gridRef.current = new Grid({ columns, rows });
+      setIsReady(true);
+    }
+  }, [dimensions.width, dimensions.height, columns, rows]);
 
   // Create a single neutral base texture for the squares
   const squareTexture = PIXI.Texture.WHITE;
@@ -25,34 +33,36 @@ const Simulation = () => {
         height={dimensions.height}
         options={{ backgroundColor }}
       >
-        <ParticleContainer
-          maxSize={gridInstance.grid.length}
-          properties={{
-            scale: true,
-            position: true,
-            alpha: true,
-            tint: true,
-          }}
-        >
-          {gridInstance.grid.map((_, index) => {
-            const gridItemColumn = index % columns;
-            const gridItemRow = Math.floor(index / columns);
-            const x = gridItemColumn * grainWidth;
-            const y = (rows - gridItemRow) * grainWidth; // renders from bottom, use (rows - row) * grainWidth; for top to bottom
+        {isReady && (
+          <ParticleContainer
+            maxSize={columns * rows}
+            properties={{
+              scale: true,
+              position: true,
+              alpha: true,
+              tint: true,
+            }}
+          >
+            {gridRef.current?.grid.map((_, index) => {
+              const gridItemColumn = index % columns;
+              const gridItemRow = Math.floor(index / columns);
+              const x = gridItemColumn * grainWidth;
+              const y = (rows - gridItemRow) * grainWidth; // renders from bottom, use (rows - row) * grainWidth; for top to bottom
 
-            return (
-              <Sprite
-                key={index}
-                texture={squareTexture}
-                x={x}
-                y={y}
-                width={grainWidth - 2}
-                height={grainWidth - 2}
-                tint={grainColor}
-              />
-            );
-          })}
-        </ParticleContainer>
+              return (
+                <Sprite
+                  key={index}
+                  texture={squareTexture}
+                  x={x}
+                  y={y}
+                  width={grainWidth - 2}
+                  height={grainWidth - 2}
+                  tint={grainColor}
+                />
+              );
+            })}
+          </ParticleContainer>
+        )}
       </Stage>
     </div>
   );
