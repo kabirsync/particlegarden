@@ -32,7 +32,7 @@ const SimulationContainer = () => {
 
     // Calculate grid indices
     const mouseColumn = Math.floor(x / grainWidth);
-    const mouseRow = Math.floor(y / grainWidth);
+    const mouseRow = rows - Math.floor(y / grainWidth);
 
     console.log({ mouseColumn, mouseRow });
 
