@@ -17,7 +17,7 @@ const Simulation = ({
   gridRef,
   grainWidth,
 }: SimulationProps) => {
-  const spriteRefs = useRef<(SpriteType | null)[]>([]); // Array to hold references to sprites
+  const spriteRefs = useRef<(SpriteType | null)[]>([]);
 
   useTick(() => {
     if (gridRef.current) {
@@ -32,7 +32,6 @@ const Simulation = ({
       });
     }
   });
-  console.log("rerender");
 
   if (!gridRef.current) {
     return null;
