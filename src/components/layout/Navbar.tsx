@@ -9,10 +9,9 @@ import {
 import { Moon, Sun } from "lucide-react";
 
 const Navbar = () => {
-  const { theme, setTheme } = useTheme();
-  console.log({ theme });
+  const { setTheme } = useTheme();
   return (
-    <nav className="h-12 flex justify-between items-center px-4 border-b border-zinc-800">
+    <nav className="min-h-12 flex justify-between items-center px-4 border-b border-zinc-800">
       <p>Navbar</p>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

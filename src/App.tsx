@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme/ThemeProvider";
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="h-dvh flex flex-col bg-zinc-300 dark:bg-zinc-950">
+      <div className="h-dvh flex flex-col bg-zinc-300 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-300">
         <Navbar />
         <div className="h-full flex flex-col md:flex-row">
           <div className="flex-grow">
