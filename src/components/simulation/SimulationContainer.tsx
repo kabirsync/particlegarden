@@ -1,4 +1,4 @@
-import Simulation from "@/components/Simulation";
+import Simulation from "@/components/simulation/Simulation";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Grid } from "@/simulations/Grid";
 import { Stage } from "@pixi/react";

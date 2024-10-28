@@ -1,13 +1,12 @@
-import Simulation from "@/components/SimulationContainer";
+import Navbar from "@/components/layout/Navbar";
+import Simulation from "@/components/simulation/SimulationContainer";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <div className="h-dvh flex flex-col">
-        <nav className="h-12 bg-zinc-800">
-          <p>Navbar</p>
-        </nav>
+        <Navbar />
         <div className="h-full flex flex-col md:flex-row">
           <div className="bg-zinc-700 flex-grow">
             <Simulation />
