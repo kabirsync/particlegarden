@@ -12,7 +12,7 @@ const Navbar = () => {
   const { setTheme } = useTheme();
   return (
     <nav className="min-h-12 flex justify-between items-center px-4 border-b border-zinc-800">
-      <p>Navbar</p>
+      <p>Particle Garden</p>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon">
