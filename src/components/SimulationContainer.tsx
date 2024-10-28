@@ -10,8 +10,9 @@ const SimulationContainer = () => {
   const gridRef = useRef<Grid>();
   const [, setIsReady] = useState(false);
   const mousePosition = useRef({ x: 0, y: 0 });
+  const mouseIsPressed = useRef(false);
 
-  const grainWidth = 20;
+  const grainWidth = 10;
   const columns = Math.floor(dimensions.width / grainWidth);
   const rows = Math.floor(dimensions.height / grainWidth);
 
@@ -23,6 +24,9 @@ const SimulationContainer = () => {
   }, [dimensions.width, dimensions.height, columns, rows]);
 
   const handleMouseDown = (event: PointerEvent<HTMLCanvasElement>) => {
+    if (!mouseIsPressed.current) {
+      return;
+    }
     const rect = event.currentTarget.getBoundingClientRect();
     const x = Math.round(event.clientX - rect.left);
     const y = Math.round(event.clientY - rect.top);
@@ -36,12 +40,14 @@ const SimulationContainer = () => {
   };
 
   return (
-    <div ref={containerRef} className="w-full h-full relative">
+    <div ref={containerRef} className="w-full h-full relative cursor-pointer">
       <Stage
         width={dimensions.width}
         height={dimensions.height}
         options={{ backgroundColor }}
-        onPointerDown={handleMouseDown}
+        onPointerDown={() => (mouseIsPressed.current = true)}
+        onPointerUp={() => (mouseIsPressed.current = false)}
+        onPointerMove={handleMouseDown}
       >
         <Simulation
           columns={columns}

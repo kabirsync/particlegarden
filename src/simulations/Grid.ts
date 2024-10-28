@@ -16,7 +16,6 @@ export class Grid {
   }
 
   setIndex(i: number, particle: number) {
-    console.log(particle);
     this.grid[i] = particle;
     // particle.index = i;
   }
