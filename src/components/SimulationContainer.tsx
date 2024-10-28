@@ -3,7 +3,7 @@ import { useContainerSize } from "@/hooks/useContainerSize";
 import { Grid } from "@/simulations/Grid";
 import { Stage } from "@pixi/react";
 import { PointerEvent, useEffect, useRef, useState } from "react";
-import { backgroundColor } from "@/lib/colors";
+import { backgroundColorNumerical } from "@/lib/colors";
 
 const SimulationContainer = () => {
   const { containerRef, dimensions } = useContainerSize();
@@ -44,7 +44,7 @@ const SimulationContainer = () => {
       <Stage
         width={dimensions.width}
         height={dimensions.height}
-        options={{ backgroundColor }}
+        options={{ backgroundColor: backgroundColorNumerical }}
         onPointerDown={() => (mouseIsPressed.current = true)}
         onPointerUp={() => (mouseIsPressed.current = false)}
         onPointerMove={handleMouseDown}
