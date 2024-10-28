@@ -1,60 +1,71 @@
-import { Grid } from "@/components/Grid";
-import { useContainerSize } from "@/hooks/useContainerSize";
-import { Stage, Sprite, ParticleContainer } from "@pixi/react";
-import * as PIXI from "pixi.js";
+import { backgroundColor, sandColor, squareTexture } from "@/lib/colors";
+import { Grid } from "@/simulations/Grid";
+import { ParticleContainer, Sprite, useTick } from "@pixi/react";
+import { Sprite as SpriteType } from "pixi.js";
+import { MutableRefObject, useRef } from "react";
 
-const Simulation = () => {
-  const { containerRef, dimensions } = useContainerSize();
+type SimulationProps = {
+  columns: number;
+  rows: number;
+  gridRef: MutableRefObject<Grid | undefined>;
+  grainWidth: number;
+};
 
-  const grainWidth = 20;
-  const columns = Math.floor(dimensions.width / grainWidth);
-  const rows = Math.floor(dimensions.height / grainWidth);
+const Simulation = ({
+  columns,
+  rows,
+  gridRef,
+  grainWidth,
+}: SimulationProps) => {
+  const spriteRefs = useRef<(SpriteType | null)[]>([]);
 
-  const gridInstance = new Grid({ columns, rows });
+  useTick(() => {
+    if (gridRef.current) {
+      gridRef.current.grid.forEach((item, index) => {
+        const sprite = spriteRefs.current[index];
+        if (sprite) {
+          // Update sprite properties without re-rendering React
+          sprite.tint = item === 0 ? backgroundColor : sandColor;
+          sprite.x = (index % columns) * grainWidth;
+          sprite.y = (rows - Math.floor(index / columns)) * grainWidth;
+        }
+      });
+    }
+  });
 
-  // Create a single neutral base texture for the squares
-  const squareTexture = PIXI.Texture.WHITE;
-
-  const backgroundColor = 0x09090b; // Dark - Stage does not accept Pixi.Color needs numerical color
-  const grainColor = new PIXI.Color("#d4d4d8"); // Light
+  if (!gridRef.current) {
+    return null;
+  }
 
   return (
-    <div ref={containerRef} className="w-full h-full relative">
-      <Stage
-        width={dimensions.width}
-        height={dimensions.height}
-        options={{ backgroundColor }}
-      >
-        <ParticleContainer
-          maxSize={gridInstance.grid.length}
-          properties={{
-            scale: true,
-            position: true,
-            alpha: true,
-            tint: true,
-          }}
-        >
-          {gridInstance.grid.map((_, index) => {
-            const gridItemColumn = index % columns;
-            const gridItemRow = Math.floor(index / columns);
-            const x = gridItemColumn * grainWidth;
-            const y = (rows - gridItemRow) * grainWidth; // renders from bottom, use (rows - row) * grainWidth; for top to bottom
+    <ParticleContainer
+      maxSize={columns * rows}
+      properties={{
+        scale: true,
+        position: true,
+        alpha: true,
+        tint: true,
+      }}
+    >
+      {gridRef.current.grid.map((_, index) => {
+        const gridItemColumn = index % columns;
+        const gridItemRow = Math.floor(index / columns);
+        const x = gridItemColumn * grainWidth;
+        const y = (rows - gridItemRow) * grainWidth;
 
-            return (
-              <Sprite
-                key={index}
-                texture={squareTexture}
-                x={x}
-                y={y}
-                width={grainWidth - 2}
-                height={grainWidth - 2}
-                tint={grainColor}
-              />
-            );
-          })}
-        </ParticleContainer>
-      </Stage>
-    </div>
+        return (
+          <Sprite
+            key={index}
+            texture={squareTexture}
+            x={x}
+            y={y}
+            width={grainWidth - 2}
+            height={grainWidth - 2}
+            ref={(sprite) => (spriteRefs.current[index] = sprite)} // Store sprite reference
+          />
+        );
+      })}
+    </ParticleContainer>
   );
 };
 
