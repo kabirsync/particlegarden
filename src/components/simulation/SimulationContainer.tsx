@@ -62,6 +62,7 @@ const SimulationContainer = () => {
         onPointerMove={handleMouseDown}
       >
         <Simulation
+          theme={theme}
           columns={columns}
           rows={rows}
           gridRef={gridRef}

@@ -1,4 +1,10 @@
-import { backgroundColor, sandColor, squareTexture } from "@/lib/colors";
+import { Theme } from "@/components/theme/types";
+import {
+  backgroundColorDark,
+  backgroundColorLight,
+  sandColor,
+  squareTexture,
+} from "@/lib/colors";
 import { Grid } from "@/simulations/Grid";
 import { ParticleContainer, Sprite, useTick } from "@pixi/react";
 import { Sprite as SpriteType } from "pixi.js";
@@ -9,6 +15,7 @@ type SimulationProps = {
   rows: number;
   gridRef: MutableRefObject<Grid | undefined>;
   grainWidth: number;
+  theme: Theme;
 };
 
 const Simulation = ({
@@ -16,8 +23,12 @@ const Simulation = ({
   rows,
   gridRef,
   grainWidth,
+  theme,
 }: SimulationProps) => {
   const spriteRefs = useRef<(SpriteType | null)[]>([]);
+
+  const backgroundColor =
+    theme === "light" ? backgroundColorLight : backgroundColorDark;
 
   useTick(() => {
     if (gridRef.current) {
