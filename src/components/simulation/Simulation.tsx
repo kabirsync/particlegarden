@@ -41,6 +41,7 @@ const Simulation = ({
         const sprite = spriteRefs.current[index];
         if (sprite) {
           // Update sprite properties without re-rendering React
+          // sprite.alpha = item === 0 ? 0 : 1; // Fully transparent if item is 0, otherwise fully opaque
           sprite.tint = item === 0 ? backgroundColor : sandColor;
           sprite.x = (index % columns) * grainWidth;
           sprite.y = (rows - Math.floor(index / columns)) * grainWidth;
@@ -63,7 +64,7 @@ const Simulation = ({
         tint: true,
       }}
     >
-      {gridRef.current.grid.map((_, index) => {
+      {gridRef.current.grid.map((item, index) => {
         const gridItemColumn = index % columns;
         const gridItemRow = Math.floor(index / columns);
         const x = gridItemColumn * grainWidth;
@@ -73,6 +74,7 @@ const Simulation = ({
           <Sprite
             key={index}
             texture={squareTexture}
+            tint={item === 0 ? backgroundColor : sandColor}
             x={x}
             y={y}
             width={grainWidth - 2}
