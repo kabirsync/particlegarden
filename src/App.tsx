@@ -19,8 +19,8 @@ function App() {
           <div className="flex-grow">
             <Simulation isPlaying={isPlaying} />
           </div>
-          <div className="min-h-36 md:w-72 border-t md:border-t-0 md:border-l border-zinc-800">
-            <div className="flex justify-between items-center border-b p-1 border-zinc-800">
+          <div className="min-h-36 md:w-72 border-t md:border-t-0 md:border-l border-zinc-400 dark:border-zinc-800">
+            <div className="flex justify-between items-center border-b p-1 border-zinc-400 dark:border-zinc-800">
               <Button variant="ghost" size="icon" onClick={toggleIsPlaying}>
                 {isPlaying ? (
                   <Pause className="h-5 w-5" />
