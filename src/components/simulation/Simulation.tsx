@@ -16,6 +16,7 @@ type SimulationProps = {
   gridRef: MutableRefObject<Grid | undefined>;
   grainWidth: number;
   theme: Theme;
+  isPlaying: boolean;
 };
 
 const Simulation = ({
@@ -24,6 +25,7 @@ const Simulation = ({
   gridRef,
   grainWidth,
   theme,
+  isPlaying,
 }: SimulationProps) => {
   const spriteRefs = useRef<(SpriteType | null)[]>([]);
 
@@ -31,6 +33,9 @@ const Simulation = ({
     theme === "light" ? backgroundColorLight : backgroundColorDark;
 
   useTick(() => {
+    if (!isPlaying) {
+      return;
+    }
     if (gridRef.current) {
       gridRef.current.grid.forEach((item, index) => {
         const sprite = spriteRefs.current[index];

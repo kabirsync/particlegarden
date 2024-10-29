@@ -2,14 +2,24 @@ import Simulation from "@/components/simulation/Simulation";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Grid } from "@/simulations/Grid";
 import { Stage } from "@pixi/react";
-import { PointerEvent, useEffect, useRef, useState } from "react";
+import {
+  // MutableRefObject,
+  PointerEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useTheme } from "@/components/theme/useTheme";
 import {
   backgroundColorDarkNumerical,
   backgroundColorLightNumerical,
 } from "@/lib/colors";
 
-const SimulationContainer = () => {
+type SimulationContainerProps = {
+  isPlaying: boolean;
+};
+
+const SimulationContainer = ({ isPlaying }: SimulationContainerProps) => {
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
   const gridRef = useRef<Grid>();
@@ -21,6 +31,7 @@ const SimulationContainer = () => {
   const columns = Math.floor(dimensions.width / grainWidth);
   const rows = Math.floor(dimensions.height / grainWidth);
 
+  console.log({ isPlaying });
   useEffect(() => {
     if (columns > 0 && rows > 0) {
       gridRef.current = new Grid({ columns, rows });
@@ -29,7 +40,7 @@ const SimulationContainer = () => {
   }, [dimensions.width, dimensions.height, columns, rows]);
 
   const handleMouseDown = (event: PointerEvent<HTMLCanvasElement>) => {
-    if (!mouseIsPressed.current) {
+    if (!mouseIsPressed.current || !isPlaying) {
       return;
     }
     const rect = event.currentTarget.getBoundingClientRect();
@@ -67,6 +78,7 @@ const SimulationContainer = () => {
           rows={rows}
           gridRef={gridRef}
           grainWidth={grainWidth}
+          isPlaying={isPlaying}
         />
       </Stage>
     </div>
