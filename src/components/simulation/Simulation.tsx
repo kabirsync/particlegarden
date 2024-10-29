@@ -36,7 +36,6 @@ const Simulation = ({
   isPlaying,
   setFPS,
 }: SimulationProps) => {
-  console.log("render");
   const spriteRefs = useRef<(SpriteType | null)[]>([]);
 
   const backgroundColor =

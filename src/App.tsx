@@ -58,7 +58,6 @@ function App() {
                   max={20}
                   step={1}
                   onValueChange={(values: number[]) => {
-                    console.log(values);
                     setParticleSize(values[0]);
                   }}
                 />

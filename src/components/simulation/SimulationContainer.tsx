@@ -34,7 +34,6 @@ const SimulationContainer = ({
   const mousePosition = useRef({ x: 0, y: 0 });
   const mouseIsPressed = useRef(false);
 
-  // const particleSize = 10;
   const columns = Math.floor(dimensions.width / particleSize);
   const rows = Math.floor(dimensions.height / particleSize);
 
