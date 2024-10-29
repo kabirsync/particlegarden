@@ -5,10 +5,17 @@ import {
   sandColor,
   squareTexture,
 } from "@/lib/colors";
+import { throttle } from "@/lib/utils";
 import { Grid } from "@/simulations/Grid";
 import { ParticleContainer, Sprite, useTick } from "@pixi/react";
 import { Sprite as SpriteType } from "pixi.js";
-import { MutableRefObject, useRef } from "react";
+import {
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  useMemo,
+  useRef,
+} from "react";
 
 type SimulationProps = {
   columns: number;
@@ -17,6 +24,7 @@ type SimulationProps = {
   grainWidth: number;
   theme: Theme;
   isPlaying: boolean;
+  setFPS: Dispatch<SetStateAction<number>>;
 };
 
 const Simulation = ({
@@ -26,16 +34,25 @@ const Simulation = ({
   grainWidth,
   theme,
   isPlaying,
+  setFPS,
 }: SimulationProps) => {
   const spriteRefs = useRef<(SpriteType | null)[]>([]);
 
   const backgroundColor =
     theme === "light" ? backgroundColorLight : backgroundColorDark;
 
-  useTick(() => {
+  const throttledSetFPS = useMemo(
+    () => throttle((fps: number) => setFPS(fps), 1000),
+    [setFPS]
+  );
+
+  useTick((_, ticker) => {
     if (!isPlaying) {
+      setFPS(0);
       return;
     }
+    const fps = Math.round(ticker.FPS);
+    throttledSetFPS(fps);
     if (gridRef.current) {
       gridRef.current.grid.forEach((item, index) => {
         const sprite = spriteRefs.current[index];
