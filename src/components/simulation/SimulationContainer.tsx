@@ -9,7 +9,11 @@ import {
   backgroundColorLightNumerical,
 } from "@/lib/colors";
 
-const SimulationContainer = () => {
+type SimulationContainerProps = {
+  isPlaying: boolean;
+};
+
+const SimulationContainer = ({ isPlaying }: SimulationContainerProps) => {
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
   const gridRef = useRef<Grid>();
@@ -29,7 +33,7 @@ const SimulationContainer = () => {
   }, [dimensions.width, dimensions.height, columns, rows]);
 
   const handleMouseDown = (event: PointerEvent<HTMLCanvasElement>) => {
-    if (!mouseIsPressed.current) {
+    if (!mouseIsPressed.current || !isPlaying) {
       return;
     }
     const rect = event.currentTarget.getBoundingClientRect();
@@ -67,6 +71,7 @@ const SimulationContainer = () => {
           rows={rows}
           gridRef={gridRef}
           grainWidth={grainWidth}
+          isPlaying={isPlaying}
         />
       </Stage>
     </div>
