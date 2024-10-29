@@ -41,7 +41,6 @@ const Simulation = ({
         const sprite = spriteRefs.current[index];
         if (sprite) {
           // Update sprite properties without re-rendering React
-          // sprite.alpha = item === 0 ? 0 : 1; // Fully transparent if item is 0, otherwise fully opaque
           sprite.tint = item === 0 ? backgroundColor : sandColor;
           sprite.x = (index % columns) * grainWidth;
           sprite.y = (rows - Math.floor(index / columns)) * grainWidth;
