@@ -2,7 +2,14 @@ import Simulation from "@/components/simulation/Simulation";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Grid } from "@/simulations/Grid";
 import { Stage } from "@pixi/react";
-import { PointerEvent, useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  PointerEvent,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useTheme } from "@/components/theme/useTheme";
 import {
   backgroundColorDarkNumerical,
@@ -11,9 +18,13 @@ import {
 
 type SimulationContainerProps = {
   isPlaying: boolean;
+  setFPS: Dispatch<SetStateAction<number>>;
 };
 
-const SimulationContainer = ({ isPlaying }: SimulationContainerProps) => {
+const SimulationContainer = ({
+  isPlaying,
+  setFPS,
+}: SimulationContainerProps) => {
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
   const gridRef = useRef<Grid>();
@@ -72,6 +83,7 @@ const SimulationContainer = ({ isPlaying }: SimulationContainerProps) => {
           gridRef={gridRef}
           grainWidth={grainWidth}
           isPlaying={isPlaying}
+          setFPS={setFPS}
         />
       </Stage>
     </div>
