@@ -43,7 +43,7 @@ function App() {
                     setParticleSize={setParticleSize}
                   />
                 </div>
-                <div className="flex-1 flex justify-center">
+                <div className="flex-1 flex justify-end">
                   <ThemeToggleButton />
                 </div>
               </div>
