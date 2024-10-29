@@ -28,9 +28,9 @@ function App() {
           </div>
           <div className="min-h-36 md:w-72 border-t md:border-t-0 md:border-l border-zinc-400 dark:border-zinc-800">
             <div className="border-b border-zinc-400 dark:border-zinc-800 text-xs">
-              <div className="px-3 py-1 flex justify-between items-center ">
-                <p className="w-16">{FPS} FPS</p>
-                <div>
+              <div className="px-3 py-1 flex items-center">
+                <span className="flex-1 flex justify-start">{FPS} FPS</span>
+                <div className="flex-1 flex justify-center">
                   <Button variant="ghost" size="icon" onClick={toggleIsPlaying}>
                     {isPlaying ? (
                       <Pause className="h-5 w-5" />
@@ -43,7 +43,9 @@ function App() {
                     setParticleSize={setParticleSize}
                   />
                 </div>
-                <ThemeToggleButton />
+                <div className="flex-1 flex justify-center">
+                  <ThemeToggleButton />
+                </div>
               </div>
             </div>
           </div>
