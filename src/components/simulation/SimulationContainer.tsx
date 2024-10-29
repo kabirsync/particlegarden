@@ -2,13 +2,7 @@ import Simulation from "@/components/simulation/Simulation";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Grid } from "@/simulations/Grid";
 import { Stage } from "@pixi/react";
-import {
-  // MutableRefObject,
-  PointerEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { PointerEvent, useEffect, useRef, useState } from "react";
 import { useTheme } from "@/components/theme/useTheme";
 import {
   backgroundColorDarkNumerical,
@@ -31,7 +25,6 @@ const SimulationContainer = ({ isPlaying }: SimulationContainerProps) => {
   const columns = Math.floor(dimensions.width / grainWidth);
   const rows = Math.floor(dimensions.height / grainWidth);
 
-  console.log({ isPlaying });
   useEffect(() => {
     if (columns > 0 && rows > 0) {
       gridRef.current = new Grid({ columns, rows });
