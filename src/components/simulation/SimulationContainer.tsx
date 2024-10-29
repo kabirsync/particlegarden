@@ -19,12 +19,14 @@ import {
 type SimulationContainerProps = {
   isPlaying: boolean;
   setFPS: Dispatch<SetStateAction<number>>;
+  particleSize: number;
 };
 
 const SimulationContainer = ({
+  particleSize,
   isPlaying,
   setFPS,
-}: SimulationContainerProps) => {
+}: Readonly<SimulationContainerProps>) => {
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
   const gridRef = useRef<Grid>();
@@ -32,9 +34,9 @@ const SimulationContainer = ({
   const mousePosition = useRef({ x: 0, y: 0 });
   const mouseIsPressed = useRef(false);
 
-  const grainWidth = 10;
-  const columns = Math.floor(dimensions.width / grainWidth);
-  const rows = Math.floor(dimensions.height / grainWidth);
+  // const particleSize = 10;
+  const columns = Math.floor(dimensions.width / particleSize);
+  const rows = Math.floor(dimensions.height / particleSize);
 
   useEffect(() => {
     if (columns > 0 && rows > 0) {
@@ -52,8 +54,8 @@ const SimulationContainer = ({
     const y = Math.round(event.clientY - rect.top);
     mousePosition.current = { x, y };
 
-    const mouseColumn = Math.floor(x / grainWidth);
-    const mouseRow = rows - Math.floor(y / grainWidth);
+    const mouseColumn = Math.floor(x / particleSize);
+    const mouseRow = rows - Math.floor(y / particleSize);
 
     gridRef.current?.set(mouseColumn, mouseRow, 1);
   };
@@ -81,7 +83,7 @@ const SimulationContainer = ({
           columns={columns}
           rows={rows}
           gridRef={gridRef}
-          grainWidth={grainWidth}
+          particleSize={particleSize}
           isPlaying={isPlaying}
           setFPS={setFPS}
         />

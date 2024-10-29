@@ -21,7 +21,7 @@ type SimulationProps = {
   columns: number;
   rows: number;
   gridRef: MutableRefObject<Grid | undefined>;
-  grainWidth: number;
+  particleSize: number;
   theme: Theme;
   isPlaying: boolean;
   setFPS: Dispatch<SetStateAction<number>>;
@@ -31,11 +31,12 @@ const Simulation = ({
   columns,
   rows,
   gridRef,
-  grainWidth,
+  particleSize,
   theme,
   isPlaying,
   setFPS,
 }: SimulationProps) => {
+  console.log("render");
   const spriteRefs = useRef<(SpriteType | null)[]>([]);
 
   const backgroundColor =
@@ -59,8 +60,8 @@ const Simulation = ({
         if (sprite) {
           // Update sprite properties without re-rendering React
           sprite.tint = item === 0 ? backgroundColor : sandColor;
-          sprite.x = (index % columns) * grainWidth;
-          sprite.y = (rows - Math.floor(index / columns)) * grainWidth;
+          sprite.x = (index % columns) * particleSize;
+          sprite.y = (rows - Math.floor(index / columns)) * particleSize;
         }
       });
     }
@@ -83,8 +84,8 @@ const Simulation = ({
       {gridRef.current.grid.map((item, index) => {
         const gridItemColumn = index % columns;
         const gridItemRow = Math.floor(index / columns);
-        const x = gridItemColumn * grainWidth;
-        const y = (rows - gridItemRow) * grainWidth;
+        const x = gridItemColumn * particleSize;
+        const y = (rows - gridItemRow) * particleSize;
 
         return (
           <Sprite
@@ -93,8 +94,8 @@ const Simulation = ({
             tint={item === 0 ? backgroundColor : sandColor}
             x={x}
             y={y}
-            width={grainWidth - 2}
-            height={grainWidth - 2}
+            width={particleSize}
+            height={particleSize}
             ref={(sprite) => (spriteRefs.current[index] = sprite)} // Store sprite reference
           />
         );
