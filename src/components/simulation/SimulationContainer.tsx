@@ -1,4 +1,5 @@
 import Simulation from "@/components/simulation/Simulation";
+import { useTheme } from "@/components/theme/useTheme";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Grid } from "@/simulations/Grid";
 import { Stage } from "@pixi/react";
@@ -10,11 +11,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { useTheme } from "@/components/theme/useTheme";
-import {
-  backgroundColorDarkNumerical,
-  backgroundColorLightNumerical,
-} from "@/lib/colors";
 
 type SimulationContainerProps = {
   isPlaying: boolean;
@@ -42,7 +38,7 @@ const SimulationContainer = ({
       gridRef.current = new Grid({ columns, rows });
       setIsReady(true); // force rerender
     }
-  }, [dimensions.width, dimensions.height, columns, rows]);
+  }, [columns, dimensions.height, dimensions.width, particleSize, rows]);
 
   const handleMouseDown = (event: PointerEvent<HTMLCanvasElement>) => {
     if (!mouseIsPressed.current || !isPlaying) {
@@ -59,19 +55,13 @@ const SimulationContainer = ({
     gridRef.current?.set(mouseColumn, mouseRow, 1);
   };
 
-  const backgroundColor =
-    theme === "dark"
-      ? backgroundColorDarkNumerical
-      : backgroundColorLightNumerical;
-
   return (
     <div ref={containerRef} className="w-full h-full relative cursor-pointer">
       <Stage
-        key={theme} // This forces a re-render when theme changes
         width={dimensions.width}
         height={dimensions.height}
         options={{
-          backgroundColor,
+          backgroundAlpha: 0, // Makes background transparent
         }}
         onPointerDown={() => (mouseIsPressed.current = true)}
         onPointerUp={() => (mouseIsPressed.current = false)}
