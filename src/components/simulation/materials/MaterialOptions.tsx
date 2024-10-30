@@ -1,4 +1,5 @@
 import { MaterialOptionsType } from "@/components/simulation/materials/Material";
+import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { sandColor } from "@/lib/colors";
 import { Color } from "pixi.js";
@@ -51,12 +52,12 @@ const MaterialOptions = ({
           <label htmlFor="colorPicker" className="text-xs">
             Choose a color:
           </label>
-          <input
+          <Input
             type="color"
             id="colorPicker"
             value={`${materialColor.toHex()}`}
             onChange={handleMaterialColorChange}
-            className="w-full h-10 rounded-md cursor-pointer"
+            className="cursor-pointer w-12 h-12 p-0"
           />
         </div>
       )}
