@@ -2,7 +2,7 @@ import { Color } from "pixi.js";
 
 type ParticleOptions = {
   color: Color;
-  isEmpty: boolean;
+  isEmpty?: boolean;
 };
 
 class Particle {
