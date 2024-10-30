@@ -19,7 +19,7 @@ type SimulationParticlesProps = {
   particleSize: number;
   theme: Theme;
   isPlaying: boolean;
-  setFPS: Dispatch<SetStateAction<number>>;
+  setFPS?: Dispatch<SetStateAction<number>>;
 };
 
 const SimulationParticles = ({
@@ -33,17 +33,20 @@ const SimulationParticles = ({
   const spriteRefs = useRef<(SpriteType | null)[]>([]);
 
   const throttledSetFPS = useMemo(
-    () => throttle((fps: number) => setFPS(fps), 1000),
+    () => (setFPS ? throttle((fps: number) => setFPS(fps), 1000) : undefined),
     [setFPS]
   );
 
   useTick((_, ticker) => {
-    if (!isPlaying) {
+    if (!isPlaying && setFPS) {
       setFPS(0);
       return;
     }
-    const fps = Math.round(ticker.FPS);
-    throttledSetFPS(fps);
+    if (setFPS && throttledSetFPS) {
+      const fps = Math.round(ticker.FPS);
+      throttledSetFPS(fps);
+    }
+
     if (gridRef.current) {
       gridRef.current.grid.forEach((item, index) => {
         const sprite = spriteRefs.current[index];

@@ -38,6 +38,7 @@ const Simulation = ({
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
   const gridRef = useRef<Grid>();
+  const previewRef = useRef<Grid>();
   const [, setIsReady] = useState(false);
   const mousePosition = useRef({ x: 0, y: 0 });
   const mouseIsPressed = useRef(false);
@@ -48,38 +49,26 @@ const Simulation = ({
   useEffect(() => {
     if (columns > 0 && rows > 0) {
       gridRef.current = new Grid({ columns, rows });
+      previewRef.current = new Grid({ columns, rows });
       setIsReady(true); // force rerender
     }
   }, [columns, dimensions.height, dimensions.width, particleSize, rows]);
 
-  const handleMouseDown = (event: PointerEvent<HTMLCanvasElement>) => {
-    if (!mouseIsPressed.current || !isPlaying) {
-      return;
-    }
-
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = Math.round(event.clientX - rect.left);
-    const y = Math.round(event.clientY - rect.top);
-
-    mousePosition.current = { x, y };
-
-    const mouseColumn = Math.floor(x / particleSize);
-    const mouseRow = rows - Math.floor(y / particleSize);
-
+  const setParticles = (
+    targetGrid: Grid | undefined,
+    mouseRow: number,
+    mouseColumn: number
+  ) => {
     const extent = Math.floor(Number(strokeSize) / 2);
-
+    const MaterialClass = MaterialMapping[selectedMaterial];
     for (let i = -extent; i <= extent; i++) {
       for (let j = -extent; j <= extent; j++) {
-        // Check if the point is within the circle
         if (i * i + j * j <= extent * extent) {
           const col = mouseColumn + i;
           const row = mouseRow + j;
-
-          // Bounds checking
           if (col >= 0 && col < columns && row >= 0 && row < rows) {
             const particleIndex = mouseRow * columns + mouseColumn;
-            const MaterialClass = MaterialMapping[selectedMaterial];
-            gridRef.current?.set(
+            targetGrid?.set(
               col,
               row,
               new MaterialClass(particleIndex, {
@@ -92,6 +81,32 @@ const Simulation = ({
     }
   };
 
+  const handleMouseMove = (event: PointerEvent<HTMLCanvasElement>) => {
+    previewRef.current?.clear();
+    if (!isPlaying) return;
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = Math.round(event.clientX - rect.left);
+    const y = Math.round(event.clientY - rect.top);
+    mousePosition.current = { x, y };
+
+    const mouseColumn = Math.floor(mousePosition.current.x / particleSize);
+    const mouseRow = rows - Math.floor(mousePosition.current.y / particleSize);
+
+    setParticles(previewRef.current, mouseRow, mouseColumn);
+
+    if (mouseIsPressed.current) {
+      setParticles(gridRef.current, mouseRow, mouseColumn);
+    }
+  };
+
+  const handleMouseDown = () => {
+    mouseIsPressed.current = true;
+    const mouseColumn = Math.floor(mousePosition.current.x / particleSize);
+    const mouseRow = rows - Math.floor(mousePosition.current.y / particleSize);
+    setParticles(gridRef.current, mouseRow, mouseColumn);
+  };
+
   return (
     <div ref={containerRef} className="w-full h-full relative cursor-pointer">
       <Stage
@@ -100,10 +115,18 @@ const Simulation = ({
         options={{
           backgroundAlpha: 0, // Makes background transparent
         }}
-        onPointerDown={() => (mouseIsPressed.current = true)}
+        onPointerDown={handleMouseDown}
         onPointerUp={() => (mouseIsPressed.current = false)}
-        onPointerMove={handleMouseDown}
+        onPointerMove={handleMouseMove}
       >
+        <SimulationParticles
+          theme={theme}
+          columns={columns}
+          rows={rows}
+          gridRef={previewRef}
+          particleSize={particleSize}
+          isPlaying={isPlaying}
+        />
         <SimulationParticles
           theme={theme}
           columns={columns}
