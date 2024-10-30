@@ -6,6 +6,8 @@ import SimulationOptionsButton from "@/components/simulation/SimulationOptionsBu
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import { LoaderIcon, Pause, Play } from "lucide-react";
 import { useState, Suspense } from "react";
 import React from "react";
@@ -17,6 +19,7 @@ const Simulation = React.lazy(
 function App() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [FPS, setFPS] = useState(0);
+  const [strokeSize, setStrokeSize] = useState(10);
   const [particleSize, setParticleSize] = useState(6);
   const [selectedMaterial, setSelectedMaterial] =
     useState<MaterialOptionsType>("Sand");
@@ -42,6 +45,7 @@ function App() {
                 setFPS={setFPS}
                 particleSize={particleSize}
                 selectedMaterial={selectedMaterial}
+                strokeSize={strokeSize}
               />
             </Suspense>
           </div>
@@ -68,7 +72,23 @@ function App() {
               </div>
             </div>
             <div className="flex-1 border-b border-zinc-400 dark:border-zinc-800">
-              Details
+              <div className="flex flex-col gap-2 p-3">
+                <Label htmlFor="strokeSize" className="text-xs">
+                  Stroke Size
+                </Label>
+                <Slider
+                  id="strokeSize"
+                  className="py-1"
+                  defaultValue={[10]}
+                  value={[strokeSize]}
+                  min={1}
+                  max={20}
+                  step={1}
+                  onValueChange={(values: number[]) => {
+                    setStrokeSize(values[0]);
+                  }}
+                />
+              </div>
             </div>
             <div className="flex-1 1 grid grid-cols-4 content-start gap-4 p-3">
               {materialOptions.map((material) => {

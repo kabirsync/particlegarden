@@ -21,6 +21,7 @@ type SimulationProps = {
   setFPS: Dispatch<SetStateAction<number>>;
   particleSize: number;
   selectedMaterial: MaterialOptionsType;
+  strokeSize: number;
 };
 
 const Simulation = ({
@@ -28,6 +29,7 @@ const Simulation = ({
   isPlaying,
   setFPS,
   selectedMaterial,
+  strokeSize,
 }: Readonly<SimulationProps>) => {
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
@@ -50,21 +52,38 @@ const Simulation = ({
     if (!mouseIsPressed.current || !isPlaying) {
       return;
     }
+
     const rect = event.currentTarget.getBoundingClientRect();
     const x = Math.round(event.clientX - rect.left);
     const y = Math.round(event.clientY - rect.top);
+
     mousePosition.current = { x, y };
 
     const mouseColumn = Math.floor(x / particleSize);
     const mouseRow = rows - Math.floor(y / particleSize);
 
-    const particleIndex = mouseRow * columns + mouseColumn;
-    const MaterialClass = MaterialMapping[selectedMaterial];
-    gridRef.current?.set(
-      mouseColumn,
-      mouseRow,
-      new MaterialClass(particleIndex, {})
-    );
+    const extent = Math.floor(Number(strokeSize) / 2);
+
+    for (let i = -extent; i <= extent; i++) {
+      for (let j = -extent; j <= extent; j++) {
+        // Check if the point is within the circle
+        if (i * i + j * j <= extent * extent) {
+          const col = mouseColumn + i;
+          const row = mouseRow + j;
+
+          // Bounds checking
+          if (col >= 0 && col < columns && row >= 0 && row < rows) {
+            const particleIndex = mouseRow * columns + mouseColumn;
+            const MaterialClass = MaterialMapping[selectedMaterial];
+            gridRef.current?.set(
+              col,
+              row,
+              new MaterialClass(particleIndex, {})
+            );
+          }
+        }
+      }
+    }
   };
 
   return (
