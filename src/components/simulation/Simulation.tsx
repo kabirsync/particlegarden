@@ -1,10 +1,5 @@
 import { Theme } from "@/components/theme/types";
-import {
-  backgroundColorDark,
-  backgroundColorLight,
-  sandColor,
-  squareTexture,
-} from "@/lib/colors";
+import { squareTexture } from "@/lib/colors";
 import { throttle } from "@/lib/utils";
 import { Grid } from "@/simulations/Grid";
 import { ParticleContainer, Sprite, useTick } from "@pixi/react";
@@ -32,14 +27,10 @@ const Simulation = ({
   rows,
   gridRef,
   particleSize,
-  theme,
   isPlaying,
   setFPS,
 }: SimulationProps) => {
   const spriteRefs = useRef<(SpriteType | null)[]>([]);
-
-  const backgroundColor =
-    theme === "light" ? backgroundColorLight : backgroundColorDark;
 
   const throttledSetFPS = useMemo(
     () => throttle((fps: number) => setFPS(fps), 1000),
@@ -58,9 +49,10 @@ const Simulation = ({
         const sprite = spriteRefs.current[index];
         if (sprite) {
           // Update sprite properties without re-rendering React
-          sprite.tint = item === 0 ? backgroundColor : sandColor;
+          sprite.tint = item.color;
           sprite.x = (index % columns) * particleSize;
           sprite.y = (rows - Math.floor(index / columns)) * particleSize;
+          sprite.alpha = item.isEmpty ? 0 : 1;
         }
       });
     }
@@ -90,12 +82,13 @@ const Simulation = ({
           <Sprite
             key={index}
             texture={squareTexture}
-            tint={item === 0 ? backgroundColor : sandColor}
+            tint={item.color}
             x={x}
             y={y}
             width={particleSize}
             height={particleSize}
             ref={(sprite) => (spriteRefs.current[index] = sprite)} // Store sprite reference
+            alpha={item.isEmpty ? 0 : 1}
           />
         );
       })}
