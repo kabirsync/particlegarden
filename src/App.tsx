@@ -2,6 +2,7 @@ import {
   materialOptions,
   MaterialOptionsType,
 } from "@/components/simulation/materials/Material";
+import MaterialButton from "@/components/simulation/materials/MaterialButton";
 import MaterialOptions from "@/components/simulation/materials/MaterialOptions";
 import SimulationOptionsButton from "@/components/simulation/SimulationOptionsButton";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
@@ -88,18 +89,14 @@ function App() {
                 selectedMaterial={selectedMaterial}
               />
             </div>
-            <div className="flex-1 1 grid grid-cols-2 sm:grid-cols-3 content-start gap-4 p-3">
+            <div className="flex-1 1 grid grid-cols-1 sm:grid-cols-2 content-start gap-4 p-3">
               {materialOptions.map((material) => {
                 return (
-                  <Button
-                    className="text-xs"
-                    variant={
-                      selectedMaterial === material ? "secondary" : "outline"
-                    }
-                    onClick={() => setSelectedMaterial(material)}
-                  >
-                    {material}
-                  </Button>
+                  <MaterialButton
+                    material={material}
+                    isSelected={selectedMaterial === material}
+                    setSelectedMaterial={setSelectedMaterial}
+                  />
                 );
               })}
             </div>
