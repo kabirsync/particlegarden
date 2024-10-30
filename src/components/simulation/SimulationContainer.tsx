@@ -2,7 +2,7 @@ import Simulation from "@/components/simulation/Simulation";
 import { useTheme } from "@/components/theme/useTheme";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Grid } from "@/simulations/Grid";
-import Sand from "@/simulations/Sand";
+import { MaterialMapping } from "@/simulations/utils";
 import { Stage } from "@pixi/react";
 import {
   Dispatch,
@@ -54,7 +54,12 @@ const SimulationContainer = ({
     const mouseRow = rows - Math.floor(y / particleSize);
 
     const particleIndex = mouseRow * columns + mouseColumn;
-    gridRef.current?.set(mouseColumn, mouseRow, new Sand(particleIndex));
+    const MaterialClass = MaterialMapping["Sand"];
+    gridRef.current?.set(
+      mouseColumn,
+      mouseRow,
+      new MaterialClass(particleIndex, {})
+    );
   };
 
   return (
