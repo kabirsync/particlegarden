@@ -75,34 +75,15 @@ function App() {
                 return (
                   <Button
                     className="text-xs"
-                    variant="outline"
+                    variant={
+                      selectedMaterial === material ? "secondary" : "outline"
+                    }
                     onClick={() => setSelectedMaterial(material)}
                   >
                     {material}
                   </Button>
                 );
               })}
-              <Button
-                className="text-xs"
-                variant="outline"
-                onClick={() => setSelectedMaterial("Empty")}
-              >
-                Dummy
-              </Button>
-              <Button
-                className="text-xs"
-                variant="outline"
-                onClick={() => setSelectedMaterial("Sand")}
-              >
-                Dummy
-              </Button>
-              <Button
-                className="text-xs"
-                variant="outline"
-                onClick={() => setSelectedMaterial("Empty")}
-              >
-                Dummy
-              </Button>
             </div>
           </div>
         </div>

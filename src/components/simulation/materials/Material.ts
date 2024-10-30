@@ -10,12 +10,12 @@ type MaterialClasses = Sand | Empty;
 // [2] New materials must be added here
 
 export const materialOptions = ["Sand", "Empty"] as const;
-export type MaterialOptions = (typeof materialOptions)[number];
+export type MaterialOptionsType = (typeof materialOptions)[number];
 
 type MaterialProps = { color?: Color };
 
 export const MaterialMapping: Record<
-  MaterialOptions,
+  MaterialOptionsType,
   {
     new (index: number, { color }: MaterialProps): MaterialClasses;
   }
