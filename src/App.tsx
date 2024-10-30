@@ -42,8 +42,8 @@ function App() {
               />
             </Suspense>
           </div>
-          <div className="min-h-36 md:w-72 border-t md:border-t-0 md:border-l border-zinc-400 dark:border-zinc-800">
-            <div className="border-b border-zinc-400 dark:border-zinc-800 text-xs">
+          <div className="flex flex-col min-h-36 md:w-72 border-t md:border-t-0 md:border-l border-zinc-400 dark:border-zinc-800">
+            <div className="flex-0 border-b border-zinc-400 dark:border-zinc-800 text-xs">
               <div className="px-3 py-1 flex items-center">
                 <span className="flex-1 flex justify-start">{FPS} FPS</span>
                 <div className="flex-1 flex justify-center">
@@ -64,18 +64,44 @@ function App() {
                 </div>
               </div>
             </div>
-            <div>
+            <div className="flex-1 border-b border-zinc-400 dark:border-zinc-800">
+              Details
+            </div>
+            <div className="flex-1 1 grid grid-cols-4 gap-4 p-3">
               <Button
+                className="text-xs"
                 variant="outline"
                 onClick={() => setSelectedMaterial("Empty")}
               >
                 Empty
               </Button>
               <Button
+                className="text-xs"
                 variant="outline"
                 onClick={() => setSelectedMaterial("Sand")}
               >
                 Sand
+              </Button>
+              <Button
+                className="text-xs"
+                variant="outline"
+                onClick={() => setSelectedMaterial("Empty")}
+              >
+                Dummy
+              </Button>
+              <Button
+                className="text-xs"
+                variant="outline"
+                onClick={() => setSelectedMaterial("Sand")}
+              >
+                Dummy
+              </Button>
+              <Button
+                className="text-xs"
+                variant="outline"
+                onClick={() => setSelectedMaterial("Empty")}
+              >
+                Dummy
               </Button>
             </div>
           </div>
