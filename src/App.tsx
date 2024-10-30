@@ -59,10 +59,9 @@ function App() {
           <div className="flex md:flex-col min-h-36 md:w-72 border-t md:border-t-0 md:border-l border-zinc-400 dark:border-zinc-800">
             <div className="flex-0 border-r md:border-r-0 border-b border-zinc-400 dark:border-zinc-800 text-xs px-4 py-1">
               <div className="flex flex-col md:flex-row items-center">
-                <div className="h-10 md:flex-1 md:justify-start flex items-center">
+                <div className="h-10 min-w-12 md:flex-1 justify-center md:justify-start flex items-center">
                   <span>{FPS} FPS</span>
                 </div>
-
                 <div className="flex-1 flex flex-col md:flex-row justify-center">
                   <Button variant="ghost" size="icon" onClick={toggleIsPlaying}>
                     {isPlaying ? (
@@ -81,7 +80,6 @@ function App() {
                 </div>
               </div>
             </div>
-            {/* <div className="flex md:flex-col"> */}
             <div className="flex-1  border-r md:border-r-0 md:border-b border-zinc-400 dark:border-zinc-800 p-4">
               <MaterialOptions
                 strokeSize={strokeSize}
@@ -90,7 +88,7 @@ function App() {
                 selectedMaterial={selectedMaterial}
               />
             </div>
-            <div className="flex-1 1 grid grid-cols-4 content-start gap-4 p-3">
+            <div className="flex-1 1 grid grid-cols-2 sm:grid-cols-3 content-start gap-4 p-3">
               {materialOptions.map((material) => {
                 return (
                   <Button
@@ -107,7 +105,6 @@ function App() {
             </div>
           </div>
         </div>
-        {/* </div> */}
       </div>
     </ThemeProvider>
   );
