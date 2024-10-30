@@ -22,7 +22,7 @@ export class Grid {
 
   setIndex(i: number, particle: Particle) {
     this.grid[i] = particle;
-    // particle.index = i;
+    particle.index = i;
   }
 
   set(column: number, row: number, particle: Particle) {
