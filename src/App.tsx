@@ -67,7 +67,7 @@ function App() {
             <div className="flex-1 border-b border-zinc-400 dark:border-zinc-800">
               Details
             </div>
-            <div className="flex-1 1 grid grid-cols-4 gap-4 p-3">
+            <div className="flex-1 1 grid grid-cols-4 content-start gap-4 p-3">
               <Button
                 className="text-xs"
                 variant="outline"
