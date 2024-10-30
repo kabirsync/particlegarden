@@ -11,6 +11,7 @@ import {
   Dispatch,
   MutableRefObject,
   PointerEvent,
+  TouchEvent,
   SetStateAction,
   useEffect,
   useRef,
@@ -23,8 +24,8 @@ type SimulationProps = {
   setFPS: Dispatch<SetStateAction<number>>;
   particleSize: number;
   selectedMaterial: MaterialOptionsType;
-  strokeSize: number;
   materialColorRef: MutableRefObject<Color>;
+  strokeSizeRef: MutableRefObject<number>;
 };
 
 const Simulation = ({
@@ -32,7 +33,7 @@ const Simulation = ({
   isPlaying,
   setFPS,
   selectedMaterial,
-  strokeSize,
+  strokeSizeRef,
   materialColorRef,
 }: Readonly<SimulationProps>) => {
   const { containerRef, dimensions } = useContainerSize();
@@ -40,7 +41,6 @@ const Simulation = ({
   const gridRef = useRef<Grid>();
   const previewRef = useRef<Grid>();
   const [, setIsReady] = useState(false);
-  const mousePosition = useRef({ x: 0, y: 0 });
   const mouseIsPressed = useRef(false);
 
   const columns = Math.floor(dimensions.width / particleSize);
@@ -54,23 +54,35 @@ const Simulation = ({
     }
   }, [columns, dimensions.height, dimensions.width, particleSize, rows]);
 
+  const calculatePosition = (event: PointerEvent | TouchEvent) => {
+    const rect = (
+      event.currentTarget as HTMLCanvasElement
+    ).getBoundingClientRect();
+    const x = "clientX" in event ? event.clientX : event.touches[0].clientX;
+    const y = "clientY" in event ? event.clientY : event.touches[0].clientY;
+    return {
+      column: Math.floor((x - rect.left) / particleSize),
+      row: rows - Math.floor((y - rect.top) / particleSize),
+    };
+  };
+
   const setParticles = (
     targetGrid: Grid | undefined,
-    mouseRow: number,
-    mouseColumn: number
+    row: number,
+    column: number
   ) => {
-    const extent = Math.floor(Number(strokeSize) / 2);
+    const extent = Math.floor(Number(strokeSizeRef.current) / 2);
     const MaterialClass = MaterialMapping[selectedMaterial];
     for (let i = -extent; i <= extent; i++) {
       for (let j = -extent; j <= extent; j++) {
         if (i * i + j * j <= extent * extent) {
-          const col = mouseColumn + i;
-          const row = mouseRow + j;
-          if (col >= 0 && col < columns && row >= 0 && row < rows) {
-            const particleIndex = mouseRow * columns + mouseColumn;
+          const col = column + i;
+          const rowIndex = row + j;
+          if (col >= 0 && col < columns && rowIndex >= 0 && rowIndex < rows) {
+            const particleIndex = row * columns + column;
             targetGrid?.set(
               col,
-              row,
+              rowIndex,
               new MaterialClass(particleIndex, {
                 color: materialColorRef.current,
               })
@@ -81,30 +93,44 @@ const Simulation = ({
     }
   };
 
-  const handleMouseMove = (event: PointerEvent<HTMLCanvasElement>) => {
-    previewRef.current?.clear();
-    if (!isPlaying) return;
+  const handlePointerUpdate = (
+    event: PointerEvent | TouchEvent,
+    targetGrid: Grid | undefined,
+    clearPreview: boolean = false
+  ) => {
+    if (clearPreview) previewRef.current?.clear();
+    if (!isPlaying || ("touches" in event && event.touches.length !== 1))
+      return;
 
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = Math.round(event.clientX - rect.left);
-    const y = Math.round(event.clientY - rect.top);
-    mousePosition.current = { x, y };
-
-    const mouseColumn = Math.floor(mousePosition.current.x / particleSize);
-    const mouseRow = rows - Math.floor(mousePosition.current.y / particleSize);
-
-    setParticles(previewRef.current, mouseRow, mouseColumn);
-
-    if (mouseIsPressed.current) {
-      setParticles(gridRef.current, mouseRow, mouseColumn);
-    }
+    const { column, row } = calculatePosition(event);
+    setParticles(targetGrid, row, column);
   };
 
-  const handleMouseDown = () => {
+  const handleMouseDown = (event: PointerEvent<HTMLCanvasElement>) => {
     mouseIsPressed.current = true;
-    const mouseColumn = Math.floor(mousePosition.current.x / particleSize);
-    const mouseRow = rows - Math.floor(mousePosition.current.y / particleSize);
-    setParticles(gridRef.current, mouseRow, mouseColumn);
+    handlePointerUpdate(event, gridRef.current);
+  };
+
+  const handleMouseMove = (event: PointerEvent<HTMLCanvasElement>) => {
+    if (mouseIsPressed.current)
+      handlePointerUpdate(event, gridRef.current, true);
+    else handlePointerUpdate(event, previewRef.current, true);
+  };
+
+  const handleTouchStart = (event: TouchEvent<HTMLCanvasElement>) => {
+    mouseIsPressed.current = true;
+    handlePointerUpdate(event, gridRef.current);
+  };
+
+  const handleTouchMove = (event: TouchEvent<HTMLCanvasElement>) => {
+    if (mouseIsPressed.current)
+      handlePointerUpdate(event, gridRef.current, true);
+    else handlePointerUpdate(event, previewRef.current, true);
+  };
+
+  const handleTouchEnd = () => {
+    mouseIsPressed.current = false;
+    previewRef.current?.clear();
   };
 
   return (
@@ -118,6 +144,14 @@ const Simulation = ({
         onPointerDown={handleMouseDown}
         onPointerUp={() => (mouseIsPressed.current = false)}
         onPointerMove={handleMouseMove}
+        onPointerLeave={() => {
+          mouseIsPressed.current = false;
+          previewRef.current?.clear();
+        }}
+        // Touch Event Handlers for Mobile
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         <SimulationParticles
           theme={theme}

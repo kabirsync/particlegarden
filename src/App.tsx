@@ -20,9 +20,9 @@ const Simulation = React.lazy(
 function App() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [FPS, setFPS] = useState(0);
-  const [strokeSize, setStrokeSize] = useState(10);
   const [particleSize, setParticleSize] = useState(6);
   const materialColorRef = useRef(sandColor);
+  const strokeSizeRef = useRef(10);
   const [selectedMaterial, setSelectedMaterial] =
     useState<MaterialOptionsType>("Sand");
 
@@ -32,6 +32,10 @@ function App() {
 
   const updateMaterialColor = (color: Color) => {
     materialColorRef.current = color;
+  };
+
+  const updateStrokeSize = (strokeSize: number) => {
+    strokeSizeRef.current = strokeSize;
   };
 
   return (
@@ -51,7 +55,7 @@ function App() {
                 setFPS={setFPS}
                 particleSize={particleSize}
                 selectedMaterial={selectedMaterial}
-                strokeSize={strokeSize}
+                strokeSizeRef={strokeSizeRef}
                 materialColorRef={materialColorRef}
               />
             </Suspense>
@@ -82,8 +86,7 @@ function App() {
             </div>
             <div className="flex-1  border-r md:border-r-0 md:border-b border-zinc-400 dark:border-zinc-800 p-4">
               <MaterialOptions
-                strokeSize={strokeSize}
-                setStrokeSize={setStrokeSize}
+                updateStrokeSize={updateStrokeSize}
                 updateMaterialColor={updateMaterialColor}
                 selectedMaterial={selectedMaterial}
               />
@@ -92,6 +95,7 @@ function App() {
               {materialOptions.map((material) => {
                 return (
                   <MaterialButton
+                    key={material}
                     material={material}
                     isSelected={selectedMaterial === material}
                     setSelectedMaterial={setSelectedMaterial}
