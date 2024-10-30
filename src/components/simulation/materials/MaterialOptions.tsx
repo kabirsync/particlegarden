@@ -1,4 +1,4 @@
-import { Label } from "@/components/ui/label";
+import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import { Slider } from "@/components/ui/slider";
 import { sandColor } from "@/lib/colors";
 import { Color } from "pixi.js";
@@ -8,12 +8,14 @@ type MaterialOptionsProps = {
   strokeSize: number;
   setStrokeSize: Dispatch<SetStateAction<number>>;
   updateMaterialColor: (color: Color) => void;
+  selectedMaterial: MaterialOptionsType;
 };
 
 const MaterialOptions = ({
   strokeSize,
   setStrokeSize,
   updateMaterialColor,
+  selectedMaterial,
 }: MaterialOptionsProps) => {
   const [materialColor, setMaterialColor] = useState(sandColor);
 
@@ -26,11 +28,11 @@ const MaterialOptions = ({
     updateMaterialColor(newColor);
   };
   return (
-    <>
-      <div className="flex flex-col gap-2 p-3">
-        <Label htmlFor="strokeSize" className="text-xs">
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2">
+        <label htmlFor="strokeSize" className="text-xs">
           Stroke Size
-        </Label>
+        </label>
         <Slider
           id="strokeSize"
           className="py-1"
@@ -44,22 +46,21 @@ const MaterialOptions = ({
           }}
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="colorPicker"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
-          Choose a color:
-        </label>
-        <input
-          type="color"
-          id="colorPicker"
-          value={`${materialColor.toHex()}`}
-          onChange={handleMaterialColorChange}
-          className="w-full h-10 rounded-md cursor-pointer"
-        />
-      </div>
-    </>
+      {["Sand"].includes(selectedMaterial) && (
+        <div className="flex flex-col gap-2">
+          <label htmlFor="colorPicker" className="text-xs">
+            Choose a color:
+          </label>
+          <input
+            type="color"
+            id="colorPicker"
+            value={`${materialColor.toHex()}`}
+            onChange={handleMaterialColorChange}
+            className="w-full h-10 rounded-md cursor-pointer"
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

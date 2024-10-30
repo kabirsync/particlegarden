@@ -57,8 +57,8 @@ function App() {
             </Suspense>
           </div>
           <div className="flex flex-col min-h-36 md:w-72 border-t md:border-t-0 md:border-l border-zinc-400 dark:border-zinc-800">
-            <div className="flex-0 border-b border-zinc-400 dark:border-zinc-800 text-xs">
-              <div className="px-3 py-1 flex items-center">
+            <div className="flex-0 border-b border-zinc-400 dark:border-zinc-800 text-xs px-4 py-1">
+              <div className="flex items-center">
                 <span className="flex-1 flex justify-start">{FPS} FPS</span>
                 <div className="flex-1 flex justify-center">
                   <Button variant="ghost" size="icon" onClick={toggleIsPlaying}>
@@ -78,11 +78,12 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="flex-1 border-b border-zinc-400 dark:border-zinc-800">
+            <div className="flex-1 border-b border-zinc-400 dark:border-zinc-800 p-4">
               <MaterialOptions
                 strokeSize={strokeSize}
                 setStrokeSize={setStrokeSize}
                 updateMaterialColor={updateMaterialColor}
+                selectedMaterial={selectedMaterial}
               />
             </div>
             <div className="flex-1 1 grid grid-cols-4 content-start gap-4 p-3">
