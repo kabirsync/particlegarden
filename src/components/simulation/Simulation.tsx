@@ -1,7 +1,7 @@
 import { Theme } from "@/components/theme/types";
 import { squareTexture } from "@/lib/colors";
 import { throttle } from "@/lib/utils";
-import { Grid } from "@/simulations/Grid";
+import { Grid } from "@/components/simulation/Grid";
 import { ParticleContainer, Sprite, useTick } from "@pixi/react";
 import { Sprite as SpriteType } from "pixi.js";
 import {

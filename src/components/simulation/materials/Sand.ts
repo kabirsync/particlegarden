@@ -1,5 +1,5 @@
 import { sandColor } from "@/lib/colors";
-import Particle from "@/simulations/Particle";
+import Particle from "@/components/simulation/materials/Particle";
 
 class Sand extends Particle {
   constructor(index: number) {

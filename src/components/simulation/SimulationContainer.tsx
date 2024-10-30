@@ -1,8 +1,8 @@
 import Simulation from "@/components/simulation/Simulation";
 import { useTheme } from "@/components/theme/useTheme";
 import { useContainerSize } from "@/hooks/useContainerSize";
-import { Grid } from "@/simulations/Grid";
-import { MaterialMapping } from "@/simulations/utils";
+import { Grid } from "@/components/simulation/Grid";
+import { MaterialMapping } from "@/components/simulation/materials/Material";
 import { Stage } from "@pixi/react";
 import {
   Dispatch,
