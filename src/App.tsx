@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { sandColor } from "@/lib/colors";
 import { LoaderIcon, Pause, Play } from "lucide-react";
 import { Color } from "pixi.js";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 
 const Simulation = React.lazy(
   () => import("@/components/simulation/Simulation")
@@ -21,7 +21,8 @@ function App() {
   const [FPS, setFPS] = useState(0);
   const [strokeSize, setStrokeSize] = useState(10);
   const [particleSize, setParticleSize] = useState(6);
-  const [materialColor, setMaterialColor] = useState(sandColor);
+  // const [materialColor, setMaterialColor] = useState(sandColor);
+  const materialColorRef = useRef(sandColor);
   const [selectedMaterial, setSelectedMaterial] =
     useState<MaterialOptionsType>("Sand");
 
@@ -29,12 +30,8 @@ function App() {
     setIsPlaying(!isPlaying);
   };
 
-  const handleMaterialColorChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value; // Access event.target correctly
-    const newColor = new Color(value);
-    setMaterialColor(newColor);
+  const updateMaterialColor = (color: Color) => {
+    materialColorRef.current = color;
   };
 
   return (
@@ -55,7 +52,7 @@ function App() {
                 particleSize={particleSize}
                 selectedMaterial={selectedMaterial}
                 strokeSize={strokeSize}
-                materialColor={materialColor}
+                materialColorRef={materialColorRef}
               />
             </Suspense>
           </div>
@@ -85,8 +82,7 @@ function App() {
               <MaterialOptions
                 strokeSize={strokeSize}
                 setStrokeSize={setStrokeSize}
-                materialColor={materialColor}
-                handleMaterialColorChange={handleMaterialColorChange}
+                updateMaterialColor={updateMaterialColor}
               />
             </div>
             <div className="flex-1 1 grid grid-cols-4 content-start gap-4 p-3">

@@ -9,6 +9,7 @@ import {
 import { Stage } from "@pixi/react";
 import {
   Dispatch,
+  MutableRefObject,
   PointerEvent,
   SetStateAction,
   useEffect,
@@ -23,7 +24,7 @@ type SimulationProps = {
   particleSize: number;
   selectedMaterial: MaterialOptionsType;
   strokeSize: number;
-  materialColor: Color;
+  materialColorRef: MutableRefObject<Color>;
 };
 
 const Simulation = ({
@@ -32,7 +33,7 @@ const Simulation = ({
   setFPS,
   selectedMaterial,
   strokeSize,
-  materialColor,
+  materialColorRef,
 }: Readonly<SimulationProps>) => {
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
@@ -81,7 +82,9 @@ const Simulation = ({
             gridRef.current?.set(
               col,
               row,
-              new MaterialClass(particleIndex, { color: materialColor })
+              new MaterialClass(particleIndex, {
+                color: materialColorRef.current,
+              })
             );
           }
         }

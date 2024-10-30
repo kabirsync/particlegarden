@@ -1,23 +1,30 @@
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { sandColor } from "@/lib/colors";
 import { Color } from "pixi.js";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 type MaterialOptionsProps = {
   strokeSize: number;
   setStrokeSize: Dispatch<SetStateAction<number>>;
-  materialColor: Color;
-  handleMaterialColorChange: (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => void;
+  updateMaterialColor: (color: Color) => void;
 };
 
 const MaterialOptions = ({
   strokeSize,
   setStrokeSize,
-  materialColor,
-  handleMaterialColorChange,
+  updateMaterialColor,
 }: MaterialOptionsProps) => {
+  const [materialColor, setMaterialColor] = useState(sandColor);
+
+  const handleMaterialColorChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value; // Access event.target correctly
+    const newColor = new Color(value);
+    setMaterialColor(newColor);
+    updateMaterialColor(newColor);
+  };
   return (
     <>
       <div className="flex flex-col gap-2 p-3">
@@ -47,7 +54,7 @@ const MaterialOptions = ({
         <input
           type="color"
           id="colorPicker"
-          value={`#${materialColor.toHex()}`}
+          value={`${materialColor.toHex()}`}
           onChange={handleMaterialColorChange}
           className="w-full h-10 rounded-md cursor-pointer"
         />
