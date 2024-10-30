@@ -1,11 +1,15 @@
 import { MaterialOptions } from "@/components/simulation/materials/Material";
-import Simulation from "@/components/simulation/SimulationContainer";
 import SimulationOptionsButton from "@/components/simulation/SimulationOptionsButton";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
-import { Pause, Play } from "lucide-react";
-import { useState } from "react";
+import { LoaderIcon, Pause, Play } from "lucide-react";
+import { useState, Suspense } from "react";
+import React from "react";
+
+const Simulation = React.lazy(
+  () => import("@/components/simulation/Simulation")
+);
 
 function App() {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -20,15 +24,23 @@ function App() {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="h-dvh flex flex-col bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-300">
+      <div className="h-dvh flex flex-col dark:bg-zinc-950 bg-zinc-100 text-zinc-900 dark:text-zinc-300">
         <div className="h-full flex flex-col md:flex-row">
           <div className="flex-grow">
-            <Simulation
-              isPlaying={isPlaying}
-              setFPS={setFPS}
-              particleSize={particleSize}
-              selectedMaterial={selectedMaterial}
-            />
+            <Suspense
+              fallback={
+                <div className="w-full h-full grid place-items-center">
+                  <LoaderIcon className="animate-spin" />
+                </div>
+              }
+            >
+              <Simulation
+                isPlaying={isPlaying}
+                setFPS={setFPS}
+                particleSize={particleSize}
+                selectedMaterial={selectedMaterial}
+              />
+            </Suspense>
           </div>
           <div className="min-h-36 md:w-72 border-t md:border-t-0 md:border-l border-zinc-400 dark:border-zinc-800">
             <div className="border-b border-zinc-400 dark:border-zinc-800 text-xs">
@@ -53,10 +65,18 @@ function App() {
               </div>
             </div>
             <div>
-              <Button onClick={() => setSelectedMaterial("Empty")}>
+              <Button
+                variant="outline"
+                onClick={() => setSelectedMaterial("Empty")}
+              >
                 Empty
               </Button>
-              <Button onClick={() => setSelectedMaterial("Sand")}>Sand</Button>
+              <Button
+                variant="outline"
+                onClick={() => setSelectedMaterial("Sand")}
+              >
+                Sand
+              </Button>
             </div>
           </div>
         </div>
