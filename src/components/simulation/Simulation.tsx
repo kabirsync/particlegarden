@@ -15,6 +15,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { Color } from "pixi.js";
 
 type SimulationProps = {
   isPlaying: boolean;
@@ -22,6 +23,7 @@ type SimulationProps = {
   particleSize: number;
   selectedMaterial: MaterialOptionsType;
   strokeSize: number;
+  materialColor: Color;
 };
 
 const Simulation = ({
@@ -30,6 +32,7 @@ const Simulation = ({
   setFPS,
   selectedMaterial,
   strokeSize,
+  materialColor,
 }: Readonly<SimulationProps>) => {
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
@@ -78,7 +81,7 @@ const Simulation = ({
             gridRef.current?.set(
               col,
               row,
-              new MaterialClass(particleIndex, {})
+              new MaterialClass(particleIndex, { color: materialColor })
             );
           }
         }

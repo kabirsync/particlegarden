@@ -2,15 +2,15 @@ import {
   materialOptions,
   MaterialOptionsType,
 } from "@/components/simulation/materials/Material";
+import MaterialOptions from "@/components/simulation/materials/MaterialOptions";
 import SimulationOptionsButton from "@/components/simulation/SimulationOptionsButton";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
+import { sandColor } from "@/lib/colors";
 import { LoaderIcon, Pause, Play } from "lucide-react";
-import { useState, Suspense } from "react";
-import React from "react";
+import { Color } from "pixi.js";
+import React, { Suspense, useState } from "react";
 
 const Simulation = React.lazy(
   () => import("@/components/simulation/Simulation")
@@ -21,11 +21,20 @@ function App() {
   const [FPS, setFPS] = useState(0);
   const [strokeSize, setStrokeSize] = useState(10);
   const [particleSize, setParticleSize] = useState(6);
+  const [materialColor, setMaterialColor] = useState(sandColor);
   const [selectedMaterial, setSelectedMaterial] =
     useState<MaterialOptionsType>("Sand");
 
   const toggleIsPlaying = () => {
     setIsPlaying(!isPlaying);
+  };
+
+  const handleMaterialColorChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value; // Access event.target correctly
+    const newColor = new Color(value);
+    setMaterialColor(newColor);
   };
 
   return (
@@ -46,6 +55,7 @@ function App() {
                 particleSize={particleSize}
                 selectedMaterial={selectedMaterial}
                 strokeSize={strokeSize}
+                materialColor={materialColor}
               />
             </Suspense>
           </div>
@@ -72,23 +82,12 @@ function App() {
               </div>
             </div>
             <div className="flex-1 border-b border-zinc-400 dark:border-zinc-800">
-              <div className="flex flex-col gap-2 p-3">
-                <Label htmlFor="strokeSize" className="text-xs">
-                  Stroke Size
-                </Label>
-                <Slider
-                  id="strokeSize"
-                  className="py-1"
-                  defaultValue={[10]}
-                  value={[strokeSize]}
-                  min={1}
-                  max={20}
-                  step={1}
-                  onValueChange={(values: number[]) => {
-                    setStrokeSize(values[0]);
-                  }}
-                />
-              </div>
+              <MaterialOptions
+                strokeSize={strokeSize}
+                setStrokeSize={setStrokeSize}
+                materialColor={materialColor}
+                handleMaterialColorChange={handleMaterialColorChange}
+              />
             </div>
             <div className="flex-1 1 grid grid-cols-4 content-start gap-4 p-3">
               {materialOptions.map((material) => {
