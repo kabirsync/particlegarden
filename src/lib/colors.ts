@@ -7,3 +7,5 @@ export const backgroundColorLight = new PIXI.Color("#f4f4f5");
 
 export const backgroundColorDarkNumerical = 0x09090b; // Dark - for Stagec component as it does not accept Pixi.Color needs numerical color
 export const backgroundColorLightNumerical = 0xf4f4f5; // Light - for Stagec component as it does not accept Pixi.Color needs numerical color
+
+export const transparentColor = new PIXI.Color(0x000000).setAlpha(0); // Black base color
