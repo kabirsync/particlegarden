@@ -1,5 +1,5 @@
-import Empty from "@/simulations/Empty";
-import Particle from "@/simulations/Particle";
+import Empty from "@/components/simulation/materials/Empty";
+import Particle from "@/components/simulation/materials/Particle";
 
 type GridParams = { rows: number; columns: number };
 
