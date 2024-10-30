@@ -22,7 +22,6 @@ function App() {
   const [FPS, setFPS] = useState(0);
   const [strokeSize, setStrokeSize] = useState(10);
   const [particleSize, setParticleSize] = useState(6);
-  // const [materialColor, setMaterialColor] = useState(sandColor);
   const materialColorRef = useRef(sandColor);
   const [selectedMaterial, setSelectedMaterial] =
     useState<MaterialOptionsType>("Sand");
