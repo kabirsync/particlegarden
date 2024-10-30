@@ -1,3 +1,4 @@
+import { MaterialOptions } from "@/components/simulation/materials/Material";
 import Simulation from "@/components/simulation/SimulationContainer";
 import SimulationOptionsButton from "@/components/simulation/SimulationOptionsButton";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
@@ -10,6 +11,8 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [FPS, setFPS] = useState(0);
   const [particleSize, setParticleSize] = useState(6);
+  const [selectedMaterial, setSelectedMaterial] =
+    useState<MaterialOptions>("Sand");
 
   const toggleIsPlaying = () => {
     setIsPlaying(!isPlaying);
@@ -24,6 +27,7 @@ function App() {
               isPlaying={isPlaying}
               setFPS={setFPS}
               particleSize={particleSize}
+              selectedMaterial={selectedMaterial}
             />
           </div>
           <div className="min-h-36 md:w-72 border-t md:border-t-0 md:border-l border-zinc-400 dark:border-zinc-800">
@@ -47,6 +51,12 @@ function App() {
                   <ThemeToggleButton />
                 </div>
               </div>
+            </div>
+            <div>
+              <Button onClick={() => setSelectedMaterial("Empty")}>
+                Empty
+              </Button>
+              <Button onClick={() => setSelectedMaterial("Sand")}>Sand</Button>
             </div>
           </div>
         </div>
