@@ -8,7 +8,9 @@ import { Color } from "pixi.js";
 type MaterialClasses = Sand | Empty;
 
 // [2] New materials must be added here
-export type MaterialOptions = "Sand" | "Empty";
+
+export const materialOptions = ["Sand", "Empty"] as const;
+export type MaterialOptions = (typeof materialOptions)[number];
 
 type MaterialProps = { color?: Color };
 

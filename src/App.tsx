@@ -1,4 +1,7 @@
-import { MaterialOptions } from "@/components/simulation/materials/Material";
+import {
+  materialOptions,
+  MaterialOptionsType,
+} from "@/components/simulation/materials/Material";
 import SimulationOptionsButton from "@/components/simulation/SimulationOptionsButton";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
@@ -16,7 +19,7 @@ function App() {
   const [FPS, setFPS] = useState(0);
   const [particleSize, setParticleSize] = useState(6);
   const [selectedMaterial, setSelectedMaterial] =
-    useState<MaterialOptions>("Sand");
+    useState<MaterialOptionsType>("Sand");
 
   const toggleIsPlaying = () => {
     setIsPlaying(!isPlaying);
@@ -68,20 +71,17 @@ function App() {
               Details
             </div>
             <div className="flex-1 1 grid grid-cols-4 content-start gap-4 p-3">
-              <Button
-                className="text-xs"
-                variant="outline"
-                onClick={() => setSelectedMaterial("Empty")}
-              >
-                Empty
-              </Button>
-              <Button
-                className="text-xs"
-                variant="outline"
-                onClick={() => setSelectedMaterial("Sand")}
-              >
-                Sand
-              </Button>
+              {materialOptions.map((material) => {
+                return (
+                  <Button
+                    className="text-xs"
+                    variant="outline"
+                    onClick={() => setSelectedMaterial(material)}
+                  >
+                    {material}
+                  </Button>
+                );
+              })}
               <Button
                 className="text-xs"
                 variant="outline"

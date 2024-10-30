@@ -4,7 +4,7 @@ import { useContainerSize } from "@/hooks/useContainerSize";
 import { Grid } from "@/components/simulation/Grid";
 import {
   MaterialMapping,
-  MaterialOptions,
+  MaterialOptionsType,
 } from "@/components/simulation/materials/Material";
 import { Stage } from "@pixi/react";
 import {
@@ -20,7 +20,7 @@ type SimulationProps = {
   isPlaying: boolean;
   setFPS: Dispatch<SetStateAction<number>>;
   particleSize: number;
-  selectedMaterial: MaterialOptions;
+  selectedMaterial: MaterialOptionsType;
 };
 
 const Simulation = ({
