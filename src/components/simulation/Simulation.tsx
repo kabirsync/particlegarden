@@ -207,6 +207,7 @@ const Simulation = ({
           columns={columns}
           rows={rows}
           gridRef={gridRef}
+          previewRef={previewRef} // Add this line
           particleSize={particleSize}
           isPlaying={isPlaying}
           setFPS={setFPS}
