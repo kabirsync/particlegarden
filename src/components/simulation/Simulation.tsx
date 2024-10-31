@@ -29,6 +29,20 @@ type SimulationProps = {
   strokeSizeRef: MutableRefObject<number>;
 };
 
+type SetParticlesOptions = {
+  targetGrid: Grid | undefined;
+  row: number;
+  column: number;
+  isPreview: boolean;
+};
+
+type HandlePointerOptions = {
+  event: PointerEvent | TouchEvent;
+  targetGrid: Grid | undefined;
+  clearPreview?: boolean;
+  isPreview?: boolean;
+};
+
 const Simulation = ({
   particleSize,
   isPlaying,
@@ -70,12 +84,12 @@ const Simulation = ({
     };
   };
 
-  const setParticles = (
-    targetGrid: Grid | undefined,
-    row: number,
-    column: number,
-    isPreview: boolean
-  ) => {
+  const setParticles = ({
+    targetGrid,
+    row,
+    column,
+    isPreview,
+  }: SetParticlesOptions) => {
     const extent = Math.floor(Number(strokeSizeRef.current) / 2);
     let materialToUse = selectedMaterial;
     if (isPreview) {
@@ -107,40 +121,60 @@ const Simulation = ({
     }
   };
 
-  const handlePointerUpdate = (
-    event: PointerEvent | TouchEvent,
-    targetGrid: Grid | undefined,
-    clearPreview: boolean = false,
-    isPreview: boolean = false
-  ) => {
+  const handlePointerUpdate = ({
+    event,
+    targetGrid,
+    clearPreview = false,
+    isPreview = false,
+  }: HandlePointerOptions) => {
     if (clearPreview) previewRef.current?.clear();
     if (!isPlaying || ("touches" in event && event.touches.length !== 1))
       return;
 
     const { column, row } = calculatePosition(event);
-    setParticles(targetGrid, row, column, isPreview);
+    setParticles({ targetGrid, row, column, isPreview });
   };
 
   const handleMouseDown = (event: PointerEvent<HTMLCanvasElement>) => {
     mouseIsPressed.current = true;
-    handlePointerUpdate(event, gridRef.current);
+    handlePointerUpdate({ event, targetGrid: gridRef.current });
   };
 
   const handleMouseMove = (event: PointerEvent<HTMLCanvasElement>) => {
     if (mouseIsPressed.current)
-      handlePointerUpdate(event, gridRef.current, true);
-    else handlePointerUpdate(event, previewRef.current, true, true);
+      handlePointerUpdate({
+        event,
+        targetGrid: gridRef.current,
+        clearPreview: true,
+      });
+    else
+      handlePointerUpdate({
+        event,
+        targetGrid: previewRef.current,
+        clearPreview: true,
+        isPreview: true,
+      });
   };
 
   const handleTouchStart = (event: TouchEvent<HTMLCanvasElement>) => {
     mouseIsPressed.current = true;
-    handlePointerUpdate(event, gridRef.current);
+    handlePointerUpdate({ event, targetGrid: gridRef.current });
   };
 
   const handleTouchMove = (event: TouchEvent<HTMLCanvasElement>) => {
     if (mouseIsPressed.current)
-      handlePointerUpdate(event, gridRef.current, true);
-    else handlePointerUpdate(event, previewRef.current, true, true);
+      handlePointerUpdate({
+        event,
+        targetGrid: gridRef.current,
+        clearPreview: true,
+      });
+    else
+      handlePointerUpdate({
+        event,
+        targetGrid: previewRef.current,
+        clearPreview: true,
+        isPreview: true,
+      });
   };
 
   const handleTouchEnd = () => {
