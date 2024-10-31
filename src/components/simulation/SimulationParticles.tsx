@@ -164,7 +164,7 @@ const SimulationParticlesOptimized = ({
         const gridItemColumn = i % columns;
         const gridItemRow = Math.floor(i / columns);
         const x = gridItemColumn * particleSize;
-        const y = (rows - gridItemRow) * particleSize;
+        const y = (rows - gridItemRow - 1) * particleSize; // Adjusted y-coordinate
 
         // For each of the four vertices of this particle
         for (let j = 0; j < 4; j++) {
