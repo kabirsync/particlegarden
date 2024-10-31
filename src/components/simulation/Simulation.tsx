@@ -18,12 +18,13 @@ import {
   useState,
 } from "react";
 import { Color } from "pixi.js";
+import { backgroundColorDark, backgroundColorLight } from "@/lib/colors";
 
 type SimulationProps = {
   isPlaying: boolean;
   setFPS: Dispatch<SetStateAction<number>>;
   particleSize: number;
-  selectedMaterial: MaterialOptionsType;
+  selectedMaterial: MaterialOptionsType | "EmptyPreview";
   materialColorRef: MutableRefObject<Color>;
   strokeSizeRef: MutableRefObject<number>;
 };
@@ -45,6 +46,9 @@ const Simulation = ({
 
   const columns = Math.floor(dimensions.width / particleSize);
   const rows = Math.floor(dimensions.height / particleSize);
+
+  const backgroundColor =
+    theme === "dark" ? backgroundColorDark : backgroundColorLight;
 
   useEffect(() => {
     if (columns > 0 && rows > 0) {
@@ -69,10 +73,17 @@ const Simulation = ({
   const setParticles = (
     targetGrid: Grid | undefined,
     row: number,
-    column: number
+    column: number,
+    isPreview: boolean
   ) => {
     const extent = Math.floor(Number(strokeSizeRef.current) / 2);
-    const MaterialClass = MaterialMapping[selectedMaterial];
+    let materialToUse = selectedMaterial;
+    if (isPreview) {
+      materialToUse =
+        selectedMaterial === "Empty" ? "EmptyPreview" : selectedMaterial;
+    }
+
+    const MaterialClass = MaterialMapping[materialToUse];
     for (let i = -extent; i <= extent; i++) {
       for (let j = -extent; j <= extent; j++) {
         if (i * i + j * j <= extent * extent) {
@@ -84,7 +95,10 @@ const Simulation = ({
               col,
               rowIndex,
               new MaterialClass(particleIndex, {
-                color: materialColorRef.current,
+                color:
+                  isPreview && selectedMaterial === "Empty"
+                    ? backgroundColor
+                    : materialColorRef.current,
               })
             );
           }
@@ -96,14 +110,15 @@ const Simulation = ({
   const handlePointerUpdate = (
     event: PointerEvent | TouchEvent,
     targetGrid: Grid | undefined,
-    clearPreview: boolean = false
+    clearPreview: boolean = false,
+    isPreview: boolean = false
   ) => {
     if (clearPreview) previewRef.current?.clear();
     if (!isPlaying || ("touches" in event && event.touches.length !== 1))
       return;
 
     const { column, row } = calculatePosition(event);
-    setParticles(targetGrid, row, column);
+    setParticles(targetGrid, row, column, isPreview);
   };
 
   const handleMouseDown = (event: PointerEvent<HTMLCanvasElement>) => {
@@ -114,7 +129,7 @@ const Simulation = ({
   const handleMouseMove = (event: PointerEvent<HTMLCanvasElement>) => {
     if (mouseIsPressed.current)
       handlePointerUpdate(event, gridRef.current, true);
-    else handlePointerUpdate(event, previewRef.current, true);
+    else handlePointerUpdate(event, previewRef.current, true, true);
   };
 
   const handleTouchStart = (event: TouchEvent<HTMLCanvasElement>) => {
@@ -125,7 +140,7 @@ const Simulation = ({
   const handleTouchMove = (event: TouchEvent<HTMLCanvasElement>) => {
     if (mouseIsPressed.current)
       handlePointerUpdate(event, gridRef.current, true);
-    else handlePointerUpdate(event, previewRef.current, true);
+    else handlePointerUpdate(event, previewRef.current, true, true);
   };
 
   const handleTouchEnd = () => {

@@ -1,16 +1,19 @@
 import Sand from "./Sand";
 import Empty from "./Empty";
 import { Color } from "pixi.js";
+import EmptyPreview from "@/components/simulation/materials/EmptyPreview";
 
 // New materials must be added here and at [3] points
 
 // [1] New materials must be added here
-type MaterialClasses = Sand | Empty;
+type MaterialClasses = Sand | Empty | EmptyPreview;
 
 // [2] New materials must be added here
 
 export const materialOptions = ["Sand", "Empty"] as const;
-export type MaterialOptionsType = (typeof materialOptions)[number];
+export type MaterialOptionsType =
+  | (typeof materialOptions)[number]
+  | "EmptyPreview";
 
 type MaterialProps = { color?: Color };
 
@@ -23,4 +26,5 @@ export const MaterialMapping: Record<
   // [3] New materials must be added here
   Sand,
   Empty,
+  EmptyPreview,
 };
