@@ -211,14 +211,14 @@ const Simulation = ({
           isPlaying={isPlaying}
           setFPS={setFPS}
         />
-        <SimulationParticles
+        {/* <SimulationParticles
           theme={theme}
           columns={columns}
           rows={rows}
           gridRef={previewRef}
           particleSize={particleSize}
           isPlaying={isPlaying}
-        />
+        /> */}
       </Stage>
     </div>
   );
