@@ -12,6 +12,8 @@ import { sandColor } from "@/lib/colors";
 import { LoaderIcon, Pause, Play } from "lucide-react";
 import { Color } from "pixi.js";
 import React, { Suspense, useRef, useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const Simulation = React.lazy(
   () => import("@/components/simulation/Simulation")
@@ -40,6 +42,8 @@ function App() {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Analytics />
+      <SpeedInsights />
       <div className="h-dvh flex flex-col dark:bg-zinc-950 bg-zinc-100 text-zinc-900 dark:text-zinc-300">
         <div className="h-full flex flex-col md:flex-row">
           <div className="flex-grow">
