@@ -17,6 +17,7 @@ class Particle {
   color: Color;
   isEmpty: boolean;
   behaviours: Behaviour[];
+  modified: boolean;
 
   constructor(
     index: number,
@@ -26,15 +27,13 @@ class Particle {
     this.color = color;
     this.isEmpty = isEmpty;
     this.behaviours = behaviours;
+    this.modified = false;
   }
 
-  // Default update method, which can be overridden by subclasses
   update(grid: Grid, params: Params) {
-    console.log("particle update");
     this.behaviours?.forEach((behaviour) =>
       behaviour.update(this, grid, params)
     );
-    // Base particle doesn't have movement or behavior by default
   }
 }
 
