@@ -1,5 +1,8 @@
+import { Grid } from "@/components/simulation/Grid";
+import Particle, { Params } from "@/components/simulation/materials/Particle";
+
 export class Behaviour {
-  update() {
-    console.log("behvaiour");
+  update(particle: Particle, grid: Grid, params: Params) {
+    console.log({ particle, grid, params });
   }
 }
