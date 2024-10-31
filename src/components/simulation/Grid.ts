@@ -71,4 +71,17 @@ export class Grid {
     // Update particles moving upwards
     this.updateWithParams({ direction: -1 });
   }
+
+  swap(a: number, b: number) {
+    if (this.grid[a]?.isEmpty && this.grid[b]?.isEmpty) {
+      return;
+    }
+    if (a >= 0 && a < this.grid.length && b >= 0 && b < this.grid.length) {
+      const temp = this.grid[a];
+      this.grid[a] = this.grid[b];
+      this.grid[b] = temp;
+      this.grid[a].index = a;
+      this.grid[b].index = b;
+    }
+  }
 }
