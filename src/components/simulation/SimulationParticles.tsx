@@ -16,7 +16,7 @@ type SimulationParticlesProps = {
   columns: number;
   rows: number;
   gridRef: MutableRefObject<Grid | undefined>;
-  previewRef: MutableRefObject<Grid | undefined>;
+  // previewRef: MutableRefObject<Grid | undefined>;
   particleSize: number;
   theme: Theme;
   isPlaying: boolean;
@@ -27,7 +27,7 @@ const SimulationParticles = ({
   columns,
   rows,
   gridRef,
-  previewRef,
+  // previewRef,
   particleSize,
   isPlaying,
   setFPS,
@@ -53,15 +53,15 @@ const SimulationParticles = ({
       gridRef.current.grid.forEach((item, index) => {
         const sprite = spriteRefs.current[index];
         if (sprite) {
-          const previewItem = previewRef.current?.grid[index];
+          // const previewItem = previewRef.current?.grid[index];
           // If there's a preview item at this position, show it instead
-          if (previewItem && !previewItem.isEmpty) {
-            sprite.tint = previewItem.color;
-            sprite.alpha = 1;
-          } else {
-            sprite.tint = item.color;
-            sprite.alpha = item.isEmpty ? 0 : 1;
-          }
+          // if (previewItem && !previewItem.isEmpty) {
+          //   sprite.tint = previewItem.color;
+          //   sprite.alpha = 1;
+          // } else {
+          sprite.tint = item.color;
+          sprite.alpha = item.isEmpty ? 0 : 1;
+          // }
           sprite.x = (index % columns) * particleSize;
           sprite.y = (rows - Math.floor(index / columns)) * particleSize;
         }
