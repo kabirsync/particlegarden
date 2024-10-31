@@ -1,5 +1,6 @@
 import { Grid } from "@/components/simulation/Grid";
 import { Theme } from "@/components/theme/types";
+import { throttle } from "@/lib/utils";
 import { PixiComponent, useTick } from "@pixi/react";
 import * as PIXI from "pixi.js";
 import { Dispatch, MutableRefObject, SetStateAction, useMemo } from "react";
@@ -128,14 +129,19 @@ const SimulationParticlesOptimized = ({
     return { geometry, shader };
   }, [columns, rows, particleSize]);
 
+  const throttledSetFPS = useMemo(
+    () => (setFPS ? throttle((fps: number) => setFPS(fps), 1000) : undefined),
+    [setFPS]
+  );
+
   useTick((_, ticker) => {
-    if (!isPlaying) {
-      if (setFPS) setFPS(0);
+    if (!isPlaying && setFPS) {
+      setFPS(0);
       return;
     }
-
-    if (setFPS) {
-      setFPS(Math.round(ticker.FPS));
+    if (setFPS && throttledSetFPS) {
+      const fps = Math.round(ticker.FPS);
+      throttledSetFPS(fps);
     }
 
     if (gridRef.current) {
