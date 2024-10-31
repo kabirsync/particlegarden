@@ -45,7 +45,7 @@ const MaterialOptions = ({
           defaultValue={[10]}
           value={[strokeSize]}
           min={1}
-          max={20}
+          max={50}
           step={1}
           onValueChange={(values: number[]) => {
             handleStrokeSizeChange(values[0]);
