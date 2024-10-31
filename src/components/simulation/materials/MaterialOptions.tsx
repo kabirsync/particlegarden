@@ -3,22 +3,21 @@ import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { sandColor } from "@/lib/colors";
 import { Color } from "pixi.js";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 
 type MaterialOptionsProps = {
-  strokeSize: number;
-  setStrokeSize: Dispatch<SetStateAction<number>>;
   updateMaterialColor: (color: Color) => void;
+  updateStrokeSize: (strokeSize: number) => void;
   selectedMaterial: MaterialOptionsType;
 };
 
 const MaterialOptions = ({
-  strokeSize,
-  setStrokeSize,
+  updateStrokeSize,
   updateMaterialColor,
   selectedMaterial,
 }: MaterialOptionsProps) => {
   const [materialColor, setMaterialColor] = useState(sandColor);
+  const [strokeSize, setStrokeSize] = useState(6);
 
   const handleMaterialColorChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -28,6 +27,12 @@ const MaterialOptions = ({
     setMaterialColor(newColor);
     updateMaterialColor(newColor);
   };
+
+  const handleStrokeSizeChange = (value: number) => {
+    setStrokeSize(value);
+    updateStrokeSize(value);
+  };
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-2">
@@ -43,7 +48,7 @@ const MaterialOptions = ({
           max={20}
           step={1}
           onValueChange={(values: number[]) => {
-            setStrokeSize(values[0]);
+            handleStrokeSizeChange(values[0]);
           }}
         />
       </div>

@@ -31,4 +31,10 @@ export class Grid {
     if (row < 0 || row >= this.rows) return -1;
     this.setIndex(index, particle);
   }
+
+  clear() {
+    this.grid = new Array(this.rows * this.columns)
+      .fill(0)
+      .map((_, i) => new Empty(i));
+  }
 }
