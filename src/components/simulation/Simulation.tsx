@@ -207,17 +207,10 @@ const Simulation = ({
           columns={columns}
           rows={rows}
           gridRef={gridRef}
+          previewRef={previewRef} // Add this line
           particleSize={particleSize}
           isPlaying={isPlaying}
           setFPS={setFPS}
-        />
-        <SimulationParticles
-          theme={theme}
-          columns={columns}
-          rows={rows}
-          gridRef={previewRef}
-          particleSize={particleSize}
-          isPlaying={isPlaying}
         />
       </Stage>
     </div>
