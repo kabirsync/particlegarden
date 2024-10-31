@@ -54,7 +54,7 @@ const Simulation = ({
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
   const gridRef = useRef<Grid>();
-  const previewRef = useRef<Grid>();
+  // const previewRef = useRef<Grid>();
   const [, setIsReady] = useState(false);
   const mouseIsPressed = useRef(false);
 
@@ -67,7 +67,7 @@ const Simulation = ({
   useEffect(() => {
     if (columns > 0 && rows > 0) {
       gridRef.current = new Grid({ columns, rows });
-      previewRef.current = new Grid({ columns, rows });
+      // previewRef.current = new Grid({ columns, rows });
       setIsReady(true); // force rerender
     }
   }, [columns, dimensions.height, dimensions.width, particleSize, rows]);
@@ -124,10 +124,10 @@ const Simulation = ({
   const handlePointerUpdate = ({
     event,
     targetGrid,
-    clearPreview = false,
+    // clearPreview = false,
     isPreview = false,
   }: HandlePointerOptions) => {
-    if (clearPreview) previewRef.current?.clear();
+    // if (clearPreview) previewRef.current?.clear();
     if (!isPlaying || ("touches" in event && event.touches.length !== 1))
       return;
 
@@ -147,13 +147,13 @@ const Simulation = ({
         targetGrid: gridRef.current,
         clearPreview: true,
       });
-    else
-      handlePointerUpdate({
-        event,
-        targetGrid: previewRef.current,
-        clearPreview: true,
-        isPreview: true,
-      });
+    // else
+    //   handlePointerUpdate({
+    //     event,
+    //     targetGrid: previewRef.current,
+    //     clearPreview: true,
+    //     isPreview: true,
+    //   });
   };
 
   const handleTouchStart = (event: TouchEvent<HTMLCanvasElement>) => {
@@ -168,18 +168,18 @@ const Simulation = ({
         targetGrid: gridRef.current,
         clearPreview: true,
       });
-    else
-      handlePointerUpdate({
-        event,
-        targetGrid: previewRef.current,
-        clearPreview: true,
-        isPreview: true,
-      });
+    // else
+    //   handlePointerUpdate({
+    //     event,
+    //     targetGrid: previewRef.current,
+    //     clearPreview: true,
+    //     isPreview: true,
+    //   });
   };
 
   const handleTouchEnd = () => {
     mouseIsPressed.current = false;
-    previewRef.current?.clear();
+    // previewRef.current?.clear();
   };
 
   return (
@@ -195,7 +195,7 @@ const Simulation = ({
         onPointerMove={handleMouseMove}
         onPointerLeave={() => {
           mouseIsPressed.current = false;
-          previewRef.current?.clear();
+          // previewRef.current?.clear();
         }}
         // Touch Event Handlers for Mobile
         onTouchStart={handleTouchStart}
