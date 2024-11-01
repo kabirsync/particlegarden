@@ -54,7 +54,6 @@ export class MovesVertical extends Behaviour {
   }
 
   update(particle: Particle, grid: Grid, params: Params) {
-    // console.log("moves vert");
     if (!this.shouldUpdate(params)) {
       return;
     }
