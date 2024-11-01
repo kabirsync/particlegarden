@@ -1,7 +1,7 @@
 // import SimulationParticles from "@/components/simulation/SimulationParticles";
 import { Grid } from "@/components/simulation/Grid";
 import { MaterialOptionsType } from "@/components/simulation/materials/Material";
-import ThreeRender from "@/components/simulation/SimulationParticles";
+import SimulationParticles from "@/components/simulation/SimulationParticles";
 import { useTheme } from "@/components/theme/useTheme";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Canvas } from "@react-three/fiber";
@@ -77,7 +77,7 @@ const Simulation = ({
           intensity={Math.PI}
         />
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-        <ThreeRender
+        <SimulationParticles
           isPlaying={isPlaying}
           dimensions={dimensions}
           setFPS={setFPS}

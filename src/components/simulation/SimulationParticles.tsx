@@ -18,7 +18,7 @@ import {
 import { backgroundColorDark, backgroundColorLight } from "@/lib/colors";
 import { Dimension } from "@/types";
 
-interface ThreeRenderProps {
+interface SimulationParticlesProps {
   dimensions: Dimension;
   theme: "dark" | "light";
   isPlaying: boolean;
@@ -29,7 +29,7 @@ interface ThreeRenderProps {
   particleSize: number;
 }
 
-const ThreeRender = ({
+const SimulationParticles = ({
   isPlaying,
   dimensions,
   particleSize,
@@ -38,7 +38,7 @@ const ThreeRender = ({
   setFPS,
   strokeSizeRef,
   selectedMaterial,
-}: ThreeRenderProps) => {
+}: SimulationParticlesProps) => {
   const dummy = new Object3D();
 
   const backgroundColor =
@@ -229,11 +229,11 @@ const ThreeRender = ({
           args={[undefined, undefined, gridRef.current?.grid.length || 0]}
         >
           <planeGeometry args={[particleSize, particleSize]} />
-          <meshBasicMaterial color={0xffffff} />
+          <meshBasicMaterial />
         </instancedMesh>
       </group>
     </>
   );
 };
 
-export default ThreeRender;
+export default SimulationParticles;
