@@ -1,6 +1,6 @@
-import { Behaviour } from "@/components/simulation/behaviours/Behaviour";
-import { Grid } from "@/components/simulation/Grid";
-import { Color } from "pixi.js";
+import { Behaviour } from "@/components/simulation/behavioursThree/Behaviour";
+import { Grid } from "@/components/simulation/GridThree";
+import { Color } from "three";
 
 type ParticleOptions = {
   color: Color;

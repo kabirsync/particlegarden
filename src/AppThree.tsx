@@ -1,25 +1,25 @@
 import {
   materialOptions,
   MaterialOptionsType,
-} from "@/components/simulation/materials/Material";
-import MaterialButton from "@/components/simulation/materials/MaterialButton";
-import MaterialOptions from "@/components/simulation/materials/MaterialOptions";
+} from "@/components/simulation/materialsThree/Material";
+import MaterialButton from "@/components/simulation/materialsThree/MaterialButton";
+import MaterialOptions from "@/components/simulation/materialsThree/MaterialOptions";
 import SimulationOptionsButton from "@/components/simulation/SimulationOptionsButton";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
-import { sandColor } from "@/lib/colors";
+import { sandColor } from "@/lib/colorsThree";
 import { LoaderIcon, Pause, Play } from "lucide-react";
-import { Color } from "pixi.js";
+import { Color } from "three";
 import React, { Suspense, useRef, useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const Simulation = React.lazy(
-  () => import("@/components/simulation/Simulation")
+  () => import("@/components/simulation/SimulationThree")
 );
 
-function App() {
+function AppThree() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [FPS, setFPS] = useState(0);
   const [particleSize, setParticleSize] = useState(6);
@@ -114,4 +114,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppThree;

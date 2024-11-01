@@ -7,7 +7,7 @@ export const backgroundColorLight = new Color("#f4f4f5");
 // export const backgroundColorDarkNumerical = 0x09090b; // Dark - for Stagec component as it does not accept Pixi.Color needs numerical color
 // export const backgroundColorLightNumerical = 0xf4f4f5; // Light - for Stagec component as it does not accept Pixi.Color needs numerical color
 
-// export const transparentColor = new Color(0xdcb159).setAlpha(0);
+export const transparentColor = new Color(0xdcb159);
 
 const rgbToHSB = (r: number, g: number, b: number) => {
   const max = Math.max(r, g, b),

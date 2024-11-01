@@ -1,6 +1,6 @@
-import Particle from "@/components/simulation/materials/Particle";
-import { backgroundColorDark } from "@/lib/colors";
-import { Color } from "pixi.js";
+import Particle from "@/components/simulation/materialsThree/Particle";
+import { backgroundColorDark } from "@/lib/colorsThree";
+import { Color } from "three";
 
 type EmptyPreviewProps = {
   color?: Color;

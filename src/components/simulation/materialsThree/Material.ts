@@ -1,7 +1,7 @@
 import Sand from "./Sand";
 import Empty from "./Empty";
-import { Color } from "pixi.js";
-import EmptyPreview from "@/components/simulation/materials/EmptyPreview";
+import { Color } from "three";
+import EmptyPreview from "@/components/simulation/materialsThree/EmptyPreview";
 
 // New materials must be added here and at [3] points
 

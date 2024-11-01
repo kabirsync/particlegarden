@@ -1,5 +1,7 @@
-import { Grid } from "@/components/simulation/Grid";
-import Particle, { Params } from "@/components/simulation/materials/Particle";
+import { Grid } from "@/components/simulation/GridThree";
+import Particle, {
+  Params,
+} from "@/components/simulation/materialsThree/Particle";
 
 export class Behaviour {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

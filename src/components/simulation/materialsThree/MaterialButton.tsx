@@ -1,4 +1,4 @@
-import { MaterialOptionsType } from "@/components/simulation/materials/Material";
+import { MaterialOptionsType } from "@/components/simulation/materialsThree/Material";
 import { Button } from "@/components/ui/button";
 import { Circle, Grip } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";

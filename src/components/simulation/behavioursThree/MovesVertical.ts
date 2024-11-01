@@ -1,6 +1,8 @@
-import { Behaviour } from "@/components/simulation/behaviours/Behaviour";
-import { Grid } from "../Grid";
-import Particle, { Params } from "@/components/simulation/materials/Particle";
+import { Behaviour } from "@/components/simulation/behavioursThree/Behaviour";
+import { Grid } from "../GridThree";
+import Particle, {
+  Params,
+} from "@/components/simulation/materialsThree/Particle";
 
 export class MovesVertical extends Behaviour {
   maxSpeed: number;

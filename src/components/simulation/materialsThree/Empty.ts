@@ -1,5 +1,5 @@
-import { transparentColor } from "@/lib/colors";
-import Particle from "@/components/simulation/materials/Particle";
+import { transparentColor } from "@/lib/colorsThree";
+import Particle from "@/components/simulation/materialsThree/Particle";
 
 class Empty extends Particle {
   constructor(index: number) {
