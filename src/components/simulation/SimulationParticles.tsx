@@ -66,6 +66,8 @@ const SimulationParticles = ({
           sprite.y = (rows - Math.floor(index / columns)) * particleSize;
         }
       });
+
+      gridRef.current.update();
     }
   });
 
