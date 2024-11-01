@@ -8,25 +8,24 @@ export class MovesVertical extends Behaviour {
   velocity: number;
 
   constructor({
-    maxSpeed,
-    acceleration,
-    velocity,
+    maxSpeed = 0,
+    acceleration = 0,
+    velocity = 0,
   }: {
     maxSpeed?: number;
     acceleration?: number;
     velocity?: number;
   }) {
     super();
-    this.maxSpeed = maxSpeed ?? 0;
-    this.acceleration = acceleration ?? 0;
-    this.velocity = velocity ?? 0;
+    this.maxSpeed = maxSpeed;
+    this.acceleration = acceleration;
+    this.velocity = velocity;
   }
 
   updateVelocity() {
-    let newVelocity = this.velocity + this.acceleration;
-    if (Math.abs(newVelocity) > this.maxSpeed) {
-      newVelocity = Math.sign(newVelocity) * this.maxSpeed;
-    }
+    const newVelocity =
+      Math.sign(this.velocity + this.acceleration) *
+      Math.min(Math.abs(this.velocity + this.acceleration), this.maxSpeed);
     this.velocity = newVelocity;
   }
 
@@ -35,32 +34,28 @@ export class MovesVertical extends Behaviour {
   }
 
   nextVelocity() {
-    if (this.maxSpeed === 0) {
-      return 0;
-    }
-    let newVelocity = this.velocity + this.acceleration;
-
-    if (Math.abs(newVelocity) > this.maxSpeed) {
-      newVelocity = Math.sign(newVelocity) * this.maxSpeed;
-    }
-    return newVelocity;
+    if (this.maxSpeed === 0) return 0;
+    return (
+      Math.sign(this.velocity + this.acceleration) *
+      Math.min(Math.abs(this.velocity + this.acceleration), this.maxSpeed)
+    );
   }
 
   getUpdateCount() {
-    const abs = Math.abs(this.velocity);
-    const floored = Math.floor(abs);
-    const mod = abs - floored;
-    return floored + (Math.random() < mod ? 1 : 0);
+    const floored = Math.floor(Math.abs(this.velocity));
+    return (
+      floored + (Math.random() < Math.abs(this.velocity) - floored ? 1 : 0)
+    );
   }
 
   update(particle: Particle, grid: Grid, params: Params) {
-    if (!this.shouldUpdate(params)) {
-      return;
-    }
+    if (!this.shouldUpdate(params)) return;
+
     if (this.maxSpeed === 0) {
       particle.modified = false;
       return;
     }
+
     this.updateVelocity();
     particle.modified = this.velocity !== 0;
 
@@ -75,54 +70,49 @@ export class MovesVertical extends Behaviour {
 
   applyMovement(particle: Particle, grid: Grid) {
     let index = particle.index;
-    for (let v = 0; v < this.getUpdateCount(); v++) {
+    const updateCount = this.getUpdateCount();
+
+    for (let v = 0; v < updateCount; v++) {
       const newIndex = this.moveParticle(particle, grid);
-      if (newIndex !== index) {
-        index = newIndex;
-        particle.index = newIndex;
-      } else {
+      if (newIndex === index) {
         this.resetVelocity();
         break;
       }
+      index = newIndex;
+      particle.index = newIndex;
     }
   }
 
   canPassThrough(particle: Particle) {
     return particle?.isEmpty ?? false;
   }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
-
-    // Determine movement direction based on velocity sign (up or down)
     const nextDelta = Math.sign(this.velocity) * grid.columns;
-    const nextVertical = i + nextDelta;
-    const nextVerticalLeft = nextVertical - 1;
-    const nextVerticalRight = nextVertical + 1;
 
-    // Try moving vertically in the current direction
+    const nextVertical = i + nextDelta;
     if (this.canPassThrough(grid.grid[nextVertical])) {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
 
-    // Try diagonal movement
-    if (
-      this.canPassThrough(grid.grid[nextVerticalLeft]) &&
-      Math.abs((nextVerticalLeft % grid.columns) - column) === 1
-    ) {
+    const nextVerticalLeft = nextVertical - 1;
+    if (column > 0 && this.canPassThrough(grid.grid[nextVerticalLeft])) {
       grid.swap(i, nextVerticalLeft);
       return nextVerticalLeft;
     }
 
+    const nextVerticalRight = nextVertical + 1;
     if (
-      this.canPassThrough(grid.grid[nextVerticalRight]) &&
-      Math.abs((nextVerticalRight % grid.columns) - column) === 1
+      column < grid.columns - 1 &&
+      this.canPassThrough(grid.grid[nextVerticalRight])
     ) {
       grid.swap(i, nextVerticalRight);
       return nextVerticalRight;
     }
 
-    return i; // No movement possible
+    return i;
   }
 }

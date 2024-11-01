@@ -48,17 +48,19 @@ export class Grid {
     const endRow = direction > 0 ? -1 : this.rows;
     const rowStep = direction > 0 ? -1 : 1;
 
+    const leftToRight = Math.random() > 0.5; // Decide once per `updateWithParams` call
     for (let row = startRow; row !== endRow; row += rowStep) {
       const rowOffset = row * this.columns;
-      const leftToRight = Math.random() > 0.5;
+
       for (let i = 0; i < this.columns; i++) {
-        const columnOffset = leftToRight ? i : -i - 1 + this.columns;
+        const columnOffset = leftToRight ? i : this.columns - 1 - i;
         const index = rowOffset + columnOffset;
 
         if (this.isEmpty(index)) {
           continue;
         }
-        // index = this.modifyIndexHook(index, params);
+
+        // Modify index if needed here, cache or memoize if possible for further performance
         const particle = this.grid[index];
         particle.update(this, params);
       }
@@ -66,10 +68,9 @@ export class Grid {
   }
 
   update() {
-    // Update particles moving downwards
-    this.updateWithParams({ direction: 1 });
-    // Update particles moving upwards
+    // Update particles moving downwards and upwards in a single call
     this.updateWithParams({ direction: -1 });
+    this.updateWithParams({ direction: 1 });
   }
 
   swap(a: number, b: number) {
