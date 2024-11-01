@@ -44,7 +44,7 @@ function App() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Analytics />
       <SpeedInsights />
-      <div className="h-dvh flex flex-col dark:bg-zinc-950 bg-zinc-100 text-zinc-900 dark:text-zinc-300">
+      <div className="h-dvh flex flex-col dark:bg-zinc-950 bg-white text-zinc-900 dark:text-zinc-300">
         <div className="h-full flex flex-col md:flex-row">
           <div className="flex-grow bg-[#DFDFDF] dark:bg-[#010101]">
             <Suspense
