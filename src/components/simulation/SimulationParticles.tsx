@@ -1,112 +1,239 @@
-import { Theme } from "@/components/theme/types";
-import { squareTexture } from "@/lib/colors";
 import { throttle } from "@/lib/utils";
-import { Grid } from "@/components/simulation/Grid";
-import { ParticleContainer, Sprite, useTick } from "@pixi/react";
-import { Sprite as SpriteType } from "pixi.js";
+import { useFrame } from "@react-three/fiber";
 import {
   Dispatch,
   MutableRefObject,
   SetStateAction,
+  useEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
+import { Color, InstancedMesh, Object3D } from "three";
+import { Grid } from "./Grid";
+import {
+  MaterialMapping,
+  MaterialOptionsType,
+} from "@/components/simulation/materials/Material";
+import { backgroundColorDark, backgroundColorLight } from "@/lib/colors";
+import { Dimension } from "@/types";
 
-type SimulationParticlesProps = {
-  columns: number;
-  rows: number;
-  gridRef: MutableRefObject<Grid | undefined>;
-  previewRef: MutableRefObject<Grid | undefined>;
-  particleSize: number;
-  theme: Theme;
+interface ThreeRenderProps {
+  dimensions: Dimension;
+  theme: "dark" | "light";
   isPlaying: boolean;
-  setFPS?: Dispatch<SetStateAction<number>>;
-};
+  setFPS: Dispatch<SetStateAction<number>>;
+  materialColorRef: MutableRefObject<Color>;
+  strokeSizeRef: MutableRefObject<number>;
+  selectedMaterial: MaterialOptionsType;
+  particleSize: number;
+}
 
-const SimulationParticles = ({
-  columns,
-  rows,
-  gridRef,
-  previewRef,
-  particleSize,
+const ThreeRender = ({
   isPlaying,
+  dimensions,
+  particleSize,
+  materialColorRef,
+  theme,
   setFPS,
-}: SimulationParticlesProps) => {
-  const spriteRefs = useRef<(SpriteType | null)[]>([]);
+  strokeSizeRef,
+  selectedMaterial,
+}: ThreeRenderProps) => {
+  const dummy = new Object3D();
 
-  const throttledSetFPS = useMemo(
-    () => (setFPS ? throttle((fps: number) => setFPS(fps), 1000) : undefined),
+  const backgroundColor =
+    theme === "light" ? backgroundColorLight : backgroundColorDark;
+
+  const [, setFrame] = useState(0);
+  const gridRef = useRef<Grid>();
+  const [isReady, setIsReady] = useState(false); // State to trigger re-render
+  const lastTimeRef = useRef(performance.now());
+  const meshRef = useRef<InstancedMesh>(null!);
+
+  const mouseDownRef = useRef(false);
+  const mousePositionRef = useRef({ u: 0, v: 0 }); // Using UV coordinates
+
+  const columns = Math.floor(dimensions.width / particleSize);
+  const rows = Math.floor(dimensions.height / particleSize);
+
+  const throttledSetThreeFPS = useMemo(
+    () => throttle((fps: number) => setFPS(fps), 1000),
     [setFPS]
   );
 
-  useTick((_, ticker) => {
-    if (!isPlaying && setFPS) {
-      setFPS(0);
+  useEffect(() => {
+    gridRef.current = new Grid({ columns, rows });
+    setIsReady(true); // Set state to true to trigger re-render after grid is ready
+  }, [dimensions.width, dimensions.height, columns, rows]);
+
+  const handleMouseAction = (
+    mouseColumn: number,
+    mouseRow: number,
+    material: MaterialOptionsType,
+    matrix: number
+  ) => {
+    const extent = Math.floor(Number(matrix) / 2);
+    const radius = extent;
+
+    for (let i = -extent; i <= extent; i++) {
+      for (let j = -extent; j <= extent; j++) {
+        // Check if the point is within the circle
+        if (i * i + j * j <= radius * radius) {
+          const col = mouseColumn + i;
+          const row = mouseRow + j;
+
+          // Bounds checking
+          if (col >= 0 && col < columns && row >= 0 && row < rows) {
+            if (Math.random() > 0.25) {
+              const MaterialClass = MaterialMapping[material];
+              gridRef.current?.set(
+                col,
+                row,
+                new MaterialClass(row * columns + col, {
+                  color: materialColorRef.current,
+                })
+              );
+            }
+          }
+        }
+      }
+    }
+  };
+
+  useFrame(() => {
+    if (!isPlaying) {
       return;
     }
-    if (setFPS && throttledSetFPS) {
-      const fps = Math.round(ticker.FPS);
-      throttledSetFPS(fps);
+
+    const currentTime = performance.now();
+    const deltaTime = currentTime - lastTimeRef.current;
+
+    const fps = 1000 / deltaTime;
+
+    throttledSetThreeFPS(Math.round(fps));
+
+    // Update the last frame timestamp
+    lastTimeRef.current = currentTime;
+
+    if (mouseDownRef.current) {
+      const u = mousePositionRef.current.u;
+      const v = mousePositionRef.current.v;
+
+      // Map UV coordinates to world coordinates
+      const mouseXWorld = u * dimensions.width;
+      const mouseYWorld = (1 - v) * dimensions.height; // Flip Y axis
+
+      // Calculate grid indices
+      const mouseColumn = Math.floor(mouseXWorld / particleSize);
+      const mouseRow = Math.floor(mouseYWorld / particleSize);
+
+      // Bounds checking
+      if (
+        mouseColumn >= 0 &&
+        mouseColumn < columns &&
+        mouseRow >= 0 &&
+        mouseRow < rows
+      ) {
+        handleMouseAction(
+          mouseColumn,
+          mouseRow,
+          selectedMaterial as MaterialOptionsType,
+          strokeSizeRef.current
+        );
+      }
     }
 
-    if (gridRef.current) {
-      gridRef.current.grid.forEach((item, index) => {
-        const sprite = spriteRefs.current[index];
-        if (sprite) {
-          const previewItem = previewRef.current?.grid[index];
-          // If there's a preview item at this position, show it instead
-          if (previewItem && !previewItem.isEmpty) {
-            sprite.tint = previewItem.color;
-            sprite.alpha = 1;
-          } else {
-            sprite.tint = item.color;
-            sprite.alpha = item.isEmpty ? 0 : 1;
-          }
-          sprite.x = (index % columns) * particleSize;
-          sprite.y = (rows - Math.floor(index / columns)) * particleSize;
-        }
-      });
+    if (!meshRef.current) return;
 
-      gridRef.current.update();
-    }
+    gridRef.current?.grid.forEach((square, index) => {
+      const col = index % columns;
+      const row = Math.floor(index / columns);
+
+      dummy.scale.set(1, 1, 1); // No scaling up
+
+      // Center the grid around the origin
+      const x = (col + 0.5) * particleSize;
+      const y = (rows - row - 0.5) * particleSize;
+
+      dummy.position.set(x, y, 0);
+      dummy.updateMatrix();
+      meshRef.current.setMatrixAt(index, dummy.matrix);
+
+      // Set the color for each instance
+      const color = square.isEmpty
+        ? backgroundColor
+        : square.color ?? backgroundColor;
+      meshRef.current.setColorAt(index, color);
+    });
+
+    meshRef.current.instanceMatrix.needsUpdate = true;
+    if (meshRef.current.instanceColor)
+      meshRef.current.instanceColor.needsUpdate = true;
+
+    gridRef.current?.update();
+
+    setFrame((prev) => prev + 1);
   });
 
-  if (!gridRef.current) {
-    return null;
-  }
+  if (!isReady) return null; // Render nothing until the grid is ready
 
   return (
-    <ParticleContainer
-      maxSize={columns * rows}
-      properties={{
-        scale: true,
-        position: true,
-        alpha: true,
-        tint: true,
-      }}
-    >
-      {gridRef.current.grid.map((item, index) => {
-        const gridItemColumn = index % columns;
-        const gridItemRow = Math.floor(index / columns);
-        const x = gridItemColumn * particleSize;
-        const y = (rows - gridItemRow) * particleSize;
+    <>
+      {/* Transparent plane to capture pointer events */}
+      <mesh
+        onPointerDown={(event) => {
+          if (event.isPrimary) {
+            if (
+              (event.pointerType === "mouse" && event.button === 0) ||
+              event.pointerType === "touch"
+            ) {
+              mouseDownRef.current = true;
+              if (event.uv) {
+                const u = event.uv.x;
+                const v = event.uv.y;
 
-        return (
-          <Sprite
-            key={index}
-            texture={squareTexture}
-            tint={item.color}
-            x={x}
-            y={y}
-            width={particleSize}
-            height={particleSize}
-            ref={(sprite) => (spriteRefs.current[index] = sprite)}
-            alpha={item.isEmpty ? 0 : 1}
-          />
-        );
-      })}
-    </ParticleContainer>
+                mousePositionRef.current = { u, v };
+              }
+            }
+          }
+        }}
+        onPointerUp={(event) => {
+          if (event.isPrimary) {
+            if (
+              (event.pointerType === "mouse" && event.button === 0) ||
+              event.pointerType === "touch"
+            ) {
+              mouseDownRef.current = false;
+            }
+          }
+        }}
+        onPointerMove={(event) => {
+          if (event.isPrimary && mouseDownRef.current) {
+            if (event.uv) {
+              const u = event.uv.x;
+              const v = event.uv.y;
+
+              mousePositionRef.current = { u, v };
+            }
+          }
+        }}
+        position={[dimensions.width / 2, dimensions.height / 2, 0]}
+      >
+        <planeGeometry args={[dimensions.width, dimensions.height]} />
+        <meshBasicMaterial transparent opacity={0} />
+      </mesh>
+
+      <group>
+        <instancedMesh
+          ref={meshRef}
+          args={[undefined, undefined, gridRef.current?.grid.length || 0]}
+        >
+          <planeGeometry args={[particleSize, particleSize]} />
+          <meshBasicMaterial color={0xffffff} />
+        </instancedMesh>
+      </group>
+    </>
   );
 };
 
-export default SimulationParticles;
+export default ThreeRender;

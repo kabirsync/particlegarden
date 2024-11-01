@@ -2,7 +2,7 @@ import { MaterialOptionsType } from "@/components/simulation/materials/Material"
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { sandColor } from "@/lib/colors";
-import { Color } from "pixi.js";
+import { Color } from "three";
 import { useState } from "react";
 
 type MaterialOptionsProps = {
@@ -60,7 +60,7 @@ const MaterialOptions = ({
           <Input
             type="color"
             id="colorPicker"
-            value={`${materialColor.toHex()}`}
+            value={`#${materialColor.getHexString()}`}
             onChange={handleMaterialColorChange}
             className="cursor-pointer w-12 h-12 p-0"
           />

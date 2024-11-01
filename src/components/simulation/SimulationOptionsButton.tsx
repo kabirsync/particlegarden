@@ -32,14 +32,14 @@ const SimulationOptionsButton = ({
         </DropdownMenuLabel>
         <div className="flex flex-col gap-2 p-3">
           <Label htmlFor="particleSize" className="text-xs">
-            Particle Size: {particleSize - 5}
+            Particle Size: {particleSize - 3}
           </Label>
           <Slider
             id="particleSize"
             className="py-1"
             defaultValue={[10]}
             value={[particleSize]}
-            min={6}
+            min={4}
             max={20}
             step={1}
             onValueChange={(values: number[]) => {

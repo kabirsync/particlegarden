@@ -1,16 +1,10 @@
-import * as PIXI from "pixi.js";
+import { Color } from "three";
+export const sandColor = new Color("#dcb159");
+export const backgroundColorDark = new Color("#09090b");
+export const backgroundColorLight = new Color("#f4f4f5");
 
-export const squareTexture = PIXI.Texture.WHITE; // Create a single neutral base texture for the squares
-export const sandColor = new PIXI.Color("#dcb159");
-export const backgroundColorDark = new PIXI.Color("#09090b");
-export const backgroundColorLight = new PIXI.Color("#f4f4f5");
+export const transparentColor = new Color("#09090b");
 
-export const backgroundColorDarkNumerical = 0x09090b; // Dark - for Stagec component as it does not accept Pixi.Color needs numerical color
-export const backgroundColorLightNumerical = 0xf4f4f5; // Light - for Stagec component as it does not accept Pixi.Color needs numerical color
-
-export const transparentColor = new PIXI.Color(0xdcb159).setAlpha(0);
-
-// Convert PIXI.Color to HSB
 const rgbToHSB = (r: number, g: number, b: number) => {
   const max = Math.max(r, g, b),
     min = Math.min(r, g, b);
@@ -45,15 +39,15 @@ const hsbToRGB = ({ h, s, v }: { h: number; s: number; v: number }) => {
 
 // Function to vary color similar to p5's varyColor
 export const varyColor = (
-  color: PIXI.Color,
+  color: Color,
   hueRange = 10,
   satRange = 0.1,
   briRange = 0.1
-): PIXI.Color => {
-  const { h, s, v } = rgbToHSB(color.red, color.green, color.blue);
+): Color => {
+  const { h, s, v } = rgbToHSB(color.r, color.g, color.b);
   const newH = (h + (Math.random() * 2 - 1) * hueRange + 360) % 360;
   const newS = Math.min(1, Math.max(0, s + (Math.random() * 2 - 1) * satRange));
   const newV = Math.min(1, Math.max(0, v + (Math.random() * 2 - 1) * briRange));
   const [r, g, b] = hsbToRGB({ h: newH, s: newS, v: newV });
-  return new PIXI.Color([r, g, b]);
+  return new Color(r, g, b);
 };

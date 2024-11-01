@@ -10,7 +10,7 @@ import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
 import { sandColor } from "@/lib/colors";
 import { LoaderIcon, Pause, Play } from "lucide-react";
-import { Color } from "pixi.js";
+import { Color } from "three";
 import React, { Suspense, useRef, useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -22,7 +22,7 @@ const Simulation = React.lazy(
 function App() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [FPS, setFPS] = useState(0);
-  const [particleSize, setParticleSize] = useState(6);
+  const [particleSize, setParticleSize] = useState(4);
   const materialColorRef = useRef(sandColor);
   const strokeSizeRef = useRef(10);
   const [selectedMaterial, setSelectedMaterial] =
@@ -44,9 +44,9 @@ function App() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Analytics />
       <SpeedInsights />
-      <div className="h-dvh flex flex-col dark:bg-zinc-950 bg-zinc-100 text-zinc-900 dark:text-zinc-300">
+      <div className="h-dvh flex flex-col dark:bg-zinc-950 bg-white text-zinc-900 dark:text-zinc-300">
         <div className="h-full flex flex-col md:flex-row">
-          <div className="flex-grow">
+          <div className="flex-grow bg-[#DFDFDF] dark:bg-[#010101]">
             <Suspense
               fallback={
                 <div className="w-full h-full grid place-items-center">
