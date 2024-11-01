@@ -22,7 +22,7 @@ const Simulation = React.lazy(
 function AppThree() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [FPS, setFPS] = useState(0);
-  const [particleSize, setParticleSize] = useState(6);
+  const [particleSize, setParticleSize] = useState(4);
   const materialColorRef = useRef(sandColor);
   const strokeSizeRef = useRef(10);
   const [selectedMaterial, setSelectedMaterial] =

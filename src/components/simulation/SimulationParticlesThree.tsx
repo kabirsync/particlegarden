@@ -35,12 +35,14 @@ interface ThreeRenderProps {
   materialColorRef: MutableRefObject<Color>;
   strokeSizeRef: MutableRefObject<number>;
   selectedMaterial: MaterialOptionsType;
+  particleSize: number;
 }
 
 const ThreeRender = ({
   // isPlayingRef,
   isPlaying,
   dimensions,
+  particleSize,
   // simulationOptions,
   materialColorRef,
   theme,
@@ -82,9 +84,9 @@ const ThreeRender = ({
   // **Add a ref to track the mouse position**
   const mousePositionRef = useRef({ u: 0, v: 0 }); // Using UV coordinates
 
-  const grainWidth = 4;
-  const columns = Math.floor(dimensions.width / grainWidth);
-  const rows = Math.floor(dimensions.height / grainWidth);
+  // const particleSize = 4;
+  const columns = Math.floor(dimensions.width / particleSize);
+  const rows = Math.floor(dimensions.height / particleSize);
 
   useEffect(() => {
     gridRef.current = new Grid({ columns, rows });
@@ -152,8 +154,8 @@ const ThreeRender = ({
       const mouseYWorld = (1 - v) * dimensions.height; // Flip Y axis
 
       // Calculate grid indices
-      const mouseColumn = Math.floor(mouseXWorld / grainWidth);
-      const mouseRow = Math.floor(mouseYWorld / grainWidth);
+      const mouseColumn = Math.floor(mouseXWorld / particleSize);
+      const mouseRow = Math.floor(mouseYWorld / particleSize);
 
       // Bounds checking
       if (
@@ -185,8 +187,8 @@ const ThreeRender = ({
       // }
 
       // Center the grid around the origin
-      const x = (col + 0.5) * grainWidth;
-      const y = (rows - row - 0.5) * grainWidth;
+      const x = (col + 0.5) * particleSize;
+      const y = (rows - row - 0.5) * particleSize;
 
       dummy.position.set(x, y, 0);
       dummy.updateMatrix();
@@ -280,7 +282,7 @@ const ThreeRender = ({
           ref={meshRef}
           args={[undefined, undefined, gridRef.current?.grid.length || 0]}
         >
-          <planeGeometry args={[grainWidth, grainWidth]} />
+          <planeGeometry args={[particleSize, particleSize]} />
           <meshBasicMaterial color={0xffffff} />
         </instancedMesh>
         {/* {gridRef.current &&
@@ -289,15 +291,15 @@ const ThreeRender = ({
               const col = index % columns;
               const row = Math.floor(index / columns);
 
-              const x = col * grainWidth + 0.5 * grainWidth;
-              const y = (rows - row - 1) * grainWidth + 0.5 * grainWidth; // Adjusted Y position
+              const x = col * particleSize + 0.5 * particleSize;
+              const y = (rows - row - 1) * particleSize + 0.5 * particleSize; // Adjusted Y position
 
               return (
                 <mesh
                   key={index}
                   position={new Vector3(x, y, 0)} // Keep Z as 0 for 2D
                 >
-                  <planeGeometry args={[grainWidth - 4, grainWidth - 4]} />
+                  <planeGeometry args={[particleSize - 4, particleSize - 4]} />
                   <meshBasicMaterial color={item.color || backgroundColor} />
                 </mesh>
               );

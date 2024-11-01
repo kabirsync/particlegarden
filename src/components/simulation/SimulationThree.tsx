@@ -56,7 +56,7 @@ const Simulation = ({
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
   const gridRef = useRef<Grid>();
-  const previewRef = useRef<Grid>();
+  // const previewRef = useRef<Grid>();
   const [, setIsReady] = useState(false);
   // const mouseIsPressed = useRef(false);
   const rendererRef = useRef<WebGLRenderer | null>(null);
@@ -70,7 +70,7 @@ const Simulation = ({
   useEffect(() => {
     if (columns > 0 && rows > 0) {
       gridRef.current = new Grid({ columns, rows });
-      previewRef.current = new Grid({ columns, rows });
+      // previewRef.current = new Grid({ columns, rows });
       setIsReady(true); // force rerender
     }
   }, [columns, dimensions.height, dimensions.width, particleSize, rows]);
@@ -223,6 +223,7 @@ const Simulation = ({
           materialColorRef={materialColorRef}
           strokeSizeRef={strokeSizeRef}
           selectedMaterial={selectedMaterial}
+          particleSize={particleSize}
         />
       </Canvas>
     </div>
