@@ -18,7 +18,7 @@ import {
 import { backgroundColorDark, backgroundColorLight } from "@/lib/colors";
 import { Dimension } from "@/types";
 
-interface ThreeRenderProps {
+interface SimulationParticlesProps {
   dimensions: Dimension;
   theme: "dark" | "light";
   isPlaying: boolean;
@@ -29,7 +29,7 @@ interface ThreeRenderProps {
   particleSize: number;
 }
 
-const ThreeRender = ({
+const SimulationParticles = ({
   isPlaying,
   dimensions,
   particleSize,
@@ -38,7 +38,7 @@ const ThreeRender = ({
   setFPS,
   strokeSizeRef,
   selectedMaterial,
-}: ThreeRenderProps) => {
+}: SimulationParticlesProps) => {
   const dummy = new Object3D();
 
   const backgroundColor =
@@ -52,6 +52,7 @@ const ThreeRender = ({
 
   const mouseDownRef = useRef(false);
   const mousePositionRef = useRef({ u: 0, v: 0 }); // Using UV coordinates
+  const mouseOverRef = useRef(false);
 
   const columns = Math.floor(dimensions.width / particleSize);
   const rows = Math.floor(dimensions.height / particleSize);
@@ -115,11 +116,37 @@ const ThreeRender = ({
     // Update the last frame timestamp
     lastTimeRef.current = currentTime;
 
+    let isCellUnderMouse = (col: number, row: number) => {
+      void col;
+      void row;
+      return false;
+    };
+
+    if (mouseOverRef.current) {
+      const u = mousePositionRef.current.u;
+      const v = mousePositionRef.current.v;
+
+      const mouseXWorld = u * dimensions.width;
+      const mouseYWorld = (1 - v) * dimensions.height; // Flip Y axis
+
+      const mouseColumn = Math.floor(mouseXWorld / particleSize);
+      const mouseRow = Math.floor(mouseYWorld / particleSize);
+
+      const extent = Math.floor(Number(strokeSizeRef.current) / 2);
+      const radius = extent;
+      const radiusSquared = radius * radius;
+
+      isCellUnderMouse = (col: number, row: number) => {
+        const dx = col - mouseColumn;
+        const dy = row - mouseRow;
+        return dx * dx + dy * dy <= radiusSquared;
+      };
+    }
+
     if (mouseDownRef.current) {
       const u = mousePositionRef.current.u;
       const v = mousePositionRef.current.v;
 
-      // Map UV coordinates to world coordinates
       const mouseXWorld = u * dimensions.width;
       const mouseYWorld = (1 - v) * dimensions.height; // Flip Y axis
 
@@ -159,10 +186,19 @@ const ThreeRender = ({
       dummy.updateMatrix();
       meshRef.current.setMatrixAt(index, dummy.matrix);
 
-      // Set the color for each instance
-      const color = square.isEmpty
-        ? backgroundColor
-        : square.color ?? backgroundColor;
+      // Determine if this cell is under the mouse for preview
+      let color;
+
+      if (isCellUnderMouse(col, row)) {
+        color =
+          selectedMaterial === "Empty"
+            ? backgroundColor
+            : materialColorRef.current;
+      } else {
+        color = square.isEmpty
+          ? backgroundColor
+          : square.color ?? backgroundColor;
+      }
       meshRef.current.setColorAt(index, color);
     });
 
@@ -208,7 +244,7 @@ const ThreeRender = ({
           }
         }}
         onPointerMove={(event) => {
-          if (event.isPrimary && mouseDownRef.current) {
+          if (event.isPrimary) {
             if (event.uv) {
               const u = event.uv.x;
               const v = event.uv.y;
@@ -216,6 +252,12 @@ const ThreeRender = ({
               mousePositionRef.current = { u, v };
             }
           }
+        }}
+        onPointerEnter={() => {
+          mouseOverRef.current = true;
+        }}
+        onPointerLeave={() => {
+          mouseOverRef.current = false;
         }}
         position={[dimensions.width / 2, dimensions.height / 2, 0]}
       >
@@ -229,11 +271,11 @@ const ThreeRender = ({
           args={[undefined, undefined, gridRef.current?.grid.length || 0]}
         >
           <planeGeometry args={[particleSize, particleSize]} />
-          <meshBasicMaterial color={0xffffff} />
+          <meshBasicMaterial />
         </instancedMesh>
       </group>
     </>
   );
 };
 
-export default ThreeRender;
+export default SimulationParticles;
