@@ -122,11 +122,6 @@ const SimulationParticles = ({
       return false;
     };
 
-    const isCellUnderMouse = (col: number, row: number) => {
-      const dx = col - mouseColumn;
-      const dy = row - mouseRow;
-      return dx * dx + dy * dy <= radiusSquared;
-    };
     if (mouseOverRef.current) {
       const u = mousePositionRef.current.u;
       const v = mousePositionRef.current.v;
@@ -141,17 +136,7 @@ const SimulationParticles = ({
       const radius = extent;
       const radiusSquared = radius * radius;
 
-      isCellUnderMouse = ({
-        col,
-        row,
-        mouseColumn,
-        mouseRow,
-      }: {
-        col: number;
-        row: number;
-        mouseColumn: number;
-        mouseRow: number;
-      }) => {
+      isCellUnderMouse = (col: number, row: number) => {
         const dx = col - mouseColumn;
         const dy = row - mouseRow;
         return dx * dx + dy * dy <= radiusSquared;
