@@ -60,7 +60,7 @@ const MaterialOptions = ({
           <Input
             type="color"
             id="colorPicker"
-            value={`${materialColor.getHexString()}`}
+            value={`#${materialColor.getHexString()}`}
             onChange={handleMaterialColorChange}
             className="cursor-pointer w-12 h-12 p-0"
           />
