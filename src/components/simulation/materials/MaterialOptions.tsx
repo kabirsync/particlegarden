@@ -24,7 +24,7 @@ const MaterialOptions = ({
 }: MaterialOptionsProps) => {
   const [materialColor, setMaterialColor] = useState(sandColor);
   const [strokeSize, setStrokeSize] = useState(6);
-  const [maxVelocity, setMaxVelocity] = useState(100);
+  const [maxVelocity, setMaxVelocity] = useState(10);
   const [initialVelocity, setInitialVelocity] = useState(0.1);
   const [acceleration, setAcceleration] = useState(0.5);
 
@@ -96,7 +96,7 @@ const MaterialOptions = ({
               className="py-1"
               value={[maxVelocity]}
               min={0}
-              max={10}
+              max={20}
               step={0.000001}
               onValueChange={(values: number[]) => {
                 handleMaxVelocityChange(values[0]);
@@ -128,7 +128,7 @@ const MaterialOptions = ({
               className="py-1"
               value={[acceleration]}
               min={0}
-              max={1}
+              max={5}
               step={0.000001}
               onValueChange={(values: number[]) => {
                 handleAccelerationChange(values[0]);

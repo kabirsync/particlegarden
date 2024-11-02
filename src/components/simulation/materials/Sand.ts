@@ -15,7 +15,7 @@ class Sand extends Particle {
     index: number,
     {
       color = sandColor,
-      maxVelocity = 100,
+      maxVelocity = 10,
       acceleration = 0.5,
       initialVelocity = 0.1,
     }: SandProps
