@@ -10,13 +10,11 @@ type MaterialButtonProps = {
   handleSelectedMaterialChange: (
     newSelectedMaterial: MaterialOptionsType
   ) => void;
-  // setSelectedMaterial: Dispatch<SetStateAction<MaterialOptionsType>>;
 };
 
 const MaterialButton = ({
   material,
   isSelected,
-  // setSelectedMaterial,
   handleSelectedMaterialChange,
 }: MaterialButtonProps) => {
   return (

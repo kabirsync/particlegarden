@@ -7,15 +7,7 @@ type WoodProps = {
 };
 
 class Wood extends Particle {
-  constructor(
-    index: number,
-    {
-      color = woodColor,
-    }: //   maxSpeed = 10,
-    //   acceleration = 0.5,
-    //   initialVelocity = 0.1,
-    WoodProps
-  ) {
+  constructor(index: number, { color = woodColor }: WoodProps) {
     super(index, {
       color: varyColor(color),
     });

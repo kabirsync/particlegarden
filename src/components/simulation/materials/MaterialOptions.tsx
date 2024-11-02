@@ -1,18 +1,15 @@
 import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
-// import { sandColor } from "@/lib/colors";
 import { Color } from "three";
 import { useState } from "react";
 
 type MaterialOptionsProps = {
-  // updateMaterialColor: (color: Color) => void;
   updateStrokeSize: (strokeSize: number) => void;
   updateMaxSpeed: (maxSpeed: number) => void;
   updateInitialVelocity: (initialVelocity: number) => void;
   updateAcceleration: (acceleration: number) => void;
   selectedMaterial: MaterialOptionsType;
-  // initialMaterialColor: Color;
   handleMaterialColorChange: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
@@ -21,12 +18,10 @@ type MaterialOptionsProps = {
 
 const MaterialOptions = ({
   updateStrokeSize,
-  // updateMaterialColor,
   selectedMaterial,
   updateMaxSpeed,
   updateInitialVelocity,
   updateAcceleration,
-  // initialMaterialColor,
   handleMaterialColorChange,
   materialColor,
 }: MaterialOptionsProps) => {
@@ -71,7 +66,6 @@ const MaterialOptions = ({
           }}
         />
       </div>
-      {/* {["Sand"].includes(selectedMaterial) && ( */}
       <div>
         {["Sand", "Wood"].includes(selectedMaterial) && (
           <div className="flex flex-col gap-2">
@@ -140,7 +134,6 @@ const MaterialOptions = ({
           </>
         )}
       </div>
-      {/* )} */}
     </div>
   );
 };
