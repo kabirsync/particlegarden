@@ -15,12 +15,20 @@ export type MaterialOptionsType =
   | (typeof materialOptions)[number]
   | "EmptyPreview";
 
-type MaterialProps = { color?: Color };
+type MaterialProps = {
+  color?: Color;
+  maxVelocity?: number;
+  initialVelocity?: number;
+  acceleration?: number;
+};
 
 export const MaterialMapping: Record<
   MaterialOptionsType,
   {
-    new (index: number, { color }: MaterialProps): MaterialClasses;
+    new (
+      index: number,
+      { color, maxVelocity, initialVelocity, acceleration }: MaterialProps
+    ): MaterialClasses;
   }
 > = {
   // [3] New materials must be added here

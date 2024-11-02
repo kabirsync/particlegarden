@@ -22,6 +22,9 @@ type SimulationProps = {
   selectedMaterial: MaterialOptionsType | "EmptyPreview";
   materialColorRef: MutableRefObject<Color>;
   strokeSizeRef: MutableRefObject<number>;
+  maxVelocityRef: MutableRefObject<number>;
+  initialVelocityRef: MutableRefObject<number>;
+  accelerationRef: MutableRefObject<number>;
 };
 
 const Simulation = ({
@@ -31,6 +34,9 @@ const Simulation = ({
   selectedMaterial,
   strokeSizeRef,
   materialColorRef,
+  maxVelocityRef,
+  initialVelocityRef,
+  accelerationRef,
 }: Readonly<SimulationProps>) => {
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
@@ -86,6 +92,9 @@ const Simulation = ({
           selectedMaterial={selectedMaterial}
           particleSize={particleSize}
           theme={theme}
+          maxVelocityRef={maxVelocityRef}
+          initialVelocityRef={initialVelocityRef}
+          accelerationRef={accelerationRef}
         />
       </Canvas>
     </div>

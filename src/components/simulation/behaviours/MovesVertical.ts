@@ -3,29 +3,29 @@ import { Grid } from "../Grid";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
 
 export class MovesVertical extends Behaviour {
-  maxSpeed: number;
+  maxVelocity: number;
   acceleration: number;
   velocity: number;
 
   constructor({
-    maxSpeed = 0,
+    maxVelocity = 0,
     acceleration = 0,
-    velocity = 0,
+    initialVelocity = 0,
   }: {
-    maxSpeed?: number;
+    maxVelocity?: number;
     acceleration?: number;
-    velocity?: number;
+    initialVelocity?: number;
   }) {
     super();
-    this.maxSpeed = maxSpeed;
+    this.maxVelocity = maxVelocity;
     this.acceleration = acceleration;
-    this.velocity = velocity;
+    this.velocity = initialVelocity;
   }
 
   updateVelocity() {
     const newVelocity =
       Math.sign(this.velocity + this.acceleration) *
-      Math.min(Math.abs(this.velocity + this.acceleration), this.maxSpeed);
+      Math.min(Math.abs(this.velocity + this.acceleration), this.maxVelocity);
     this.velocity = newVelocity;
   }
 
@@ -34,10 +34,10 @@ export class MovesVertical extends Behaviour {
   }
 
   nextVelocity() {
-    if (this.maxSpeed === 0) return 0;
+    if (this.maxVelocity === 0) return 0;
     return (
       Math.sign(this.velocity + this.acceleration) *
-      Math.min(Math.abs(this.velocity + this.acceleration), this.maxSpeed)
+      Math.min(Math.abs(this.velocity + this.acceleration), this.maxVelocity)
     );
   }
 
@@ -52,7 +52,7 @@ export class MovesVertical extends Behaviour {
   update(particle: Particle, grid: Grid, params: Params) {
     if (!this.shouldUpdate(params)) return;
 
-    if (this.maxSpeed === 0) {
+    if (this.maxVelocity === 0) {
       particle.modified = false;
       return;
     }
