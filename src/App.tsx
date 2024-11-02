@@ -25,7 +25,7 @@ function App() {
   const [particleSize, setParticleSize] = useState(4);
   const materialColorRef = useRef(sandColor);
   const strokeSizeRef = useRef(10);
-  const maxVelocityRef = useRef(10);
+  const maxSpeedRef = useRef(10);
   const initialVelocityRef = useRef(0.1);
   const accelerationRef = useRef(0.5);
   const [selectedMaterial, setSelectedMaterial] =
@@ -57,8 +57,8 @@ function App() {
   const updateStrokeSize = (strokeSize: number) => {
     strokeSizeRef.current = strokeSize;
   };
-  const updateMaxVelocity = (maxVelocity: number) => {
-    maxVelocityRef.current = maxVelocity;
+  const updateMaxSpeed = (maxSpeed: number) => {
+    maxSpeedRef.current = maxSpeed;
   };
   const updateInitialVelocity = (initialVelocity: number) => {
     initialVelocityRef.current = initialVelocity;
@@ -97,7 +97,7 @@ function App() {
                 selectedMaterial={selectedMaterial}
                 strokeSizeRef={strokeSizeRef}
                 materialColorRef={materialColorRef}
-                maxVelocityRef={maxVelocityRef}
+                maxSpeedRef={maxSpeedRef}
                 initialVelocityRef={initialVelocityRef}
                 accelerationRef={accelerationRef}
               />
@@ -146,7 +146,7 @@ function App() {
                 updateStrokeSize={updateStrokeSize}
                 // updateMaterialColor={updateMaterialColor}
                 selectedMaterial={selectedMaterial}
-                updateMaxVelocity={updateMaxVelocity}
+                updateMaxSpeed={updateMaxSpeed}
                 updateInitialVelocity={updateInitialVelocity}
                 updateAcceleration={updateAcceleration}
                 handleMaterialColorChange={handleMaterialColorChange}

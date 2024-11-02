@@ -19,7 +19,7 @@ export type MaterialOptionsType =
 
 type MaterialProps = {
   color?: Color;
-  maxVelocity?: number;
+  maxSpeed?: number;
   initialVelocity?: number;
   acceleration?: number;
 };
@@ -44,7 +44,7 @@ export const MaterialMapping: Record<
   {
     new (
       index: number,
-      { color, maxVelocity, initialVelocity, acceleration }: MaterialProps
+      { color, maxSpeed, initialVelocity, acceleration }: MaterialProps
     ): MaterialClasses;
   }
 > = {

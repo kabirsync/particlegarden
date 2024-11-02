@@ -5,7 +5,7 @@ import { MovesVertical } from "@/components/simulation/behaviours/MovesVertical"
 
 type SandProps = {
   color?: Color;
-  maxVelocity?: number;
+  maxSpeed?: number;
   acceleration?: number;
   initialVelocity?: number;
 };
@@ -15,7 +15,7 @@ class Sand extends Particle {
     index: number,
     {
       color = sandColor,
-      maxVelocity = 10,
+      maxSpeed = 10,
       acceleration = 0.5,
       initialVelocity = 0.1,
     }: SandProps
@@ -24,7 +24,7 @@ class Sand extends Particle {
       color: varyColor(color),
       behaviours: [
         new MovesVertical({
-          maxVelocity,
+          maxSpeed,
           acceleration,
           initialVelocity,
         }),

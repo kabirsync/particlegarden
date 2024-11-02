@@ -11,7 +11,7 @@ class Wood extends Particle {
     index: number,
     {
       color = woodColor,
-    }: //   maxVelocity = 10,
+    }: //   maxSpeed = 10,
     //   acceleration = 0.5,
     //   initialVelocity = 0.1,
     WoodProps

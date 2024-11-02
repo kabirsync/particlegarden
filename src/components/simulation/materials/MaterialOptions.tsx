@@ -8,7 +8,7 @@ import { useState } from "react";
 type MaterialOptionsProps = {
   // updateMaterialColor: (color: Color) => void;
   updateStrokeSize: (strokeSize: number) => void;
-  updateMaxVelocity: (maxVelocity: number) => void;
+  updateMaxSpeed: (maxSpeed: number) => void;
   updateInitialVelocity: (initialVelocity: number) => void;
   updateAcceleration: (acceleration: number) => void;
   selectedMaterial: MaterialOptionsType;
@@ -23,7 +23,7 @@ const MaterialOptions = ({
   updateStrokeSize,
   // updateMaterialColor,
   selectedMaterial,
-  updateMaxVelocity,
+  updateMaxSpeed,
   updateInitialVelocity,
   updateAcceleration,
   // initialMaterialColor,
@@ -31,7 +31,7 @@ const MaterialOptions = ({
   materialColor,
 }: MaterialOptionsProps) => {
   const [strokeSize, setStrokeSize] = useState(6);
-  const [maxVelocity, setMaxVelocity] = useState(10);
+  const [maxSpeed, setMaxSpeed] = useState(10);
   const [initialVelocity, setInitialVelocity] = useState(0.1);
   const [acceleration, setAcceleration] = useState(0.5);
 
@@ -39,9 +39,9 @@ const MaterialOptions = ({
     setStrokeSize(value);
     updateStrokeSize(value);
   };
-  const handleMaxVelocityChange = (value: number) => {
-    setMaxVelocity(value);
-    updateMaxVelocity(value);
+  const handleMaxSpeedChange = (value: number) => {
+    setMaxSpeed(value);
+    updateMaxSpeed(value);
   };
   const handleInitialVelocityChange = (value: number) => {
     setInitialVelocity(value);
@@ -90,18 +90,18 @@ const MaterialOptions = ({
         {["Sand"].includes(selectedMaterial) && (
           <>
             <div className="flex flex-col gap-2">
-              <label htmlFor="maxVelocity" className="text-xs">
-                Max Velocity: {maxVelocity}
+              <label htmlFor="maxSpeed" className="text-xs">
+                Max Speed: {maxSpeed}
               </label>
               <Slider
-                id="maxVelocity"
+                id="maxSpeed"
                 className="py-1"
-                value={[maxVelocity]}
+                value={[maxSpeed]}
                 min={0}
                 max={20}
                 step={0.000001}
                 onValueChange={(values: number[]) => {
-                  handleMaxVelocityChange(values[0]);
+                  handleMaxSpeedChange(values[0]);
                 }}
               />
             </div>
@@ -113,7 +113,7 @@ const MaterialOptions = ({
                 id="initialVelocity"
                 className="py-1"
                 value={[initialVelocity]}
-                min={0}
+                min={-10}
                 max={10}
                 step={0.000001}
                 onValueChange={(values: number[]) => {
@@ -129,7 +129,7 @@ const MaterialOptions = ({
                 id="acceleration"
                 className="py-1"
                 value={[acceleration]}
-                min={0}
+                min={-5}
                 max={5}
                 step={0.000001}
                 onValueChange={(values: number[]) => {
