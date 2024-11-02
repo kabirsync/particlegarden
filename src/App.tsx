@@ -8,7 +8,7 @@ import SimulationOptionsButton from "@/components/simulation/SimulationOptionsBu
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
-import { sandColor } from "@/lib/colors";
+import { sandColor, woodColor } from "@/lib/colors";
 import { LoaderIcon, Pause, Play } from "lucide-react";
 import { Color } from "three";
 import React, { Suspense, useRef, useState } from "react";
@@ -25,31 +25,50 @@ function App() {
   const [particleSize, setParticleSize] = useState(4);
   const materialColorRef = useRef(sandColor);
   const strokeSizeRef = useRef(10);
-  const maxVelocityRef = useRef(10);
+  const maxSpeedRef = useRef(10);
   const initialVelocityRef = useRef(0.1);
   const accelerationRef = useRef(0.5);
   const [selectedMaterial, setSelectedMaterial] =
     useState<MaterialOptionsType>("Sand");
+  const [materialColor, setMaterialColor] = useState(sandColor);
 
   const toggleIsPlaying = () => {
     setIsPlaying(!isPlaying);
   };
+  const handleSelectedMaterialChange = (
+    newSelectedMaterial: MaterialOptionsType
+  ) => {
+    if (newSelectedMaterial === "Wood") {
+      setMaterialColor(woodColor);
+      materialColorRef.current = woodColor;
+    } else if (newSelectedMaterial === "Sand") {
+      setMaterialColor(sandColor);
+      materialColorRef.current = sandColor;
+    }
 
-  const updateMaterialColor = (color: Color) => {
-    materialColorRef.current = color;
+    setSelectedMaterial(newSelectedMaterial);
   };
 
   const updateStrokeSize = (strokeSize: number) => {
     strokeSizeRef.current = strokeSize;
   };
-  const updateMaxVelocity = (maxVelocity: number) => {
-    maxVelocityRef.current = maxVelocity;
+  const updateMaxSpeed = (maxSpeed: number) => {
+    maxSpeedRef.current = maxSpeed;
   };
   const updateInitialVelocity = (initialVelocity: number) => {
     initialVelocityRef.current = initialVelocity;
   };
   const updateAcceleration = (acceleration: number) => {
     accelerationRef.current = acceleration;
+  };
+
+  const handleMaterialColorChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value; // Access event.target correctly
+    const newColor = new Color(value);
+    setMaterialColor(newColor);
+    materialColorRef.current = newColor;
   };
 
   return (
@@ -73,7 +92,7 @@ function App() {
                 selectedMaterial={selectedMaterial}
                 strokeSizeRef={strokeSizeRef}
                 materialColorRef={materialColorRef}
-                maxVelocityRef={maxVelocityRef}
+                maxSpeedRef={maxSpeedRef}
                 initialVelocityRef={initialVelocityRef}
                 accelerationRef={accelerationRef}
               />
@@ -110,7 +129,7 @@ function App() {
                     key={material}
                     material={material}
                     isSelected={selectedMaterial === material}
-                    setSelectedMaterial={setSelectedMaterial}
+                    handleSelectedMaterialChange={handleSelectedMaterialChange}
                   />
                 );
               })}
@@ -118,11 +137,12 @@ function App() {
             <div className="flex-1  p-4">
               <MaterialOptions
                 updateStrokeSize={updateStrokeSize}
-                updateMaterialColor={updateMaterialColor}
                 selectedMaterial={selectedMaterial}
-                updateMaxVelocity={updateMaxVelocity}
+                updateMaxSpeed={updateMaxSpeed}
                 updateInitialVelocity={updateInitialVelocity}
                 updateAcceleration={updateAcceleration}
+                handleMaterialColorChange={handleMaterialColorChange}
+                materialColor={materialColor}
               />
             </div>
           </div>

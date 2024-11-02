@@ -33,7 +33,7 @@ interface SimulationParticlesProps {
   strokeSizeRef: MutableRefObject<number>;
   selectedMaterial: MaterialOptionsType;
   particleSize: number;
-  maxVelocityRef: MutableRefObject<number>;
+  maxSpeedRef: MutableRefObject<number>;
   initialVelocityRef: MutableRefObject<number>;
   accelerationRef: MutableRefObject<number>;
 }
@@ -47,7 +47,7 @@ const SimulationParticles = ({
   setFPS,
   strokeSizeRef,
   selectedMaterial,
-  maxVelocityRef,
+  maxSpeedRef,
   initialVelocityRef,
   accelerationRef,
 }: SimulationParticlesProps) => {
@@ -127,7 +127,7 @@ const SimulationParticles = ({
                 row,
                 new MaterialClass(row * columns + col, {
                   color: materialColorRef.current,
-                  maxVelocity: maxVelocityRef.current,
+                  maxSpeed: maxSpeedRef.current,
                   initialVelocity: initialVelocityRef.current,
                   acceleration: accelerationRef.current,
                 })

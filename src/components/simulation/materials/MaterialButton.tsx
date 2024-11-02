@@ -1,37 +1,27 @@
-import { MaterialOptionsType } from "@/components/simulation/materials/Material";
+import {
+  getMaterialIcon,
+  MaterialOptionsType,
+} from "@/components/simulation/materials/Material";
 import { Button } from "@/components/ui/button";
-import { Circle, Grip } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
 
 type MaterialButtonProps = {
   material: MaterialOptionsType;
   isSelected: boolean;
-  setSelectedMaterial: Dispatch<SetStateAction<MaterialOptionsType>>;
-};
-
-const getMaterialIcon = (material: MaterialOptionsType) => {
-  switch (material) {
-    case "Sand":
-      return <Grip className="h-3 w-3 text-yellow-600" />;
-    case "Empty":
-      return <Circle className="h-3 w-3" />;
-    // case "Fire":
-    //   return <Leaf className="h-3 w-3 text-green-600" />;
-    default:
-      return null;
-  }
+  handleSelectedMaterialChange: (
+    newSelectedMaterial: MaterialOptionsType
+  ) => void;
 };
 
 const MaterialButton = ({
   material,
   isSelected,
-  setSelectedMaterial,
+  handleSelectedMaterialChange,
 }: MaterialButtonProps) => {
   return (
     <Button
       className="text-xs flex justify-center"
       variant={isSelected ? "secondary" : "outline"}
-      onClick={() => setSelectedMaterial(material)}
+      onClick={() => handleSelectedMaterialChange(material)}
     >
       {getMaterialIcon(material)} {material}
     </Button>
