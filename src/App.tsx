@@ -88,14 +88,7 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="flex-1  border-r md:border-r-0 md:border-b border-zinc-400 dark:border-zinc-800 p-4">
-              <MaterialOptions
-                updateStrokeSize={updateStrokeSize}
-                updateMaterialColor={updateMaterialColor}
-                selectedMaterial={selectedMaterial}
-              />
-            </div>
-            <div className="flex-1 1 grid grid-cols-1 sm:grid-cols-2 content-start gap-4 p-3">
+            <div className="flex-1 1 grid grid-cols-1 sm:grid-cols-2 content-start gap-4 p-3  border-r md:border-r-0 md:border-b border-zinc-400 dark:border-zinc-800">
               {materialOptions.map((material) => {
                 return (
                   <MaterialButton
@@ -106,6 +99,13 @@ function App() {
                   />
                 );
               })}
+            </div>{" "}
+            <div className="flex-1  p-4">
+              <MaterialOptions
+                updateStrokeSize={updateStrokeSize}
+                updateMaterialColor={updateMaterialColor}
+                selectedMaterial={selectedMaterial}
+              />
             </div>
           </div>
         </div>

@@ -12,7 +12,11 @@ class Sand extends Particle {
     super(index, {
       color: varyColor(color),
       behaviours: [
-        new MovesVertical({ maxSpeed: 9, acceleration: 0.4, velocity: 0.1 }),
+        new MovesVertical({
+          maxSpeed: 100,
+          acceleration: 0.00001,
+          velocity: 0.04,
+        }),
       ],
     });
   }
