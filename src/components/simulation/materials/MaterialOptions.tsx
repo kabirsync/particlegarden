@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Color } from "three";
 import { useState } from "react";
+import { Label } from "@/components/ui/label";
 
 type MaterialOptionsProps = {
   updateStrokeSize: (strokeSize: number) => void;
@@ -50,9 +51,9 @@ const MaterialOptions = ({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-2">
-        <label htmlFor="strokeSize" className="text-xs">
+        <Label htmlFor="strokeSize" className="text-xs">
           Stroke Size
-        </label>
+        </Label>
         <Slider
           id="strokeSize"
           className="py-1"
@@ -69,9 +70,9 @@ const MaterialOptions = ({
       <div>
         {["Sand", "Wood"].includes(selectedMaterial) && (
           <div className="flex flex-col gap-2">
-            <label htmlFor="colorPicker" className="text-xs">
+            <Label htmlFor="colorPicker" className="text-xs">
               Choose a color:
-            </label>
+            </Label>
             <Input
               type="color"
               id="colorPicker"
@@ -82,11 +83,30 @@ const MaterialOptions = ({
           </div>
         )}
         {["Sand"].includes(selectedMaterial) && (
-          <>
+          <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
-              <label htmlFor="maxSpeed" className="text-xs">
-                Max Speed: {maxSpeed}
-              </label>
+              <Label htmlFor="initialVelocity" className="text-xs">
+                <div className="flex items-center gap-3">
+                  <span>Max Speed : </span>
+                  <Input
+                    className="text-xs h-8 w-min"
+                    type="number"
+                    min={0}
+                    max={20}
+                    value={maxSpeed}
+                    onChange={(e) => {
+                      if (Number(e.target.value) > 20)
+                        handleMaxSpeedChange(Number(20));
+                      else if (Number(e.target.value) < 0) {
+                        handleMaxSpeedChange(Number(0));
+                      } else {
+                        handleMaxSpeedChange(Number(e.target.value));
+                      }
+                    }}
+                    step={0.00001}
+                  />
+                </div>
+              </Label>
               <Slider
                 id="maxSpeed"
                 className="py-1"
@@ -100,9 +120,28 @@ const MaterialOptions = ({
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="initialVelocity" className="text-xs">
-                Initial Velocity: {initialVelocity}
-              </label>
+              <Label htmlFor="initialVelocity" className="text-xs">
+                <div className="flex items-center gap-3">
+                  <span>Initial Velocity: </span>
+                  <Input
+                    className="text-xs h-8 w-min"
+                    type="number"
+                    min={-20}
+                    max={20}
+                    value={initialVelocity}
+                    onChange={(e) => {
+                      if (Number(e.target.value) > 20)
+                        handleInitialVelocityChange(Number(20));
+                      else if (Number(e.target.value) < -20) {
+                        handleInitialVelocityChange(Number(-20));
+                      } else {
+                        handleInitialVelocityChange(Number(e.target.value));
+                      }
+                    }}
+                    step={0.00001}
+                  />
+                </div>
+              </Label>
               <Slider
                 id="initialVelocity"
                 className="py-1"
@@ -116,9 +155,28 @@ const MaterialOptions = ({
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="acceleration" className="text-xs">
-                Acceleration: {acceleration}
-              </label>
+              <Label htmlFor="acceleration" className="text-xs">
+                <div className="flex items-center gap-3">
+                  <span>Acceleration: </span>
+                  <Input
+                    className="text-xs h-8 w-min"
+                    type="number"
+                    min={-5}
+                    max={5}
+                    value={acceleration}
+                    onChange={(e) => {
+                      if (Number(e.target.value) > 5)
+                        handleAccelerationChange(Number(5));
+                      else if (Number(e.target.value) < -5) {
+                        handleAccelerationChange(Number(-5));
+                      } else {
+                        handleAccelerationChange(Number(e.target.value));
+                      }
+                    }}
+                    step={0.00001}
+                  />
+                </div>
+              </Label>
               <Slider
                 id="acceleration"
                 className="py-1"
@@ -131,7 +189,7 @@ const MaterialOptions = ({
                 }}
               />
             </div>
-          </>
+          </div>
         )}
       </div>
     </div>

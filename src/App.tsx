@@ -35,11 +35,6 @@ function App() {
   const toggleIsPlaying = () => {
     setIsPlaying(!isPlaying);
   };
-
-  // const updateMaterialColor = (color: Color) => {
-
-  // };
-
   const handleSelectedMaterialChange = (
     newSelectedMaterial: MaterialOptionsType
   ) => {
@@ -134,7 +129,6 @@ function App() {
                     key={material}
                     material={material}
                     isSelected={selectedMaterial === material}
-                    // setSelectedMaterial={setSelectedMaterial}
                     handleSelectedMaterialChange={handleSelectedMaterialChange}
                   />
                 );
@@ -142,9 +136,7 @@ function App() {
             </div>
             <div className="flex-1  p-4">
               <MaterialOptions
-                // initialMaterialColor={materialColorRef.current}
                 updateStrokeSize={updateStrokeSize}
-                // updateMaterialColor={updateMaterialColor}
                 selectedMaterial={selectedMaterial}
                 updateMaxSpeed={updateMaxSpeed}
                 updateInitialVelocity={updateInitialVelocity}
