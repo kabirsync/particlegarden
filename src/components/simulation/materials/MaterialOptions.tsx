@@ -25,9 +25,7 @@ const MaterialOptions = ({
   const [materialColor, setMaterialColor] = useState(sandColor);
   const [strokeSize, setStrokeSize] = useState(6);
   const [maxVelocity, setMaxVelocity] = useState(100);
-
   const [initialVelocity, setInitialVelocity] = useState(0.1);
-
   const [acceleration, setAcceleration] = useState(0.5);
 
   const handleMaterialColorChange = (
@@ -90,49 +88,46 @@ const MaterialOptions = ({
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="strokeSize" className="text-xs">
-              Max Velocity
+            <label htmlFor="maxVelocity" className="text-xs">
+              Max Velocity: {maxVelocity}
             </label>
             <Slider
-              id="strokeSize"
+              id="maxVelocity"
               className="py-1"
-              defaultValue={[10]}
               value={[maxVelocity]}
-              min={1}
-              max={50}
-              step={1}
+              min={0}
+              max={10}
+              step={0.000001}
               onValueChange={(values: number[]) => {
                 handleMaxVelocityChange(values[0]);
               }}
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="strokeSize" className="text-xs">
-              Initial Velocity
+            <label htmlFor="initialVelocity" className="text-xs">
+              Initial Velocity: {initialVelocity}
             </label>
             <Slider
-              id="strokeSize"
+              id="initialVelocity"
               className="py-1"
-              defaultValue={[10]}
               value={[initialVelocity]}
-              min={1}
-              max={50}
-              step={1}
+              min={0}
+              max={10}
+              step={0.000001}
               onValueChange={(values: number[]) => {
                 handleInitialVelocityChange(values[0]);
               }}
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="strokeSize" className="text-xs">
-              Acceleration
+            <label htmlFor="acceleration" className="text-xs">
+              Acceleration: {acceleration}
             </label>
             <Slider
-              id="strokeSize"
+              id="acceleration"
               className="py-1"
-              // defaultValue={[1]}
               value={[acceleration]}
-              min={0.000001}
+              min={0}
               max={1}
               step={0.000001}
               onValueChange={(values: number[]) => {

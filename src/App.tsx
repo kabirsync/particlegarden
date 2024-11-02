@@ -114,7 +114,7 @@ function App() {
                   />
                 );
               })}
-            </div>{" "}
+            </div>
             <div className="flex-1  p-4">
               <MaterialOptions
                 updateStrokeSize={updateStrokeSize}
