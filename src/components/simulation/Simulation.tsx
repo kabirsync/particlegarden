@@ -19,7 +19,7 @@ type SimulationProps = {
   isPlaying: boolean;
   setFPS: Dispatch<SetStateAction<number>>;
   particleSize: number;
-  selectedMaterial: MaterialOptionsType | "EmptyPreview";
+  selectedMaterial: MaterialOptionsType;
   materialColorRef: MutableRefObject<Color>;
   strokeSizeRef: MutableRefObject<number>;
   maxSpeedRef: MutableRefObject<number>;

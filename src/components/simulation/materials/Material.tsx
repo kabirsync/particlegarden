@@ -1,4 +1,3 @@
-import EmptyPreview from "@/components/simulation/materials/EmptyPreview";
 import Water from "@/components/simulation/materials/Water";
 import Wood from "@/components/simulation/materials/Wood";
 import { Circle, Droplet, Grip, TreePine } from "lucide-react";
@@ -11,14 +10,12 @@ import Sand from "./Sand";
 // ------- Make sure to add case to handleSelectMaterialChange -----
 
 // [1] New materials must be added here
-type MaterialClasses = Sand | Wood | Water | Empty | EmptyPreview;
+type MaterialClasses = Sand | Wood | Water | Empty;
 
 // [2] New materials must be added here
 
 export const materialOptions = ["Sand", "Wood", "Water", "Empty"] as const;
-export type MaterialOptionsType =
-  | (typeof materialOptions)[number]
-  | "EmptyPreview";
+export type MaterialOptionsType = (typeof materialOptions)[number];
 
 type MaterialProps = {
   color?: Color;
@@ -58,5 +55,4 @@ export const MaterialMapping: Record<
   Wood,
   Water,
   Empty,
-  EmptyPreview,
 };
