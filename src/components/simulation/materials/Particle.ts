@@ -4,30 +4,32 @@ import { Color } from "three";
 
 type ParticleOptions = {
   color: Color;
-  isEmpty?: boolean;
   behaviours?: Behaviour[];
+  stateOfMatter: StateOfMatter;
 };
 
 export type Params = {
   direction?: 1 | -1;
 };
 
+export type StateOfMatter = "solid" | "liquid" | "gas" | "empty";
+
 class Particle {
   index: number;
   color: Color;
-  isEmpty: boolean;
+  stateOfMatter: StateOfMatter;
   behaviours: Behaviour[];
   modified: boolean;
 
   constructor(
     index: number,
-    { color, isEmpty = false, behaviours = [] }: ParticleOptions
+    { color, stateOfMatter, behaviours = [] }: ParticleOptions
   ) {
     this.index = index;
     this.color = color;
-    this.isEmpty = isEmpty;
     this.behaviours = behaviours;
     this.modified = false;
+    this.stateOfMatter = stateOfMatter;
   }
 
   update(grid: Grid, params: Params) {

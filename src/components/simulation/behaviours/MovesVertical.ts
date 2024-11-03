@@ -2,7 +2,7 @@ import { Behaviour } from "@/components/simulation/behaviours/Behaviour";
 import { Grid } from "../Grid";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
 
-export class MovesVertical extends Behaviour {
+export abstract class MovesVertical extends Behaviour {
   maxSpeed: number;
   acceleration: number;
   velocity: number;
@@ -85,35 +85,8 @@ export class MovesVertical extends Behaviour {
   }
 
   canPassThrough(particle: Particle) {
-    return particle?.isEmpty ?? false;
+    return particle?.stateOfMatter === "empty";
   }
 
-  moveParticle(particle: Particle, grid: Grid): number {
-    const i = particle.index;
-    const column = i % grid.columns;
-    const nextDelta = Math.sign(this.velocity) * grid.columns;
-
-    const nextVertical = i + nextDelta;
-    if (this.canPassThrough(grid.grid[nextVertical])) {
-      grid.swap(i, nextVertical);
-      return nextVertical;
-    }
-
-    const nextVerticalLeft = nextVertical - 1;
-    if (column > 0 && this.canPassThrough(grid.grid[nextVerticalLeft])) {
-      grid.swap(i, nextVerticalLeft);
-      return nextVerticalLeft;
-    }
-
-    const nextVerticalRight = nextVertical + 1;
-    if (
-      column < grid.columns - 1 &&
-      this.canPassThrough(grid.grid[nextVerticalRight])
-    ) {
-      grid.swap(i, nextVerticalRight);
-      return nextVerticalRight;
-    }
-
-    return i;
-  }
+  abstract moveParticle(particle: Particle, grid: Grid): number;
 }

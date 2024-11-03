@@ -62,7 +62,7 @@ export class Grid {
           const index = rowOffset + col;
           const particle = grid[index];
 
-          if (particle.isEmpty) continue;
+          if (particle.stateOfMatter === "empty") continue;
 
           particle.update(this, params);
         }
@@ -71,7 +71,7 @@ export class Grid {
           const index = rowOffset + col;
           const particle = grid[index];
 
-          if (particle.isEmpty) continue;
+          if (particle.stateOfMatter === "empty") continue;
 
           particle.update(this, params);
         }
@@ -91,7 +91,8 @@ export class Grid {
       a >= this.grid.length ||
       b < 0 ||
       b >= this.grid.length ||
-      (this.grid[a].isEmpty && this.grid[b].isEmpty)
+      (this.grid[a].stateOfMatter === "empty" &&
+        this.grid[b].stateOfMatter === "empty")
     ) {
       return;
     }

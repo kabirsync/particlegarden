@@ -10,6 +10,7 @@ class Wood extends Particle {
   constructor(index: number, { color = woodColor }: WoodProps) {
     super(index, {
       color: varyColor(color),
+      stateOfMatter: "solid",
     });
   }
 }

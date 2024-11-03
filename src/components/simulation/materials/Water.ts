@@ -1,30 +1,30 @@
-import { sandColor, varyColor } from "@/lib/colors";
+import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
+import { waterColor } from "@/lib/colors";
 import { Color } from "three";
-import { MovesVerticalSolid } from "@/components/simulation/behaviours/MovesVerticalSolid";
 
-type SandProps = {
+type WaterProps = {
   color?: Color;
   maxSpeed?: number;
   acceleration?: number;
   initialVelocity?: number;
 };
 
-class Sand extends Particle {
+class Water extends Particle {
   constructor(
     index: number,
     {
-      color = sandColor,
+      color = waterColor,
       maxSpeed = 10,
       acceleration = 0.5,
       initialVelocity = 0.1,
-    }: SandProps
+    }: WaterProps
   ) {
     super(index, {
-      color: varyColor(color),
-      stateOfMatter: "solid",
+      color,
+      stateOfMatter: "liquid",
       behaviours: [
-        new MovesVerticalSolid({
+        new MovesVerticalWater({
           maxSpeed,
           acceleration,
           initialVelocity,
@@ -34,4 +34,4 @@ class Sand extends Particle {
   }
 }
 
-export default Sand;
+export default Water;
