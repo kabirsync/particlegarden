@@ -95,8 +95,10 @@ export class MovesVerticalWater extends Behaviour {
     const nextVertical = i + nextDelta;
     const nextVerticalLeft = nextVertical - 1;
     const nextVerticalRight = nextVertical + 1;
-    const nextLeft = i - 1;
-    const nextRight = i + 1;
+
+    // Allow user to change this
+    const nextLeft = i - Math.round(Math.random() * this.acceleration + 1.5);
+    const nextRight = i + Math.round(Math.random() * this.acceleration + 1.5);
 
     if (this.canPassThrough(grid.grid[nextVertical])) {
       grid.swap(i, nextVertical);
