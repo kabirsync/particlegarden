@@ -92,20 +92,20 @@ export class MovesVertical extends Behaviour {
     const i = particle.index;
     const column = i % grid.columns;
     const nextDelta = Math.sign(this.velocity) * grid.columns;
-
     const nextVertical = i + nextDelta;
+    const nextVerticalLeft = nextVertical - 1;
+    const nextVerticalRight = nextVertical + 1;
+
     if (this.canPassThrough(grid.grid[nextVertical])) {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
 
-    const nextVerticalLeft = nextVertical - 1;
     if (column > 0 && this.canPassThrough(grid.grid[nextVerticalLeft])) {
       grid.swap(i, nextVerticalLeft);
       return nextVerticalLeft;
     }
 
-    const nextVerticalRight = nextVertical + 1;
     if (
       column < grid.columns - 1 &&
       this.canPassThrough(grid.grid[nextVerticalRight])

@@ -97,8 +97,10 @@ export class MovesVerticalWater extends Behaviour {
     const nextVerticalRight = nextVertical + 1;
 
     // Allow user to change this
-    const nextLeft = i - Math.round(Math.random() * this.acceleration + 1.5);
-    const nextRight = i + Math.round(Math.random() * this.acceleration + 1.5);
+    const spread = 3;
+
+    const nextLeft = i - Math.ceil(Math.random() * spread);
+    const nextRight = i + Math.ceil(Math.random() * spread);
 
     if (this.canPassThrough(grid.grid[nextVertical])) {
       grid.swap(i, nextVertical);
@@ -118,14 +120,22 @@ export class MovesVerticalWater extends Behaviour {
       return nextVerticalRight;
     }
 
-    const moveHorizontal = Math.random() < 0.5 ? nextLeft : nextRight;
+    if (
+      Math.random() >= 0.5 &&
+      column > 0 + spread &&
+      this.canPassThrough(grid.grid[nextLeft])
+    ) {
+      grid.swap(i, nextLeft);
+      return nextLeft;
+    }
 
     if (
-      column < grid.columns - 1 &&
-      this.canPassThrough(grid.grid[moveHorizontal])
+      Math.random() < 0.5 &&
+      column < grid.columns - 1 - spread &&
+      this.canPassThrough(grid.grid[nextRight])
     ) {
-      grid.swap(i, moveHorizontal);
-      return moveHorizontal;
+      grid.swap(i, nextRight);
+      return nextRight;
     }
 
     return i;
