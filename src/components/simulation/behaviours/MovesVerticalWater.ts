@@ -16,7 +16,7 @@ export class MovesVerticalWater extends MovesVertical {
   }
 
   canPassThrough(particle: Particle) {
-    return particle?.isEmpty ?? false;
+    return particle?.stateOfMatter === "empty";
   }
 
   moveParticle(particle: Particle, grid: Grid): number {

@@ -85,7 +85,7 @@ export abstract class MovesVertical extends Behaviour {
   }
 
   canPassThrough(particle: Particle) {
-    return particle?.isEmpty ?? false;
+    return particle?.stateOfMatter === "empty";
   }
 
   abstract moveParticle(particle: Particle, grid: Grid): number;

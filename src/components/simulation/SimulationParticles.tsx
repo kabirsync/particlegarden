@@ -215,7 +215,7 @@ const SimulationParticles = ({
         ? selectedMaterial === "Empty"
           ? backgroundColor
           : materialColor // Highlight color under mouse
-        : square.isEmpty
+        : square.stateOfMatter === "empty"
         ? backgroundColor
         : square.color ?? backgroundColor;
 
