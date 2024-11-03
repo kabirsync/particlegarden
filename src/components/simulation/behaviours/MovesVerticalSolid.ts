@@ -16,7 +16,7 @@ export class MovesVerticalSolid extends MovesVertical {
   }
 
   canPassThrough(particle: Particle) {
-    return particle?.isEmpty ?? false;
+    return (particle?.isEmpty || particle?.stateOfMatter === "liquid") ?? false;
   }
 
   moveParticle(particle: Particle, grid: Grid): number {

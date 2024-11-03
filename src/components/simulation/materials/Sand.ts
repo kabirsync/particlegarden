@@ -22,6 +22,7 @@ class Sand extends Particle {
   ) {
     super(index, {
       color: varyColor(color),
+      stateOfMatter: "solid",
       behaviours: [
         new MovesVerticalSolid({
           maxSpeed,

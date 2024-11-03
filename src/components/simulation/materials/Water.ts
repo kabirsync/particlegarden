@@ -1,7 +1,7 @@
-import { waterColor } from "@/lib/colors";
-import Particle from "@/components/simulation/materials/Particle";
-import { Color } from "three";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
+import Particle from "@/components/simulation/materials/Particle";
+import { waterColor } from "@/lib/colors";
+import { Color } from "three";
 
 type WaterProps = {
   color?: Color;
@@ -21,7 +21,8 @@ class Water extends Particle {
     }: WaterProps
   ) {
     super(index, {
-      color: color,
+      color,
+      stateOfMatter: "liquid",
       behaviours: [
         new MovesVerticalWater({
           maxSpeed,

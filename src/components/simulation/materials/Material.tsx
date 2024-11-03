@@ -1,10 +1,10 @@
-import Sand from "./Sand";
-import Empty from "./Empty";
-import { Color } from "three";
-import { Circle, Droplet, Grip, TreePine } from "lucide-react";
 import EmptyPreview from "@/components/simulation/materials/EmptyPreview";
-import Wood from "@/components/simulation/materials/Wood";
 import Water from "@/components/simulation/materials/Water";
+import Wood from "@/components/simulation/materials/Wood";
+import { Circle, Droplet, Grip, TreePine } from "lucide-react";
+import { Color } from "three";
+import Empty from "./Empty";
+import Sand from "./Sand";
 
 // New materials must be added here and at [3] points
 
