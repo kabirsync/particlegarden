@@ -2,7 +2,7 @@ import { MovesVertical } from "@/components/simulation/behaviours/MovesVertical"
 import Particle from "@/components/simulation/materials/Particle";
 import { Grid } from "../Grid";
 
-export class MovesVerticalWater extends MovesVertical {
+export class MovesVerticalSolid extends MovesVertical {
   constructor({
     maxSpeed = 0,
     acceleration = 0,
@@ -27,12 +27,6 @@ export class MovesVerticalWater extends MovesVertical {
     const nextVerticalLeft = nextVertical - 1;
     const nextVerticalRight = nextVertical + 1;
 
-    // Allow user to change this
-    const spread = 4;
-
-    const nextLeft = i - Math.ceil(Math.random() * spread);
-    const nextRight = i + Math.ceil(Math.random() * spread);
-
     if (this.canPassThrough(grid.grid[nextVertical])) {
       grid.swap(i, nextVertical);
       return nextVertical;
@@ -49,24 +43,6 @@ export class MovesVerticalWater extends MovesVertical {
     ) {
       grid.swap(i, nextVerticalRight);
       return nextVerticalRight;
-    }
-
-    if (
-      Math.random() >= 0.5 &&
-      column > 0 + spread &&
-      this.canPassThrough(grid.grid[nextLeft])
-    ) {
-      grid.swap(i, nextLeft);
-      return nextLeft;
-    }
-
-    if (
-      Math.random() < 0.5 &&
-      column < grid.columns - 1 - spread &&
-      this.canPassThrough(grid.grid[nextRight])
-    ) {
-      grid.swap(i, nextRight);
-      return nextRight;
     }
 
     return i;

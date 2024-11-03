@@ -1,7 +1,7 @@
 import { sandColor, varyColor } from "@/lib/colors";
 import Particle from "@/components/simulation/materials/Particle";
 import { Color } from "three";
-import { MovesVertical } from "@/components/simulation/behaviours/MovesVertical";
+import { MovesVerticalSolid } from "@/components/simulation/behaviours/MovesVerticalSolid";
 
 type SandProps = {
   color?: Color;
@@ -23,7 +23,7 @@ class Sand extends Particle {
     super(index, {
       color: varyColor(color),
       behaviours: [
-        new MovesVertical({
+        new MovesVerticalSolid({
           maxSpeed,
           acceleration,
           initialVelocity,
