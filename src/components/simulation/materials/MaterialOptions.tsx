@@ -68,7 +68,7 @@ const MaterialOptions = ({
         />
       </div>
       <div>
-        {["Sand", "Wood"].includes(selectedMaterial) && (
+        {["Sand", "Wood", "Water"].includes(selectedMaterial) && (
           <div className="flex flex-col gap-2">
             <Label htmlFor="colorPicker" className="text-xs">
               Choose a color:
@@ -82,7 +82,7 @@ const MaterialOptions = ({
             />
           </div>
         )}
-        {["Sand"].includes(selectedMaterial) && (
+        {["Sand", "Water"].includes(selectedMaterial) && (
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
               <Label htmlFor="initialVelocity" className="text-xs">
