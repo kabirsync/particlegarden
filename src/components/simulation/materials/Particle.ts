@@ -4,7 +4,6 @@ import { Color } from "three";
 
 type ParticleOptions = {
   color: Color;
-  isLiquid?: boolean;
   isEmpty?: boolean;
   behaviours?: Behaviour[];
   stateOfMatter: StateOfMatter;
