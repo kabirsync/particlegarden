@@ -17,9 +17,8 @@ export class MovesVerticalSolid extends MovesVertical {
 
   canPassThrough(particle: Particle) {
     return (
-      (particle?.stateOfMatter === "empty" ||
-        particle?.stateOfMatter === "liquid") ??
-      false
+      particle?.stateOfMatter === "empty" ||
+      (Math.random() < 0.5 ? particle?.stateOfMatter === "liquid" : false)
     );
   }
 
