@@ -25,6 +25,9 @@ type SimulationProps = {
   maxSpeedRef: MutableRefObject<number>;
   initialVelocityRef: MutableRefObject<number>;
   accelerationRef: MutableRefObject<number>;
+  diagonalSpreadRef: MutableRefObject<number>;
+  verticalSpreadRef: MutableRefObject<number>;
+  horizontalSpreadRef: MutableRefObject<number>;
 };
 
 const Simulation = ({
@@ -37,6 +40,9 @@ const Simulation = ({
   maxSpeedRef,
   initialVelocityRef,
   accelerationRef,
+  diagonalSpreadRef,
+  verticalSpreadRef,
+  horizontalSpreadRef,
 }: Readonly<SimulationProps>) => {
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
@@ -95,6 +101,9 @@ const Simulation = ({
           maxSpeedRef={maxSpeedRef}
           initialVelocityRef={initialVelocityRef}
           accelerationRef={accelerationRef}
+          diagonalSpreadRef={diagonalSpreadRef}
+          verticalSpreadRef={verticalSpreadRef}
+          horizontalSpreadRef={horizontalSpreadRef}
         />
       </Canvas>
     </div>

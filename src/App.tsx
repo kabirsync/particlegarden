@@ -31,6 +31,9 @@ function App() {
   const [selectedMaterial, setSelectedMaterial] =
     useState<MaterialOptionsType>("Sand");
   const [materialColor, setMaterialColor] = useState(sandColor);
+  const diagonalSpreadRef = useRef(3);
+  const verticalSpreadRef = useRef(1);
+  const horizontalSpreadRef = useRef(3);
 
   const toggleIsPlaying = () => {
     setIsPlaying(!isPlaying);
@@ -63,6 +66,18 @@ function App() {
   };
   const updateAcceleration = (acceleration: number) => {
     accelerationRef.current = acceleration;
+  };
+
+  const updateDiagonalSpread = (diagonalSpread: number) => {
+    diagonalSpreadRef.current = diagonalSpread;
+  };
+
+  const updateVerticalSpread = (verticalSpread: number) => {
+    verticalSpreadRef.current = verticalSpread;
+  };
+
+  const updateHorizontalSpread = (horizontalSpread: number) => {
+    horizontalSpreadRef.current = horizontalSpread;
   };
 
   const handleMaterialColorChange = (
@@ -98,6 +113,9 @@ function App() {
                 maxSpeedRef={maxSpeedRef}
                 initialVelocityRef={initialVelocityRef}
                 accelerationRef={accelerationRef}
+                diagonalSpreadRef={diagonalSpreadRef}
+                verticalSpreadRef={verticalSpreadRef}
+                horizontalSpreadRef={horizontalSpreadRef}
               />
             </Suspense>
           </div>
@@ -146,6 +164,9 @@ function App() {
                 updateAcceleration={updateAcceleration}
                 handleMaterialColorChange={handleMaterialColorChange}
                 materialColor={materialColor}
+                updateDiagonalSpread={updateDiagonalSpread}
+                updateVerticalSpread={updateVerticalSpread}
+                updateHorizontalSpread={updateHorizontalSpread}
               />
             </div>
           </div>

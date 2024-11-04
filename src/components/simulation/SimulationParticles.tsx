@@ -36,6 +36,9 @@ interface SimulationParticlesProps {
   maxSpeedRef: MutableRefObject<number>;
   initialVelocityRef: MutableRefObject<number>;
   accelerationRef: MutableRefObject<number>;
+  diagonalSpreadRef: MutableRefObject<number>;
+  verticalSpreadRef: MutableRefObject<number>;
+  horizontalSpreadRef: MutableRefObject<number>;
 }
 
 const SimulationParticles = ({
@@ -50,6 +53,9 @@ const SimulationParticles = ({
   maxSpeedRef,
   initialVelocityRef,
   accelerationRef,
+  diagonalSpreadRef,
+  verticalSpreadRef,
+  horizontalSpreadRef,
 }: SimulationParticlesProps) => {
   const backgroundColor =
     theme === "light" ? backgroundColorLight : backgroundColorDark;
@@ -130,6 +136,9 @@ const SimulationParticles = ({
                   maxSpeed: maxSpeedRef.current,
                   initialVelocity: initialVelocityRef.current,
                   acceleration: accelerationRef.current,
+                  diagonalSpread: diagonalSpreadRef.current,
+                  verticalSpread: verticalSpreadRef.current,
+                  horizontalSpread: horizontalSpreadRef.current,
                 })
               );
             }

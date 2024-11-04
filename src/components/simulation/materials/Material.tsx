@@ -22,6 +22,9 @@ type MaterialProps = {
   maxSpeed?: number;
   initialVelocity?: number;
   acceleration?: number;
+  diagonalSpread?: number;
+  verticalSpread?: number;
+  horizontalSpread?: number;
 };
 
 export const getMaterialIcon = (material: MaterialOptionsType) => {
