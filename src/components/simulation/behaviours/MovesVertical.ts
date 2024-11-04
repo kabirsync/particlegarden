@@ -2,6 +2,11 @@ import { Behaviour } from "@/components/simulation/behaviours/Behaviour";
 import { Grid } from "../Grid";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
 
+export type MovesVerticalProps = {
+  maxSpeed?: number;
+  acceleration?: number;
+  initialVelocity?: number;
+};
 export abstract class MovesVertical extends Behaviour {
   maxSpeed: number;
   acceleration: number;
@@ -11,11 +16,7 @@ export abstract class MovesVertical extends Behaviour {
     maxSpeed = 0,
     acceleration = 0,
     initialVelocity = 0,
-  }: {
-    maxSpeed?: number;
-    acceleration?: number;
-    initialVelocity?: number;
-  }) {
+  }: MovesVerticalProps) {
     super();
     this.maxSpeed = maxSpeed;
     this.acceleration = acceleration;

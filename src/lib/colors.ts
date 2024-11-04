@@ -3,6 +3,7 @@ export const sandColor = new Color("#dcb159");
 export const woodColor = new Color("#332211");
 export const waterColor = new Color("#416bdf");
 export const smokeColor = new Color("#4C4A4D");
+export const fireColor = new Color("#e34f0f");
 
 export const backgroundColorDark = new Color("#09090b");
 export const backgroundColorLight = new Color("#f4f4f5");

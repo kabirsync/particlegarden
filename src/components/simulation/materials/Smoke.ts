@@ -6,6 +6,7 @@ import Particle from "@/components/simulation/materials/Particle";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import { LimitedLife } from "@/components/simulation/behaviours/LimitedLife";
 import { smokeColor, varyColor } from "@/lib/colors";
+import { Flammable } from "@/components/simulation/behaviours/Flammable";
 // import { baseSmokeColor } from "../colors";
 
 export class Smoke extends Particle {
@@ -16,27 +17,27 @@ export class Smoke extends Particle {
   // relation to others.
   constructor(
     index: number,
-    // { burning, color }: { burning?: boolean; color?: Color } = {}
-    { color }: { color?: Color } = {}
+    { burning, color }: { burning?: boolean; color?: Color } = {}
+    // { color }: { color?: Color } = {}
   ) {
-    // const life = 400 + 400 * Math.random();
+    const life = 400 + 400 * Math.random();
     const behaviours = [];
     // const colors = varyThreeColor(color ?? Smoke.baseColor, {
     //   lightFn: () => Math.random() * 5 - 5,
     //   satFn: () => Math.random() * 10 - 5,
     // });
 
-    // if (burning) {
-    //   behaviors.push(
-    //     new Flammable({
-    //       fuel: life + 1,
-    //       chanceToSpread: (behavior: Flammable) =>
-    //         (0.5 * behavior.remainingLife) / behavior.lifetime,
-    //       burning: true,
-    //       // color: colors,
-    //     })
-    //   );
-    // }
+    if (burning) {
+      behaviours.push(
+        new Flammable({
+          fuel: life + 1,
+          chanceToSpread: (behavior: Flammable) =>
+            (0.5 * behavior.remainingLife) / behavior.lifetime,
+          burning: true,
+          // color: colors,
+        })
+      );
+    }
 
     behaviours.push(
       ...[
