@@ -1,6 +1,15 @@
-import { MovesVertical } from "@/components/simulation/behaviours/MovesVertical";
+import {
+  MovesVertical,
+  MovesVerticalProps,
+} from "@/components/simulation/behaviours/MovesVertical";
 import Particle from "@/components/simulation/materials/Particle";
 import { Grid } from "../Grid";
+
+export type MovesVerticalWaterProps = MovesVerticalProps & {
+  diagonalSpread?: number;
+  horizontalSpread?: number;
+  verticalSpread?: number;
+};
 
 export class MovesVerticalWater extends MovesVertical {
   diagonalSpread: number;
@@ -14,14 +23,7 @@ export class MovesVerticalWater extends MovesVertical {
     diagonalSpread = 1,
     verticalSpread = 1,
     horizontalSpread = 1,
-  }: {
-    maxSpeed?: number;
-    acceleration?: number;
-    initialVelocity?: number;
-    diagonalSpread?: number;
-    horizontalSpread?: number;
-    verticalSpread?: number;
-  }) {
+  }: MovesVerticalWaterProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;

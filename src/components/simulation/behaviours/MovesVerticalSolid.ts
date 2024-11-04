@@ -1,4 +1,7 @@
-import { MovesVertical } from "@/components/simulation/behaviours/MovesVertical";
+import {
+  MovesVertical,
+  MovesVerticalProps,
+} from "@/components/simulation/behaviours/MovesVertical";
 import Particle from "@/components/simulation/materials/Particle";
 import { Grid } from "../Grid";
 
@@ -7,11 +10,7 @@ export class MovesVerticalSolid extends MovesVertical {
     maxSpeed = 0,
     acceleration = 0,
     initialVelocity = 0,
-  }: {
-    maxSpeed?: number;
-    acceleration?: number;
-    initialVelocity?: number;
-  }) {
+  }: MovesVerticalProps) {
     super({ maxSpeed, acceleration, initialVelocity });
   }
 
