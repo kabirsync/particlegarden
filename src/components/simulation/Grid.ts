@@ -104,4 +104,8 @@ export class Grid {
     this.grid[a].index = a;
     this.grid[b].index = b;
   }
+
+  clearIndex(i: number) {
+    this.setIndex(i, new Empty(i));
+  }
 }
