@@ -26,7 +26,6 @@ export class MovesVerticalWater extends MovesVertical {
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;
     this.horizontalSpread = horizontalSpread;
-    console.log({ diagonalSpread, verticalSpread, horizontalSpread });
   }
 
   canPassThrough(particle: Particle) {
@@ -47,9 +46,6 @@ export class MovesVerticalWater extends MovesVertical {
       nextVertical - Math.ceil(Math.random() * this.diagonalSpread);
     const nextVerticalRight =
       nextVertical + Math.ceil(Math.random() * this.diagonalSpread);
-
-    // Allow user to change this
-    // const spread = 1;
 
     const nextLeft = i - Math.ceil(Math.random() * this.horizontalSpread);
     const nextRight = i + Math.ceil(Math.random() * this.horizontalSpread);
@@ -84,22 +80,6 @@ export class MovesVerticalWater extends MovesVertical {
       }
     }
 
-    // if (
-    //   column > 0 + this.diagonalSpread &&
-    //   this.canPassThrough(grid.grid[nextVerticalLeft])
-    // ) {
-    //   grid.swap(i, nextVerticalLeft);
-    //   return nextVerticalLeft;
-    // }
-
-    // if (
-    //   column < grid.columns - 1 - this.diagonalSpread &&
-    //   this.canPassThrough(grid.grid[nextVerticalRight])
-    // ) {
-    //   grid.swap(i, nextVerticalRight);
-    //   return nextVerticalRight;
-    // }
-
     if (Math.random() < 0.5) {
       if (
         column > 0 + this.horizontalSpread &&
@@ -110,7 +90,6 @@ export class MovesVerticalWater extends MovesVertical {
       }
     } else {
       if (
-        // Math.random() < 0.5 &&
         column < grid.columns - 1 - this.horizontalSpread &&
         this.canPassThrough(grid.grid[nextRight])
       ) {
