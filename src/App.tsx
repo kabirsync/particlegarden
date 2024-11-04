@@ -8,7 +8,13 @@ import SimulationOptionsButton from "@/components/simulation/SimulationOptionsBu
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
-import { sandColor, smokeColor, waterColor, woodColor } from "@/lib/colors";
+import {
+  fireColor,
+  sandColor,
+  smokeColor,
+  waterColor,
+  woodColor,
+} from "@/lib/colors";
 import { LoaderIcon, Pause, Play } from "lucide-react";
 import { Color } from "three";
 import React, { Suspense, useRef, useState } from "react";
@@ -53,6 +59,9 @@ function App() {
     } else if (newSelectedMaterial === "Smoke") {
       setMaterialColor(smokeColor);
       materialColorRef.current = smokeColor;
+    } else if (newSelectedMaterial === "Fire") {
+      setMaterialColor(fireColor);
+      materialColorRef.current = fireColor;
     }
 
     setSelectedMaterial(newSelectedMaterial);
