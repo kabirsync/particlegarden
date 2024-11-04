@@ -27,11 +27,11 @@ type MaterialProps = {
 export const getMaterialIcon = (material: MaterialOptionsType) => {
   switch (material) {
     case "Sand":
-      return <Grip className="h-3 w-3 text-yellow-600" />;
+      return <Grip className="h-3 w-3 text-yellow-600 fill-yellow-600" />;
     case "Wood":
-      return <TreePine className="h-3 w-3 text-green-600" />;
+      return <TreePine className="h-3 w-3 text-green-600 fill-green-600" />;
     case "Water":
-      return <Droplet className="h-3 w-3 text-blue-500" />;
+      return <Droplet className="h-3 w-3 text-blue-500 fill-blue-500" />;
     case "Empty":
       return <Circle className="h-3 w-3" />;
     // case "Fire":
