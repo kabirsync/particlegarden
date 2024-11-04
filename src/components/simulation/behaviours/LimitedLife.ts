@@ -5,8 +5,8 @@ import Particle from "@/components/simulation/materials/Particle";
 export class LimitedLife extends Behaviour {
   lifetime: number;
   remainingLife: number;
-  onTick: (behavior: LimitedLife, particle: Particle) => void;
-  onDeath: (behavior: LimitedLife, particle: Particle, grid: Grid) => void;
+  onTick: (behaviour: LimitedLife, particle: Particle) => void;
+  onDeath: (behaviour: LimitedLife, particle: Particle, grid: Grid) => void;
 
   constructor(
     lifetime: number,
@@ -14,8 +14,12 @@ export class LimitedLife extends Behaviour {
       onTick = () => {},
       onDeath = () => {},
     }: {
-      onTick?: (behavior: LimitedLife, particle: Particle) => void;
-      onDeath?: (behavior: LimitedLife, particle: Particle, grid: Grid) => void;
+      onTick?: (behaviour: LimitedLife, particle: Particle) => void;
+      onDeath?: (
+        behaviour: LimitedLife,
+        particle: Particle,
+        grid: Grid
+      ) => void;
     } = {}
   ) {
     super();
