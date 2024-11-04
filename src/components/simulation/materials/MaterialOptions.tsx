@@ -91,7 +91,7 @@ const MaterialOptions = ({
         />
       </div>
       <div>
-        {["Sand", "Wood", "Water"].includes(selectedMaterial) && (
+        {["Sand", "Wood", "Water", "Smoke"].includes(selectedMaterial) && (
           <div className="flex flex-col gap-2">
             <Label htmlFor="colorPicker" className="text-xs">
               Choose a color:
@@ -105,7 +105,7 @@ const MaterialOptions = ({
             />
           </div>
         )}
-        {["Sand", "Water"].includes(selectedMaterial) && (
+        {["Sand", "Water", "Smoke"].includes(selectedMaterial) && (
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
               <Label htmlFor="initialVelocity" className="text-xs">
@@ -212,7 +212,7 @@ const MaterialOptions = ({
                 }}
               />
             </div>
-            {["Water"].includes(selectedMaterial) && (
+            {["Water", "Smoke"].includes(selectedMaterial) && (
               <>
                 <div className="flex flex-col gap-2">
                   <Label htmlFor="diagonalSpread" className="text-xs">
