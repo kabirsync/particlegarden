@@ -1,6 +1,6 @@
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
-import { waterColor } from "@/lib/colors";
+import { lightenThreeColor, waterColor } from "@/lib/colors";
 import { Color } from "three";
 
 type WaterProps = {
@@ -21,7 +21,7 @@ class Water extends Particle {
     }: WaterProps
   ) {
     super(index, {
-      color,
+      color: Math.random() < 0.5 ? lightenThreeColor(color, 0.1) : color,
       stateOfMatter: "liquid",
       behaviours: [
         new MovesVerticalWater({

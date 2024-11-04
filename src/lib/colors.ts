@@ -54,3 +54,10 @@ export const varyColor = (
   const [r, g, b] = hsbToRGB({ h: newH, s: newS, v: newV });
   return new Color(r, g, b);
 };
+
+export const lightenThreeColor = (color: Color, amount: number): Color => {
+  const lightenedColor = color.clone();
+  const white = new Color(0xffffff);
+  lightenedColor.lerp(white, amount);
+  return lightenedColor;
+};
