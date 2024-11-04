@@ -3,16 +3,30 @@ import Particle from "@/components/simulation/materials/Particle";
 import { Grid } from "../Grid";
 
 export class MovesVerticalWater extends MovesVertical {
+  diagonalSpread: number;
+  verticalSpread: number;
+  horizontalSpread: number;
+
   constructor({
     maxSpeed = 0,
     acceleration = 0,
     initialVelocity = 0,
+    diagonalSpread = 1,
+    verticalSpread = 1,
+    horizontalSpread = 1,
   }: {
     maxSpeed?: number;
     acceleration?: number;
     initialVelocity?: number;
+    diagonalSpread?: number;
+    horizontalSpread?: number;
+    verticalSpread?: number;
   }) {
     super({ maxSpeed, acceleration, initialVelocity });
+    this.diagonalSpread = diagonalSpread;
+    this.verticalSpread = verticalSpread;
+    this.horizontalSpread = horizontalSpread;
+    console.log({ diagonalSpread, verticalSpread, horizontalSpread });
   }
 
   canPassThrough(particle: Particle) {
@@ -25,51 +39,84 @@ export class MovesVerticalWater extends MovesVertical {
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
+    // const row = i % grid.rows;
     const nextDelta = Math.sign(this.velocity) * grid.columns;
-    const nextVertical = i + nextDelta;
-    const nextVerticalLeft = nextVertical - 1;
-    const nextVerticalRight = nextVertical + 1;
+    const nextVertical =
+      i + nextDelta * Math.ceil(this.verticalSpread * Math.random());
+    const nextVerticalLeft =
+      nextVertical - Math.ceil(Math.random() * this.diagonalSpread);
+    const nextVerticalRight =
+      nextVertical + Math.ceil(Math.random() * this.diagonalSpread);
 
     // Allow user to change this
-    const spread = 4;
+    // const spread = 1;
 
-    const nextLeft = i - Math.ceil(Math.random() * spread);
-    const nextRight = i + Math.ceil(Math.random() * spread);
+    const nextLeft = i - Math.ceil(Math.random() * this.horizontalSpread);
+    const nextRight = i + Math.ceil(Math.random() * this.horizontalSpread);
 
-    if (this.canPassThrough(grid.grid[nextVertical])) {
+    // need to randomise order of operations (check sand)
+
+    if (
+      this.canPassThrough(grid.grid[nextVertical])
+      // &&
+      // row < grid.rows - this.verticalSpread &&
+      // row > this.verticalSpread
+    ) {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
 
-    if (column > 0 && this.canPassThrough(grid.grid[nextVerticalLeft])) {
-      grid.swap(i, nextVerticalLeft);
-      return nextVerticalLeft;
+    if (Math.random() < 0.5) {
+      if (
+        column > 0 + this.diagonalSpread &&
+        this.canPassThrough(grid.grid[nextVerticalLeft])
+      ) {
+        grid.swap(i, nextVerticalLeft);
+        return nextVerticalLeft;
+      }
+    } else {
+      if (
+        column < grid.columns - 1 - this.diagonalSpread &&
+        this.canPassThrough(grid.grid[nextVerticalRight])
+      ) {
+        grid.swap(i, nextVerticalRight);
+        return nextVerticalRight;
+      }
     }
 
-    if (
-      column < grid.columns - 1 &&
-      this.canPassThrough(grid.grid[nextVerticalRight])
-    ) {
-      grid.swap(i, nextVerticalRight);
-      return nextVerticalRight;
-    }
+    // if (
+    //   column > 0 + this.diagonalSpread &&
+    //   this.canPassThrough(grid.grid[nextVerticalLeft])
+    // ) {
+    //   grid.swap(i, nextVerticalLeft);
+    //   return nextVerticalLeft;
+    // }
 
-    if (
-      Math.random() >= 0.5 &&
-      column > 0 + spread &&
-      this.canPassThrough(grid.grid[nextLeft])
-    ) {
-      grid.swap(i, nextLeft);
-      return nextLeft;
-    }
+    // if (
+    //   column < grid.columns - 1 - this.diagonalSpread &&
+    //   this.canPassThrough(grid.grid[nextVerticalRight])
+    // ) {
+    //   grid.swap(i, nextVerticalRight);
+    //   return nextVerticalRight;
+    // }
 
-    if (
-      Math.random() < 0.5 &&
-      column < grid.columns - 1 - spread &&
-      this.canPassThrough(grid.grid[nextRight])
-    ) {
-      grid.swap(i, nextRight);
-      return nextRight;
+    if (Math.random() < 0.5) {
+      if (
+        column > 0 + this.horizontalSpread &&
+        this.canPassThrough(grid.grid[nextLeft])
+      ) {
+        grid.swap(i, nextLeft);
+        return nextLeft;
+      }
+    } else {
+      if (
+        // Math.random() < 0.5 &&
+        column < grid.columns - 1 - this.horizontalSpread &&
+        this.canPassThrough(grid.grid[nextRight])
+      ) {
+        grid.swap(i, nextRight);
+        return nextRight;
+      }
     }
 
     return i;

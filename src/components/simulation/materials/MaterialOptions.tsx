@@ -10,6 +10,10 @@ type MaterialOptionsProps = {
   updateMaxSpeed: (maxSpeed: number) => void;
   updateInitialVelocity: (initialVelocity: number) => void;
   updateAcceleration: (acceleration: number) => void;
+  updateDiagonalSpread: (diagonalSpread: number) => void;
+  updateVerticalSpread: (verticalSpread: number) => void;
+  updateHorizontalSpread: (horizontalSpread: number) => void;
+
   selectedMaterial: MaterialOptionsType;
   handleMaterialColorChange: (
     event: React.ChangeEvent<HTMLInputElement>
@@ -23,6 +27,9 @@ const MaterialOptions = ({
   updateMaxSpeed,
   updateInitialVelocity,
   updateAcceleration,
+  updateDiagonalSpread,
+  updateHorizontalSpread,
+  updateVerticalSpread,
   handleMaterialColorChange,
   materialColor,
 }: MaterialOptionsProps) => {
@@ -30,6 +37,9 @@ const MaterialOptions = ({
   const [maxSpeed, setMaxSpeed] = useState(10);
   const [initialVelocity, setInitialVelocity] = useState(0.1);
   const [acceleration, setAcceleration] = useState(0.5);
+  const [diagonalSpread, setDiagonalSpread] = useState(3);
+  const [verticalSpread, setVerticalSpread] = useState(1);
+  const [horizontalSpread, setHorizontalSpread] = useState(3);
 
   const handleStrokeSizeChange = (value: number) => {
     setStrokeSize(value);
@@ -46,6 +56,19 @@ const MaterialOptions = ({
   const handleAccelerationChange = (value: number) => {
     setAcceleration(value);
     updateAcceleration(value);
+  };
+
+  const handleDiagonalSpreadChange = (value: number) => {
+    setDiagonalSpread(value);
+    updateDiagonalSpread(value);
+  };
+  const handleVerticalSpreadChange = (value: number) => {
+    setVerticalSpread(value);
+    updateVerticalSpread(value);
+  };
+  const handleHorizontalSpreadChange = (value: number) => {
+    setHorizontalSpread(value);
+    updateHorizontalSpread(value);
   };
 
   return (
@@ -189,6 +212,58 @@ const MaterialOptions = ({
                 }}
               />
             </div>
+            {["Water"].includes(selectedMaterial) && (
+              <>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="diagonalSpread" className="text-xs">
+                    Diagonal Spread
+                  </Label>
+                  <Slider
+                    id="diagonalSpread"
+                    className="py-1"
+                    value={[diagonalSpread]}
+                    min={1}
+                    max={10}
+                    step={1}
+                    onValueChange={(values: number[]) => {
+                      handleDiagonalSpreadChange(values[0]);
+                    }}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="diagonalSpread" className="text-xs">
+                    Vertical Spread
+                  </Label>
+                  <Slider
+                    id="diagonalSpread"
+                    className="py-1"
+                    value={[verticalSpread]}
+                    min={1}
+                    max={10}
+                    step={1}
+                    onValueChange={(values: number[]) => {
+                      handleVerticalSpreadChange(values[0]);
+                    }}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="diagonalSpread" className="text-xs">
+                    Horizontal Spread
+                  </Label>
+                  <Slider
+                    id="diagonalSpread"
+                    className="py-1"
+                    value={[horizontalSpread]}
+                    min={1}
+                    max={10}
+                    step={1}
+                    onValueChange={(values: number[]) => {
+                      handleHorizontalSpreadChange(values[0]);
+                    }}
+                  />
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>
