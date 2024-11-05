@@ -20,7 +20,7 @@ export class Smoke extends Particle {
     { burning, color }: { burning?: boolean; color?: Color } = {}
     // { color }: { color?: Color } = {}
   ) {
-    const life = 400 + 400 * Math.random();
+    const life = 400 - 400 * Math.random();
     const behaviours = [];
     // const colors = varyThreeColor(color ?? Smoke.baseColor, {
     //   lightFn: () => Math.random() * 5 - 5,
@@ -48,12 +48,12 @@ export class Smoke extends Particle {
         }),
         new LimitedLife(
           // Each particle has 400 - 800 life (random)
-          400 + 400 * Math.random(),
+          400 - 400 * Math.random(),
           {
             onTick: (behaviour: LimitedLife, particle: Particle) => {
               void behaviour;
               void particle;
-              // let pct = behavior.remainingLife / behavior.lifetime;
+              // let pct = behaviour.remainingLife / behaviour.lifetime;
               // particle.color?.setAlpha(Math.floor(255.0 * pct));
             },
             onDeath: (_, particle: Particle, grid: Grid) => {
