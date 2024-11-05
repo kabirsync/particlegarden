@@ -4,6 +4,13 @@ export const woodColor = new Color("#332211");
 export const waterColor = new Color("#416bdf");
 export const smokeColor = new Color("#4C4A4D");
 export const fireColor = new Color("#e34f0f");
+export const fireColors = [
+  new Color("#541e1e"),
+  new Color("#ff1f1f"),
+  new Color("#ea5a00"),
+  new Color("#ff6900"),
+  new Color("#eecc09"),
+];
 
 export const backgroundColorDark = new Color("#09090b");
 export const backgroundColorLight = new Color("#f4f4f5");

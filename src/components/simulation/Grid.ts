@@ -50,32 +50,43 @@ export class Grid {
     const endRow = direction > 0 ? -1 : this.rows;
     const rowStep = direction > 0 ? -1 : 1;
 
-    const leftToRight = Math.random() > 0.5; // Decide once per call
+    // const leftToRight = Math.random() > 0.5; // Decide once per call
     const columns = this.columns; // Cache columns
     const grid = this.grid; // Cache grid reference
 
     for (let row = startRow; row !== endRow; row += rowStep) {
       const rowOffset = row * columns;
 
-      if (leftToRight) {
-        for (let col = 0; col < columns; col++) {
-          const index = rowOffset + col;
-          const particle = grid[index];
+      const leftToRight = Math.random() > 0.5;
+      for (let col = 0; col < this.columns; col++) {
+        const columnOffset = leftToRight ? col : -col - 1 + this.columns;
+        const index = rowOffset + columnOffset;
 
-          if (particle.stateOfMatter === "empty") continue;
-
-          particle.update(this, params);
-        }
-      } else {
-        for (let col = columns - 1; col >= 0; col--) {
-          const index = rowOffset + col;
-          const particle = grid[index];
-
-          if (particle.stateOfMatter === "empty") continue;
-
-          particle.update(this, params);
-        }
+        if (grid[index].stateOfMatter === "empty") continue;
+        // index = this.modifyIndexHook(index, params);
+        const particle = this.grid[index];
+        particle.update(this, params);
       }
+
+      // if (leftToRight) {
+      // for (let col = 0; col < columns; col++) {
+      //   const index = rowOffset + col;
+      //   const particle = grid[index];
+
+      //   if (particle.stateOfMatter === "empty") continue;
+
+      //   particle.update(this, params);
+      //   }
+      // } else {
+      //   for (let col = columns - 1; col >= 0; col--) {
+      //     const index = rowOffset + col;
+      //     const particle = grid[index];
+
+      //     if (particle.stateOfMatter === "empty") continue;
+
+      //     particle.update(this, params);
+      //   }
+      // }
     }
   }
 
