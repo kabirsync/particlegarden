@@ -1,14 +1,10 @@
 import { Color } from "three";
 import { Grid } from "../Grid";
-// import { Empty } from "../Materials/Empty";
-// import { Particle } from "../Materials/Particle";
-// import { Smoke } from "../Materials/Smoke";
-// import { Water } from "../Materials/Water";
 import { LimitedLife } from "./LimitedLife";
-import { Smoke } from "@/components/simulation/materials/Smoke";
-import Water from "@/components/simulation/materials/Water";
 import Particle from "@/components/simulation/materials/Particle";
 import Empty from "@/components/simulation/materials/Empty";
+import { fireColors } from "@/lib/colors";
+import { Smoke } from "@/components/simulation/materials/Smoke";
 
 export type FlammableProps = {
   fuel?: number;
@@ -35,13 +31,7 @@ export class Flammable extends LimitedLife {
     smokeColor,
   }: FlammableProps) {
     fuel = fuel ?? 10 + 100 * Math.random();
-    const colors = [
-      new Color("#541e1e"),
-      new Color("#ff1f1f"),
-      new Color("#ea5a00"),
-      new Color("#ff6900"),
-      new Color("#eecc09"),
-    ];
+
     super(fuel, {
       onTick: (behavior, particle) => {
         if (this.originalColor && Math.random() < 0.5) {
@@ -55,14 +45,18 @@ export class Flammable extends LimitedLife {
           colors[Math.floor(behavior.remainingLife / period) % colors.length];
       },
       onDeath: (_, particle, grid) => {
-        const smoke = new Smoke(particle.index, {
-          burning: Math.random() < 0.1,
-          color: smokeColor,
-        });
-        grid.setIndex(particle.index, smoke);
+        if (Math.random() < 0.3) {
+          const smoke = new Smoke(particle.index, {
+            burning: Math.random() < 0.1,
+            color: smokeColor,
+          });
+          grid.setIndex(particle.index, smoke);
+        } else {
+          grid.setIndex(particle.index, new Empty(particle.index));
+        }
       },
     });
-    this.colors = colors;
+    this.colors = fireColors;
     this.burning = burning ?? false;
     this.chanceToCatch = chanceToCatch ?? 0;
     this.chancesToCatch = 0;
@@ -73,23 +67,23 @@ export class Flammable extends LimitedLife {
   update(particle: Particle, grid: Grid) {
     if (this.burning) {
       // Check for water above
-      const aboveIndex = particle.index - grid.columns;
-      const leftIndex = particle.index - 1;
-      const rightIndex = particle.index + 1;
+      // const aboveIndex = particle.index - grid.columns;
+      // const leftIndex = particle.index - 1;
+      // const rightIndex = particle.index + 1;
 
-      const column = particle.index % grid.columns;
-      const isLeftEdge = column === 0;
-      const isRightEdge = column === grid.columns - 1;
-
+      // const column = particle.index % grid.columns;
+      // const isLeftEdge = column === 0;
+      // const isRightEdge = column === grid.columns - 1;
+      //
       // Redo this logic
-      if (
-        (aboveIndex >= 0 && grid.grid[aboveIndex] instanceof Water) ||
-        (!isLeftEdge && grid.grid[leftIndex] instanceof Water) ||
-        (!isRightEdge && grid.grid[rightIndex] instanceof Water)
-      ) {
-        this.extinguish(particle, grid);
-        return;
-      }
+      // if (
+      //   (aboveIndex >= 0 && grid.grid[aboveIndex] instanceof Water) ||
+      //   (!isLeftEdge && grid.grid[leftIndex] instanceof Water) ||
+      //   (!isRightEdge && grid.grid[rightIndex] instanceof Water)
+      // ) {
+      //   this.extinguish(particle, grid);
+      //   return;
+      // }
 
       super.update(particle, grid);
       this.tryToSpread(particle, grid);
@@ -118,8 +112,9 @@ export class Flammable extends LimitedLife {
     const candidates = this.getSpreadCandidates(particle, grid);
     candidates.forEach((i) => {
       const p = grid.grid[i];
-      // console.log({ p });
-      const flammable = p?.getBehaviour(Flammable);
+      const flammable = p?.behaviours.find(
+        (behaviour) => behaviour instanceof Flammable
+      );
       if (flammable) {
         flammable.chancesToCatch += 0.5 + Math.random() * 0.5;
       }
