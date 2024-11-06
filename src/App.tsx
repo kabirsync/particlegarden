@@ -8,38 +8,52 @@ import SimulationOptionsButton from "@/components/simulation/SimulationOptionsBu
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
+
 import {
+  defaultAcceleration,
+  defaultDiagonalSpread,
+  defaultFPS,
+  defaultHorizontalSpread,
+  defaultInitialVelocity,
+  defaultIsPlaying,
+  defaultMaterialColor,
+  defaultMaxSpeed,
+  defaultParticleSize,
+  defaultSelecteMaterial,
+  defaultStrokeSize,
+  defaultVerticalSpread,
   fireColor,
   sandColor,
   smokeColor,
   waterColor,
   woodColor,
-} from "@/lib/colors";
-import { LoaderIcon, Pause, Play } from "lucide-react";
-import { Color } from "three";
-import React, { Suspense, useRef, useState } from "react";
+} from "@/constants";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { LoaderIcon, Pause, Play } from "lucide-react";
+import React, { Suspense, useRef, useState } from "react";
+import { Color } from "three";
 
 const Simulation = React.lazy(
   () => import("@/components/simulation/Simulation")
 );
 
 function App() {
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [FPS, setFPS] = useState(0);
-  const [particleSize, setParticleSize] = useState(4);
-  const materialColorRef = useRef(sandColor);
-  const strokeSizeRef = useRef(10);
-  const maxSpeedRef = useRef(10);
-  const initialVelocityRef = useRef(0.1);
-  const accelerationRef = useRef(0.5);
-  const [selectedMaterial, setSelectedMaterial] =
-    useState<MaterialOptionsType>("Sand");
-  const [materialColor, setMaterialColor] = useState(sandColor);
-  const diagonalSpreadRef = useRef(3);
-  const verticalSpreadRef = useRef(1);
-  const horizontalSpreadRef = useRef(3);
+  const [isPlaying, setIsPlaying] = useState(defaultIsPlaying);
+  const [FPS, setFPS] = useState(defaultFPS);
+  const [particleSize, setParticleSize] = useState(defaultParticleSize);
+  const materialColorRef = useRef(defaultMaterialColor);
+  const strokeSizeRef = useRef(defaultStrokeSize);
+  const maxSpeedRef = useRef(defaultMaxSpeed);
+  const initialVelocityRef = useRef(defaultInitialVelocity);
+  const accelerationRef = useRef(defaultAcceleration);
+  const [selectedMaterial, setSelectedMaterial] = useState<MaterialOptionsType>(
+    defaultSelecteMaterial
+  );
+  const [materialColor, setMaterialColor] = useState(defaultMaterialColor);
+  const diagonalSpreadRef = useRef(defaultDiagonalSpread);
+  const verticalSpreadRef = useRef(defaultVerticalSpread);
+  const horizontalSpreadRef = useRef(defaultHorizontalSpread);
 
   const toggleIsPlaying = () => {
     setIsPlaying(!isPlaying);
