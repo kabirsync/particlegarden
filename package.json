@@ -20,6 +20,7 @@
     "@vercel/speed-insights": "^1.0.14",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "jotai": "^2.10.1",
     "lucide-react": "^0.453.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
