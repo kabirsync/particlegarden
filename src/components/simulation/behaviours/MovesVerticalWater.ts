@@ -54,19 +54,14 @@ export class MovesVerticalWater extends MovesVertical {
 
     // need to randomise order of operations (check sand)
 
-    if (
-      this.canPassThrough(grid.grid[nextVertical])
-      // &&
-      // row < grid.rows - this.verticalSpread &&
-      // row > this.verticalSpread
-    ) {
+    if (this.canPassThrough(grid.grid[nextVertical])) {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
 
     if (Math.random() < 0.5) {
       if (
-        column > 0 + this.diagonalSpread &&
+        column > this.diagonalSpread - 1 &&
         this.canPassThrough(grid.grid[nextVerticalLeft])
       ) {
         grid.swap(i, nextVerticalLeft);
@@ -74,7 +69,7 @@ export class MovesVerticalWater extends MovesVertical {
       }
     } else {
       if (
-        column < grid.columns - 1 - this.diagonalSpread &&
+        column < grid.columns - this.diagonalSpread &&
         this.canPassThrough(grid.grid[nextVerticalRight])
       ) {
         grid.swap(i, nextVerticalRight);
@@ -84,7 +79,7 @@ export class MovesVerticalWater extends MovesVertical {
 
     if (Math.random() < 0.5) {
       if (
-        column > 0 + this.horizontalSpread &&
+        column > 0 + this.horizontalSpread - 1 &&
         this.canPassThrough(grid.grid[nextLeft])
       ) {
         grid.swap(i, nextLeft);
@@ -92,7 +87,7 @@ export class MovesVerticalWater extends MovesVertical {
       }
     } else {
       if (
-        column < grid.columns - 1 - this.horizontalSpread &&
+        column < grid.columns - 2 - this.horizontalSpread &&
         this.canPassThrough(grid.grid[nextRight])
       ) {
         grid.swap(i, nextRight);
