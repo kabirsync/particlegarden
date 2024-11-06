@@ -4,21 +4,19 @@ import SimulationParticles from "@/components/simulation/SimulationParticles";
 import { useTheme } from "@/components/theme/useTheme";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Canvas } from "@react-three/fiber";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
-import { Color, WebGLRenderer } from "three";
+import { useEffect, useRef, useState } from "react";
+import { WebGLRenderer } from "three";
 
 type SimulationProps = {
   isPlaying: boolean;
   particleSize: number;
   selectedMaterial: MaterialOptionsType;
-  materialColorRef: MutableRefObject<Color>;
 };
 
 const Simulation = ({
   particleSize,
   isPlaying,
   selectedMaterial,
-  materialColorRef,
 }: Readonly<SimulationProps>) => {
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
@@ -67,7 +65,6 @@ const Simulation = ({
         <SimulationParticles
           isPlaying={isPlaying}
           dimensions={dimensions}
-          materialColorRef={materialColorRef}
           selectedMaterial={selectedMaterial}
           particleSize={particleSize}
           theme={theme}

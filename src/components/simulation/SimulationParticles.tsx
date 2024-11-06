@@ -8,6 +8,7 @@ import {
   FPSAtom,
   horizontalSpreadAtom,
   initialVelocityAtom,
+  materialColorAtom,
   maxSpeedAtom,
   strokeSizeAtom,
   verticalSpreadAtom,
@@ -17,10 +18,9 @@ import { throttle } from "@/lib/utils";
 import { Dimension } from "@/types";
 import { useFrame } from "@react-three/fiber";
 import { useAtom } from "jotai";
-import { MutableRefObject, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   BufferGeometry,
-  Color,
   Float32BufferAttribute,
   Points,
   PointsMaterial,
@@ -31,7 +31,6 @@ interface SimulationParticlesProps {
   dimensions: Dimension;
   theme: "dark" | "light";
   isPlaying: boolean;
-  materialColorRef: MutableRefObject<Color>;
   selectedMaterial: MaterialOptionsType;
   particleSize: number;
 }
@@ -40,10 +39,10 @@ const SimulationParticles = ({
   isPlaying,
   dimensions,
   particleSize,
-  materialColorRef,
   theme,
   selectedMaterial,
 }: SimulationParticlesProps) => {
+  const [materialColorRef] = useAtom(materialColorAtom);
   const [maxSpeedRef] = useAtom(maxSpeedAtom);
   const [initialVelocityRef] = useAtom(initialVelocityAtom);
   const [accelerationRef] = useAtom(accelerationAtom);

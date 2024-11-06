@@ -5,7 +5,10 @@ import {
 import MaterialButton from "@/components/simulation/materials/MaterialButton";
 import MaterialOptions from "@/components/simulation/materials/MaterialOptions";
 import SimulationOptionsButton from "@/components/simulation/SimulationOptionsButton";
-import { FPSAtom } from "@/components/simulation/simulationState";
+import {
+  FPSAtom,
+  materialColorAtom,
+} from "@/components/simulation/simulationState";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
@@ -25,7 +28,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { useAtom } from "jotai";
 import { LoaderIcon, Pause, Play } from "lucide-react";
-import React, { Suspense, useRef, useState } from "react";
+import React, { Suspense, useState } from "react";
 import { Color } from "three";
 
 const Simulation = React.lazy(
@@ -36,7 +39,7 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(defaultIsPlaying);
   const [FPS] = useAtom(FPSAtom);
   const [particleSize, setParticleSize] = useState(defaultParticleSize);
-  const materialColorRef = useRef(defaultMaterialColor);
+  const [materialColorRef] = useAtom(materialColorAtom);
   const [selectedMaterial, setSelectedMaterial] = useState<MaterialOptionsType>(
     defaultSelecteMaterial
   );
@@ -95,7 +98,7 @@ function App() {
                 isPlaying={isPlaying}
                 particleSize={particleSize}
                 selectedMaterial={selectedMaterial}
-                materialColorRef={materialColorRef}
+                // materialColorRef={materialColorRef}
               />
             </Suspense>
           </div>
