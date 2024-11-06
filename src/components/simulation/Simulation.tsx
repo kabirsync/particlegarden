@@ -21,7 +21,6 @@ type SimulationProps = {
   particleSize: number;
   selectedMaterial: MaterialOptionsType;
   materialColorRef: MutableRefObject<Color>;
-  strokeSizeRef: MutableRefObject<number>;
   maxSpeedRef: MutableRefObject<number>;
   initialVelocityRef: MutableRefObject<number>;
   accelerationRef: MutableRefObject<number>;
@@ -35,7 +34,6 @@ const Simulation = ({
   isPlaying,
   setFPS,
   selectedMaterial,
-  strokeSizeRef,
   materialColorRef,
   maxSpeedRef,
   initialVelocityRef,
@@ -56,7 +54,6 @@ const Simulation = ({
   useEffect(() => {
     if (columns > 0 && rows > 0) {
       gridRef.current = new Grid({ columns, rows });
-      // previewRef.current = new Grid({ columns, rows });
       setIsReady(true); // force rerender
     }
   }, [columns, dimensions.height, dimensions.width, particleSize, rows]);
@@ -94,7 +91,6 @@ const Simulation = ({
           dimensions={dimensions}
           setFPS={setFPS}
           materialColorRef={materialColorRef}
-          strokeSizeRef={strokeSizeRef}
           selectedMaterial={selectedMaterial}
           particleSize={particleSize}
           theme={theme}

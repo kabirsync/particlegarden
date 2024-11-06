@@ -20,7 +20,6 @@ import {
   defaultMaxSpeed,
   defaultParticleSize,
   defaultSelecteMaterial,
-  defaultStrokeSize,
   defaultVerticalSpread,
   fireColor,
   sandColor,
@@ -43,7 +42,6 @@ function App() {
   const [FPS, setFPS] = useState(defaultFPS);
   const [particleSize, setParticleSize] = useState(defaultParticleSize);
   const materialColorRef = useRef(defaultMaterialColor);
-  const strokeSizeRef = useRef(defaultStrokeSize);
   const maxSpeedRef = useRef(defaultMaxSpeed);
   const initialVelocityRef = useRef(defaultInitialVelocity);
   const accelerationRef = useRef(defaultAcceleration);
@@ -81,9 +79,6 @@ function App() {
     setSelectedMaterial(newSelectedMaterial);
   };
 
-  const updateStrokeSize = (strokeSize: number) => {
-    strokeSizeRef.current = strokeSize;
-  };
   const updateMaxSpeed = (maxSpeed: number) => {
     maxSpeedRef.current = maxSpeed;
   };
@@ -134,7 +129,6 @@ function App() {
                 setFPS={setFPS}
                 particleSize={particleSize}
                 selectedMaterial={selectedMaterial}
-                strokeSizeRef={strokeSizeRef}
                 materialColorRef={materialColorRef}
                 maxSpeedRef={maxSpeedRef}
                 initialVelocityRef={initialVelocityRef}
@@ -183,7 +177,6 @@ function App() {
             </div>
             <div className="flex-1  p-4">
               <MaterialOptions
-                updateStrokeSize={updateStrokeSize}
                 selectedMaterial={selectedMaterial}
                 updateMaxSpeed={updateMaxSpeed}
                 updateInitialVelocity={updateInitialVelocity}

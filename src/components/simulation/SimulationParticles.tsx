@@ -32,7 +32,6 @@ interface SimulationParticlesProps {
   isPlaying: boolean;
   setFPS: Dispatch<SetStateAction<number>>;
   materialColorRef: MutableRefObject<Color>;
-  strokeSizeRef: MutableRefObject<number>;
   selectedMaterial: MaterialOptionsType;
   particleSize: number;
   maxSpeedRef: MutableRefObject<number>;
@@ -50,7 +49,6 @@ const SimulationParticles = ({
   materialColorRef,
   theme,
   setFPS,
-  // strokeSizeRef,
   selectedMaterial,
   maxSpeedRef,
   initialVelocityRef,

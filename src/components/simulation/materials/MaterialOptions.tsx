@@ -17,7 +17,7 @@ import { useAtom } from "jotai";
 import { strokeSizeAtom } from "@/components/simulation/simulationState";
 
 type MaterialOptionsProps = {
-  updateStrokeSize: (strokeSize: number) => void;
+  // updateStrokeSize: (strokeSize: number) => void;
   updateMaxSpeed: (maxSpeed: number) => void;
   updateInitialVelocity: (initialVelocity: number) => void;
   updateAcceleration: (acceleration: number) => void;
