@@ -21,7 +21,6 @@ import {
   MaterialMapping,
   MaterialOptionsType,
 } from "@/components/simulation/materials/Material";
-import { backgroundColorDark, backgroundColorLight } from "@/lib/colors";
 import { Dimension } from "@/types";
 
 interface SimulationParticlesProps {
