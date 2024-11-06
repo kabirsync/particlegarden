@@ -9,6 +9,7 @@ import {
   defaultDiagonalSpread,
   defaultHorizontalSpread,
   defaultInitialVelocity,
+  defaultMaterialColor,
   defaultMaxSpeed,
   defaultStrokeSize,
   defaultVerticalSpread,
@@ -19,6 +20,7 @@ import {
   diagonalSpreadAtom,
   horizontalSpreadAtom,
   initialVelocityAtom,
+  materialColorAtom,
   maxSpeedAtom,
   strokeSizeAtom,
   verticalSpreadAtom,
@@ -26,15 +28,15 @@ import {
 
 type MaterialOptionsProps = {
   selectedMaterial: MaterialOptionsType;
-  handleMaterialColorChange: (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => void;
+  // handleMaterialColorChange: (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => void;
   materialColor: Color;
 };
 
 const MaterialOptions = ({
   selectedMaterial,
-  handleMaterialColorChange,
+  // handleMaterialColorChange,
   materialColor,
 }: MaterialOptionsProps) => {
   const [strokeSizeRef] = useAtom(strokeSizeAtom);
@@ -55,6 +57,18 @@ const MaterialOptions = ({
   const [horizontalSpread, setHorizontalSpread] = useState(
     defaultHorizontalSpread
   );
+
+  const [materialColorRef] = useAtom(materialColorAtom);
+  const [, setMaterialColor] = useState(defaultMaterialColor);
+
+  const handleMaterialColorChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value; // Access event.target correctly
+    const newColor = new Color(value);
+    setMaterialColor(newColor);
+    materialColorRef.current = newColor;
+  };
 
   const handleStrokeSizeChange = (value: number) => {
     setStrokeSize(value);

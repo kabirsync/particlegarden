@@ -8,6 +8,7 @@ import SimulationOptionsButton from "@/components/simulation/SimulationOptionsBu
 import {
   FPSAtom,
   materialColorAtom,
+  selectedMaterialAtom,
 } from "@/components/simulation/simulationState";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
@@ -17,7 +18,7 @@ import {
   defaultIsPlaying,
   defaultMaterialColor,
   defaultParticleSize,
-  defaultSelecteMaterial,
+  // defaultSelecteMaterial,
   fireColor,
   sandColor,
   smokeColor,
@@ -29,7 +30,6 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import { useAtom } from "jotai";
 import { LoaderIcon, Pause, Play } from "lucide-react";
 import React, { Suspense, useState } from "react";
-import { Color } from "three";
 
 const Simulation = React.lazy(
   () => import("@/components/simulation/Simulation")
@@ -40,9 +40,7 @@ function App() {
   const [FPS] = useAtom(FPSAtom);
   const [particleSize, setParticleSize] = useState(defaultParticleSize);
   const [materialColorRef] = useAtom(materialColorAtom);
-  const [selectedMaterial, setSelectedMaterial] = useState<MaterialOptionsType>(
-    defaultSelecteMaterial
-  );
+  const [selectedMaterial, setSelectedMaterial] = useAtom(selectedMaterialAtom);
   const [materialColor, setMaterialColor] = useState(defaultMaterialColor);
 
   const toggleIsPlaying = () => {
@@ -71,14 +69,14 @@ function App() {
     setSelectedMaterial(newSelectedMaterial);
   };
 
-  const handleMaterialColorChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value; // Access event.target correctly
-    const newColor = new Color(value);
-    setMaterialColor(newColor);
-    materialColorRef.current = newColor;
-  };
+  // const handleMaterialColorChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const value = event.target.value; // Access event.target correctly
+  //   const newColor = new Color(value);
+  //   setMaterialColor(newColor);
+  //   materialColorRef.current = newColor;
+  // };
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -98,7 +96,6 @@ function App() {
                 isPlaying={isPlaying}
                 particleSize={particleSize}
                 selectedMaterial={selectedMaterial}
-                // materialColorRef={materialColorRef}
               />
             </Suspense>
           </div>
@@ -141,7 +138,7 @@ function App() {
             <div className="flex-1  p-4">
               <MaterialOptions
                 selectedMaterial={selectedMaterial}
-                handleMaterialColorChange={handleMaterialColorChange}
+                // handleMaterialColorChange={handleMaterialColorChange}
                 materialColor={materialColor}
               />
             </div>
