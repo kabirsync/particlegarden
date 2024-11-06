@@ -1,6 +1,6 @@
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
-import { waterColor } from "@/lib/colors";
+import { waterColor } from "@/lib/constants";
 import { Color } from "three";
 
 type WaterProps = {

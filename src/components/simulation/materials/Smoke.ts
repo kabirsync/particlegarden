@@ -5,8 +5,9 @@ import Particle from "@/components/simulation/materials/Particle";
 // import { MovesVertical } from "@/components/simulation/behaviours/MovesVertical";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import { LimitedLife } from "@/components/simulation/behaviours/LimitedLife";
-import { smokeColor, varyColor } from "@/lib/colors";
+import { varyColor } from "@/lib/colors";
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
+import { smokeColor } from "@/lib/constants";
 // import { baseSmokeColor } from "../colors";
 
 export class Smoke extends Particle {

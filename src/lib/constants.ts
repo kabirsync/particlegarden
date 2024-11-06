@@ -18,6 +18,9 @@ export const fireColors = [
 export const backgroundColorDark = new Color("#09090b");
 export const backgroundColorLight = new Color("#f4f4f5");
 
+// Fix - Particle.ts
+export const transparentColor = new Color("#09090b");
+
 export const defaultIsPlaying = true;
 export const defaultFPS = 0;
 export const defaultParticleSize = 4;

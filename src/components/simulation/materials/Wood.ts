@@ -1,6 +1,7 @@
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import Particle from "@/components/simulation/materials/Particle";
-import { varyColor, woodColor } from "@/lib/colors";
+import { varyColor } from "@/lib/colors";
+import { woodColor } from "@/lib/constants";
 import { Color } from "three";
 
 type WoodProps = {
