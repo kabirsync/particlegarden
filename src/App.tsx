@@ -5,22 +5,16 @@ import {
 import MaterialButton from "@/components/simulation/materials/MaterialButton";
 import MaterialOptions from "@/components/simulation/materials/MaterialOptions";
 import SimulationOptionsButton from "@/components/simulation/SimulationOptionsButton";
+import { FPSAtom } from "@/components/simulation/simulationState";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
 
 import {
-  defaultAcceleration,
-  defaultDiagonalSpread,
-  defaultFPS,
-  defaultHorizontalSpread,
-  defaultInitialVelocity,
   defaultIsPlaying,
   defaultMaterialColor,
-  defaultMaxSpeed,
   defaultParticleSize,
   defaultSelecteMaterial,
-  defaultVerticalSpread,
   fireColor,
   sandColor,
   smokeColor,
@@ -29,6 +23,7 @@ import {
 } from "@/lib/constants";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { useAtom } from "jotai";
 import { LoaderIcon, Pause, Play } from "lucide-react";
 import React, { Suspense, useRef, useState } from "react";
 import { Color } from "three";
@@ -39,19 +34,13 @@ const Simulation = React.lazy(
 
 function App() {
   const [isPlaying, setIsPlaying] = useState(defaultIsPlaying);
-  const [FPS, setFPS] = useState(defaultFPS);
+  const [FPS] = useAtom(FPSAtom);
   const [particleSize, setParticleSize] = useState(defaultParticleSize);
   const materialColorRef = useRef(defaultMaterialColor);
-  const maxSpeedRef = useRef(defaultMaxSpeed);
-  const initialVelocityRef = useRef(defaultInitialVelocity);
-  const accelerationRef = useRef(defaultAcceleration);
   const [selectedMaterial, setSelectedMaterial] = useState<MaterialOptionsType>(
     defaultSelecteMaterial
   );
   const [materialColor, setMaterialColor] = useState(defaultMaterialColor);
-  const diagonalSpreadRef = useRef(defaultDiagonalSpread);
-  const verticalSpreadRef = useRef(defaultVerticalSpread);
-  const horizontalSpreadRef = useRef(defaultHorizontalSpread);
 
   const toggleIsPlaying = () => {
     setIsPlaying(!isPlaying);
@@ -79,28 +68,6 @@ function App() {
     setSelectedMaterial(newSelectedMaterial);
   };
 
-  const updateMaxSpeed = (maxSpeed: number) => {
-    maxSpeedRef.current = maxSpeed;
-  };
-  const updateInitialVelocity = (initialVelocity: number) => {
-    initialVelocityRef.current = initialVelocity;
-  };
-  const updateAcceleration = (acceleration: number) => {
-    accelerationRef.current = acceleration;
-  };
-
-  const updateDiagonalSpread = (diagonalSpread: number) => {
-    diagonalSpreadRef.current = diagonalSpread;
-  };
-
-  const updateVerticalSpread = (verticalSpread: number) => {
-    verticalSpreadRef.current = verticalSpread;
-  };
-
-  const updateHorizontalSpread = (horizontalSpread: number) => {
-    horizontalSpreadRef.current = horizontalSpread;
-  };
-
   const handleMaterialColorChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -126,16 +93,9 @@ function App() {
             >
               <Simulation
                 isPlaying={isPlaying}
-                setFPS={setFPS}
                 particleSize={particleSize}
                 selectedMaterial={selectedMaterial}
                 materialColorRef={materialColorRef}
-                maxSpeedRef={maxSpeedRef}
-                initialVelocityRef={initialVelocityRef}
-                accelerationRef={accelerationRef}
-                diagonalSpreadRef={diagonalSpreadRef}
-                verticalSpreadRef={verticalSpreadRef}
-                horizontalSpreadRef={horizontalSpreadRef}
               />
             </Suspense>
           </div>
@@ -178,14 +138,8 @@ function App() {
             <div className="flex-1  p-4">
               <MaterialOptions
                 selectedMaterial={selectedMaterial}
-                updateMaxSpeed={updateMaxSpeed}
-                updateInitialVelocity={updateInitialVelocity}
-                updateAcceleration={updateAcceleration}
                 handleMaterialColorChange={handleMaterialColorChange}
                 materialColor={materialColor}
-                updateDiagonalSpread={updateDiagonalSpread}
-                updateVerticalSpread={updateVerticalSpread}
-                updateHorizontalSpread={updateHorizontalSpread}
               />
             </div>
           </div>

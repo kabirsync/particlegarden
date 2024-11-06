@@ -1,46 +1,24 @@
-// import SimulationParticles from "@/components/simulation/SimulationParticles";
 import { Grid } from "@/components/simulation/Grid";
 import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import SimulationParticles from "@/components/simulation/SimulationParticles";
 import { useTheme } from "@/components/theme/useTheme";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Canvas } from "@react-three/fiber";
-import {
-  Dispatch,
-  MutableRefObject,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Color, WebGLRenderer } from "three";
 
 type SimulationProps = {
   isPlaying: boolean;
-  setFPS: Dispatch<SetStateAction<number>>;
   particleSize: number;
   selectedMaterial: MaterialOptionsType;
   materialColorRef: MutableRefObject<Color>;
-  maxSpeedRef: MutableRefObject<number>;
-  initialVelocityRef: MutableRefObject<number>;
-  accelerationRef: MutableRefObject<number>;
-  diagonalSpreadRef: MutableRefObject<number>;
-  verticalSpreadRef: MutableRefObject<number>;
-  horizontalSpreadRef: MutableRefObject<number>;
 };
 
 const Simulation = ({
   particleSize,
   isPlaying,
-  setFPS,
   selectedMaterial,
   materialColorRef,
-  maxSpeedRef,
-  initialVelocityRef,
-  accelerationRef,
-  diagonalSpreadRef,
-  verticalSpreadRef,
-  horizontalSpreadRef,
 }: Readonly<SimulationProps>) => {
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
@@ -89,17 +67,10 @@ const Simulation = ({
         <SimulationParticles
           isPlaying={isPlaying}
           dimensions={dimensions}
-          setFPS={setFPS}
           materialColorRef={materialColorRef}
           selectedMaterial={selectedMaterial}
           particleSize={particleSize}
           theme={theme}
-          maxSpeedRef={maxSpeedRef}
-          initialVelocityRef={initialVelocityRef}
-          accelerationRef={accelerationRef}
-          diagonalSpreadRef={diagonalSpreadRef}
-          verticalSpreadRef={verticalSpreadRef}
-          horizontalSpreadRef={horizontalSpreadRef}
         />
       </Canvas>
     </div>

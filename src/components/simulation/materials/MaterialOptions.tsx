@@ -14,17 +14,17 @@ import {
   defaultVerticalSpread,
 } from "@/lib/constants";
 import { useAtom } from "jotai";
-import { strokeSizeAtom } from "@/components/simulation/simulationState";
+import {
+  accelerationAtom,
+  diagonalSpreadAtom,
+  horizontalSpreadAtom,
+  initialVelocityAtom,
+  maxSpeedAtom,
+  strokeSizeAtom,
+  verticalSpreadAtom,
+} from "@/components/simulation/simulationState";
 
 type MaterialOptionsProps = {
-  // updateStrokeSize: (strokeSize: number) => void;
-  updateMaxSpeed: (maxSpeed: number) => void;
-  updateInitialVelocity: (initialVelocity: number) => void;
-  updateAcceleration: (acceleration: number) => void;
-  updateDiagonalSpread: (diagonalSpread: number) => void;
-  updateVerticalSpread: (verticalSpread: number) => void;
-  updateHorizontalSpread: (horizontalSpread: number) => void;
-
   selectedMaterial: MaterialOptionsType;
   handleMaterialColorChange: (
     event: React.ChangeEvent<HTMLInputElement>
@@ -33,18 +33,17 @@ type MaterialOptionsProps = {
 };
 
 const MaterialOptions = ({
-  // updateStrokeSize,
   selectedMaterial,
-  updateMaxSpeed,
-  updateInitialVelocity,
-  updateAcceleration,
-  updateDiagonalSpread,
-  updateHorizontalSpread,
-  updateVerticalSpread,
   handleMaterialColorChange,
   materialColor,
 }: MaterialOptionsProps) => {
   const [strokeSizeRef] = useAtom(strokeSizeAtom);
+  const [maxSpeedRef] = useAtom(maxSpeedAtom);
+  const [initialVelocityRef] = useAtom(initialVelocityAtom);
+  const [accelerationRef] = useAtom(accelerationAtom);
+  const [diagonalSpreadRef] = useAtom(diagonalSpreadAtom);
+  const [verticalSpreadRef] = useAtom(verticalSpreadAtom);
+  const [horizontalSpreadRef] = useAtom(horizontalSpreadAtom);
   const [strokeSize, setStrokeSize] = useState(defaultStrokeSize);
   const [maxSpeed, setMaxSpeed] = useState(defaultMaxSpeed);
   const [initialVelocity, setInitialVelocity] = useState(
@@ -59,33 +58,32 @@ const MaterialOptions = ({
 
   const handleStrokeSizeChange = (value: number) => {
     setStrokeSize(value);
-    // updateStrokeSize(value);
     strokeSizeRef.current = value;
   };
   const handleMaxSpeedChange = (value: number) => {
     setMaxSpeed(value);
-    updateMaxSpeed(value);
+    maxSpeedRef.current = value;
   };
   const handleInitialVelocityChange = (value: number) => {
     setInitialVelocity(value);
-    updateInitialVelocity(value);
+    initialVelocityRef.current = value;
   };
   const handleAccelerationChange = (value: number) => {
     setAcceleration(value);
-    updateAcceleration(value);
+    accelerationRef.current = value;
   };
 
   const handleDiagonalSpreadChange = (value: number) => {
     setDiagonalSpread(value);
-    updateDiagonalSpread(value);
+    diagonalSpreadRef.current = value;
   };
   const handleVerticalSpreadChange = (value: number) => {
     setVerticalSpread(value);
-    updateVerticalSpread(value);
+    verticalSpreadRef.current = value;
   };
   const handleHorizontalSpreadChange = (value: number) => {
     setHorizontalSpread(value);
-    updateHorizontalSpread(value);
+    horizontalSpreadRef.current = value;
   };
 
   return (
