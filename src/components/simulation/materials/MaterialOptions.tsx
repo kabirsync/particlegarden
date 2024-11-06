@@ -4,6 +4,15 @@ import { Slider } from "@/components/ui/slider";
 import { Color } from "three";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
+import {
+  defaultAcceleration,
+  defaultDiagonalSpread,
+  defaultHorizontalSpread,
+  defaultInitialVelocity,
+  defaultMaxSpeed,
+  defaultStrokeSize,
+  defaultVerticalSpread,
+} from "@/constants";
 
 type MaterialOptionsProps = {
   updateStrokeSize: (strokeSize: number) => void;
@@ -33,13 +42,17 @@ const MaterialOptions = ({
   handleMaterialColorChange,
   materialColor,
 }: MaterialOptionsProps) => {
-  const [strokeSize, setStrokeSize] = useState(6);
-  const [maxSpeed, setMaxSpeed] = useState(10);
-  const [initialVelocity, setInitialVelocity] = useState(0.1);
-  const [acceleration, setAcceleration] = useState(0.5);
-  const [diagonalSpread, setDiagonalSpread] = useState(3);
-  const [verticalSpread, setVerticalSpread] = useState(1);
-  const [horizontalSpread, setHorizontalSpread] = useState(3);
+  const [strokeSize, setStrokeSize] = useState(defaultStrokeSize);
+  const [maxSpeed, setMaxSpeed] = useState(defaultMaxSpeed);
+  const [initialVelocity, setInitialVelocity] = useState(
+    defaultInitialVelocity
+  );
+  const [acceleration, setAcceleration] = useState(defaultAcceleration);
+  const [diagonalSpread, setDiagonalSpread] = useState(defaultDiagonalSpread);
+  const [verticalSpread, setVerticalSpread] = useState(defaultVerticalSpread);
+  const [horizontalSpread, setHorizontalSpread] = useState(
+    defaultHorizontalSpread
+  );
 
   const handleStrokeSizeChange = (value: number) => {
     setStrokeSize(value);
