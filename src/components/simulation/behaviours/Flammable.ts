@@ -5,6 +5,7 @@ import Particle from "@/components/simulation/materials/Particle";
 import Empty from "@/components/simulation/materials/Empty";
 import { fireColors } from "@/lib/colors";
 import { Smoke } from "@/components/simulation/materials/Smoke";
+import Water from "@/components/simulation/materials/Water";
 
 export type FlammableProps = {
   fuel?: number;
@@ -67,23 +68,22 @@ export class Flammable extends LimitedLife {
   update(particle: Particle, grid: Grid) {
     if (this.burning) {
       // Check for water above
-      // const aboveIndex = particle.index - grid.columns;
-      // const leftIndex = particle.index - 1;
-      // const rightIndex = particle.index + 1;
+      // Possibly extract this so different liquids can be passed into Flammable
+      const aboveIndex = particle.index - grid.columns;
+      const leftIndex = particle.index - 1;
+      const rightIndex = particle.index + 1;
+      const column = particle.index % grid.columns;
+      const isLeftEdge = column === 0;
+      const isRightEdge = column === grid.columns - 1;
 
-      // const column = particle.index % grid.columns;
-      // const isLeftEdge = column === 0;
-      // const isRightEdge = column === grid.columns - 1;
-      //
-      // Redo this logic
-      // if (
-      //   (aboveIndex >= 0 && grid.grid[aboveIndex] instanceof Water) ||
-      //   (!isLeftEdge && grid.grid[leftIndex] instanceof Water) ||
-      //   (!isRightEdge && grid.grid[rightIndex] instanceof Water)
-      // ) {
-      //   this.extinguish(particle, grid);
-      //   return;
-      // }
+      if (
+        (aboveIndex >= 0 && grid.grid[aboveIndex] instanceof Water) ||
+        (!isLeftEdge && grid.grid[leftIndex] instanceof Water) ||
+        (!isRightEdge && grid.grid[rightIndex] instanceof Water)
+      ) {
+        this.extinguish(particle, grid);
+        return;
+      }
 
       super.update(particle, grid);
       this.tryToSpread(particle, grid);
