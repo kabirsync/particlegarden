@@ -1,7 +1,7 @@
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
-import { fireColor } from "@/lib/colors";
+import { fireColor } from "@/lib/constants";
 import { Color } from "three";
 
 export class Fire extends Particle {

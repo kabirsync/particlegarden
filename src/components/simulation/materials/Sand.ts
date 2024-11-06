@@ -1,7 +1,8 @@
-import { sandColor, varyColor } from "@/lib/colors";
+import { varyColor } from "@/lib/colors";
 import Particle from "@/components/simulation/materials/Particle";
 import { Color } from "three";
 import { MovesVerticalSolid } from "@/components/simulation/behaviours/MovesVerticalSolid";
+import { sandColor } from "@/lib/constants";
 
 type SandProps = {
   color?: Color;

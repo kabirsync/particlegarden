@@ -12,7 +12,7 @@ import {
   defaultMaxSpeed,
   defaultStrokeSize,
   defaultVerticalSpread,
-} from "@/constants";
+} from "@/lib/constants";
 
 type MaterialOptionsProps = {
   updateStrokeSize: (strokeSize: number) => void;

@@ -3,7 +3,7 @@ import { Grid } from "../Grid";
 import { LimitedLife } from "./LimitedLife";
 import Particle from "@/components/simulation/materials/Particle";
 import Empty from "@/components/simulation/materials/Empty";
-import { fireColors } from "@/lib/colors";
+import { fireColors } from "@/lib/constants";
 import { Smoke } from "@/components/simulation/materials/Smoke";
 import Water from "@/components/simulation/materials/Water";
 

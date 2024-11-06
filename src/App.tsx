@@ -27,7 +27,7 @@ import {
   smokeColor,
   waterColor,
   woodColor,
-} from "@/constants";
+} from "@/lib/constants";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { LoaderIcon, Pause, Play } from "lucide-react";
