@@ -13,6 +13,8 @@ import {
   defaultStrokeSize,
   defaultVerticalSpread,
 } from "@/lib/constants";
+import { useAtom } from "jotai";
+import { strokeSizeAtom } from "@/components/simulation/simulationState";
 
 type MaterialOptionsProps = {
   updateStrokeSize: (strokeSize: number) => void;
@@ -31,7 +33,7 @@ type MaterialOptionsProps = {
 };
 
 const MaterialOptions = ({
-  updateStrokeSize,
+  // updateStrokeSize,
   selectedMaterial,
   updateMaxSpeed,
   updateInitialVelocity,
@@ -42,6 +44,7 @@ const MaterialOptions = ({
   handleMaterialColorChange,
   materialColor,
 }: MaterialOptionsProps) => {
+  const [strokeSizeRef] = useAtom(strokeSizeAtom);
   const [strokeSize, setStrokeSize] = useState(defaultStrokeSize);
   const [maxSpeed, setMaxSpeed] = useState(defaultMaxSpeed);
   const [initialVelocity, setInitialVelocity] = useState(
@@ -56,7 +59,8 @@ const MaterialOptions = ({
 
   const handleStrokeSizeChange = (value: number) => {
     setStrokeSize(value);
-    updateStrokeSize(value);
+    // updateStrokeSize(value);
+    strokeSizeRef.current = value;
   };
   const handleMaxSpeedChange = (value: number) => {
     setMaxSpeed(value);

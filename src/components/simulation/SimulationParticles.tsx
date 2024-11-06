@@ -23,6 +23,8 @@ import {
 } from "@/components/simulation/materials/Material";
 import { Dimension } from "@/types";
 import { backgroundColorDark, backgroundColorLight } from "@/lib/constants";
+import { useAtom } from "jotai";
+import { strokeSizeAtom } from "@/components/simulation/simulationState";
 
 interface SimulationParticlesProps {
   dimensions: Dimension;
@@ -48,7 +50,7 @@ const SimulationParticles = ({
   materialColorRef,
   theme,
   setFPS,
-  strokeSizeRef,
+  // strokeSizeRef,
   selectedMaterial,
   maxSpeedRef,
   initialVelocityRef,
@@ -59,6 +61,7 @@ const SimulationParticles = ({
 }: SimulationParticlesProps) => {
   const backgroundColor =
     theme === "light" ? backgroundColorLight : backgroundColorDark;
+  const [strokeSizeRef] = useAtom(strokeSizeAtom);
 
   const [, setFrame] = useState(0);
   const gridRef = useRef<Grid>();
