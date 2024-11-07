@@ -1,73 +1,66 @@
+import {
+  MaterialMapping,
+  MaterialOptionsType,
+} from "@/components/simulation/materials/Material";
+import {
+  accelerationRefAtom,
+  diagonalSpreadRefAtom,
+  FPSAtom,
+  horizontalSpreadRefAtom,
+  initialVelocityRefAtom,
+  isPlayingAtom,
+  materialColorRefAtom,
+  maxSpeedRefAtom,
+  particleSizeAtom,
+  selectedMaterialAtom,
+  strokeSizeRefAtom,
+  verticalSpreadRefAtom,
+} from "@/components/simulation/simulationState";
+import { backgroundColorDark, backgroundColorLight } from "@/lib/constants";
 import { throttle } from "@/lib/utils";
+import { Dimension } from "@/types";
 import { useFrame } from "@react-three/fiber";
+import { useAtom } from "jotai";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  Dispatch,
-  MutableRefObject,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import {
-  Color,
   BufferGeometry,
   Float32BufferAttribute,
   Points,
   PointsMaterial,
 } from "three";
 import { Grid } from "./Grid";
-import {
-  MaterialMapping,
-  MaterialOptionsType,
-} from "@/components/simulation/materials/Material";
-import { Dimension } from "@/types";
-import { backgroundColorDark, backgroundColorLight } from "@/lib/constants";
 
 interface SimulationParticlesProps {
   dimensions: Dimension;
   theme: "dark" | "light";
-  isPlaying: boolean;
-  setFPS: Dispatch<SetStateAction<number>>;
-  materialColorRef: MutableRefObject<Color>;
-  strokeSizeRef: MutableRefObject<number>;
-  selectedMaterial: MaterialOptionsType;
-  particleSize: number;
-  maxSpeedRef: MutableRefObject<number>;
-  initialVelocityRef: MutableRefObject<number>;
-  accelerationRef: MutableRefObject<number>;
-  diagonalSpreadRef: MutableRefObject<number>;
-  verticalSpreadRef: MutableRefObject<number>;
-  horizontalSpreadRef: MutableRefObject<number>;
 }
 
 const SimulationParticles = ({
-  isPlaying,
   dimensions,
-  particleSize,
-  materialColorRef,
   theme,
-  setFPS,
-  strokeSizeRef,
-  selectedMaterial,
-  maxSpeedRef,
-  initialVelocityRef,
-  accelerationRef,
-  diagonalSpreadRef,
-  verticalSpreadRef,
-  horizontalSpreadRef,
 }: SimulationParticlesProps) => {
-  const backgroundColor =
-    theme === "light" ? backgroundColorLight : backgroundColorDark;
-
+  const [isPlaying] = useAtom(isPlayingAtom);
+  const [particleSize] = useAtom(particleSizeAtom);
+  const [selectedMaterial] = useAtom(selectedMaterialAtom);
+  const [materialColorRef] = useAtom(materialColorRefAtom);
+  const [maxSpeedRef] = useAtom(maxSpeedRefAtom);
+  const [initialVelocityRef] = useAtom(initialVelocityRefAtom);
+  const [accelerationRef] = useAtom(accelerationRefAtom);
+  const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
+  const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
+  const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
+  const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
+  const [, setFPS] = useAtom(FPSAtom);
   const [, setFrame] = useState(0);
   const gridRef = useRef<Grid>();
   const [isReady, setIsReady] = useState(false);
   const lastTimeRef = useRef(performance.now());
-
   const mouseDownRef = useRef(false);
   const mousePositionRef = useRef({ u: 0, v: 0 });
   const mouseOverRef = useRef(false);
+
+  const backgroundColor =
+    theme === "light" ? backgroundColorLight : backgroundColorDark;
 
   const columns = Math.floor(dimensions.width / particleSize);
   const rows = Math.floor(dimensions.height / particleSize);

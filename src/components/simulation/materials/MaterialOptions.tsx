@@ -1,9 +1,18 @@
-import { MaterialOptionsType } from "@/components/simulation/materials/Material";
+import {
+  accelerationRefAtom,
+  diagonalSpreadRefAtom,
+  horizontalSpreadRefAtom,
+  initialVelocityRefAtom,
+  materialColorAtom,
+  materialColorRefAtom,
+  maxSpeedRefAtom,
+  selectedMaterialAtom,
+  strokeSizeRefAtom,
+  verticalSpreadRefAtom,
+} from "@/components/simulation/simulationState";
 import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
-import { Color } from "three";
-import { useState } from "react";
 import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import {
   defaultAcceleration,
   defaultDiagonalSpread,
@@ -13,35 +22,19 @@ import {
   defaultStrokeSize,
   defaultVerticalSpread,
 } from "@/lib/constants";
+import { useAtom } from "jotai";
+import { useState } from "react";
+import { Color } from "three";
 
-type MaterialOptionsProps = {
-  updateStrokeSize: (strokeSize: number) => void;
-  updateMaxSpeed: (maxSpeed: number) => void;
-  updateInitialVelocity: (initialVelocity: number) => void;
-  updateAcceleration: (acceleration: number) => void;
-  updateDiagonalSpread: (diagonalSpread: number) => void;
-  updateVerticalSpread: (verticalSpread: number) => void;
-  updateHorizontalSpread: (horizontalSpread: number) => void;
-
-  selectedMaterial: MaterialOptionsType;
-  handleMaterialColorChange: (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => void;
-  materialColor: Color;
-};
-
-const MaterialOptions = ({
-  updateStrokeSize,
-  selectedMaterial,
-  updateMaxSpeed,
-  updateInitialVelocity,
-  updateAcceleration,
-  updateDiagonalSpread,
-  updateHorizontalSpread,
-  updateVerticalSpread,
-  handleMaterialColorChange,
-  materialColor,
-}: MaterialOptionsProps) => {
+const MaterialOptions = () => {
+  const [selectedMaterial] = useAtom(selectedMaterialAtom);
+  const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
+  const [maxSpeedRef] = useAtom(maxSpeedRefAtom);
+  const [initialVelocityRef] = useAtom(initialVelocityRefAtom);
+  const [accelerationRef] = useAtom(accelerationRefAtom);
+  const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
+  const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
+  const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
   const [strokeSize, setStrokeSize] = useState(defaultStrokeSize);
   const [maxSpeed, setMaxSpeed] = useState(defaultMaxSpeed);
   const [initialVelocity, setInitialVelocity] = useState(
@@ -54,34 +47,46 @@ const MaterialOptions = ({
     defaultHorizontalSpread
   );
 
+  const [materialColorRef] = useAtom(materialColorRefAtom);
+  const [materialColor, setMaterialColor] = useAtom(materialColorAtom);
+
+  const handleMaterialColorChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value; // Access event.target correctly
+    const newColor = new Color(value);
+    setMaterialColor(newColor);
+    materialColorRef.current = newColor;
+  };
+
   const handleStrokeSizeChange = (value: number) => {
     setStrokeSize(value);
-    updateStrokeSize(value);
+    strokeSizeRef.current = value;
   };
   const handleMaxSpeedChange = (value: number) => {
     setMaxSpeed(value);
-    updateMaxSpeed(value);
+    maxSpeedRef.current = value;
   };
   const handleInitialVelocityChange = (value: number) => {
     setInitialVelocity(value);
-    updateInitialVelocity(value);
+    initialVelocityRef.current = value;
   };
   const handleAccelerationChange = (value: number) => {
     setAcceleration(value);
-    updateAcceleration(value);
+    accelerationRef.current = value;
   };
 
   const handleDiagonalSpreadChange = (value: number) => {
     setDiagonalSpread(value);
-    updateDiagonalSpread(value);
+    diagonalSpreadRef.current = value;
   };
   const handleVerticalSpreadChange = (value: number) => {
     setVerticalSpread(value);
-    updateVerticalSpread(value);
+    verticalSpreadRef.current = value;
   };
   const handleHorizontalSpreadChange = (value: number) => {
     setHorizontalSpread(value);
-    updateHorizontalSpread(value);
+    horizontalSpreadRef.current = value;
   };
 
   return (

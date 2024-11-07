@@ -1,49 +1,15 @@
-// import SimulationParticles from "@/components/simulation/SimulationParticles";
 import { Grid } from "@/components/simulation/Grid";
-import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import SimulationParticles from "@/components/simulation/SimulationParticles";
+import { particleSizeAtom } from "@/components/simulation/simulationState";
 import { useTheme } from "@/components/theme/useTheme";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Canvas } from "@react-three/fiber";
-import {
-  Dispatch,
-  MutableRefObject,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { Color, WebGLRenderer } from "three";
+import { useAtom } from "jotai";
+import { useEffect, useRef, useState } from "react";
+import { WebGLRenderer } from "three";
 
-type SimulationProps = {
-  isPlaying: boolean;
-  setFPS: Dispatch<SetStateAction<number>>;
-  particleSize: number;
-  selectedMaterial: MaterialOptionsType;
-  materialColorRef: MutableRefObject<Color>;
-  strokeSizeRef: MutableRefObject<number>;
-  maxSpeedRef: MutableRefObject<number>;
-  initialVelocityRef: MutableRefObject<number>;
-  accelerationRef: MutableRefObject<number>;
-  diagonalSpreadRef: MutableRefObject<number>;
-  verticalSpreadRef: MutableRefObject<number>;
-  horizontalSpreadRef: MutableRefObject<number>;
-};
-
-const Simulation = ({
-  particleSize,
-  isPlaying,
-  setFPS,
-  selectedMaterial,
-  strokeSizeRef,
-  materialColorRef,
-  maxSpeedRef,
-  initialVelocityRef,
-  accelerationRef,
-  diagonalSpreadRef,
-  verticalSpreadRef,
-  horizontalSpreadRef,
-}: Readonly<SimulationProps>) => {
+const Simulation = () => {
+  const [particleSize] = useAtom(particleSizeAtom);
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
   const gridRef = useRef<Grid>();
@@ -56,7 +22,6 @@ const Simulation = ({
   useEffect(() => {
     if (columns > 0 && rows > 0) {
       gridRef.current = new Grid({ columns, rows });
-      // previewRef.current = new Grid({ columns, rows });
       setIsReady(true); // force rerender
     }
   }, [columns, dimensions.height, dimensions.width, particleSize, rows]);
@@ -89,22 +54,7 @@ const Simulation = ({
           intensity={Math.PI}
         />
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-        <SimulationParticles
-          isPlaying={isPlaying}
-          dimensions={dimensions}
-          setFPS={setFPS}
-          materialColorRef={materialColorRef}
-          strokeSizeRef={strokeSizeRef}
-          selectedMaterial={selectedMaterial}
-          particleSize={particleSize}
-          theme={theme}
-          maxSpeedRef={maxSpeedRef}
-          initialVelocityRef={initialVelocityRef}
-          accelerationRef={accelerationRef}
-          diagonalSpreadRef={diagonalSpreadRef}
-          verticalSpreadRef={verticalSpreadRef}
-          horizontalSpreadRef={horizontalSpreadRef}
-        />
+        <SimulationParticles dimensions={dimensions} theme={theme} />
       </Canvas>
     </div>
   );
