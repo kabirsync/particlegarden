@@ -31,7 +31,7 @@ function App() {
               <Simulation />
             </Suspense>
           </div>
-          <div className="sm:min-h-[300px] h-[40%] sm:h-[30%] flex flex-col">
+          <div className="sm:min-h-[300px] h-[40%] sm:h-[30%] md:h-[100%] md:w-[400px] flex flex-col md:border-l border-zinc-400 dark:border-zinc-800">
             <div className="h-[60px] border-b border-t border-zinc-400 dark:border-zinc-800 px-3 py-2">
               <EngineOptions />
             </div>
@@ -42,7 +42,7 @@ function App() {
                 </div>
               </ScrollArea>
               <ScrollArea className="h-[100%] flex-0">
-                <div className="grid grid-cols-1 sm:grid-cols-2 content-start gap-4 p-3 border-l border-zinc-400 dark:border-zinc-800">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 content-start gap-4 p-3 border-l border-zinc-400 dark:border-zinc-800">
                   {materialOptions.map((material) => {
                     return (
                       <MaterialButton key={material} material={material} />
