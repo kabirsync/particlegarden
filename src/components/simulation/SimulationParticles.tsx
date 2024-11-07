@@ -49,19 +49,18 @@ const SimulationParticles = ({
   const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
   const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
   const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
-
-  const backgroundColor =
-    theme === "light" ? backgroundColorLight : backgroundColorDark;
   const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
   const [, setFPS] = useAtom(FPSAtom);
   const [, setFrame] = useState(0);
   const gridRef = useRef<Grid>();
   const [isReady, setIsReady] = useState(false);
   const lastTimeRef = useRef(performance.now());
-
   const mouseDownRef = useRef(false);
   const mousePositionRef = useRef({ u: 0, v: 0 });
   const mouseOverRef = useRef(false);
+
+  const backgroundColor =
+    theme === "light" ? backgroundColorLight : backgroundColorDark;
 
   const columns = Math.floor(dimensions.width / particleSize);
   const rows = Math.floor(dimensions.height / particleSize);
