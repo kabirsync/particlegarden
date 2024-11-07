@@ -18,7 +18,6 @@ import {
   defaultIsPlaying,
   defaultMaterialColor,
   defaultParticleSize,
-  // defaultSelecteMaterial,
   fireColor,
   sandColor,
   smokeColor,
@@ -68,15 +67,6 @@ function App() {
 
     setSelectedMaterial(newSelectedMaterial);
   };
-
-  // const handleMaterialColorChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   const value = event.target.value; // Access event.target correctly
-  //   const newColor = new Color(value);
-  //   setMaterialColor(newColor);
-  //   materialColorRef.current = newColor;
-  // };
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -138,7 +128,6 @@ function App() {
             <div className="flex-1  p-4">
               <MaterialOptions
                 selectedMaterial={selectedMaterial}
-                // handleMaterialColorChange={handleMaterialColorChange}
                 materialColor={materialColor}
               />
             </div>

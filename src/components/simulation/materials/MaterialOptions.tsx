@@ -28,15 +28,12 @@ import {
 
 type MaterialOptionsProps = {
   selectedMaterial: MaterialOptionsType;
-  // handleMaterialColorChange: (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => void;
+
   materialColor: Color;
 };
 
 const MaterialOptions = ({
   selectedMaterial,
-  // handleMaterialColorChange,
   materialColor,
 }: MaterialOptionsProps) => {
   const [strokeSizeRef] = useAtom(strokeSizeAtom);
