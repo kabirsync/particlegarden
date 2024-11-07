@@ -1,17 +1,15 @@
 import { Grid } from "@/components/simulation/Grid";
 import SimulationParticles from "@/components/simulation/SimulationParticles";
+import { particleSizeAtom } from "@/components/simulation/simulationState";
 import { useTheme } from "@/components/theme/useTheme";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Canvas } from "@react-three/fiber";
+import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import { WebGLRenderer } from "three";
 
-type SimulationProps = {
-  isPlaying: boolean;
-  particleSize: number;
-};
-
-const Simulation = ({ particleSize, isPlaying }: Readonly<SimulationProps>) => {
+const Simulation = () => {
+  const [particleSize] = useAtom(particleSizeAtom);
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
   const gridRef = useRef<Grid>();
@@ -56,12 +54,7 @@ const Simulation = ({ particleSize, isPlaying }: Readonly<SimulationProps>) => {
           intensity={Math.PI}
         />
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-        <SimulationParticles
-          isPlaying={isPlaying}
-          dimensions={dimensions}
-          particleSize={particleSize}
-          theme={theme}
-        />
+        <SimulationParticles dimensions={dimensions} theme={theme} />
       </Canvas>
     </div>
   );

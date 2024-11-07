@@ -1,27 +1,16 @@
 import EngineOptions from "@/components/simulation/EngineOptions";
-import { FPSAtom } from "@/components/simulation/simulationState";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
-import { defaultIsPlaying, defaultParticleSize } from "@/lib/constants";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { useAtom } from "jotai";
 import { LoaderIcon } from "lucide-react";
-import React, { Suspense, useState } from "react";
+import React, { Suspense } from "react";
 
 const Simulation = React.lazy(
   () => import("@/components/simulation/Simulation")
 );
 
 function App() {
-  const [isPlaying, setIsPlaying] = useState(defaultIsPlaying);
-  const [FPS] = useAtom(FPSAtom);
-  const [particleSize, setParticleSize] = useState(defaultParticleSize);
-
-  const toggleIsPlaying = () => {
-    setIsPlaying(!isPlaying);
-  };
-
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Analytics />
@@ -36,16 +25,10 @@ function App() {
                 </div>
               }
             >
-              <Simulation isPlaying={isPlaying} particleSize={particleSize} />
+              <Simulation />
             </Suspense>
           </div>
-          <EngineOptions
-            FPS={FPS}
-            setParticleSize={setParticleSize}
-            particleSize={particleSize}
-            isPlaying={isPlaying}
-            toggleIsPlaying={toggleIsPlaying}
-          />
+          <EngineOptions />
         </div>
       </div>
     </ThemeProvider>

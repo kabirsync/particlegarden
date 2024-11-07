@@ -8,8 +8,10 @@ import {
   FPSAtom,
   horizontalSpreadRefAtom,
   initialVelocityRefAtom,
+  isPlayingAtom,
   materialColorRefAtom,
   maxSpeedRefAtom,
+  particleSizeAtom,
   selectedMaterialAtom,
   strokeSizeRefAtom,
   verticalSpreadRefAtom,
@@ -31,16 +33,14 @@ import { Grid } from "./Grid";
 interface SimulationParticlesProps {
   dimensions: Dimension;
   theme: "dark" | "light";
-  isPlaying: boolean;
-  particleSize: number;
 }
 
 const SimulationParticles = ({
-  isPlaying,
   dimensions,
-  particleSize,
   theme,
 }: SimulationParticlesProps) => {
+  const [isPlaying] = useAtom(isPlayingAtom);
+  const [particleSize] = useAtom(particleSizeAtom);
   const [selectedMaterial] = useAtom(selectedMaterialAtom);
   const [materialColorRef] = useAtom(materialColorRefAtom);
   const [maxSpeedRef] = useAtom(maxSpeedRefAtom);

@@ -2,27 +2,25 @@ import { materialOptions } from "@/components/simulation/materials/Material";
 import MaterialButton from "@/components/simulation/materials/MaterialButton";
 import MaterialOptions from "@/components/simulation/materials/MaterialOptions";
 import SimulationOptionsButton from "@/components/simulation/SimulationOptionsButton";
+import {
+  FPSAtom,
+  isPlayingAtom,
+  particleSizeAtom,
+} from "@/components/simulation/simulationState";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
-import { SetStateAction } from "jotai";
+import { useAtom } from "jotai";
 import { Pause, Play } from "lucide-react";
-import { Dispatch } from "react";
 
-type EngineOptionsProps = {
-  FPS: number;
-  setParticleSize: Dispatch<SetStateAction<number>>;
-  particleSize: number;
-  isPlaying: boolean;
-  toggleIsPlaying: () => void;
-};
+const EngineOptions = () => {
+  const [FPS] = useAtom(FPSAtom);
+  const [particleSize, setParticleSize] = useAtom(particleSizeAtom);
+  const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
 
-const EngineOptions = ({
-  FPS,
-  setParticleSize,
-  particleSize,
-  isPlaying,
-  toggleIsPlaying,
-}: EngineOptionsProps) => {
+  const toggleIsPlaying = () => {
+    setIsPlaying(!isPlaying);
+  };
+
   return (
     <div className="flex md:flex-col min-h-36 md:w-72 border-t md:border-t-0 md:border-l border-zinc-400 dark:border-zinc-800">
       <div className="flex-0 border-r md:border-r-0 border-b border-zinc-400 dark:border-zinc-800 text-xs px-4 py-1">

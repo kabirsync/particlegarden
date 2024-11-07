@@ -5,7 +5,7 @@ import {
   defaultFPS,
   defaultHorizontalSpread,
   defaultInitialVelocity,
-  // defaultIsPlaying,
+  defaultIsPlaying,
   defaultMaterialColor,
   defaultMaxSpeed,
   defaultParticleSize,
@@ -15,9 +15,10 @@ import {
 } from "@/lib/constants";
 import { atom } from "jotai";
 
-// export const isPlayingAtom = atom(defaultIsPlaying);
+export const isPlayingAtom = atom(defaultIsPlaying);
 export const FPSAtom = atom(defaultFPS);
 export const particleSizeAtom = atom(defaultParticleSize);
+
 export const materialColorRefAtom = atom(() => ({
   current: defaultMaterialColor,
 }));
@@ -35,7 +36,6 @@ export const accelerationRefAtom = atom(() => ({
 export const selectedMaterialAtom = atom<MaterialOptionsType>(
   defaultSelecteMaterial
 );
-// export const materialColorAtom = atom(defaultMaterialColor);
 export const diagonalSpreadRefAtom = atom(() => ({
   current: defaultDiagonalSpread,
 }));
