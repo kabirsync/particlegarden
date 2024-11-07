@@ -32,7 +32,7 @@ function App() {
             </Suspense>
           </div>
           <div className="sm:min-h-[300px] h-[40%] sm:h-[30%] flex flex-col">
-            <div className="h-[60px] border-b border-zinc-400 dark:border-zinc-800 px-3 py-2">
+            <div className="h-[60px] border-b border-t border-zinc-400 dark:border-zinc-800 px-3 py-2">
               <EngineOptions />
             </div>
             <div className="h-[calc(100%-60px)] flex w-full">

@@ -19,8 +19,8 @@ const EngineOptions = () => {
   };
 
   return (
-    <div className="flex flex-row items-center text-xs">
-      <div className="h-10 min-w-12 md:flex-1 justify-start md:justify-start flex items-center">
+    <div className="h-full flex flex-row items-center text-xs">
+      <div className="h-10 min-w-12 flex-1 justify-start flex items-center">
         <span>{FPS} FPS</span>
       </div>
       <div className="flex-1 flex justify-center">
