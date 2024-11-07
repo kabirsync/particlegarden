@@ -1,5 +1,4 @@
 import { Grid } from "@/components/simulation/Grid";
-import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import SimulationParticles from "@/components/simulation/SimulationParticles";
 import { useTheme } from "@/components/theme/useTheme";
 import { useContainerSize } from "@/hooks/useContainerSize";
@@ -10,14 +9,14 @@ import { WebGLRenderer } from "three";
 type SimulationProps = {
   isPlaying: boolean;
   particleSize: number;
-  selectedMaterial: MaterialOptionsType;
+  // selectedMaterial: MaterialOptionsType;
 };
 
 const Simulation = ({
   particleSize,
   isPlaying,
-  selectedMaterial,
-}: Readonly<SimulationProps>) => {
+}: // selectedMaterial,
+Readonly<SimulationProps>) => {
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
   const gridRef = useRef<Grid>();
@@ -65,7 +64,7 @@ const Simulation = ({
         <SimulationParticles
           isPlaying={isPlaying}
           dimensions={dimensions}
-          selectedMaterial={selectedMaterial}
+          // selectedMaterial={selectedMaterial}
           particleSize={particleSize}
           theme={theme}
         />

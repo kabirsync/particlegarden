@@ -1,29 +1,13 @@
-import {
-  materialOptions,
-  MaterialOptionsType,
-} from "@/components/simulation/materials/Material";
+import { materialOptions } from "@/components/simulation/materials/Material";
 import MaterialButton from "@/components/simulation/materials/MaterialButton";
 import MaterialOptions from "@/components/simulation/materials/MaterialOptions";
 import SimulationOptionsButton from "@/components/simulation/SimulationOptionsButton";
-import {
-  FPSAtom,
-  materialColorAtom,
-  selectedMaterialAtom,
-} from "@/components/simulation/simulationState";
+import { FPSAtom } from "@/components/simulation/simulationState";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
 
-import {
-  defaultIsPlaying,
-  defaultMaterialColor,
-  defaultParticleSize,
-  fireColor,
-  sandColor,
-  smokeColor,
-  waterColor,
-  woodColor,
-} from "@/lib/constants";
+import { defaultIsPlaying, defaultParticleSize } from "@/lib/constants";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { useAtom } from "jotai";
@@ -38,35 +22,35 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(defaultIsPlaying);
   const [FPS] = useAtom(FPSAtom);
   const [particleSize, setParticleSize] = useState(defaultParticleSize);
-  const [materialColorRef] = useAtom(materialColorAtom);
-  const [selectedMaterial, setSelectedMaterial] = useAtom(selectedMaterialAtom);
-  const [materialColor, setMaterialColor] = useState(defaultMaterialColor);
+  // const [materialColorRef] = useAtom(materialColorAtom);
+  // const [selectedMaterial] = useAtom(selectedMaterialAtom);
+  // const [materialColor] = useState(defaultMaterialColor);
 
   const toggleIsPlaying = () => {
     setIsPlaying(!isPlaying);
   };
-  const handleSelectedMaterialChange = (
-    newSelectedMaterial: MaterialOptionsType
-  ) => {
-    if (newSelectedMaterial === "Wood") {
-      setMaterialColor(woodColor);
-      materialColorRef.current = woodColor;
-    } else if (newSelectedMaterial === "Sand") {
-      setMaterialColor(sandColor);
-      materialColorRef.current = sandColor;
-    } else if (newSelectedMaterial === "Water") {
-      setMaterialColor(waterColor);
-      materialColorRef.current = waterColor;
-    } else if (newSelectedMaterial === "Smoke") {
-      setMaterialColor(smokeColor);
-      materialColorRef.current = smokeColor;
-    } else if (newSelectedMaterial === "Fire") {
-      setMaterialColor(fireColor);
-      materialColorRef.current = fireColor;
-    }
+  // const handleSelectedMaterialChange = (
+  //   newSelectedMaterial: MaterialOptionsType
+  // ) => {
+  //   if (newSelectedMaterial === "Wood") {
+  //     setMaterialColor(woodColor);
+  //     materialColorRef.current = woodColor;
+  //   } else if (newSelectedMaterial === "Sand") {
+  //     setMaterialColor(sandColor);
+  //     materialColorRef.current = sandColor;
+  //   } else if (newSelectedMaterial === "Water") {
+  //     setMaterialColor(waterColor);
+  //     materialColorRef.current = waterColor;
+  //   } else if (newSelectedMaterial === "Smoke") {
+  //     setMaterialColor(smokeColor);
+  //     materialColorRef.current = smokeColor;
+  //   } else if (newSelectedMaterial === "Fire") {
+  //     setMaterialColor(fireColor);
+  //     materialColorRef.current = fireColor;
+  //   }
 
-    setSelectedMaterial(newSelectedMaterial);
-  };
+  //   setSelectedMaterial(newSelectedMaterial);
+  // };
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -85,7 +69,7 @@ function App() {
               <Simulation
                 isPlaying={isPlaying}
                 particleSize={particleSize}
-                selectedMaterial={selectedMaterial}
+                // selectedMaterial={selectedMaterial}
               />
             </Suspense>
           </div>
@@ -119,16 +103,16 @@ function App() {
                   <MaterialButton
                     key={material}
                     material={material}
-                    isSelected={selectedMaterial === material}
-                    handleSelectedMaterialChange={handleSelectedMaterialChange}
+                    // isSelected={selectedMaterial === material}
+                    // handleSelectedMaterialChange={handleSelectedMaterialChange}
                   />
                 );
               })}
             </div>
             <div className="flex-1  p-4">
               <MaterialOptions
-                selectedMaterial={selectedMaterial}
-                materialColor={materialColor}
+              // selectedMaterial={selectedMaterial}
+              // materialColor={materialColor}
               />
             </div>
           </div>

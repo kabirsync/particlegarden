@@ -18,25 +18,30 @@ import { atom } from "jotai";
 // export const isPlayingAtom = atom(defaultIsPlaying);
 export const FPSAtom = atom(defaultFPS);
 export const particleSizeAtom = atom(defaultParticleSize);
-export const materialColorAtom = atom(() => ({
+export const materialColorRefAtom = atom(() => ({
   current: defaultMaterialColor,
 }));
-export const strokeSizeAtom = atom(() => ({ current: defaultStrokeSize }));
-export const maxSpeedAtom = atom(() => ({ current: defaultMaxSpeed }));
-export const initialVelocityAtom = atom(() => ({
+
+export const materialColorAtom = atom(defaultMaterialColor);
+
+export const strokeSizeRefAtom = atom(() => ({ current: defaultStrokeSize }));
+export const maxSpeedRefAtom = atom(() => ({ current: defaultMaxSpeed }));
+export const initialVelocityRefAtom = atom(() => ({
   current: defaultInitialVelocity,
 }));
-export const accelerationAtom = atom(() => ({ current: defaultAcceleration }));
+export const accelerationRefAtom = atom(() => ({
+  current: defaultAcceleration,
+}));
 export const selectedMaterialAtom = atom<MaterialOptionsType>(
   defaultSelecteMaterial
 );
 // export const materialColorAtom = atom(defaultMaterialColor);
-export const diagonalSpreadAtom = atom(() => ({
+export const diagonalSpreadRefAtom = atom(() => ({
   current: defaultDiagonalSpread,
 }));
-export const verticalSpreadAtom = atom(() => ({
+export const verticalSpreadRefAtom = atom(() => ({
   current: defaultVerticalSpread,
 }));
-export const horizontalSpreadAtom = atom(() => ({
+export const horizontalSpreadRefAtom = atom(() => ({
   current: defaultHorizontalSpread,
 }));

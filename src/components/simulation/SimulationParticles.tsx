@@ -3,15 +3,16 @@ import {
   MaterialOptionsType,
 } from "@/components/simulation/materials/Material";
 import {
-  accelerationAtom,
-  diagonalSpreadAtom,
+  accelerationRefAtom,
+  diagonalSpreadRefAtom,
   FPSAtom,
-  horizontalSpreadAtom,
-  initialVelocityAtom,
-  materialColorAtom,
-  maxSpeedAtom,
-  strokeSizeAtom,
-  verticalSpreadAtom,
+  horizontalSpreadRefAtom,
+  initialVelocityRefAtom,
+  materialColorRefAtom,
+  maxSpeedRefAtom,
+  selectedMaterialAtom,
+  strokeSizeRefAtom,
+  verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
 import { backgroundColorDark, backgroundColorLight } from "@/lib/constants";
 import { throttle } from "@/lib/utils";
@@ -31,7 +32,7 @@ interface SimulationParticlesProps {
   dimensions: Dimension;
   theme: "dark" | "light";
   isPlaying: boolean;
-  selectedMaterial: MaterialOptionsType;
+  // selectedMaterial: MaterialOptionsType;
   particleSize: number;
 }
 
@@ -40,19 +41,20 @@ const SimulationParticles = ({
   dimensions,
   particleSize,
   theme,
-  selectedMaterial,
-}: SimulationParticlesProps) => {
-  const [materialColorRef] = useAtom(materialColorAtom);
-  const [maxSpeedRef] = useAtom(maxSpeedAtom);
-  const [initialVelocityRef] = useAtom(initialVelocityAtom);
-  const [accelerationRef] = useAtom(accelerationAtom);
-  const [diagonalSpreadRef] = useAtom(diagonalSpreadAtom);
-  const [verticalSpreadRef] = useAtom(verticalSpreadAtom);
-  const [horizontalSpreadRef] = useAtom(horizontalSpreadAtom);
+}: // selectedMaterial,
+SimulationParticlesProps) => {
+  const [selectedMaterial] = useAtom(selectedMaterialAtom);
+  const [materialColorRef] = useAtom(materialColorRefAtom);
+  const [maxSpeedRef] = useAtom(maxSpeedRefAtom);
+  const [initialVelocityRef] = useAtom(initialVelocityRefAtom);
+  const [accelerationRef] = useAtom(accelerationRefAtom);
+  const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
+  const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
+  const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
 
   const backgroundColor =
     theme === "light" ? backgroundColorLight : backgroundColorDark;
-  const [strokeSizeRef] = useAtom(strokeSizeAtom);
+  const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
   const [, setFPS] = useAtom(FPSAtom);
   const [, setFrame] = useState(0);
   const gridRef = useRef<Grid>();

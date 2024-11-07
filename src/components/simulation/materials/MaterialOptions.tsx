@@ -1,48 +1,40 @@
-import { MaterialOptionsType } from "@/components/simulation/materials/Material";
+import {
+  accelerationRefAtom,
+  diagonalSpreadRefAtom,
+  horizontalSpreadRefAtom,
+  initialVelocityRefAtom,
+  materialColorAtom,
+  materialColorRefAtom,
+  maxSpeedRefAtom,
+  selectedMaterialAtom,
+  strokeSizeRefAtom,
+  verticalSpreadRefAtom,
+} from "@/components/simulation/simulationState";
 import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
-import { Color } from "three";
-import { useState } from "react";
 import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import {
   defaultAcceleration,
   defaultDiagonalSpread,
   defaultHorizontalSpread,
   defaultInitialVelocity,
-  defaultMaterialColor,
   defaultMaxSpeed,
   defaultStrokeSize,
   defaultVerticalSpread,
 } from "@/lib/constants";
 import { useAtom } from "jotai";
-import {
-  accelerationAtom,
-  diagonalSpreadAtom,
-  horizontalSpreadAtom,
-  initialVelocityAtom,
-  materialColorAtom,
-  maxSpeedAtom,
-  strokeSizeAtom,
-  verticalSpreadAtom,
-} from "@/components/simulation/simulationState";
+import { useState } from "react";
+import { Color } from "three";
 
-type MaterialOptionsProps = {
-  selectedMaterial: MaterialOptionsType;
-
-  materialColor: Color;
-};
-
-const MaterialOptions = ({
-  selectedMaterial,
-  materialColor,
-}: MaterialOptionsProps) => {
-  const [strokeSizeRef] = useAtom(strokeSizeAtom);
-  const [maxSpeedRef] = useAtom(maxSpeedAtom);
-  const [initialVelocityRef] = useAtom(initialVelocityAtom);
-  const [accelerationRef] = useAtom(accelerationAtom);
-  const [diagonalSpreadRef] = useAtom(diagonalSpreadAtom);
-  const [verticalSpreadRef] = useAtom(verticalSpreadAtom);
-  const [horizontalSpreadRef] = useAtom(horizontalSpreadAtom);
+const MaterialOptions = () => {
+  const [selectedMaterial] = useAtom(selectedMaterialAtom);
+  const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
+  const [maxSpeedRef] = useAtom(maxSpeedRefAtom);
+  const [initialVelocityRef] = useAtom(initialVelocityRefAtom);
+  const [accelerationRef] = useAtom(accelerationRefAtom);
+  const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
+  const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
+  const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
   const [strokeSize, setStrokeSize] = useState(defaultStrokeSize);
   const [maxSpeed, setMaxSpeed] = useState(defaultMaxSpeed);
   const [initialVelocity, setInitialVelocity] = useState(
@@ -55,8 +47,8 @@ const MaterialOptions = ({
     defaultHorizontalSpread
   );
 
-  const [materialColorRef] = useAtom(materialColorAtom);
-  const [, setMaterialColor] = useState(defaultMaterialColor);
+  const [materialColorRef] = useAtom(materialColorRefAtom);
+  const [materialColor, setMaterialColor] = useAtom(materialColorAtom);
 
   const handleMaterialColorChange = (
     event: React.ChangeEvent<HTMLInputElement>
