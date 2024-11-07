@@ -9,14 +9,9 @@ import { WebGLRenderer } from "three";
 type SimulationProps = {
   isPlaying: boolean;
   particleSize: number;
-  // selectedMaterial: MaterialOptionsType;
 };
 
-const Simulation = ({
-  particleSize,
-  isPlaying,
-}: // selectedMaterial,
-Readonly<SimulationProps>) => {
+const Simulation = ({ particleSize, isPlaying }: Readonly<SimulationProps>) => {
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
   const gridRef = useRef<Grid>();
@@ -64,7 +59,6 @@ Readonly<SimulationProps>) => {
         <SimulationParticles
           isPlaying={isPlaying}
           dimensions={dimensions}
-          // selectedMaterial={selectedMaterial}
           particleSize={particleSize}
           theme={theme}
         />

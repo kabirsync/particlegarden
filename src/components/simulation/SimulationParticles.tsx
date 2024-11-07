@@ -32,7 +32,6 @@ interface SimulationParticlesProps {
   dimensions: Dimension;
   theme: "dark" | "light";
   isPlaying: boolean;
-  // selectedMaterial: MaterialOptionsType;
   particleSize: number;
 }
 
@@ -41,8 +40,7 @@ const SimulationParticles = ({
   dimensions,
   particleSize,
   theme,
-}: // selectedMaterial,
-SimulationParticlesProps) => {
+}: SimulationParticlesProps) => {
   const [selectedMaterial] = useAtom(selectedMaterialAtom);
   const [materialColorRef] = useAtom(materialColorRefAtom);
   const [maxSpeedRef] = useAtom(maxSpeedRefAtom);

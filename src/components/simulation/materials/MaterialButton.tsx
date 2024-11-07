@@ -9,7 +9,6 @@ import {
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import {
-  // defaultMaterialColor,
   fireColor,
   sandColor,
   smokeColor,
@@ -20,17 +19,9 @@ import { useAtom } from "jotai";
 
 type MaterialButtonProps = {
   material: MaterialOptionsType;
-  // isSelected: boolean;
-  // handleSelectedMaterialChange: (
-  //   newSelectedMaterial: MaterialOptionsType
-  // ) => void;
 };
 
-const MaterialButton = ({
-  material,
-}: // isSelected,
-// handleSelectedMaterialChange,
-MaterialButtonProps) => {
+const MaterialButton = ({ material }: MaterialButtonProps) => {
   const [materialColorRef] = useAtom(materialColorRefAtom);
   const [selectedMaterial, setSelectedMaterial] = useAtom(selectedMaterialAtom);
 
