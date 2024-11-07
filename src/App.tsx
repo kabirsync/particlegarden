@@ -1,6 +1,5 @@
 import EngineOptions from "@/components/simulation/EngineOptions";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
-
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { LoaderIcon } from "lucide-react";
