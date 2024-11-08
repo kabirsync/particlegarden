@@ -20,34 +20,32 @@ function App() {
       <SpeedInsights />
       <div className="h-dvh flex flex-col dark:bg-zinc-950 bg-white text-zinc-900 dark:text-zinc-300 ">
         <div className="h-full flex flex-col md:flex-row">
-          <div className="md:order-2 sm:min-h-[240px] h-[40%] sm:h-[30%] md:h-[100%] md:w-[400px] flex flex-col md:border-l border-zinc-400 dark:border-zinc-800">
+          <div className="md:order-2 sm:min-h-[240px] h-[40%] sm:h-[30%] md:h-[100%] md:w-[340px] flex flex-col md:border-l border-zinc-400 dark:border-zinc-800">
             <div className="h-[40px] md:h-[60px] border-b border-zinc-400 dark:border-zinc-800 px-3 py-2">
               <EngineOptions />
             </div>
-            <div className="h-[calc(100%-40px)] md:h-[calc(100%-60px)] flex w-full border-b md:border-0 border-zinc-400 dark:border-zinc-800">
-              <ScrollArea className="h-[100%] flex-1 ">
-                <div className="p-3">
-                  <MaterialOptions />
+            <div className="h-[calc(100%-40px)] md:h-[calc(100%-60px)] flex md:flex-col w-full border-b md:border-0 border-zinc-400 dark:border-zinc-800">
+              <ScrollArea className="order-2 md:order-1  h-[100%] flex-1  p-3">
+                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 content-start gap-4">
+                  {materialOptions.map((material) => {
+                    return (
+                      <MaterialButton key={material} material={material} />
+                    );
+                  })}
+                  {materialOptions.map((material) => {
+                    return (
+                      <MaterialButton key={material} material={material} />
+                    );
+                  })}
+                  {materialOptions.map((material) => {
+                    return (
+                      <MaterialButton key={material} material={material} />
+                    );
+                  })}
                 </div>
               </ScrollArea>
-              <ScrollArea className="h-[100%] flex-0">
-                <div className="md:max-w-[200px] grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-2 content-start gap-4 p-3 border-l border-zinc-400 dark:border-zinc-800">
-                  {materialOptions.map((material) => {
-                    return (
-                      <MaterialButton key={material} material={material} />
-                    );
-                  })}
-                  {materialOptions.map((material) => {
-                    return (
-                      <MaterialButton key={material} material={material} />
-                    );
-                  })}
-                  {materialOptions.map((material) => {
-                    return (
-                      <MaterialButton key={material} material={material} />
-                    );
-                  })}
-                </div>
+              <ScrollArea className="order-1 md:order-2 h-[100%] flex-1 border-r md:border-r-0 md:border-t border-zinc-400 dark:border-zinc-800 p-3">
+                <MaterialOptions />
               </ScrollArea>
             </div>
           </div>
