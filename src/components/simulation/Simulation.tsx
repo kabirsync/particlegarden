@@ -5,7 +5,7 @@ import { useTheme } from "@/components/theme/useTheme";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Canvas } from "@react-three/fiber";
 import { useAtom } from "jotai";
-import { useEffect, useRef, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { WebGLRenderer } from "three";
 
 const Simulation = () => {
@@ -26,8 +26,15 @@ const Simulation = () => {
     }
   }, [columns, dimensions.height, dimensions.width, particleSize, rows]);
 
+  const handleContextMenu = (event: MouseEvent<HTMLDivElement>) => {
+    event.preventDefault(); // Prevent the default context menu from appearing
+  };
   return (
-    <div ref={containerRef} className="w-full h-full relative cursor-pointer">
+    <div
+      onContextMenu={handleContextMenu}
+      ref={containerRef}
+      className="w-full h-full relative cursor-pointer"
+    >
       <Canvas
         orthographic
         camera={{
