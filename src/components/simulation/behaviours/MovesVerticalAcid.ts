@@ -42,8 +42,7 @@ export class MovesVerticalAcid extends MovesVertical {
   }
 
   canDissolve(particle: Particle) {
-    const dissolvableParticles = ["Stone", "Wood"];
-    return dissolvableParticles.includes(particle?.constructor.name);
+    return particle instanceof Stone || particle instanceof Wood;
   }
 
   moveParticle(particle: Particle, grid: Grid): number {
