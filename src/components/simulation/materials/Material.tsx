@@ -7,13 +7,14 @@ import Sand from "./Sand";
 import { Smoke } from "@/components/simulation/materials/Smoke";
 import { Fire } from "@/components/simulation/materials/Fire";
 import Oil from "@/components/simulation/materials/Oil";
+import Gas from "@/components/simulation/materials/Gas";
 
 // New materials must be added here and at [3] points
 
 // ------- Make sure to add case to handleSelectMaterialChange -----
 
 // [1] New materials must be added here
-type MaterialClasses = Empty | Sand | Wood | Water | Smoke | Fire | Oil;
+type MaterialClasses = Empty | Sand | Wood | Water | Smoke | Fire | Oil | Gas;
 
 // [2] New materials must be added here
 
@@ -25,6 +26,7 @@ export const materialOptions = [
   "Smoke",
   "Fire",
   "Oil",
+  "Gas",
 ] as const;
 export type MaterialOptionsType = (typeof materialOptions)[number];
 
@@ -54,6 +56,8 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
       return <Flame className="h-3 w-3 text-red-500 fill-red-500" />;
     case "Oil":
       return <Droplet className="h-3 w-3 text-amber-950 fill-amber-950" />;
+    case "Gas":
+      return <Flame className="h-3 w-3 text-amber-100 fill-amber-100" />;
     // case "Fire":
     //   return <Leaf className="h-3 w-3 text-green-600" />;
     default:
@@ -78,4 +82,5 @@ export const MaterialMapping: Record<
   Smoke,
   Fire,
   Oil,
+  Gas,
 };

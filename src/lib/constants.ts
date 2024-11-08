@@ -15,7 +15,7 @@ export const fireColors = [
   new Color("#eecc09"),
 ];
 export const oilColor = new Color("#2C2416");
-export const gasColor = new Color("#f5e6a2");
+export const gasColor = new Color("#FF8585");
 
 export const backgroundColorDark = new Color("#09090b");
 export const backgroundColorLight = new Color("#f4f4f5");

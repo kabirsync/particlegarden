@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   fireColor,
+  gasColor,
   oilColor,
   sandColor,
   smokeColor,
@@ -49,6 +50,9 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
     } else if (newSelectedMaterial === "Oil") {
       setMaterialColor(oilColor);
       materialColorRef.current = oilColor;
+    } else if (newSelectedMaterial === "Gas") {
+      setMaterialColor(gasColor);
+      materialColorRef.current = gasColor;
     }
 
     setSelectedMaterial(newSelectedMaterial);

@@ -1,67 +1,67 @@
+import { Flammable } from "@/components/simulation/behaviours/Flammable";
+import { LimitedLife } from "@/components/simulation/behaviours/LimitedLife";
+import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
+import { Grid } from "@/components/simulation/Grid";
+import Particle from "@/components/simulation/materials/Particle";
+import { gasColor } from "@/lib/constants";
 import { Color } from "three";
 
-import { Grid } from "../Grid";
-import Particle from "@/components/simulation/materials/Particle";
-import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
-import { LimitedLife } from "@/components/simulation/behaviours/LimitedLife";
-import { varyColor } from "@/lib/colors";
-import { Flammable } from "@/components/simulation/behaviours/Flammable";
-import { gasColor } from "@/lib/constants";
+type GasProps = {
+  color?: Color;
+  maxSpeed?: number;
+  acceleration?: number;
+  initialVelocity?: number;
+  diagonalSpread?: number;
+  verticalSpread?: number;
+  horizontalSpread?: number;
+  fuel?: number;
+  chanceToCatch?: number;
+};
 
-export class Gas extends Particle {
-  static addProbability = 0.25;
-
+class Gas extends Particle {
   constructor(
     index: number,
-    { burning, color }: { burning?: boolean; color?: Color } = {}
+    {
+      color = gasColor,
+      // maxSpeed = 10,
+      // acceleration = -0.5,
+      // initialVelocity = -0.1,
+      diagonalSpread = 1,
+      verticalSpread = 1,
+      horizontalSpread = 1,
+      fuel = 300 + 100 * Math.random(),
+      chanceToCatch = 0.1,
+    }: GasProps
   ) {
-    const fuel = 4000 - 400 * Math.random();
-    const behaviours = [];
-
-    if (burning) {
-      behaviours.push(
-        new Flammable({
-          fuel,
-          chanceToSpread: (behavior: Flammable) =>
-            (0.5 * behavior.remainingLife) / behavior.lifetime,
-          burning: true,
-        })
-      );
-    }
-
-    behaviours.push(
-      ...[
+    super(index, {
+      // color: Math.random() < 0.5 ? lightenThreeColor(color, 0.1) : color,
+      color,
+      stateOfMatter: "liquid",
+      behaviours: [
         new MovesVerticalWater({
           maxSpeed: 0.4,
           acceleration: -0.5,
           initialVelocity: -0.1,
+          diagonalSpread,
+          verticalSpread,
+          horizontalSpread,
         }),
-        new LimitedLife(
-          // Each particle has 400 - 800 life (random)
-          400 - 400 * Math.random(),
-          {
-            onTick: (behaviour: LimitedLife, particle: Particle) => {
-              void behaviour;
-              void particle;
-              // let pct = behaviour.remainingLife / behaviour.lifetime;
-              // particle.color?.setAlpha(Math.floor(255.0 * pct));
-            },
-            onDeath: (_, particle: Particle, grid: Grid) => {
-              grid.clearIndex(particle.index);
-            },
-          }
-        ),
-        // new Cloneable({ material: "Gas", color: color ?? baseGasColor }),
-
-        // Fading behavior?
-      ]
-    );
-    super(index, {
-      color: varyColor(color ?? gasColor),
-      stateOfMatter: "gas",
-      //   airy: true,
-
-      behaviours,
+        new Flammable({
+          fuel,
+          chanceToCatch,
+        }),
+        new LimitedLife(4000 - 400 * Math.random(), {
+          // onTick: (behaviour: LimitedLife, particle: Particle) => {
+          //   void behaviour;
+          //   void particle;
+          // },
+          onDeath: (_, particle: Particle, grid: Grid) => {
+            grid.clearIndex(particle.index);
+          },
+        }),
+      ],
     });
   }
 }
+
+export default Gas;
