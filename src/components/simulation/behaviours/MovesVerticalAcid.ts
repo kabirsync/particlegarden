@@ -4,6 +4,10 @@ import {
 } from "@/components/simulation/behaviours/MovesVertical";
 import Particle from "@/components/simulation/materials/Particle";
 import { Grid } from "../Grid";
+import Empty from "@/components/simulation/materials/Empty";
+import { Smoke } from "@/components/simulation/materials/Smoke";
+import { Color } from "three";
+import { smokeColor } from "@/lib/constants";
 
 export type MovesVerticalAcidProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -37,6 +41,11 @@ export class MovesVerticalAcid extends MovesVertical {
     );
   }
 
+  canDissolve(particle: Particle) {
+    const dissolvableParticles = ["Stone", "Wood"];
+    return dissolvableParticles.includes(particle?.constructor.name);
+  }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -57,6 +66,18 @@ export class MovesVerticalAcid extends MovesVertical {
     if (this.canPassThrough(grid.grid[nextVertical])) {
       grid.swap(i, nextVertical);
       return nextVertical;
+    }
+    if (this.canDissolve(grid.grid[nextVertical])) {
+      if (Math.random() < 0.5)
+        grid.setIndex(particle.index, new Empty(particle.index));
+      grid.setIndex(
+        nextVertical,
+        Math.random() < 0.2
+          ? new Smoke(nextVertical, {
+              color: new Color().lerpColors(particle.color, smokeColor, 0.95),
+            })
+          : new Empty(nextVertical)
+      );
     }
 
     if (Math.random() < 0.5) {
