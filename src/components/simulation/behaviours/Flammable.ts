@@ -6,6 +6,7 @@ import Empty from "@/components/simulation/materials/Empty";
 import { fireColors } from "@/lib/constants";
 import { Smoke } from "@/components/simulation/materials/Smoke";
 import Water from "@/components/simulation/materials/Water";
+import { Behaviour } from "@/components/simulation/behaviours/Behaviour";
 
 export type FlammableProps = {
   fuel?: number;
@@ -13,6 +14,7 @@ export type FlammableProps = {
   chanceToCatch?: number;
   chanceToSpread?: number | ((behavior: Flammable) => number);
   smokeColor?: Color;
+  onDeath?: (behaviour: LimitedLife, particle: Particle, grid: Grid) => void;
 };
 
 export class Flammable extends LimitedLife {
@@ -30,8 +32,21 @@ export class Flammable extends LimitedLife {
     chanceToCatch,
     chanceToSpread,
     smokeColor,
+    onDeath,
   }: FlammableProps) {
     fuel = fuel ?? 10 + 100 * Math.random();
+
+    const defaultOnDeath = (_: Behaviour, particle: Particle, grid: Grid) => {
+      if (Math.random() < 0.3) {
+        const smoke = new Smoke(particle.index, {
+          burning: Math.random() < 0.1,
+          color: smokeColor,
+        });
+        grid.setIndex(particle.index, smoke);
+      } else {
+        grid.setIndex(particle.index, new Empty(particle.index));
+      }
+    };
 
     super(fuel, {
       onTick: (behavior, particle) => {
@@ -45,17 +60,7 @@ export class Flammable extends LimitedLife {
         particle.color =
           colors[Math.floor(behavior.remainingLife / period) % colors.length];
       },
-      onDeath: (_, particle, grid) => {
-        if (Math.random() < 0.3) {
-          const smoke = new Smoke(particle.index, {
-            burning: Math.random() < 0.1,
-            color: smokeColor,
-          });
-          grid.setIndex(particle.index, smoke);
-        } else {
-          grid.setIndex(particle.index, new Empty(particle.index));
-        }
-      },
+      onDeath: onDeath ?? defaultOnDeath,
     });
     this.colors = fireColors;
     this.burning = burning ?? false;

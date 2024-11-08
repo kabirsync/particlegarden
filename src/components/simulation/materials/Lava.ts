@@ -1,6 +1,7 @@
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
+import Stone from "@/components/simulation/materials/Stone";
 import { lavaColor } from "@/lib/constants";
 import { Color } from "three";
 
@@ -27,7 +28,7 @@ class Lava extends Particle {
       diagonalSpread = 3,
       verticalSpread = 1,
       horizontalSpread = 3,
-      fuel = 30000 + 100 * Math.random(),
+      fuel = 3000 + 100 * Math.random(),
     }: //   chanceToCatch = 0.01,
     LavaProps
   ) {
@@ -48,6 +49,9 @@ class Lava extends Particle {
           fuel,
           //   chanceToCatch,
           burning: true,
+          onDeath: (_, particle, grid) => {
+            grid.setIndex(particle.index, new Stone(particle.index, {}));
+          },
         }),
       ],
     });
