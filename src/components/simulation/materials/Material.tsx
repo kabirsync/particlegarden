@@ -1,6 +1,14 @@
 import Water from "@/components/simulation/materials/Water";
 import Wood from "@/components/simulation/materials/Wood";
-import { Circle, Cloud, Droplet, Flame, Grip, TreePine } from "lucide-react";
+import {
+  BrickWall,
+  Circle,
+  Cloud,
+  Droplet,
+  Flame,
+  Grip,
+  TreePine,
+} from "lucide-react";
 import { Color } from "three";
 import Empty from "./Empty";
 import Sand from "./Sand";
@@ -8,13 +16,25 @@ import { Smoke } from "@/components/simulation/materials/Smoke";
 import { Fire } from "@/components/simulation/materials/Fire";
 import Oil from "@/components/simulation/materials/Oil";
 import Gas from "@/components/simulation/materials/Gas";
+import Lava from "@/components/simulation/materials/Lava";
+import Stone from "@/components/simulation/materials/Stone";
 
 // New materials must be added here and at [3] points
 
 // ------- Make sure to add case to handleSelectMaterialChange -----
 
 // [1] New materials must be added here
-type MaterialClasses = Empty | Sand | Wood | Water | Smoke | Fire | Oil | Gas;
+type MaterialClasses =
+  | Empty
+  | Sand
+  | Wood
+  | Water
+  | Smoke
+  | Fire
+  | Oil
+  | Gas
+  | Lava
+  | Stone;
 
 // [2] New materials must be added here
 
@@ -27,6 +47,8 @@ export const materialOptions = [
   "Fire",
   "Oil",
   "Gas",
+  "Lava",
+  "Stone",
 ] as const;
 export type MaterialOptionsType = (typeof materialOptions)[number];
 
@@ -58,8 +80,11 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
       return <Droplet className="h-3 w-3 text-amber-950 fill-amber-950" />;
     case "Gas":
       return <Flame className="h-3 w-3 text-amber-100 fill-amber-100" />;
-    // case "Fire":
-    //   return <Leaf className="h-3 w-3 text-green-600" />;
+    case "Lava":
+      return <Droplet className="h-3 w-3 text-red-500 fill-red-900" />;
+    case "Stone":
+      return <BrickWall className="h-3 w-3 text-zinc-500 fill-zinc-700" />;
+
     default:
       return null;
   }
@@ -83,4 +108,6 @@ export const MaterialMapping: Record<
   Fire,
   Oil,
   Gas,
+  Lava,
+  Stone,
 };

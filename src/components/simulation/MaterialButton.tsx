@@ -11,9 +11,12 @@ import { Button } from "@/components/ui/button";
 import {
   fireColor,
   gasColor,
+  lavaColor,
   oilColor,
   sandColor,
   smokeColor,
+  stoneColor,
+  transparentColor,
   waterColor,
   woodColor,
 } from "@/lib/constants";
@@ -29,34 +32,73 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
 
   const [, setMaterialColor] = useAtom(materialColorAtom);
 
+  // Helper function to enforce exhaustiveness
+  function assertUnreachable(x: never): never {
+    throw new Error(`Missing material type handling for: ${x}`);
+  }
+
   const handleSelectedMaterialChange = (
     newSelectedMaterial: MaterialOptionsType
   ) => {
-    if (newSelectedMaterial === "Wood") {
-      setMaterialColor(woodColor);
-      materialColorRef.current = woodColor;
-    } else if (newSelectedMaterial === "Sand") {
-      setMaterialColor(sandColor);
-      materialColorRef.current = sandColor;
-    } else if (newSelectedMaterial === "Water") {
-      setMaterialColor(waterColor);
-      materialColorRef.current = waterColor;
-    } else if (newSelectedMaterial === "Smoke") {
-      setMaterialColor(smokeColor);
-      materialColorRef.current = smokeColor;
-    } else if (newSelectedMaterial === "Fire") {
-      setMaterialColor(fireColor);
-      materialColorRef.current = fireColor;
-    } else if (newSelectedMaterial === "Oil") {
-      setMaterialColor(oilColor);
-      materialColorRef.current = oilColor;
-    } else if (newSelectedMaterial === "Gas") {
-      setMaterialColor(gasColor);
-      materialColorRef.current = gasColor;
+    switch (newSelectedMaterial) {
+      case "Empty": {
+        setMaterialColor(transparentColor);
+        materialColorRef.current = transparentColor;
+        break;
+      }
+      case "Wood": {
+        setMaterialColor(woodColor);
+        materialColorRef.current = woodColor;
+        break;
+      }
+      case "Sand": {
+        setMaterialColor(sandColor);
+        materialColorRef.current = sandColor;
+        break;
+      }
+      case "Water": {
+        setMaterialColor(waterColor);
+        materialColorRef.current = waterColor;
+        break;
+      }
+      case "Smoke": {
+        setMaterialColor(smokeColor);
+        materialColorRef.current = smokeColor;
+        break;
+      }
+      case "Fire": {
+        setMaterialColor(fireColor);
+        materialColorRef.current = fireColor;
+        break;
+      }
+      case "Oil": {
+        setMaterialColor(oilColor);
+        materialColorRef.current = oilColor;
+        break;
+      }
+      case "Gas": {
+        setMaterialColor(gasColor);
+        materialColorRef.current = gasColor;
+        break;
+      }
+      case "Lava": {
+        setMaterialColor(lavaColor);
+        materialColorRef.current = lavaColor;
+        break;
+      }
+      case "Stone": {
+        setMaterialColor(stoneColor);
+        materialColorRef.current = stoneColor;
+        break;
+      }
+      default: {
+        assertUnreachable(newSelectedMaterial);
+      }
     }
 
     setSelectedMaterial(newSelectedMaterial);
   };
+
   return (
     <Button
       className="text-xs flex justify-center"
