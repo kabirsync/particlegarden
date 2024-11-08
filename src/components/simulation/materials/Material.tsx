@@ -18,6 +18,7 @@ import Oil from "@/components/simulation/materials/Oil";
 import Gas from "@/components/simulation/materials/Gas";
 import Lava from "@/components/simulation/materials/Lava";
 import Stone from "@/components/simulation/materials/Stone";
+import { Acid } from "@/components/simulation/materials/Acid";
 
 // New materials must be added here and at [3] points
 
@@ -34,7 +35,8 @@ type MaterialClasses =
   | Oil
   | Gas
   | Lava
-  | Stone;
+  | Stone
+  | Acid;
 
 // [2] New materials must be added here
 
@@ -49,6 +51,7 @@ export const materialOptions = [
   "Gas",
   "Lava",
   "Stone",
+  "Acid",
 ] as const;
 export type MaterialOptionsType = (typeof materialOptions)[number];
 
@@ -84,7 +87,8 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
       return <Droplet className="h-3 w-3 text-red-500 fill-red-900" />;
     case "Stone":
       return <BrickWall className="h-3 w-3 text-zinc-500 fill-zinc-700" />;
-
+    case "Acid":
+      return <Droplet className="h-3 w-3 text-green-500 fill-green-900" />;
     default:
       return null;
   }
@@ -110,4 +114,5 @@ export const MaterialMapping: Record<
   Gas,
   Lava,
   Stone,
+  Acid,
 };

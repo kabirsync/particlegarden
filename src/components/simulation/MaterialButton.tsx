@@ -9,6 +9,7 @@ import {
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import {
+  acidColor,
   fireColor,
   gasColor,
   lavaColor,
@@ -89,6 +90,11 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
       case "Stone": {
         setMaterialColor(stoneColor);
         materialColorRef.current = stoneColor;
+        break;
+      }
+      case "Acid": {
+        setMaterialColor(acidColor);
+        materialColorRef.current = acidColor;
         break;
       }
       default: {

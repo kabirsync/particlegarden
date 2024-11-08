@@ -18,6 +18,7 @@ export const oilColor = new Color("#2C2416");
 export const gasColor = new Color("#FF8585");
 export const lavaColor = new Color("#e34f0f");
 export const stoneColor = new Color("#4C4A4D");
+export const acidColor = new Color("#00FF00");
 
 export const backgroundColorDark = new Color("#09090b");
 export const backgroundColorLight = new Color("#f4f4f5");
