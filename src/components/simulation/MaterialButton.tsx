@@ -15,6 +15,8 @@ import {
   oilColor,
   sandColor,
   smokeColor,
+  stoneColor,
+  transparentColor,
   waterColor,
   woodColor,
 } from "@/lib/constants";
@@ -30,44 +32,68 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
 
   const [, setMaterialColor] = useAtom(materialColorAtom);
 
+  // Helper function to enforce exhaustiveness
+  function assertUnreachable(x: never): never {
+    throw new Error(`Missing material type handling for: ${x}`);
+  }
+
   const handleSelectedMaterialChange = (
     newSelectedMaterial: MaterialOptionsType
   ) => {
     switch (newSelectedMaterial) {
-      case "Wood":
+      case "Empty": {
+        setMaterialColor(transparentColor);
+        materialColorRef.current = transparentColor;
+        break;
+      }
+      case "Wood": {
         setMaterialColor(woodColor);
         materialColorRef.current = woodColor;
         break;
-      case "Sand":
+      }
+      case "Sand": {
         setMaterialColor(sandColor);
         materialColorRef.current = sandColor;
         break;
-      case "Water":
+      }
+      case "Water": {
         setMaterialColor(waterColor);
         materialColorRef.current = waterColor;
         break;
-      case "Smoke":
+      }
+      case "Smoke": {
         setMaterialColor(smokeColor);
         materialColorRef.current = smokeColor;
         break;
-      case "Fire":
+      }
+      case "Fire": {
         setMaterialColor(fireColor);
         materialColorRef.current = fireColor;
         break;
-      case "Oil":
+      }
+      case "Oil": {
         setMaterialColor(oilColor);
         materialColorRef.current = oilColor;
         break;
-      case "Gas":
+      }
+      case "Gas": {
         setMaterialColor(gasColor);
         materialColorRef.current = gasColor;
         break;
-      case "Lava":
+      }
+      case "Lava": {
         setMaterialColor(lavaColor);
         materialColorRef.current = lavaColor;
         break;
-      default:
-        throw new Error(`Unhandled material type: ${newSelectedMaterial}`);
+      }
+      case "Stone": {
+        setMaterialColor(stoneColor);
+        materialColorRef.current = stoneColor;
+        break;
+      }
+      default: {
+        assertUnreachable(newSelectedMaterial);
+      }
     }
 
     setSelectedMaterial(newSelectedMaterial);
