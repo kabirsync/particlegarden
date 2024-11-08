@@ -8,6 +8,8 @@ import Empty from "@/components/simulation/materials/Empty";
 import { Smoke } from "@/components/simulation/materials/Smoke";
 import { Color } from "three";
 import { smokeColor } from "@/lib/constants";
+import Stone from "@/components/simulation/materials/Stone";
+import Wood from "@/components/simulation/materials/Wood";
 
 export type MovesVerticalAcidProps = MovesVerticalProps & {
   diagonalSpread?: number;
