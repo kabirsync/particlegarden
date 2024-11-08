@@ -67,6 +67,8 @@ export class MovesVerticalAcid extends MovesVertical {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
+
+    console.log("test");
     if (this.canDissolve(grid.grid[nextVertical])) {
       console.log("dissolve");
       if (Math.random() < 0.5)
