@@ -1,3 +1,4 @@
+import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
 import { oilColor } from "@/lib/constants";
@@ -11,6 +12,8 @@ type OilProps = {
   diagonalSpread?: number;
   verticalSpread?: number;
   horizontalSpread?: number;
+  fuel?: number;
+  chanceToCatch?: number;
 };
 
 class Oil extends Particle {
@@ -24,6 +27,8 @@ class Oil extends Particle {
       diagonalSpread = 3,
       verticalSpread = 1,
       horizontalSpread = 3,
+      fuel = 300 + 100 * Math.random(),
+      chanceToCatch = 0.01,
     }: OilProps
   ) {
     super(index, {
@@ -38,6 +43,10 @@ class Oil extends Particle {
           diagonalSpread,
           verticalSpread,
           horizontalSpread,
+        }),
+        new Flammable({
+          fuel,
+          chanceToCatch,
         }),
       ],
     });
