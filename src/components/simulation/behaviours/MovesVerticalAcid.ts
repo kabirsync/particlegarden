@@ -69,9 +69,7 @@ export class MovesVerticalAcid extends MovesVertical {
       return nextVertical;
     }
 
-    console.log("test");
     if (this.canDissolve(grid.grid[nextVertical])) {
-      console.log("dissolve");
       if (Math.random() < 0.5)
         grid.setIndex(particle.index, new Empty(particle.index));
       grid.setIndex(
