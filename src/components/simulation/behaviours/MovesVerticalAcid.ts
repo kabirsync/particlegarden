@@ -84,16 +84,6 @@ export class MovesVerticalAcid extends MovesVertical {
 
     if (this.canDissolve(grid.grid[nextVertical])) {
       this.dissolveParticle(particle, nextVertical, grid);
-      // if (Math.random() < 0.5)
-      //   grid.setIndex(particle.index, new Empty(particle.index));
-      // grid.setIndex(
-      //   nextVertical,
-      //   Math.random() < 0.2
-      //     ? new Smoke(nextVertical, {
-      //         color: new Color().lerpColors(particle.color, smokeColor, 0.95),
-      //       })
-      //     : new Empty(nextVertical)
-      // );
     }
 
     if (Math.random() < 0.5) {
@@ -104,6 +94,9 @@ export class MovesVerticalAcid extends MovesVertical {
         grid.swap(i, nextVerticalLeft);
         return nextVerticalLeft;
       }
+      if (this.canDissolve(grid.grid[nextVerticalLeft])) {
+        this.dissolveParticle(particle, nextVerticalLeft, grid);
+      }
     } else {
       if (
         column < grid.columns - this.diagonalSpread &&
@@ -111,6 +104,9 @@ export class MovesVerticalAcid extends MovesVertical {
       ) {
         grid.swap(i, nextVerticalRight);
         return nextVerticalRight;
+      }
+      if (this.canDissolve(grid.grid[nextVerticalRight])) {
+        this.dissolveParticle(particle, nextVerticalRight, grid);
       }
     }
 
@@ -122,6 +118,9 @@ export class MovesVerticalAcid extends MovesVertical {
         grid.swap(i, nextLeft);
         return nextLeft;
       }
+      if (this.canDissolve(grid.grid[nextLeft])) {
+        this.dissolveParticle(particle, nextLeft, grid);
+      }
     } else {
       if (
         column < grid.columns - 2 - this.horizontalSpread &&
@@ -129,6 +128,9 @@ export class MovesVerticalAcid extends MovesVertical {
       ) {
         grid.swap(i, nextRight);
         return nextRight;
+      }
+      if (this.canDissolve(grid.grid[nextRight])) {
+        this.dissolveParticle(particle, nextRight, grid);
       }
     }
 
