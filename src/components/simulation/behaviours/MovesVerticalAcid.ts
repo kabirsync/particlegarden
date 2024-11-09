@@ -47,6 +47,19 @@ export class MovesVerticalAcid extends MovesVertical {
     return particle instanceof Stone || particle instanceof Wood;
   }
 
+  dissolveParticle(particle: Particle, nextParticleIndex: number, grid: Grid) {
+    if (Math.random() < 0.5)
+      grid.setIndex(particle.index, new Empty(particle.index));
+    grid.setIndex(
+      nextParticleIndex,
+      Math.random() < 0.2
+        ? new Smoke(nextParticleIndex, {
+            color: new Color().lerpColors(particle.color, smokeColor, 0.95),
+          })
+        : new Empty(nextParticleIndex)
+    );
+  }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -70,16 +83,17 @@ export class MovesVerticalAcid extends MovesVertical {
     }
 
     if (this.canDissolve(grid.grid[nextVertical])) {
-      if (Math.random() < 0.5)
-        grid.setIndex(particle.index, new Empty(particle.index));
-      grid.setIndex(
-        nextVertical,
-        Math.random() < 0.2
-          ? new Smoke(nextVertical, {
-              color: new Color().lerpColors(particle.color, smokeColor, 0.95),
-            })
-          : new Empty(nextVertical)
-      );
+      this.dissolveParticle(particle, nextVertical, grid);
+      // if (Math.random() < 0.5)
+      //   grid.setIndex(particle.index, new Empty(particle.index));
+      // grid.setIndex(
+      //   nextVertical,
+      //   Math.random() < 0.2
+      //     ? new Smoke(nextVertical, {
+      //         color: new Color().lerpColors(particle.color, smokeColor, 0.95),
+      //       })
+      //     : new Empty(nextVertical)
+      // );
     }
 
     if (Math.random() < 0.5) {
