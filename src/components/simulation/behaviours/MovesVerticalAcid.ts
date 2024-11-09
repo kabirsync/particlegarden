@@ -63,7 +63,6 @@ export class MovesVerticalAcid extends MovesVertical {
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
-    // const row = i % grid.rows;
     const nextDelta = Math.sign(this.velocity) * grid.columns;
     const nextVertical =
       i + nextDelta * Math.ceil(this.verticalSpread * Math.random());
@@ -74,8 +73,6 @@ export class MovesVerticalAcid extends MovesVertical {
 
     const nextLeft = i - Math.ceil(Math.random() * this.horizontalSpread);
     const nextRight = i + Math.ceil(Math.random() * this.horizontalSpread);
-
-    // need to randomise order of operations (check sand)
 
     if (this.canPassThrough(grid.grid[nextVertical])) {
       grid.swap(i, nextVertical);
