@@ -109,7 +109,16 @@ const MaterialOptions = () => {
         />
       </div>
       <div>
-        {["Sand", "Wood", "Water", "Smoke"].includes(selectedMaterial) && (
+        {[
+          "Sand",
+          "Wood",
+          "Water",
+          "Smoke",
+          "Acid",
+          "Gas",
+          "Oil",
+          "Stone",
+        ].includes(selectedMaterial) && (
           <div className="flex flex-col gap-2">
             <Label htmlFor="colorPicker" className="text-xs">
               Choose a color:
@@ -123,7 +132,9 @@ const MaterialOptions = () => {
             />
           </div>
         )}
-        {["Sand", "Water", "Smoke"].includes(selectedMaterial) && (
+        {["Sand", "Water", "Smoke", "Acid", "Lava", "Gas", "Oil"].includes(
+          selectedMaterial
+        ) && (
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
               <Label htmlFor="initialVelocity" className="text-xs">
@@ -230,7 +241,7 @@ const MaterialOptions = () => {
                 }}
               />
             </div>
-            {["Water", "Smoke"].includes(selectedMaterial) && (
+            {["Water", "Smoke", "Acid", "Lava"].includes(selectedMaterial) && (
               <>
                 <div className="flex flex-col gap-2">
                   <Label htmlFor="diagonalSpread" className="text-xs">
