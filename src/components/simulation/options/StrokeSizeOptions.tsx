@@ -18,7 +18,8 @@ const StrokeSizeOptions = () => {
     <div className="flex flex-col gap-2">
       <Label htmlFor="strokeSize" className="text-xs">
         <div className="flex items-center justify-between gap-3">
-          <span>Stroke Size: </span>
+          <span className="text-zinc-400">Stroke Size: </span>
+
           <Input
             className="text-xs h-8 w-min min-w-24 mt-1"
             type="number"
