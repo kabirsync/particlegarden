@@ -21,9 +21,12 @@ const MaterialOptions = () => {
         "Oil",
         "Stone",
       ].includes(selectedMaterial) && <StrokeColorOptions />}
-      {}
-      <MoveVerticalOptions />
-      <MoveVerticalLiquidOptions />
+      {["Sand", "Water", "Smoke", "Acid", "Lava", "Gas", "Oil"].includes(
+        selectedMaterial
+      ) && <MoveVerticalOptions />}
+      {["Water", "Smoke", "Acid", "Lava", "Oil", "Gas"].includes(
+        selectedMaterial
+      ) && <MoveVerticalLiquidOptions />}
     </div>
   );
 };
