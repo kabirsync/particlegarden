@@ -6,12 +6,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   defaultAcceleration,
   defaultInitialVelocity,
   defaultMaxSpeed,
 } from "@/lib/constants";
 import { useAtom } from "jotai";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import { useState } from "react";
 
 const MoveVerticalOptions = () => {
@@ -24,6 +26,7 @@ const MoveVerticalOptions = () => {
   );
   const [acceleration, setAcceleration] = useState(defaultAcceleration);
 
+  const [gravityDirection, setGravityDirection] = useState(1);
   const handleMaxSpeedChange = (value: number) => {
     setMaxSpeed(value);
     maxSpeedRef.current = value;
@@ -33,8 +36,21 @@ const MoveVerticalOptions = () => {
     initialVelocityRef.current = value;
   };
   const handleAccelerationChange = (value: number) => {
-    setAcceleration(value);
-    accelerationRef.current = value;
+    const updatedAcceleration = value * gravityDirection;
+    setAcceleration(updatedAcceleration);
+    accelerationRef.current = updatedAcceleration;
+  };
+
+  const handleGravityDirectionChange = (direction: string) => {
+    if (direction === "up") {
+      setGravityDirection(-1);
+      setAcceleration(acceleration * -1);
+      accelerationRef.current = acceleration * -1;
+    } else if (direction === "down") {
+      setGravityDirection(1);
+      setAcceleration(Math.abs(acceleration));
+      accelerationRef.current = Math.abs(acceleration);
+    }
   };
   return (
     <div className="flex flex-col gap-3">
@@ -112,30 +128,47 @@ const MoveVerticalOptions = () => {
         <Label htmlFor="acceleration" className="text-xs">
           <div className="flex items-center justify-between gap-3">
             <span className="text-zinc-400">Acceleration: </span>
-            <Input
-              className="text-xs h-8 w-min"
-              type="number"
-              min={-5}
-              max={5}
-              value={acceleration}
-              onChange={(e) => {
-                if (Number(e.target.value) > 5)
-                  handleAccelerationChange(Number(5));
-                else if (Number(e.target.value) < -5) {
-                  handleAccelerationChange(Number(-5));
-                } else {
-                  handleAccelerationChange(Number(e.target.value));
-                }
-              }}
-              step={0.00001}
-            />
+            <div className="flex gap-2">
+              <ToggleGroup
+                size={"xs"}
+                type="single"
+                className="w-min"
+                variant="outline"
+                onValueChange={handleGravityDirectionChange}
+                defaultValue={gravityDirection === 1 ? "down" : "up"}
+              >
+                <ToggleGroupItem value="down" aria-label="Toggle down">
+                  <ArrowDown className="h-3 w-3" />
+                </ToggleGroupItem>
+                <ToggleGroupItem value="up" aria-label="Toggle up">
+                  <ArrowUp className="h-3 w-3" />
+                </ToggleGroupItem>
+              </ToggleGroup>
+              <Input
+                className="text-xs h-8 w-min"
+                type="number"
+                min={0}
+                max={5}
+                value={Math.abs(acceleration)}
+                onChange={(e) => {
+                  if (Number(e.target.value) > 5)
+                    handleAccelerationChange(Number(5));
+                  else if (Number(e.target.value) < 0) {
+                    handleAccelerationChange(Number(0));
+                  } else {
+                    handleAccelerationChange(Number(e.target.value));
+                  }
+                }}
+                step={0.00001}
+              />
+            </div>
           </div>
         </Label>
         <Slider
           id="acceleration"
           className="py-1"
-          value={[acceleration]}
-          min={-5}
+          value={[Math.abs(acceleration)]}
+          min={0}
           max={5}
           step={0.000001}
           onValueChange={(values: number[]) => {
