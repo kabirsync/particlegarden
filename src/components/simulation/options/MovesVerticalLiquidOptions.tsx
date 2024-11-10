@@ -3,6 +3,7 @@ import {
   horizontalSpreadRefAtom,
   verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import {
@@ -40,7 +41,26 @@ const MoveVerticalLiquidOptions = () => {
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-2">
           <Label htmlFor="diagonalSpread" className="text-xs">
-            Diagonal Spread
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-zinc-400">Diagonal Spread : </span>
+              <Input
+                className="text-xs h-8 w-min"
+                type="number"
+                min={0}
+                max={10}
+                value={diagonalSpread}
+                onChange={(e) => {
+                  if (Number(e.target.value) > 10)
+                    handleDiagonalSpreadChange(Number(10));
+                  else if (Number(e.target.value) < 1) {
+                    handleDiagonalSpreadChange(Number(1));
+                  } else {
+                    handleDiagonalSpreadChange(Number(e.target.value));
+                  }
+                }}
+                step={1}
+              />
+            </div>
           </Label>
           <Slider
             id="diagonalSpread"
@@ -55,11 +75,30 @@ const MoveVerticalLiquidOptions = () => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="diagonalSpread" className="text-xs">
-            Vertical Spread
+          <Label htmlFor="verticalSpread" className="text-xs">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-zinc-400">Vertical Spread : </span>
+              <Input
+                className="text-xs h-8 w-min"
+                type="number"
+                min={0}
+                max={10}
+                value={verticalSpread}
+                onChange={(e) => {
+                  if (Number(e.target.value) > 10)
+                    handleVerticalSpreadChange(Number(10));
+                  else if (Number(e.target.value) < 1) {
+                    handleVerticalSpreadChange(Number(1));
+                  } else {
+                    handleVerticalSpreadChange(Number(e.target.value));
+                  }
+                }}
+                step={1}
+              />
+            </div>
           </Label>
           <Slider
-            id="diagonalSpread"
+            id="verticalSPread"
             className="py-1"
             value={[verticalSpread]}
             min={1}
@@ -71,11 +110,30 @@ const MoveVerticalLiquidOptions = () => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="diagonalSpread" className="text-xs">
-            Horizontal Spread
+          <Label htmlFor="horizontalSpread" className="text-xs">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-zinc-400">Horizontal Spread : </span>
+              <Input
+                className="text-xs h-8 w-min"
+                type="number"
+                min={0}
+                max={10}
+                value={horizontalSpread}
+                onChange={(e) => {
+                  if (Number(e.target.value) > 10)
+                    handleHorizontalSpreadChange(Number(10));
+                  else if (Number(e.target.value) < 1) {
+                    handleHorizontalSpreadChange(Number(1));
+                  } else {
+                    handleHorizontalSpreadChange(Number(e.target.value));
+                  }
+                }}
+                step={1}
+              />
+            </div>
           </Label>
           <Slider
-            id="diagonalSpread"
+            id="horizontalSpread"
             className="py-1"
             value={[horizontalSpread]}
             min={1}
