@@ -31,31 +31,35 @@ const MaterialOptions = () => {
           ].includes(selectedMaterial) && <StrokeColorOptions />}
         </div>
       </div>
-      <Separator className="mt-2" />
 
       {["Sand", "Water", "Smoke", "Acid", "Lava", "Gas", "Oil"].includes(
         selectedMaterial
       ) && (
-        <div className="px-3 flex flex-col gap-4">
-          <div className="flex gap-2 items-center">
-            <ArrowUpDown className="h-4 w-4 text-zinc-300 " />
-            <span className="text-xs font-bold">Vertical Movement</span>
+        <>
+          <Separator className="mt-2" />
+          <div className="px-3 flex flex-col gap-4">
+            <div className="flex gap-2 items-center">
+              <ArrowUpDown className="h-4 w-4 text-zinc-300 " />
+              <span className="text-xs font-bold">Vertical Movement</span>
+            </div>
+            <MoveVerticalOptions />
           </div>
-          <MoveVerticalOptions />
-        </div>
+        </>
       )}
-      <Separator className="mt-2" />
 
       {["Water", "Smoke", "Acid", "Lava", "Oil", "Gas"].includes(
         selectedMaterial
       ) && (
-        <div className="px-3 flex flex-col gap-4">
-          <div className="flex gap-2 items-center">
-            <Droplet className="h-4 w-4 text-zinc-300 " />
-            <span className="text-xs font-bold">Liquid Movement</span>
+        <>
+          <Separator className="mt-2" />
+          <div className="px-3 flex flex-col gap-4">
+            <div className="flex gap-2 items-center">
+              <Droplet className="h-4 w-4 text-zinc-300 " />
+              <span className="text-xs font-bold">Liquid Movement</span>
+            </div>
+            <MoveVerticalLiquidOptions />
           </div>
-          <MoveVerticalLiquidOptions />
-        </div>
+        </>
       )}
     </div>
   );
