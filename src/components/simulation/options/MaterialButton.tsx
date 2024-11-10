@@ -30,7 +30,10 @@ import {
   smokeMaxSpeed,
   stoneColor,
   transparentColor,
+  waterAcceleration,
   waterColor,
+  waterInitialVelocity,
+  waterMaxSpeed,
   woodColor,
 } from "@/lib/constants";
 import { useAtom } from "jotai";
@@ -83,6 +86,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
       case "Water": {
         setMaterialColor(waterColor);
         materialColorRef.current = waterColor;
+        setMaxSpeed(waterMaxSpeed);
+        maxSpeedRef.current = waterMaxSpeed;
+        setInitialVelocity(waterInitialVelocity);
+        initialVelocityRef.current = waterInitialVelocity;
+        setAcceleration(waterAcceleration);
+        accelerationRef.current = waterAcceleration;
         break;
       }
       case "Smoke": {

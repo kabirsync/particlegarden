@@ -59,3 +59,13 @@ export const smokeAcceleration = -0.5;
 export const smokeDiagonalSpread = 3;
 export const smokeVerticalSpread = 1;
 export const smokeHorizontalSpread = 3;
+
+// Water
+export const waterMaterialColor = waterColor;
+export const waterStrokeSize = 10;
+export const waterMaxSpeed = 10;
+export const waterInitialVelocity = 0.1;
+export const waterAcceleration = 0.5;
+export const waterDiagonalSpread = 3;
+export const waterVerticalSpread = 1;
+export const waterHorizontalSpread = 3;
