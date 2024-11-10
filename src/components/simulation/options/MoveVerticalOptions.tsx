@@ -2,6 +2,7 @@ import {
   accelerationAtom,
   accelerationRefAtom,
   gravityDirectionAtom,
+  gravityDirectionRefAtom,
   initialVelocityAtom,
   initialVelocityRefAtom,
   maxSpeedAtom,
@@ -20,10 +21,10 @@ const MoveVerticalOptions = () => {
   const [accelerationRef] = useAtom(accelerationRefAtom);
   const [maxSpeed, setMaxSpeed] = useAtom(maxSpeedAtom);
   const [initialVelocity, setInitialVelocity] = useAtom(initialVelocityAtom);
-
   const [acceleration, setAcceleration] = useAtom(accelerationAtom);
   const [gravityDirection, setGravityDirection] = useAtom(gravityDirectionAtom);
-
+  const [gravityDirectionRef] = useAtom(gravityDirectionRefAtom);
+  console.log({ gravityDirection });
   const handleMaxSpeedChange = (value: number) => {
     setMaxSpeed(value);
     maxSpeedRef.current = value;
@@ -41,10 +42,12 @@ const MoveVerticalOptions = () => {
   const handleGravityDirectionChange = (direction: string) => {
     if (direction === "up") {
       setGravityDirection(-1);
+      gravityDirectionRef.current = -1;
       setAcceleration(acceleration * -1);
       accelerationRef.current = acceleration * -1;
     } else if (direction === "down") {
       setGravityDirection(1);
+      gravityDirectionRef.current = 1;
       setAcceleration(Math.abs(acceleration));
       accelerationRef.current = Math.abs(acceleration);
     }
@@ -132,7 +135,8 @@ const MoveVerticalOptions = () => {
                 className="w-min"
                 variant="outline"
                 onValueChange={handleGravityDirectionChange}
-                defaultValue={gravityDirection === 1 ? "down" : "up"}
+                value={gravityDirection === 1 ? "down" : "up"}
+                // defaultValue={gravityDirection === 1 ? "down" : "up"}
               >
                 <ToggleGroupItem value="down" aria-label="Toggle down">
                   <ArrowDown className="h-3 w-3" />

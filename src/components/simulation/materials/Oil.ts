@@ -3,8 +3,10 @@ import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVert
 import Particle from "@/components/simulation/materials/Particle";
 import {
   oilAcceleration,
+  oilChanceToCatch,
   oilColor,
   oilDiagonalSpread,
+  oilFuel,
   oilHorizontalSpread,
   oilInitialVelocity,
   oilMaxSpeed,
@@ -35,8 +37,8 @@ class Oil extends Particle {
       diagonalSpread = oilDiagonalSpread,
       verticalSpread = oilVerticalSpread,
       horizontalSpread = oilHorizontalSpread,
-      fuel = 300 + 100 * Math.random(),
-      chanceToCatch = 0.01,
+      fuel = oilFuel + oilFuel * Math.random(),
+      chanceToCatch = oilChanceToCatch,
     }: OilProps
   ) {
     super(index, {

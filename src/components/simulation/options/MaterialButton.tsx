@@ -5,8 +5,16 @@ import {
 import {
   accelerationAtom,
   accelerationRefAtom,
+  chanceToCatchAtom,
+  chanceToCatchRefAtom,
+  fuelAtom,
+  fuelRefAtom,
+  gravityDirectionAtom,
+  gravityDirectionRefAtom,
   initialVelocityAtom,
   initialVelocityRefAtom,
+  lifeAtom,
+  lifeRefAtom,
   materialColorAtom,
   materialColorRefAtom,
   maxSpeedAtom,
@@ -17,36 +25,55 @@ import { Button } from "@/components/ui/button";
 import {
   acidAcceleration,
   acidColor,
+  acidDirection,
   acidInitialVelocity,
   acidMaxSpeed,
+  fireAcceleration,
   fireColor,
+  fireDirection,
+  fireInitialVelocity,
+  fireLife,
+  fireMaxSpeed,
   gasAcceleration,
+  gasChanceToCatch,
   gasColor,
+  gasDirection,
+  gasFuel,
   gasInitialVelocity,
   gasMaxSpeed,
   lavaAcceleration,
   lavaColor,
+  lavaDirection,
   lavaInitialVelocity,
   lavaMaxSpeed,
   oilAcceleration,
+  oilChanceToCatch,
   oilColor,
+  oilDirection,
+  oilFuel,
   oilInitialVelocity,
   oilMaxSpeed,
   sandAcceleration,
   sandColor,
+  sandDirection,
   sandInitialVelocity,
   sandMaxSpeed,
   smokeAcceleration,
   smokeColor,
+  smokeDirection,
   smokeInitialVelocity,
+  smokeLife,
   smokeMaxSpeed,
   stoneColor,
   transparentColor,
   waterAcceleration,
   waterColor,
+  waterDirection,
   waterInitialVelocity,
   waterMaxSpeed,
+  woodChanceToCatch,
   woodColor,
+  woodFuel,
 } from "@/lib/constants";
 import { useAtom } from "jotai";
 
@@ -65,6 +92,14 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
   const [initialVelocityRef] = useAtom(initialVelocityRefAtom);
   const [, setAcceleration] = useAtom(accelerationAtom);
   const [accelerationRef] = useAtom(accelerationRefAtom);
+  const [, setLife] = useAtom(lifeAtom);
+  const [lifeRef] = useAtom(lifeRefAtom);
+  const [, setGravityDirection] = useAtom(gravityDirectionAtom);
+  const [gravityDirectionRef] = useAtom(gravityDirectionRefAtom);
+  const [, setFuel] = useAtom(fuelAtom);
+  const [fuelRef] = useAtom(fuelRefAtom);
+  const [, setChanceToCatch] = useAtom(chanceToCatchAtom);
+  const [chanceToCatchRef] = useAtom(chanceToCatchRefAtom);
   // Helper function to enforce exhaustiveness
   function assertUnreachable(x: never): never {
     throw new Error(`Missing material type handling for: ${x}`);
@@ -82,6 +117,10 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
       case "Wood": {
         setMaterialColor(woodColor);
         materialColorRef.current = woodColor;
+        setFuel(woodFuel);
+        fuelRef.current = woodFuel;
+        setChanceToCatch(woodChanceToCatch);
+        chanceToCatchRef.current = woodChanceToCatch;
         break;
       }
       case "Sand": {
@@ -93,6 +132,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         initialVelocityRef.current = sandInitialVelocity;
         setAcceleration(sandAcceleration);
         accelerationRef.current = sandAcceleration;
+        setGravityDirection(sandDirection);
+        gravityDirectionRef.current = sandDirection;
         break;
       }
       case "Water": {
@@ -104,6 +145,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         initialVelocityRef.current = waterInitialVelocity;
         setAcceleration(waterAcceleration);
         accelerationRef.current = waterAcceleration;
+        setGravityDirection(waterDirection);
+        gravityDirectionRef.current = waterDirection;
         break;
       }
       case "Smoke": {
@@ -115,11 +158,25 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         initialVelocityRef.current = smokeInitialVelocity;
         setAcceleration(smokeAcceleration);
         accelerationRef.current = smokeAcceleration;
+        setLife(smokeLife);
+        lifeRef.current = smokeLife;
+        setGravityDirection(smokeDirection);
+        gravityDirectionRef.current = smokeDirection;
         break;
       }
       case "Fire": {
         setMaterialColor(fireColor);
         materialColorRef.current = fireColor;
+        setMaxSpeed(smokeMaxSpeed);
+        maxSpeedRef.current = fireMaxSpeed;
+        setInitialVelocity(fireInitialVelocity);
+        initialVelocityRef.current = fireInitialVelocity;
+        setAcceleration(fireAcceleration);
+        accelerationRef.current = fireAcceleration;
+        setLife(fireLife);
+        lifeRef.current = fireLife;
+        setGravityDirection(fireDirection);
+        gravityDirectionRef.current = fireDirection;
         break;
       }
       case "Oil": {
@@ -131,6 +188,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         initialVelocityRef.current = oilInitialVelocity;
         setAcceleration(oilAcceleration);
         accelerationRef.current = oilAcceleration;
+        setGravityDirection(oilDirection);
+        gravityDirectionRef.current = oilDirection;
+        setFuel(oilFuel);
+        fuelRef.current = oilFuel;
+        setChanceToCatch(oilChanceToCatch);
+        chanceToCatchRef.current = oilChanceToCatch;
         break;
       }
       case "Gas": {
@@ -142,6 +205,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         initialVelocityRef.current = gasInitialVelocity;
         setAcceleration(gasAcceleration);
         accelerationRef.current = gasAcceleration;
+        setGravityDirection(gasDirection);
+        gravityDirectionRef.current = gasDirection;
+        setFuel(gasFuel);
+        fuelRef.current = gasFuel;
+        setChanceToCatch(gasChanceToCatch);
+        chanceToCatchRef.current = gasChanceToCatch;
         break;
       }
       case "Lava": {
@@ -153,6 +222,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         initialVelocityRef.current = lavaInitialVelocity;
         setAcceleration(lavaAcceleration);
         accelerationRef.current = lavaAcceleration;
+        setGravityDirection(lavaDirection);
+        gravityDirectionRef.current = lavaDirection;
         break;
       }
       case "Stone": {
@@ -169,6 +240,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         initialVelocityRef.current = acidInitialVelocity;
         setAcceleration(acidAcceleration);
         accelerationRef.current = acidAcceleration;
+        setGravityDirection(acidDirection);
+        gravityDirectionRef.current = acidDirection;
         break;
       }
       default: {

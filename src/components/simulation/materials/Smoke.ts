@@ -11,6 +11,7 @@ import {
   smokeDiagonalSpread,
   smokeHorizontalSpread,
   smokeInitialVelocity,
+  smokeLife,
   smokeMaxSpeed,
   smokeVerticalSpread,
 } from "@/lib/constants";
@@ -35,7 +36,7 @@ export class Smoke extends Particle {
     {
       burning = false,
       color = smokeColor,
-      life = 400 - 400 * Math.random(),
+      life = smokeLife - smokeLife * Math.random(),
       maxSpeed = smokeMaxSpeed,
       acceleration = smokeAcceleration,
       initialVelocity = smokeInitialVelocity,
@@ -50,6 +51,7 @@ export class Smoke extends Particle {
       behaviours.push(
         new Flammable({
           fuel: life,
+          chanceToCatch: 0,
           chanceToSpread: (behaviour: Flammable) =>
             (0.5 * behaviour.remainingLife) / behaviour.lifetime,
           burning: true,
@@ -67,7 +69,7 @@ export class Smoke extends Particle {
           verticalSpread,
           horizontalSpread,
         }),
-        new LimitedLife(life, {
+        new LimitedLife(life - life * Math.random(), {
           onTick: (behaviour: LimitedLife, particle: Particle) => {
             void behaviour;
             void particle;

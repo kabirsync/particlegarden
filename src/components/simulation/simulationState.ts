@@ -13,6 +13,10 @@ import {
   sandDirection,
   sandInitialVelocity,
   sandMaxSpeed,
+  smokeLife,
+  woodChanceToCatch,
+  woodFuel,
+  woodSmokeColor,
 } from "@/lib/constants";
 import { atom } from "jotai";
 
@@ -51,6 +55,7 @@ export const initialVelocityAtom = atom(sandInitialVelocity);
 export const accelerationAtom = atom(sandAcceleration);
 
 export const gravityDirectionAtom = atom(sandDirection);
+export const gravityDirectionRefAtom = atom(() => ({ current: sandDirection }));
 
 // --------- Moves Vertical Liquid Options ---------
 
@@ -65,3 +70,23 @@ export const horizontalSpreadRefAtom = atom(() => ({
 }));
 
 // --------- Limited Life Options ---------
+export const lifeRefAtom = atom(() => ({
+  current: smokeLife,
+}));
+export const lifeAtom = atom(smokeLife);
+
+// --------- Flammable Options ---------
+export const fuelRefAtom = atom(() => ({
+  current: woodFuel,
+}));
+export const fuelAtom = atom(woodFuel);
+
+export const chanceToCatchRefAtom = atom(() => ({
+  current: woodChanceToCatch,
+}));
+export const chanceToCatchAtom = atom(woodFuel);
+
+export const smokeColorRefAtom = atom(() => ({
+  current: woodSmokeColor,
+}));
+export const smokeColorAtom = atom(woodSmokeColor);

@@ -55,6 +55,7 @@ class Lava extends Particle {
         }),
         new Flammable({
           fuel,
+          chanceToCatch: 0,
           //   chanceToCatch,
           burning: true,
           onDeath: (_, particle, grid) => {

@@ -5,8 +5,10 @@ import { Grid } from "@/components/simulation/Grid";
 import Particle from "@/components/simulation/materials/Particle";
 import {
   gasAcceleration,
+  gasChanceToCatch,
   gasColor,
   gasDiagonalSpread,
+  gasFuel,
   gasHorizontalSpread,
   gasInitialVelocity,
   gasMaxSpeed,
@@ -37,8 +39,8 @@ class Gas extends Particle {
       diagonalSpread = gasDiagonalSpread,
       verticalSpread = gasVerticalSpread,
       horizontalSpread = gasHorizontalSpread,
-      fuel = 300 + 100 * Math.random(),
-      chanceToCatch = 0.1,
+      fuel = gasFuel + gasFuel * Math.random(),
+      chanceToCatch = gasChanceToCatch,
     }: GasProps
   ) {
     super(index, {

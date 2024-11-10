@@ -51,6 +51,7 @@ export const sandVerticalSpread = 1;
 export const sandHorizontalSpread = 3;
 
 // Smoke
+export const smokeDirection = -1;
 export const smokeMaterialColor = smokeColor;
 export const smokeStrokeSize = 10;
 export const smokeMaxSpeed = 0.5;
@@ -59,8 +60,10 @@ export const smokeAcceleration = -0.5;
 export const smokeDiagonalSpread = 3;
 export const smokeVerticalSpread = 1;
 export const smokeHorizontalSpread = 3;
+export const smokeLife = 400;
 
 // Water
+export const waterDirection = 1;
 export const waterMaterialColor = waterColor;
 export const waterStrokeSize = 10;
 export const waterMaxSpeed = 10;
@@ -71,6 +74,7 @@ export const waterVerticalSpread = 1;
 export const waterHorizontalSpread = 3;
 
 // Acid
+export const acidDirection = 1;
 export const acidMaterialColor = acidColor;
 export const acidStrokeSize = 10;
 export const acidMaxSpeed = 4;
@@ -81,6 +85,7 @@ export const acidVerticalSpread = 1;
 export const acidHorizontalSpread = 3;
 
 // Lava
+export const lavaDirection = 1;
 export const lavaMaterialColor = lavaColor;
 export const lavaStrokeSize = 10;
 export const lavaMaxSpeed = 4;
@@ -91,6 +96,7 @@ export const lavaVerticalSpread = 1;
 export const lavaHorizontalSpread = 3;
 
 // Oil
+export const oilDirection = 1;
 export const oilMaterialColor = oilColor;
 export const oilStrokeSize = 10;
 export const oilMaxSpeed = 4;
@@ -99,8 +105,12 @@ export const oilAcceleration = 0.5;
 export const oilDiagonalSpread = 3;
 export const oilVerticalSpread = 1;
 export const oilHorizontalSpread = 3;
+export const oilFuel = 500;
+export const oilChanceToCatch = 0.1;
+export const oilSmokeColor = smokeMaterialColor;
 
 // Gas
+export const gasDirection = -1;
 export const gasMaterialColor = gasColor;
 export const gasStrokeSize = 10;
 export const gasMaxSpeed = 0.5;
@@ -109,3 +119,23 @@ export const gasAcceleration = -0.5;
 export const gasDiagonalSpread = 3;
 export const gasVerticalSpread = 1;
 export const gasHorizontalSpread = 3;
+export const gasFuel = 100;
+export const gasChanceToCatch = 1;
+export const gasSmokeColor = smokeMaterialColor;
+
+// Fire
+export const fireDirection = -1;
+export const fireMaterialColor = fireColor;
+export const fireStrokeSize = 10;
+export const fireMaxSpeed = 0.5;
+export const fireInitialVelocity = -0.1;
+export const fireAcceleration = -0.5;
+export const fireDiagonalSpread = 3;
+export const fireVerticalSpread = 1;
+export const fireHorizontalSpread = 3;
+export const fireLife = 200;
+
+// Wood
+export const woodFuel = 200;
+export const woodChanceToCatch = 0.005;
+export const woodSmokeColor = smokeMaterialColor;

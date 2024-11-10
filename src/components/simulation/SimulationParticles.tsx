@@ -4,11 +4,14 @@ import {
 } from "@/components/simulation/materials/Material";
 import {
   accelerationRefAtom,
+  chanceToCatchRefAtom,
   diagonalSpreadRefAtom,
   FPSAtom,
+  fuelRefAtom,
   horizontalSpreadRefAtom,
   initialVelocityRefAtom,
   isPlayingAtom,
+  lifeRefAtom,
   materialColorRefAtom,
   maxSpeedRefAtom,
   particleSizeAtom,
@@ -50,6 +53,10 @@ const SimulationParticles = ({
   const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
   const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
   const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
+  const [lifeRef] = useAtom(lifeRefAtom);
+  const [fuelRef] = useAtom(fuelRefAtom);
+  const [chanceToCatchlRef] = useAtom(chanceToCatchRefAtom);
+
   const [, setFPS] = useAtom(FPSAtom);
   const [, setFrame] = useState(0);
   const gridRef = useRef<Grid>();
@@ -132,6 +139,9 @@ const SimulationParticles = ({
                   diagonalSpread: diagonalSpreadRef.current,
                   verticalSpread: verticalSpreadRef.current,
                   horizontalSpread: horizontalSpreadRef.current,
+                  life: lifeRef.current,
+                  fuel: fuelRef.current,
+                  chanceToCatch: chanceToCatchlRef.current,
                 })
               );
             }
