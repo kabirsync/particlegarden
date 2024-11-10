@@ -15,11 +15,23 @@ import {
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import {
+  acidAcceleration,
   acidColor,
+  acidInitialVelocity,
+  acidMaxSpeed,
   fireColor,
+  gasAcceleration,
   gasColor,
+  gasInitialVelocity,
+  gasMaxSpeed,
+  lavaAcceleration,
   lavaColor,
+  lavaInitialVelocity,
+  lavaMaxSpeed,
+  oilAcceleration,
   oilColor,
+  oilInitialVelocity,
+  oilMaxSpeed,
   sandAcceleration,
   sandColor,
   sandInitialVelocity,
@@ -113,16 +125,34 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
       case "Oil": {
         setMaterialColor(oilColor);
         materialColorRef.current = oilColor;
+        setMaxSpeed(oilMaxSpeed);
+        maxSpeedRef.current = oilMaxSpeed;
+        setInitialVelocity(oilInitialVelocity);
+        initialVelocityRef.current = oilInitialVelocity;
+        setAcceleration(oilAcceleration);
+        accelerationRef.current = oilAcceleration;
         break;
       }
       case "Gas": {
         setMaterialColor(gasColor);
         materialColorRef.current = gasColor;
+        setMaxSpeed(gasMaxSpeed);
+        maxSpeedRef.current = gasMaxSpeed;
+        setInitialVelocity(gasInitialVelocity);
+        initialVelocityRef.current = gasInitialVelocity;
+        setAcceleration(gasAcceleration);
+        accelerationRef.current = gasAcceleration;
         break;
       }
       case "Lava": {
         setMaterialColor(lavaColor);
         materialColorRef.current = lavaColor;
+        setMaxSpeed(lavaMaxSpeed);
+        maxSpeedRef.current = lavaMaxSpeed;
+        setInitialVelocity(lavaInitialVelocity);
+        initialVelocityRef.current = lavaInitialVelocity;
+        setAcceleration(lavaAcceleration);
+        accelerationRef.current = lavaAcceleration;
         break;
       }
       case "Stone": {
@@ -133,6 +163,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
       case "Acid": {
         setMaterialColor(acidColor);
         materialColorRef.current = acidColor;
+        setMaxSpeed(acidMaxSpeed);
+        maxSpeedRef.current = acidMaxSpeed;
+        setInitialVelocity(acidInitialVelocity);
+        initialVelocityRef.current = acidInitialVelocity;
+        setAcceleration(acidAcceleration);
+        accelerationRef.current = acidAcceleration;
         break;
       }
       default: {

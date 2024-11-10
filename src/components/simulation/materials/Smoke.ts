@@ -5,7 +5,15 @@ import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVert
 import { LimitedLife } from "@/components/simulation/behaviours/LimitedLife";
 import { varyColor } from "@/lib/colors";
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
-import { smokeColor } from "@/lib/constants";
+import {
+  smokeAcceleration,
+  smokeColor,
+  smokeDiagonalSpread,
+  smokeHorizontalSpread,
+  smokeInitialVelocity,
+  smokeMaxSpeed,
+  smokeVerticalSpread,
+} from "@/lib/constants";
 
 type SmokeProps = {
   color?: Color;
@@ -28,12 +36,12 @@ export class Smoke extends Particle {
       burning = false,
       color = smokeColor,
       life = 400 - 400 * Math.random(),
-      maxSpeed = 10,
-      acceleration = -0.5,
-      initialVelocity = -0.1,
-      diagonalSpread = 3,
-      verticalSpread = 1,
-      horizontalSpread = 3,
+      maxSpeed = smokeMaxSpeed,
+      acceleration = smokeAcceleration,
+      initialVelocity = smokeInitialVelocity,
+      diagonalSpread = smokeDiagonalSpread,
+      verticalSpread = smokeVerticalSpread,
+      horizontalSpread = smokeHorizontalSpread,
     }: SmokeProps
   ) {
     const behaviours = [];

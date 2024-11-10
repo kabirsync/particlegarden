@@ -1,7 +1,15 @@
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
-import { oilColor } from "@/lib/constants";
+import {
+  oilAcceleration,
+  oilColor,
+  oilDiagonalSpread,
+  oilHorizontalSpread,
+  oilInitialVelocity,
+  oilMaxSpeed,
+  oilVerticalSpread,
+} from "@/lib/constants";
 import { Color } from "three";
 
 type OilProps = {
@@ -21,12 +29,12 @@ class Oil extends Particle {
     index: number,
     {
       color = oilColor,
-      maxSpeed = 10,
-      acceleration = 0.5,
-      initialVelocity = 0.1,
-      diagonalSpread = 3,
-      verticalSpread = 1,
-      horizontalSpread = 3,
+      maxSpeed = oilMaxSpeed,
+      acceleration = oilAcceleration,
+      initialVelocity = oilInitialVelocity,
+      diagonalSpread = oilDiagonalSpread,
+      verticalSpread = oilVerticalSpread,
+      horizontalSpread = oilHorizontalSpread,
       fuel = 300 + 100 * Math.random(),
       chanceToCatch = 0.01,
     }: OilProps

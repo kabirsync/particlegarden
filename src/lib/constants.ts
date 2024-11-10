@@ -69,3 +69,43 @@ export const waterAcceleration = 0.5;
 export const waterDiagonalSpread = 3;
 export const waterVerticalSpread = 1;
 export const waterHorizontalSpread = 3;
+
+// Acid
+export const acidMaterialColor = acidColor;
+export const acidStrokeSize = 10;
+export const acidMaxSpeed = 4;
+export const acidInitialVelocity = 0.1;
+export const acidAcceleration = 0.5;
+export const acidDiagonalSpread = 3;
+export const acidVerticalSpread = 1;
+export const acidHorizontalSpread = 3;
+
+// Lava
+export const lavaMaterialColor = lavaColor;
+export const lavaStrokeSize = 10;
+export const lavaMaxSpeed = 4;
+export const lavaInitialVelocity = 0.1;
+export const lavaAcceleration = 0.5;
+export const lavaDiagonalSpread = 3;
+export const lavaVerticalSpread = 1;
+export const lavaHorizontalSpread = 3;
+
+// Oil
+export const oilMaterialColor = oilColor;
+export const oilStrokeSize = 10;
+export const oilMaxSpeed = 4;
+export const oilInitialVelocity = 0.1;
+export const oilAcceleration = 0.5;
+export const oilDiagonalSpread = 3;
+export const oilVerticalSpread = 1;
+export const oilHorizontalSpread = 3;
+
+// Gas
+export const gasMaterialColor = gasColor;
+export const gasStrokeSize = 10;
+export const gasMaxSpeed = 0.5;
+export const gasInitialVelocity = -0.1;
+export const gasAcceleration = -0.5;
+export const gasDiagonalSpread = 3;
+export const gasVerticalSpread = 1;
+export const gasHorizontalSpread = 3;

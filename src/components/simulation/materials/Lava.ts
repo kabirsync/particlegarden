@@ -2,7 +2,15 @@ import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
 import Stone from "@/components/simulation/materials/Stone";
-import { lavaColor } from "@/lib/constants";
+import {
+  lavaAcceleration,
+  lavaColor,
+  lavaDiagonalSpread,
+  lavaHorizontalSpread,
+  lavaInitialVelocity,
+  lavaMaxSpeed,
+  lavaVerticalSpread,
+} from "@/lib/constants";
 import { Color } from "three";
 
 type LavaProps = {
@@ -22,12 +30,12 @@ class Lava extends Particle {
     index: number,
     {
       color = lavaColor,
-      maxSpeed = 10,
-      acceleration = 0.5,
-      initialVelocity = 0.1,
-      diagonalSpread = 3,
-      verticalSpread = 1,
-      horizontalSpread = 3,
+      maxSpeed = lavaMaxSpeed,
+      acceleration = lavaAcceleration,
+      initialVelocity = lavaInitialVelocity,
+      diagonalSpread = lavaDiagonalSpread,
+      verticalSpread = lavaVerticalSpread,
+      horizontalSpread = lavaHorizontalSpread,
       fuel = 3000 + 100 * Math.random(),
     }: //   chanceToCatch = 0.01,
     LavaProps
