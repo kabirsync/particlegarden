@@ -1,13 +1,11 @@
+import StrokeOptions from "@/components/simulation/options/StrokeOptions";
 import {
   accelerationRefAtom,
   diagonalSpreadRefAtom,
   horizontalSpreadRefAtom,
   initialVelocityRefAtom,
-  materialColorAtom,
-  materialColorRefAtom,
   maxSpeedRefAtom,
   selectedMaterialAtom,
-  strokeSizeRefAtom,
   verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
 import { Input } from "@/components/ui/input";
@@ -19,23 +17,21 @@ import {
   defaultHorizontalSpread,
   defaultInitialVelocity,
   defaultMaxSpeed,
-  defaultStrokeSize,
   defaultVerticalSpread,
 } from "@/lib/constants";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { Color } from "three";
 
 const MaterialOptions = () => {
   const [selectedMaterial] = useAtom(selectedMaterialAtom);
-  const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
+  // const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
   const [maxSpeedRef] = useAtom(maxSpeedRefAtom);
   const [initialVelocityRef] = useAtom(initialVelocityRefAtom);
   const [accelerationRef] = useAtom(accelerationRefAtom);
   const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
   const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
   const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
-  const [strokeSize, setStrokeSize] = useState(defaultStrokeSize);
+  // const [strokeSize, setStrokeSize] = useState(defaultStrokeSize);
   const [maxSpeed, setMaxSpeed] = useState(defaultMaxSpeed);
   const [initialVelocity, setInitialVelocity] = useState(
     defaultInitialVelocity
@@ -47,22 +43,22 @@ const MaterialOptions = () => {
     defaultHorizontalSpread
   );
 
-  const [materialColorRef] = useAtom(materialColorRefAtom);
-  const [materialColor, setMaterialColor] = useAtom(materialColorAtom);
+  // const [materialColorRef] = useAtom(materialColorRefAtom);
+  // const [materialColor, setMaterialColor] = useAtom(materialColorAtom);
 
-  const handleMaterialColorChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value; // Access event.target correctly
-    const newColor = new Color(value);
-    setMaterialColor(newColor);
-    materialColorRef.current = newColor;
-  };
+  // const handleMaterialColorChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const value = event.target.value; // Access event.target correctly
+  //   const newColor = new Color(value);
+  //   setMaterialColor(newColor);
+  //   materialColorRef.current = newColor;
+  // };
 
-  const handleStrokeSizeChange = (value: number) => {
-    setStrokeSize(value);
-    strokeSizeRef.current = value;
-  };
+  // const handleStrokeSizeChange = (value: number) => {
+  //   setStrokeSize(value);
+  //   strokeSizeRef.current = value;
+  // };
   const handleMaxSpeedChange = (value: number) => {
     setMaxSpeed(value);
     maxSpeedRef.current = value;
@@ -91,47 +87,8 @@ const MaterialOptions = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="strokeSize" className="text-xs">
-          Stroke Size
-        </Label>
-        <Slider
-          id="strokeSize"
-          className="py-1"
-          defaultValue={[10]}
-          value={[strokeSize]}
-          min={1}
-          max={50}
-          step={1}
-          onValueChange={(values: number[]) => {
-            handleStrokeSizeChange(values[0]);
-          }}
-        />
-      </div>
+      <StrokeOptions />
       <div>
-        {[
-          "Sand",
-          "Wood",
-          "Water",
-          "Smoke",
-          "Acid",
-          "Gas",
-          "Oil",
-          "Stone",
-        ].includes(selectedMaterial) && (
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="colorPicker" className="text-xs">
-              Choose a color:
-            </Label>
-            <Input
-              type="color"
-              id="colorPicker"
-              value={`#${materialColor.getHexString()}`}
-              onChange={handleMaterialColorChange}
-              className="cursor-pointer w-12 h-12 p-0"
-            />
-          </div>
-        )}
         {["Sand", "Water", "Smoke", "Acid", "Lava", "Gas", "Oil"].includes(
           selectedMaterial
         ) && (
