@@ -3,7 +3,18 @@ import { LimitedLife } from "@/components/simulation/behaviours/LimitedLife";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import { Grid } from "@/components/simulation/Grid";
 import Particle from "@/components/simulation/materials/Particle";
-import { gasColor } from "@/lib/constants";
+import {
+  gasAcceleration,
+  gasChanceToCatch,
+  gasColor,
+  gasDiagonalSpread,
+  gasFuel,
+  gasHorizontalSpread,
+  gasInitialVelocity,
+  gasMaxSpeed,
+  gasSmokeColor,
+  gasVerticalSpread,
+} from "@/lib/constants";
 import { Color } from "three";
 
 type GasProps = {
@@ -16,6 +27,7 @@ type GasProps = {
   horizontalSpread?: number;
   fuel?: number;
   chanceToCatch?: number;
+  smokeColor?: Color;
 };
 
 class Gas extends Particle {
@@ -23,25 +35,25 @@ class Gas extends Particle {
     index: number,
     {
       color = gasColor,
-      // maxSpeed = 10,
-      // acceleration = -0.5,
-      // initialVelocity = -0.1,
-      diagonalSpread = 1,
-      verticalSpread = 1,
-      horizontalSpread = 1,
-      fuel = 300 + 100 * Math.random(),
-      chanceToCatch = 0.1,
+      maxSpeed = gasMaxSpeed,
+      acceleration = gasAcceleration,
+      initialVelocity = gasInitialVelocity,
+      diagonalSpread = gasDiagonalSpread,
+      verticalSpread = gasVerticalSpread,
+      horizontalSpread = gasHorizontalSpread,
+      fuel = gasFuel + gasFuel * Math.random(),
+      chanceToCatch = gasChanceToCatch,
+      smokeColor = gasSmokeColor,
     }: GasProps
   ) {
     super(index, {
-      // color: Math.random() < 0.5 ? lightenThreeColor(color, 0.1) : color,
       color,
       stateOfMatter: "liquid",
       behaviours: [
         new MovesVerticalWater({
-          maxSpeed: 0.4,
-          acceleration: -0.5,
-          initialVelocity: -0.1,
+          maxSpeed,
+          acceleration,
+          initialVelocity,
           diagonalSpread,
           verticalSpread,
           horizontalSpread,
@@ -49,12 +61,9 @@ class Gas extends Particle {
         new Flammable({
           fuel,
           chanceToCatch,
+          smokeColor,
         }),
         new LimitedLife(4000 - 400 * Math.random(), {
-          // onTick: (behaviour: LimitedLife, particle: Particle) => {
-          //   void behaviour;
-          //   void particle;
-          // },
           onDeath: (_, particle: Particle, grid: Grid) => {
             grid.clearIndex(particle.index);
           },

@@ -7,7 +7,15 @@ import { Grid } from "../Grid";
 import Empty from "@/components/simulation/materials/Empty";
 import { Smoke } from "@/components/simulation/materials/Smoke";
 import { Color } from "three";
-import { smokeColor } from "@/lib/constants";
+import {
+  acidAcceleration,
+  acidDiagonalSpread,
+  acidHorizontalSpread,
+  acidInitialVelocity,
+  acidMaxSpeed,
+  acidVerticalSpread,
+  smokeColor,
+} from "@/lib/constants";
 import Stone from "@/components/simulation/materials/Stone";
 import Wood from "@/components/simulation/materials/Wood";
 
@@ -23,12 +31,12 @@ export class MovesVerticalAcid extends MovesVertical {
   horizontalSpread: number;
 
   constructor({
-    maxSpeed = 0,
-    acceleration = 0,
-    initialVelocity = 0,
-    diagonalSpread = 1,
-    verticalSpread = 1,
-    horizontalSpread = 1,
+    maxSpeed = acidMaxSpeed,
+    acceleration = acidAcceleration,
+    initialVelocity = acidInitialVelocity,
+    diagonalSpread = acidDiagonalSpread,
+    verticalSpread = acidVerticalSpread,
+    horizontalSpread = acidHorizontalSpread,
   }: MovesVerticalAcidProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;

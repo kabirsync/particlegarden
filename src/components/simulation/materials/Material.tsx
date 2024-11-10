@@ -63,6 +63,10 @@ type MaterialProps = {
   diagonalSpread?: number;
   verticalSpread?: number;
   horizontalSpread?: number;
+  life?: number;
+  fuel?: number;
+  chanceToCatch?: number;
+  smokeColor?: Color;
 };
 
 export const getMaterialIcon = (material: MaterialOptionsType) => {
@@ -99,7 +103,16 @@ export const MaterialMapping: Record<
   {
     new (
       index: number,
-      { color, maxSpeed, initialVelocity, acceleration }: MaterialProps
+      {
+        color,
+        maxSpeed,
+        initialVelocity,
+        acceleration,
+        life,
+        fuel,
+        chanceToCatch,
+        smokeColor,
+      }: MaterialProps
     ): MaterialClasses;
   }
 > = {

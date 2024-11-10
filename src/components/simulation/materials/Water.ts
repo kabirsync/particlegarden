@@ -1,6 +1,14 @@
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
-import { waterColor } from "@/lib/constants";
+import {
+  waterAcceleration,
+  waterColor,
+  waterDiagonalSpread,
+  waterHorizontalSpread,
+  waterInitialVelocity,
+  waterMaxSpeed,
+  waterVerticalSpread,
+} from "@/lib/constants";
 import { Color } from "three";
 
 type WaterProps = {
@@ -18,12 +26,12 @@ class Water extends Particle {
     index: number,
     {
       color = waterColor,
-      maxSpeed = 10,
-      acceleration = 0.5,
-      initialVelocity = 0.1,
-      diagonalSpread = 3,
-      verticalSpread = 1,
-      horizontalSpread = 3,
+      maxSpeed = waterMaxSpeed,
+      acceleration = waterAcceleration,
+      initialVelocity = waterInitialVelocity,
+      diagonalSpread = waterDiagonalSpread,
+      verticalSpread = waterVerticalSpread,
+      horizontalSpread = waterHorizontalSpread,
     }: WaterProps
   ) {
     super(index, {

@@ -1,41 +1,64 @@
 import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import {
-  defaultAcceleration,
   defaultDiagonalSpread,
   defaultFPS,
   defaultHorizontalSpread,
-  defaultInitialVelocity,
   defaultIsPlaying,
   defaultMaterialColor,
-  defaultMaxSpeed,
   defaultParticleSize,
   defaultSelecteMaterial,
   defaultStrokeSize,
   defaultVerticalSpread,
+  sandAcceleration,
+  sandDirection,
+  sandInitialVelocity,
+  sandMaxSpeed,
+  smokeLife,
+  woodChanceToCatch,
+  woodFuel,
+  woodSmokeColor,
 } from "@/lib/constants";
 import { atom } from "jotai";
+
+// --------- Engine Options ---------
 
 export const isPlayingAtom = atom(defaultIsPlaying);
 export const FPSAtom = atom(defaultFPS);
 export const particleSizeAtom = atom(defaultParticleSize);
 
+// --------- Material Options ---------
+
+export const selectedMaterialAtom = atom<MaterialOptionsType>(
+  defaultSelecteMaterial
+);
+
+// --------- Stroke Options ---------
+
+export const materialColorAtom = atom(defaultMaterialColor);
+export const strokeSizeRefAtom = atom(() => ({ current: defaultStrokeSize }));
 export const materialColorRefAtom = atom(() => ({
   current: defaultMaterialColor,
 }));
 
-export const materialColorAtom = atom(defaultMaterialColor);
+// --------- Moves Vertical Options ---------
 
-export const strokeSizeRefAtom = atom(() => ({ current: defaultStrokeSize }));
-export const maxSpeedRefAtom = atom(() => ({ current: defaultMaxSpeed }));
+export const maxSpeedRefAtom = atom(() => ({ current: sandMaxSpeed }));
 export const initialVelocityRefAtom = atom(() => ({
-  current: defaultInitialVelocity,
+  current: sandInitialVelocity,
 }));
 export const accelerationRefAtom = atom(() => ({
-  current: defaultAcceleration,
+  current: sandAcceleration,
 }));
-export const selectedMaterialAtom = atom<MaterialOptionsType>(
-  defaultSelecteMaterial
-);
+
+export const maxSpeedAtom = atom(sandMaxSpeed);
+export const initialVelocityAtom = atom(sandInitialVelocity);
+export const accelerationAtom = atom(sandAcceleration);
+
+export const gravityDirectionAtom = atom(sandDirection);
+export const gravityDirectionRefAtom = atom(() => ({ current: sandDirection }));
+
+// --------- Moves Vertical Liquid Options ---------
+
 export const diagonalSpreadRefAtom = atom(() => ({
   current: defaultDiagonalSpread,
 }));
@@ -45,3 +68,25 @@ export const verticalSpreadRefAtom = atom(() => ({
 export const horizontalSpreadRefAtom = atom(() => ({
   current: defaultHorizontalSpread,
 }));
+
+// --------- Limited Life Options ---------
+export const lifeRefAtom = atom(() => ({
+  current: smokeLife,
+}));
+export const lifeAtom = atom(smokeLife);
+
+// --------- Flammable Options ---------
+export const fuelRefAtom = atom(() => ({
+  current: woodFuel,
+}));
+export const fuelAtom = atom(woodFuel);
+
+export const chanceToCatchRefAtom = atom(() => ({
+  current: woodChanceToCatch,
+}));
+export const chanceToCatchAtom = atom(woodFuel);
+
+export const smokeColorRefAtom = atom(() => ({
+  current: woodSmokeColor,
+}));
+export const smokeColorAtom = atom(woodSmokeColor);

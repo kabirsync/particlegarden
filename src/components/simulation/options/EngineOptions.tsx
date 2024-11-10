@@ -1,4 +1,4 @@
-import SimulationOptionsButton from "@/components/simulation/SimulationOptionsButton";
+import SimulationOptionsButton from "@/components/simulation/options/SimulationOptionsButton";
 import {
   FPSAtom,
   particleSizeAtom,

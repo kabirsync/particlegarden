@@ -1,6 +1,6 @@
-import EngineOptions from "@/components/simulation/EngineOptions";
-import MaterialButton from "@/components/simulation/MaterialButton";
-import MaterialOptions from "@/components/simulation/MaterialOptions";
+import EngineOptions from "@/components/simulation/options/EngineOptions";
+import MaterialButton from "@/components/simulation/options/MaterialButton";
+import MaterialOptions from "@/components/simulation/options/MaterialOptions";
 import { materialOptions } from "@/components/simulation/materials/Material";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -34,7 +34,7 @@ function App() {
                   })}
                 </div>
               </ScrollArea>
-              <ScrollArea className="order-1 md:order-2 h-[100%] flex-1 border-r md:border-r-0 md:border-t border-zinc-400 dark:border-zinc-800 p-3">
+              <ScrollArea className="order-1 md:order-2 h-[100%] flex-1 border-r md:border-r-0 md:border-t border-zinc-400 dark:border-zinc-800 py-3">
                 <MaterialOptions />
               </ScrollArea>
             </div>

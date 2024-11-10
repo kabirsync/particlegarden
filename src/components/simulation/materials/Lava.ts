@@ -2,7 +2,17 @@ import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
 import Stone from "@/components/simulation/materials/Stone";
-import { lavaColor } from "@/lib/constants";
+import {
+  lavaAcceleration,
+  lavaColor,
+  lavaDiagonalSpread,
+  lavaFuel,
+  lavaHorizontalSpread,
+  lavaInitialVelocity,
+  lavaMaxSpeed,
+  lavaSmokeColor,
+  lavaVerticalSpread,
+} from "@/lib/constants";
 import { Color } from "three";
 
 type LavaProps = {
@@ -15,6 +25,7 @@ type LavaProps = {
   horizontalSpread?: number;
   fuel?: number;
   chanceToCatch?: number;
+  smokeColor?: Color;
 };
 
 class Lava extends Particle {
@@ -22,13 +33,14 @@ class Lava extends Particle {
     index: number,
     {
       color = lavaColor,
-      maxSpeed = 10,
-      acceleration = 0.5,
-      initialVelocity = 0.1,
-      diagonalSpread = 3,
-      verticalSpread = 1,
-      horizontalSpread = 3,
-      fuel = 3000 + 100 * Math.random(),
+      maxSpeed = lavaMaxSpeed,
+      acceleration = lavaAcceleration,
+      initialVelocity = lavaInitialVelocity,
+      diagonalSpread = lavaDiagonalSpread,
+      verticalSpread = lavaVerticalSpread,
+      horizontalSpread = lavaHorizontalSpread,
+      fuel = lavaFuel + lavaFuel * Math.random(),
+      smokeColor = lavaSmokeColor,
     }: //   chanceToCatch = 0.01,
     LavaProps
   ) {
@@ -47,6 +59,8 @@ class Lava extends Particle {
         }),
         new Flammable({
           fuel,
+          chanceToCatch: 0,
+          smokeColor,
           //   chanceToCatch,
           burning: true,
           onDeath: (_, particle, grid) => {

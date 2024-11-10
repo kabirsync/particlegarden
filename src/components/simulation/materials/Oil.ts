@@ -1,7 +1,18 @@
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
-import { oilColor } from "@/lib/constants";
+import {
+  oilAcceleration,
+  oilChanceToCatch,
+  oilColor,
+  oilDiagonalSpread,
+  oilFuel,
+  oilHorizontalSpread,
+  oilInitialVelocity,
+  oilMaxSpeed,
+  oilSmokeColor,
+  oilVerticalSpread,
+} from "@/lib/constants";
 import { Color } from "three";
 
 type OilProps = {
@@ -14,6 +25,7 @@ type OilProps = {
   horizontalSpread?: number;
   fuel?: number;
   chanceToCatch?: number;
+  smokeColor?: Color;
 };
 
 class Oil extends Particle {
@@ -21,14 +33,15 @@ class Oil extends Particle {
     index: number,
     {
       color = oilColor,
-      maxSpeed = 10,
-      acceleration = 0.5,
-      initialVelocity = 0.1,
-      diagonalSpread = 3,
-      verticalSpread = 1,
-      horizontalSpread = 3,
-      fuel = 300 + 100 * Math.random(),
-      chanceToCatch = 0.01,
+      maxSpeed = oilMaxSpeed,
+      acceleration = oilAcceleration,
+      initialVelocity = oilInitialVelocity,
+      diagonalSpread = oilDiagonalSpread,
+      verticalSpread = oilVerticalSpread,
+      horizontalSpread = oilHorizontalSpread,
+      fuel = oilFuel + oilFuel * Math.random(),
+      chanceToCatch = oilChanceToCatch,
+      smokeColor = oilSmokeColor,
     }: OilProps
   ) {
     super(index, {
@@ -47,6 +60,7 @@ class Oil extends Particle {
         new Flammable({
           fuel,
           chanceToCatch,
+          smokeColor,
         }),
       ],
     });

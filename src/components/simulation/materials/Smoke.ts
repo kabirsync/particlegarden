@@ -1,41 +1,60 @@
 import { Color } from "three";
-
 import { Grid } from "../Grid";
 import Particle from "@/components/simulation/materials/Particle";
-// import { MovesVertical } from "@/components/simulation/behaviours/MovesVertical";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import { LimitedLife } from "@/components/simulation/behaviours/LimitedLife";
 import { varyColor } from "@/lib/colors";
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
-import { smokeColor } from "@/lib/constants";
-// import { baseSmokeColor } from "../colors";
+import {
+  smokeAcceleration,
+  smokeColor,
+  smokeDiagonalSpread,
+  smokeHorizontalSpread,
+  smokeInitialVelocity,
+  smokeLife,
+  smokeMaxSpeed,
+  smokeVerticalSpread,
+} from "@/lib/constants";
+
+type SmokeProps = {
+  color?: Color;
+  maxSpeed?: number;
+  acceleration?: number;
+  initialVelocity?: number;
+  diagonalSpread?: number;
+  verticalSpread?: number;
+  horizontalSpread?: number;
+  burning?: boolean;
+  life?: number;
+};
 
 export class Smoke extends Particle {
   static addProbability = 0.25;
 
-  // We pass index in to all particles now,
-  // so particles know where they are in
-  // relation to others.
   constructor(
     index: number,
-    { burning, color }: { burning?: boolean; color?: Color } = {}
-    // { color }: { color?: Color } = {}
+    {
+      burning = false,
+      color = smokeColor,
+      life = smokeLife - smokeLife * Math.random(),
+      maxSpeed = smokeMaxSpeed,
+      acceleration = smokeAcceleration,
+      initialVelocity = smokeInitialVelocity,
+      diagonalSpread = smokeDiagonalSpread,
+      verticalSpread = smokeVerticalSpread,
+      horizontalSpread = smokeHorizontalSpread,
+    }: SmokeProps
   ) {
-    const life = 400 - 400 * Math.random();
     const behaviours = [];
-    // const colors = varyThreeColor(color ?? Smoke.baseColor, {
-    //   lightFn: () => Math.random() * 5 - 5,
-    //   satFn: () => Math.random() * 10 - 5,
-    // });
 
     if (burning) {
       behaviours.push(
         new Flammable({
-          fuel: life + 1,
-          chanceToSpread: (behavior: Flammable) =>
-            (0.5 * behavior.remainingLife) / behavior.lifetime,
+          fuel: life,
+          chanceToCatch: 0,
+          chanceToSpread: (behaviour: Flammable) =>
+            (0.5 * behaviour.remainingLife) / behaviour.lifetime,
           burning: true,
-          // color: colors,
         })
       );
     }
@@ -43,34 +62,27 @@ export class Smoke extends Particle {
     behaviours.push(
       ...[
         new MovesVerticalWater({
-          maxSpeed: 0.4,
-          acceleration: -0.5,
-          initialVelocity: -0.1,
+          maxSpeed,
+          acceleration,
+          initialVelocity,
+          diagonalSpread,
+          verticalSpread,
+          horizontalSpread,
         }),
-        new LimitedLife(
-          // Each particle has 400 - 800 life (random)
-          400 - 400 * Math.random(),
-          {
-            onTick: (behaviour: LimitedLife, particle: Particle) => {
-              void behaviour;
-              void particle;
-              // let pct = behaviour.remainingLife / behaviour.lifetime;
-              // particle.color?.setAlpha(Math.floor(255.0 * pct));
-            },
-            onDeath: (_, particle: Particle, grid: Grid) => {
-              grid.clearIndex(particle.index);
-            },
-          }
-        ),
-        // new Cloneable({ material: "Smoke", color: color ?? baseSmokeColor }),
-
-        // Fading behavior?
+        new LimitedLife(life - life * Math.random(), {
+          onTick: (behaviour: LimitedLife, particle: Particle) => {
+            void behaviour;
+            void particle;
+          },
+          onDeath: (_, particle: Particle, grid: Grid) => {
+            grid.clearIndex(particle.index);
+          },
+        }),
       ]
     );
     super(index, {
       color: varyColor(color ?? smokeColor),
       stateOfMatter: "gas",
-      //   airy: true,
 
       behaviours,
     });

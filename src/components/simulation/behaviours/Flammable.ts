@@ -3,7 +3,7 @@ import { Grid } from "../Grid";
 import { LimitedLife } from "./LimitedLife";
 import Particle from "@/components/simulation/materials/Particle";
 import Empty from "@/components/simulation/materials/Empty";
-import { fireColors } from "@/lib/constants";
+import { fireColors, smokeMaterialColor } from "@/lib/constants";
 import { Smoke } from "@/components/simulation/materials/Smoke";
 import Water from "@/components/simulation/materials/Water";
 import { Behaviour } from "@/components/simulation/behaviours/Behaviour";
@@ -11,7 +11,7 @@ import { Behaviour } from "@/components/simulation/behaviours/Behaviour";
 export type FlammableProps = {
   fuel?: number;
   burning?: boolean;
-  chanceToCatch?: number;
+  chanceToCatch: number;
   chanceToSpread?: number | ((behavior: Flammable) => number);
   smokeColor?: Color;
   onDeath?: (behaviour: LimitedLife, particle: Particle, grid: Grid) => void;
@@ -27,14 +27,14 @@ export class Flammable extends LimitedLife {
   smokeColor?: Color;
 
   constructor({
-    fuel,
-    burning,
+    fuel = 10000,
+    burning = false,
     chanceToCatch,
-    chanceToSpread,
-    smokeColor,
+    chanceToSpread = () => 1,
+    smokeColor = smokeMaterialColor,
     onDeath,
   }: FlammableProps) {
-    fuel = fuel ?? 10 + 100 * Math.random();
+    fuel = fuel + fuel * Math.random();
 
     const defaultOnDeath = (_: Behaviour, particle: Particle, grid: Grid) => {
       if (Math.random() < 0.3) {
@@ -63,10 +63,10 @@ export class Flammable extends LimitedLife {
       onDeath: onDeath ?? defaultOnDeath,
     });
     this.colors = fireColors;
-    this.burning = burning ?? false;
-    this.chanceToCatch = chanceToCatch ?? 0;
+    this.burning = burning;
+    this.chanceToCatch = chanceToCatch;
     this.chancesToCatch = 0;
-    this.chanceToSpread = chanceToSpread ?? (() => 1.0);
+    this.chanceToSpread = chanceToSpread;
     this.smokeColor = smokeColor;
   }
 
