@@ -241,7 +241,9 @@ const MaterialOptions = () => {
                 }}
               />
             </div>
-            {["Water", "Smoke", "Acid", "Lava"].includes(selectedMaterial) && (
+            {["Water", "Smoke", "Acid", "Lava", "Oil"].includes(
+              selectedMaterial
+            ) && (
               <>
                 <div className="flex flex-col gap-2">
                   <Label htmlFor="diagonalSpread" className="text-xs">
