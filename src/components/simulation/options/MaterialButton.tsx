@@ -48,6 +48,7 @@ import {
   lavaAcceleration,
   lavaColor,
   lavaDirection,
+  lavaFuel,
   lavaInitialVelocity,
   lavaMaxSpeed,
   lavaSmokeColor,
@@ -243,6 +244,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         gravityDirectionRef.current = lavaDirection;
         setSmokeColor(lavaSmokeColor);
         smokeColorRef.current = lavaSmokeColor;
+        setFuel(lavaFuel);
+        fuelRef.current = lavaFuel;
         break;
       }
       case "Stone": {

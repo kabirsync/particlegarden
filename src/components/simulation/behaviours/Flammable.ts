@@ -27,14 +27,14 @@ export class Flammable extends LimitedLife {
   smokeColor?: Color;
 
   constructor({
-    fuel = 100,
+    fuel = 10000,
     burning = false,
     chanceToCatch,
     chanceToSpread = () => 1,
     smokeColor = smokeMaterialColor,
     onDeath,
   }: FlammableProps) {
-    fuel = fuel - fuel * Math.random();
+    fuel = fuel + fuel * Math.random();
 
     const defaultOnDeath = (_: Behaviour, particle: Particle, grid: Grid) => {
       if (Math.random() < 0.3) {

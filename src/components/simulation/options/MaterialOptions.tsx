@@ -45,7 +45,7 @@ const MaterialOptions = () => {
           </div>
         </>
       )}
-      {["Wood", "Oil", "Gas"].includes(selectedMaterial) && (
+      {["Fire", "Lava", "Wood", "Oil", "Gas"].includes(selectedMaterial) && (
         <>
           <Separator className="mt-2" />
           <div className="px-3 flex flex-col gap-4">

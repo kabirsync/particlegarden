@@ -113,7 +113,7 @@ const FlammableOptions = () => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="colorPicker" className="text-xs">
+          <Label htmlFor="colorPicker" className="text-xs text-zinc-400">
             Smoke Color:
           </Label>
           <Input
