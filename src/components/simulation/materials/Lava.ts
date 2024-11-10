@@ -6,9 +6,11 @@ import {
   lavaAcceleration,
   lavaColor,
   lavaDiagonalSpread,
+  lavaFuel,
   lavaHorizontalSpread,
   lavaInitialVelocity,
   lavaMaxSpeed,
+  lavaSmokeColor,
   lavaVerticalSpread,
 } from "@/lib/constants";
 import { Color } from "three";
@@ -23,6 +25,7 @@ type LavaProps = {
   horizontalSpread?: number;
   fuel?: number;
   chanceToCatch?: number;
+  smokeColor?: Color;
 };
 
 class Lava extends Particle {
@@ -36,7 +39,8 @@ class Lava extends Particle {
       diagonalSpread = lavaDiagonalSpread,
       verticalSpread = lavaVerticalSpread,
       horizontalSpread = lavaHorizontalSpread,
-      fuel = 3000 + 100 * Math.random(),
+      fuel = lavaFuel + lavaFuel * Math.random(),
+      smokeColor = lavaSmokeColor,
     }: //   chanceToCatch = 0.01,
     LavaProps
   ) {
@@ -56,6 +60,7 @@ class Lava extends Particle {
         new Flammable({
           fuel,
           chanceToCatch: 0,
+          smokeColor,
           //   chanceToCatch,
           burning: true,
           onDeath: (_, particle, grid) => {

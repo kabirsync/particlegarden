@@ -3,17 +3,22 @@ import {
   chanceToCatchRefAtom,
   fuelAtom,
   fuelRefAtom,
+  smokeColorAtom,
+  smokeColorRefAtom,
 } from "@/components/simulation/simulationState";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { useAtom } from "jotai";
+import { Color } from "three";
 
 const FlammableOptions = () => {
   const [fuelRef] = useAtom(fuelRefAtom);
   const [chanceToCatchRef] = useAtom(chanceToCatchRefAtom);
   const [chanceToCatch, setChanceToCatch] = useAtom(chanceToCatchAtom);
   const [fuel, setFuel] = useAtom(fuelAtom);
+  const [smokeColor, setSmokeColor] = useAtom(smokeColorAtom);
+  const [smokeColorRef] = useAtom(smokeColorRefAtom);
 
   const handleFuelChange = (value: number) => {
     setFuel(value);
@@ -23,6 +28,15 @@ const FlammableOptions = () => {
   const handleChanceToCatchChange = (value: number) => {
     setChanceToCatch(value);
     chanceToCatchRef.current = value;
+  };
+
+  const handleSmokeColorChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value;
+    const newColor = new Color(value);
+    setSmokeColor(newColor);
+    smokeColorRef.current = newColor;
   };
 
   return (
@@ -96,6 +110,18 @@ const FlammableOptions = () => {
             onValueChange={(values: number[]) => {
               handleChanceToCatchChange(values[0]);
             }}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="colorPicker" className="text-xs">
+            Smoke Color:
+          </Label>
+          <Input
+            type="color"
+            id="colorPicker"
+            value={`#${smokeColor.getHexString()}`}
+            onChange={handleSmokeColorChange}
+            className="cursor-pointer w-12 h-12 p-0"
           />
         </div>
       </div>

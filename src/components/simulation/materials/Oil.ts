@@ -10,6 +10,7 @@ import {
   oilHorizontalSpread,
   oilInitialVelocity,
   oilMaxSpeed,
+  oilSmokeColor,
   oilVerticalSpread,
 } from "@/lib/constants";
 import { Color } from "three";
@@ -24,6 +25,7 @@ type OilProps = {
   horizontalSpread?: number;
   fuel?: number;
   chanceToCatch?: number;
+  smokeColor?: Color;
 };
 
 class Oil extends Particle {
@@ -39,6 +41,7 @@ class Oil extends Particle {
       horizontalSpread = oilHorizontalSpread,
       fuel = oilFuel + oilFuel * Math.random(),
       chanceToCatch = oilChanceToCatch,
+      smokeColor = oilSmokeColor,
     }: OilProps
   ) {
     super(index, {
@@ -57,6 +60,7 @@ class Oil extends Particle {
         new Flammable({
           fuel,
           chanceToCatch,
+          smokeColor,
         }),
       ],
     });

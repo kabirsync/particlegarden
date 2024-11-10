@@ -94,6 +94,8 @@ export const lavaAcceleration = 0.5;
 export const lavaDiagonalSpread = 3;
 export const lavaVerticalSpread = 1;
 export const lavaHorizontalSpread = 3;
+export const lavaSmokeColor = smokeMaterialColor;
+export const lavaFuel = 1000;
 
 // Oil
 export const oilDirection = 1;
@@ -134,6 +136,7 @@ export const fireDiagonalSpread = 3;
 export const fireVerticalSpread = 1;
 export const fireHorizontalSpread = 3;
 export const fireLife = 200;
+export const fireSmokeColor = smokeMaterialColor;
 
 // Wood
 export const woodFuel = 200;

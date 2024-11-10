@@ -16,6 +16,7 @@ import {
   maxSpeedRefAtom,
   particleSizeAtom,
   selectedMaterialAtom,
+  smokeColorRefAtom,
   strokeSizeRefAtom,
   verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
@@ -56,6 +57,7 @@ const SimulationParticles = ({
   const [lifeRef] = useAtom(lifeRefAtom);
   const [fuelRef] = useAtom(fuelRefAtom);
   const [chanceToCatchlRef] = useAtom(chanceToCatchRefAtom);
+  const [smokeColorRef] = useAtom(smokeColorRefAtom);
 
   const [, setFPS] = useAtom(FPSAtom);
   const [, setFrame] = useState(0);
@@ -142,6 +144,7 @@ const SimulationParticles = ({
                   life: lifeRef.current,
                   fuel: fuelRef.current,
                   chanceToCatch: chanceToCatchlRef.current,
+                  smokeColor: smokeColorRef.current,
                 })
               );
             }

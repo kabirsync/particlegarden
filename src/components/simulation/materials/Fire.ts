@@ -9,6 +9,7 @@ import {
   fireInitialVelocity,
   fireLife,
   fireMaxSpeed,
+  fireSmokeColor,
   fireVerticalSpread,
 } from "@/lib/constants";
 import { Color } from "three";
@@ -21,8 +22,8 @@ type FireProps = {
   diagonalSpread?: number;
   verticalSpread?: number;
   horizontalSpread?: number;
-  // burning?: boolean;
   life?: number;
+  smokeColor?: Color;
 };
 
 export class Fire extends Particle {
@@ -39,6 +40,7 @@ export class Fire extends Particle {
       diagonalSpread = fireDiagonalSpread,
       verticalSpread = fireVerticalSpread,
       horizontalSpread = fireHorizontalSpread,
+      smokeColor = fireSmokeColor,
     }: FireProps
   ) {
     super(index, {
@@ -49,6 +51,7 @@ export class Fire extends Particle {
           burning: true,
           fuel: life,
           chanceToCatch: 0,
+          smokeColor,
         }),
         new MovesVerticalWater({
           maxSpeed,

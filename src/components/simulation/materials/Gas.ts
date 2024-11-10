@@ -12,6 +12,7 @@ import {
   gasHorizontalSpread,
   gasInitialVelocity,
   gasMaxSpeed,
+  gasSmokeColor,
   gasVerticalSpread,
 } from "@/lib/constants";
 import { Color } from "three";
@@ -26,6 +27,7 @@ type GasProps = {
   horizontalSpread?: number;
   fuel?: number;
   chanceToCatch?: number;
+  smokeColor?: Color;
 };
 
 class Gas extends Particle {
@@ -41,6 +43,7 @@ class Gas extends Particle {
       horizontalSpread = gasHorizontalSpread,
       fuel = gasFuel + gasFuel * Math.random(),
       chanceToCatch = gasChanceToCatch,
+      smokeColor = gasSmokeColor,
     }: GasProps
   ) {
     super(index, {
@@ -58,6 +61,7 @@ class Gas extends Particle {
         new Flammable({
           fuel,
           chanceToCatch,
+          smokeColor,
         }),
         new LimitedLife(4000 - 400 * Math.random(), {
           onDeath: (_, particle: Particle, grid: Grid) => {

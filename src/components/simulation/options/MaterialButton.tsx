@@ -20,6 +20,8 @@ import {
   maxSpeedAtom,
   maxSpeedRefAtom,
   selectedMaterialAtom,
+  smokeColorAtom,
+  smokeColorRefAtom,
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,6 +36,7 @@ import {
   fireInitialVelocity,
   fireLife,
   fireMaxSpeed,
+  fireSmokeColor,
   gasAcceleration,
   gasChanceToCatch,
   gasColor,
@@ -41,11 +44,13 @@ import {
   gasFuel,
   gasInitialVelocity,
   gasMaxSpeed,
+  gasSmokeColor,
   lavaAcceleration,
   lavaColor,
   lavaDirection,
   lavaInitialVelocity,
   lavaMaxSpeed,
+  lavaSmokeColor,
   oilAcceleration,
   oilChanceToCatch,
   oilColor,
@@ -53,6 +58,7 @@ import {
   oilFuel,
   oilInitialVelocity,
   oilMaxSpeed,
+  oilSmokeColor,
   sandAcceleration,
   sandColor,
   sandDirection,
@@ -74,6 +80,7 @@ import {
   woodChanceToCatch,
   woodColor,
   woodFuel,
+  woodSmokeColor,
 } from "@/lib/constants";
 import { useAtom } from "jotai";
 
@@ -100,6 +107,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
   const [fuelRef] = useAtom(fuelRefAtom);
   const [, setChanceToCatch] = useAtom(chanceToCatchAtom);
   const [chanceToCatchRef] = useAtom(chanceToCatchRefAtom);
+  const [, setSmokeColor] = useAtom(smokeColorAtom);
+  const [smokeColorRef] = useAtom(smokeColorRefAtom);
   // Helper function to enforce exhaustiveness
   function assertUnreachable(x: never): never {
     throw new Error(`Missing material type handling for: ${x}`);
@@ -121,6 +130,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         fuelRef.current = woodFuel;
         setChanceToCatch(woodChanceToCatch);
         chanceToCatchRef.current = woodChanceToCatch;
+        setSmokeColor(woodSmokeColor);
+        smokeColorRef.current = woodSmokeColor;
         break;
       }
       case "Sand": {
@@ -177,6 +188,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         lifeRef.current = fireLife;
         setGravityDirection(fireDirection);
         gravityDirectionRef.current = fireDirection;
+        setSmokeColor(fireSmokeColor);
+        smokeColorRef.current = fireSmokeColor;
         break;
       }
       case "Oil": {
@@ -194,6 +207,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         fuelRef.current = oilFuel;
         setChanceToCatch(oilChanceToCatch);
         chanceToCatchRef.current = oilChanceToCatch;
+        setSmokeColor(oilSmokeColor);
+        smokeColorRef.current = oilSmokeColor;
         break;
       }
       case "Gas": {
@@ -211,6 +226,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         fuelRef.current = gasFuel;
         setChanceToCatch(gasChanceToCatch);
         chanceToCatchRef.current = gasChanceToCatch;
+        setSmokeColor(gasSmokeColor);
+        smokeColorRef.current = gasSmokeColor;
         break;
       }
       case "Lava": {
@@ -224,6 +241,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         accelerationRef.current = lavaAcceleration;
         setGravityDirection(lavaDirection);
         gravityDirectionRef.current = lavaDirection;
+        setSmokeColor(lavaSmokeColor);
+        smokeColorRef.current = lavaSmokeColor;
         break;
       }
       case "Stone": {
