@@ -3,8 +3,14 @@ import {
   MaterialOptionsType,
 } from "@/components/simulation/materials/Material";
 import {
+  accelerationAtom,
+  accelerationRefAtom,
+  initialVelocityAtom,
+  initialVelocityRefAtom,
   materialColorAtom,
   materialColorRefAtom,
+  maxSpeedAtom,
+  maxSpeedRefAtom,
   selectedMaterialAtom,
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
@@ -14,8 +20,14 @@ import {
   gasColor,
   lavaColor,
   oilColor,
+  sandAcceleration,
   sandColor,
+  sandInitialVelocity,
+  sandMaxSpeed,
+  smokeAcceleration,
   smokeColor,
+  smokeInitialVelocity,
+  smokeMaxSpeed,
   stoneColor,
   transparentColor,
   waterColor,
@@ -32,7 +44,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
   const [selectedMaterial, setSelectedMaterial] = useAtom(selectedMaterialAtom);
 
   const [, setMaterialColor] = useAtom(materialColorAtom);
-
+  const [, setMaxSpeed] = useAtom(maxSpeedAtom);
+  const [maxSpeedRef] = useAtom(maxSpeedRefAtom);
+  const [, setInitialVelocity] = useAtom(initialVelocityAtom);
+  const [initialVelocityRef] = useAtom(initialVelocityRefAtom);
+  const [, setAcceleration] = useAtom(accelerationAtom);
+  const [accelerationRef] = useAtom(accelerationRefAtom);
   // Helper function to enforce exhaustiveness
   function assertUnreachable(x: never): never {
     throw new Error(`Missing material type handling for: ${x}`);
@@ -55,6 +72,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
       case "Sand": {
         setMaterialColor(sandColor);
         materialColorRef.current = sandColor;
+        setMaxSpeed(sandMaxSpeed);
+        maxSpeedRef.current = sandMaxSpeed;
+        setInitialVelocity(sandInitialVelocity);
+        initialVelocityRef.current = sandInitialVelocity;
+        setAcceleration(sandAcceleration);
+        accelerationRef.current = sandAcceleration;
         break;
       }
       case "Water": {
@@ -65,6 +88,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
       case "Smoke": {
         setMaterialColor(smokeColor);
         materialColorRef.current = smokeColor;
+        setMaxSpeed(smokeMaxSpeed);
+        maxSpeedRef.current = smokeMaxSpeed;
+        setInitialVelocity(smokeInitialVelocity);
+        initialVelocityRef.current = smokeInitialVelocity;
+        setAcceleration(smokeAcceleration);
+        accelerationRef.current = smokeAcceleration;
         break;
       }
       case "Fire": {

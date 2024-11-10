@@ -1,32 +1,29 @@
 import {
+  accelerationAtom,
   accelerationRefAtom,
+  gravityDirectionAtom,
+  initialVelocityAtom,
   initialVelocityRefAtom,
+  maxSpeedAtom,
   maxSpeedRefAtom,
 } from "@/components/simulation/simulationState";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import {
-  defaultAcceleration,
-  defaultInitialVelocity,
-  defaultMaxSpeed,
-} from "@/lib/constants";
 import { useAtom } from "jotai";
 import { ArrowDown, ArrowUp } from "lucide-react";
-import { useState } from "react";
 
 const MoveVerticalOptions = () => {
   const [maxSpeedRef] = useAtom(maxSpeedRefAtom);
   const [initialVelocityRef] = useAtom(initialVelocityRefAtom);
   const [accelerationRef] = useAtom(accelerationRefAtom);
-  const [maxSpeed, setMaxSpeed] = useState(defaultMaxSpeed);
-  const [initialVelocity, setInitialVelocity] = useState(
-    defaultInitialVelocity
-  );
-  const [acceleration, setAcceleration] = useState(defaultAcceleration);
+  const [maxSpeed, setMaxSpeed] = useAtom(maxSpeedAtom);
+  const [initialVelocity, setInitialVelocity] = useAtom(initialVelocityAtom);
 
-  const [gravityDirection, setGravityDirection] = useState(1);
+  const [acceleration, setAcceleration] = useAtom(accelerationAtom);
+  const [gravityDirection, setGravityDirection] = useAtom(gravityDirectionAtom);
+
   const handleMaxSpeedChange = (value: number) => {
     setMaxSpeed(value);
     maxSpeedRef.current = value;

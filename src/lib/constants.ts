@@ -38,3 +38,24 @@ export const defaultSelecteMaterial = "Sand";
 export const defaultDiagonalSpread = 3;
 export const defaultVerticalSpread = 1;
 export const defaultHorizontalSpread = 3;
+
+// Sand
+export const sandDirection = 1;
+export const sandMaterialColor = sandColor;
+export const sandStrokeSize = 10;
+export const sandMaxSpeed = 10;
+export const sandInitialVelocity = 0.1;
+export const sandAcceleration = 0.5;
+export const sandDiagonalSpread = 3;
+export const sandVerticalSpread = 1;
+export const sandHorizontalSpread = 3;
+
+// Smoke
+export const smokeMaterialColor = smokeColor;
+export const smokeStrokeSize = 10;
+export const smokeMaxSpeed = 0.5;
+export const smokeInitialVelocity = -0.1;
+export const smokeAcceleration = -0.5;
+export const smokeDiagonalSpread = 3;
+export const smokeVerticalSpread = 1;
+export const smokeHorizontalSpread = 3;
