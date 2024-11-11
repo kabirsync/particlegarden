@@ -16,6 +16,7 @@ import {
   smokeVerticalSpread,
 } from "@/lib/constants";
 import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
+import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
 
 type SmokeProps = {
   color?: Color;
@@ -89,6 +90,7 @@ export class Smoke extends Particle {
           verticalSpread,
           horizontalSpread,
         }),
+        new Destroyable(),
       ]
     );
     super(index, {

@@ -57,6 +57,7 @@ export class Acid extends Particle {
           verticalSpread,
           horizontalSpread,
         }),
+        new Destroyable(),
       ],
     });
   }
