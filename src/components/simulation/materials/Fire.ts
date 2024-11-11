@@ -1,4 +1,5 @@
 import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
+import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
@@ -74,6 +75,7 @@ export class Fire extends Particle {
           fuel: life,
           smokeColor,
         }),
+        new Destroyable(),
       ],
     });
   }

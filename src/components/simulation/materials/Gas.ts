@@ -1,4 +1,5 @@
 import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
+import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { LimitedLife } from "@/components/simulation/behaviours/LimitedLife";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
@@ -81,6 +82,7 @@ class Gas extends Particle {
           fuel,
           smokeColor,
         }),
+        new Destroyable(),
       ],
     });
   }
