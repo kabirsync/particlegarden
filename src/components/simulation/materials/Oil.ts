@@ -1,3 +1,4 @@
+import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
@@ -60,6 +61,18 @@ class Oil extends Particle {
         new Flammable({
           fuel,
           chanceToCatch,
+          smokeColor,
+        }),
+        new Cloneable({
+          color,
+          material: "Oil",
+          maxSpeed,
+          acceleration,
+          initialVelocity,
+          diagonalSpread,
+          verticalSpread,
+          horizontalSpread,
+          fuel,
           smokeColor,
         }),
       ],

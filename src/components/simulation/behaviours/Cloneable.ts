@@ -19,12 +19,14 @@ export class Cloneable extends Behaviour {
   diagonalSpread?: number;
   horizontalSpread?: number;
   verticalSpread?: number;
+  smokeColor?: Color;
 
   constructor({
     material,
     color,
     fuel,
     chanceToCatch,
+    smokeColor,
     maxSpeed,
     acceleration,
     initialVelocity,
@@ -36,6 +38,7 @@ export class Cloneable extends Behaviour {
     color: Color;
     fuel?: number;
     chanceToCatch?: number;
+    smokeColor?: Color;
     maxSpeed?: number;
     acceleration?: number;
     initialVelocity?: number;
@@ -48,6 +51,7 @@ export class Cloneable extends Behaviour {
     this.material = material;
     this.fuel = fuel;
     this.chanceToCatch = chanceToCatch;
+    this.smokeColor = smokeColor;
     this.maxSpeed = maxSpeed;
     this.acceleration = acceleration;
     this.initialVelocity = initialVelocity;
@@ -112,6 +116,7 @@ export class Cloneable extends Behaviour {
           color: this.color,
           fuel: this.fuel,
           chanceToCatch: this.chanceToCatch,
+          smokeColor: this.smokeColor,
           maxSpeed: this.maxSpeed,
           acceleration: this.acceleration,
           initialVelocity: this.initialVelocity,
@@ -129,6 +134,7 @@ export class Cloneable extends Behaviour {
           color: this.color,
           fuel: this.fuel,
           chanceToCatch: this.chanceToCatch,
+          smokeColor: this.smokeColor,
           maxSpeed: this.maxSpeed,
           acceleration: this.acceleration,
           initialVelocity: this.initialVelocity,
@@ -146,6 +152,7 @@ export class Cloneable extends Behaviour {
           color: this.color,
           fuel: this.fuel,
           chanceToCatch: this.chanceToCatch,
+          smokeColor: this.smokeColor,
           maxSpeed: this.maxSpeed,
           acceleration: this.acceleration,
           initialVelocity: this.initialVelocity,
@@ -162,6 +169,7 @@ export class Cloneable extends Behaviour {
           color: this.color,
           fuel: this.fuel,
           chanceToCatch: this.chanceToCatch,
+          smokeColor: this.smokeColor,
           maxSpeed: this.maxSpeed,
           acceleration: this.acceleration,
           initialVelocity: this.initialVelocity,

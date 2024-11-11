@@ -1,3 +1,4 @@
+import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
@@ -66,6 +67,18 @@ class Lava extends Particle {
           onDeath: (_, particle, grid) => {
             grid.setIndex(particle.index, new Stone(particle.index, {}));
           },
+        }),
+        new Cloneable({
+          color,
+          material: "Lava",
+          maxSpeed,
+          acceleration,
+          initialVelocity,
+          diagonalSpread,
+          verticalSpread,
+          horizontalSpread,
+          fuel,
+          smokeColor,
         }),
       ],
     });
