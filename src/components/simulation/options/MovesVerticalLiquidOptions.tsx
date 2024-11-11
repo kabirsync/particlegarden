@@ -1,28 +1,23 @@
 import {
+  diagonalSpreadAtom,
   diagonalSpreadRefAtom,
+  horizontalSpreadAtom,
   horizontalSpreadRefAtom,
+  vertiacallSpreadAtom,
   verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import {
-  defaultDiagonalSpread,
-  defaultHorizontalSpread,
-  defaultVerticalSpread,
-} from "@/lib/constants";
 import { useAtom } from "jotai";
-import { useState } from "react";
 
 const MoveVerticalLiquidOptions = () => {
   const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
   const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
   const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
-  const [diagonalSpread, setDiagonalSpread] = useState(defaultDiagonalSpread);
-  const [verticalSpread, setVerticalSpread] = useState(defaultVerticalSpread);
-  const [horizontalSpread, setHorizontalSpread] = useState(
-    defaultHorizontalSpread
-  );
+  const [diagonalSpread, setDiagonalSpread] = useAtom(diagonalSpreadAtom);
+  const [verticalSpread, setVerticalSpread] = useAtom(vertiacallSpreadAtom);
+  const [horizontalSpread, setHorizontalSpread] = useAtom(horizontalSpreadAtom);
 
   const handleDiagonalSpreadChange = (value: number) => {
     setDiagonalSpread(value);

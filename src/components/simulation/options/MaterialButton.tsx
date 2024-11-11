@@ -7,10 +7,14 @@ import {
   accelerationRefAtom,
   chanceToCatchAtom,
   chanceToCatchRefAtom,
+  diagonalSpreadAtom,
+  diagonalSpreadRefAtom,
   fuelAtom,
   fuelRefAtom,
   gravityDirectionAtom,
   gravityDirectionRefAtom,
+  horizontalSpreadAtom,
+  horizontalSpreadRefAtom,
   initialVelocityAtom,
   initialVelocityRefAtom,
   lifeAtom,
@@ -22,14 +26,19 @@ import {
   selectedMaterialAtom,
   smokeColorAtom,
   smokeColorRefAtom,
+  vertiacallSpreadAtom,
+  verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import {
   acidAcceleration,
   acidColor,
+  acidDiagonalSpread,
   acidDirection,
+  acidHorizontalSpread,
   acidInitialVelocity,
   acidMaxSpeed,
+  acidVerticalSpread,
   fireAcceleration,
   fireColor,
   fireDirection,
@@ -40,26 +49,35 @@ import {
   gasAcceleration,
   gasChanceToCatch,
   gasColor,
+  gasDiagonalSpread,
   gasDirection,
   gasFuel,
+  gasHorizontalSpread,
   gasInitialVelocity,
   gasMaxSpeed,
   gasSmokeColor,
+  gasVerticalSpread,
   lavaAcceleration,
   lavaColor,
+  lavaDiagonalSpread,
   lavaDirection,
   lavaFuel,
+  lavaHorizontalSpread,
   lavaInitialVelocity,
   lavaMaxSpeed,
   lavaSmokeColor,
+  lavaVerticalSpread,
   oilAcceleration,
   oilChanceToCatch,
   oilColor,
+  oilDiagonalSpread,
   oilDirection,
   oilFuel,
+  oilHorizontalSpread,
   oilInitialVelocity,
   oilMaxSpeed,
   oilSmokeColor,
+  oilVerticalSpread,
   sandAcceleration,
   sandColor,
   sandDirection,
@@ -67,17 +85,23 @@ import {
   sandMaxSpeed,
   smokeAcceleration,
   smokeColor,
+  smokeDiagonalSpread,
   smokeDirection,
+  smokeHorizontalSpread,
   smokeInitialVelocity,
   smokeLife,
   smokeMaxSpeed,
+  smokeVerticalSpread,
   stoneColor,
   transparentColor,
   waterAcceleration,
   waterColor,
+  waterDiagonalSpread,
   waterDirection,
+  waterHorizontalSpread,
   waterInitialVelocity,
   waterMaxSpeed,
+  waterVerticalSpread,
   woodChanceToCatch,
   woodColor,
   woodFuel,
@@ -110,6 +134,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
   const [chanceToCatchRef] = useAtom(chanceToCatchRefAtom);
   const [, setSmokeColor] = useAtom(smokeColorAtom);
   const [smokeColorRef] = useAtom(smokeColorRefAtom);
+  const [, setDiagonalSpread] = useAtom(diagonalSpreadAtom);
+  const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
+  const [, setVerticalSpread] = useAtom(vertiacallSpreadAtom);
+  const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
+  const [, setHorizontalSpread] = useAtom(horizontalSpreadAtom);
+  const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
   // Helper function to enforce exhaustiveness
   function assertUnreachable(x: never): never {
     throw new Error(`Missing material type handling for: ${x}`);
@@ -159,6 +189,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         accelerationRef.current = waterAcceleration;
         setGravityDirection(waterDirection);
         gravityDirectionRef.current = waterDirection;
+        setDiagonalSpread(waterDiagonalSpread);
+        diagonalSpreadRef.current = waterDiagonalSpread;
+        setVerticalSpread(waterVerticalSpread);
+        verticalSpreadRef.current = waterVerticalSpread;
+        setHorizontalSpread(waterHorizontalSpread);
+        horizontalSpreadRef.current = waterHorizontalSpread;
         break;
       }
       case "Smoke": {
@@ -174,6 +210,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         lifeRef.current = smokeLife;
         setGravityDirection(smokeDirection);
         gravityDirectionRef.current = smokeDirection;
+        setDiagonalSpread(smokeDiagonalSpread);
+        diagonalSpreadRef.current = smokeDiagonalSpread;
+        setVerticalSpread(smokeVerticalSpread);
+        verticalSpreadRef.current = smokeVerticalSpread;
+        setHorizontalSpread(smokeHorizontalSpread);
+        horizontalSpreadRef.current = smokeHorizontalSpread;
         break;
       }
       case "Fire": {
@@ -210,6 +252,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         chanceToCatchRef.current = oilChanceToCatch;
         setSmokeColor(oilSmokeColor);
         smokeColorRef.current = oilSmokeColor;
+        setDiagonalSpread(oilDiagonalSpread);
+        diagonalSpreadRef.current = oilDiagonalSpread;
+        setVerticalSpread(oilVerticalSpread);
+        verticalSpreadRef.current = oilVerticalSpread;
+        setHorizontalSpread(oilHorizontalSpread);
+        horizontalSpreadRef.current = oilHorizontalSpread;
         break;
       }
       case "Gas": {
@@ -229,6 +277,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         chanceToCatchRef.current = gasChanceToCatch;
         setSmokeColor(gasSmokeColor);
         smokeColorRef.current = gasSmokeColor;
+        setDiagonalSpread(gasDiagonalSpread);
+        diagonalSpreadRef.current = gasDiagonalSpread;
+        setVerticalSpread(gasVerticalSpread);
+        verticalSpreadRef.current = gasVerticalSpread;
+        setHorizontalSpread(gasHorizontalSpread);
+        horizontalSpreadRef.current = gasHorizontalSpread;
         break;
       }
       case "Lava": {
@@ -246,6 +300,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         smokeColorRef.current = lavaSmokeColor;
         setFuel(lavaFuel);
         fuelRef.current = lavaFuel;
+        setDiagonalSpread(lavaDiagonalSpread);
+        diagonalSpreadRef.current = lavaDiagonalSpread;
+        setVerticalSpread(lavaVerticalSpread);
+        verticalSpreadRef.current = lavaVerticalSpread;
+        setHorizontalSpread(lavaHorizontalSpread);
+        horizontalSpreadRef.current = lavaHorizontalSpread;
         break;
       }
       case "Stone": {
@@ -264,6 +324,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         accelerationRef.current = acidAcceleration;
         setGravityDirection(acidDirection);
         gravityDirectionRef.current = acidDirection;
+        setDiagonalSpread(acidDiagonalSpread);
+        diagonalSpreadRef.current = acidDiagonalSpread;
+        setVerticalSpread(acidVerticalSpread);
+        verticalSpreadRef.current = acidVerticalSpread;
+        setHorizontalSpread(acidHorizontalSpread);
+        horizontalSpreadRef.current = acidHorizontalSpread;
         break;
       }
       default: {

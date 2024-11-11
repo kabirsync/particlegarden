@@ -91,9 +91,9 @@ export const lavaStrokeSize = 10;
 export const lavaMaxSpeed = 4;
 export const lavaInitialVelocity = 0.1;
 export const lavaAcceleration = 0.5;
-export const lavaDiagonalSpread = 3;
+export const lavaDiagonalSpread = 1;
 export const lavaVerticalSpread = 1;
-export const lavaHorizontalSpread = 3;
+export const lavaHorizontalSpread = 1;
 export const lavaSmokeColor = smokeMaterialColor;
 export const lavaFuel = 10000;
 

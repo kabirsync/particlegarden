@@ -62,12 +62,17 @@ export const gravityDirectionRefAtom = atom(() => ({ current: sandDirection }));
 export const diagonalSpreadRefAtom = atom(() => ({
   current: defaultDiagonalSpread,
 }));
+export const diagonalSpreadAtom = atom(defaultDiagonalSpread);
+
 export const verticalSpreadRefAtom = atom(() => ({
   current: defaultVerticalSpread,
 }));
+export const vertiacallSpreadAtom = atom(defaultVerticalSpread);
+
 export const horizontalSpreadRefAtom = atom(() => ({
   current: defaultHorizontalSpread,
 }));
+export const horizontalSpreadAtom = atom(defaultHorizontalSpread);
 
 // --------- Limited Life Options ---------
 export const lifeRefAtom = atom(() => ({
