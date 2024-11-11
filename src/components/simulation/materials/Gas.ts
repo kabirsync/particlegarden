@@ -1,3 +1,4 @@
+import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { LimitedLife } from "@/components/simulation/behaviours/LimitedLife";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
@@ -67,6 +68,18 @@ class Gas extends Particle {
           onDeath: (_, particle: Particle, grid: Grid) => {
             grid.clearIndex(particle.index);
           },
+        }),
+        new Cloneable({
+          color,
+          material: "Gas",
+          maxSpeed,
+          acceleration,
+          initialVelocity,
+          diagonalSpread,
+          verticalSpread,
+          horizontalSpread,
+          fuel,
+          smokeColor,
         }),
       ],
     });

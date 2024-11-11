@@ -4,6 +4,7 @@ import {
   BrickWall,
   Circle,
   Cloud,
+  Copy,
   Droplet,
   Flame,
   Grip,
@@ -19,6 +20,7 @@ import Gas from "@/components/simulation/materials/Gas";
 import Lava from "@/components/simulation/materials/Lava";
 import Stone from "@/components/simulation/materials/Stone";
 import { Acid } from "@/components/simulation/materials/Acid";
+import Cloner from "@/components/simulation/materials/Cloner";
 
 // New materials must be added here and at [3] points
 
@@ -36,7 +38,8 @@ type MaterialClasses =
   | Gas
   | Lava
   | Stone
-  | Acid;
+  | Acid
+  | Cloner;
 
 // [2] New materials must be added here
 
@@ -52,6 +55,7 @@ export const materialOptions = [
   "Lava",
   "Stone",
   "Acid",
+  "Cloner",
 ] as const;
 export type MaterialOptionsType = (typeof materialOptions)[number];
 
@@ -93,6 +97,8 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
       return <BrickWall className="h-3 w-3 text-zinc-500 fill-zinc-700" />;
     case "Acid":
       return <Droplet className="h-3 w-3 text-green-500 fill-green-900" />;
+    case "Cloner":
+      return <Copy className="h-3 w-3 text-red-200 fill-red-200" />;
     default:
       return null;
   }
@@ -128,4 +134,5 @@ export const MaterialMapping: Record<
   Lava,
   Stone,
   Acid,
+  Cloner,
 };

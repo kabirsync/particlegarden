@@ -1,3 +1,4 @@
+import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 import { MovesVerticalAcid } from "@/components/simulation/behaviours/MovesVerticalAcid";
 import Particle from "@/components/simulation/materials/Particle";
 import {
@@ -39,6 +40,16 @@ export class Acid extends Particle {
       stateOfMatter: "liquid",
       behaviours: [
         new MovesVerticalAcid({
+          maxSpeed,
+          acceleration,
+          initialVelocity,
+          diagonalSpread,
+          verticalSpread,
+          horizontalSpread,
+        }),
+        new Cloneable({
+          color,
+          material: "Acid",
           maxSpeed,
           acceleration,
           initialVelocity,

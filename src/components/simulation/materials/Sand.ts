@@ -3,6 +3,7 @@ import Particle from "@/components/simulation/materials/Particle";
 import { Color } from "three";
 import { MovesVerticalSolid } from "@/components/simulation/behaviours/MovesVerticalSolid";
 import { sandColor } from "@/lib/constants";
+import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 
 type SandProps = {
   color?: Color;
@@ -26,6 +27,13 @@ class Sand extends Particle {
       stateOfMatter: "solid",
       behaviours: [
         new MovesVerticalSolid({
+          maxSpeed,
+          acceleration,
+          initialVelocity,
+        }),
+        new Cloneable({
+          color,
+          material: "Sand",
           maxSpeed,
           acceleration,
           initialVelocity,

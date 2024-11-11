@@ -1,3 +1,4 @@
+import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
 import {
@@ -40,6 +41,16 @@ class Water extends Particle {
       stateOfMatter: "liquid",
       behaviours: [
         new MovesVerticalWater({
+          maxSpeed,
+          acceleration,
+          initialVelocity,
+          diagonalSpread,
+          verticalSpread,
+          horizontalSpread,
+        }),
+        new Cloneable({
+          color,
+          material: "Water",
           maxSpeed,
           acceleration,
           initialVelocity,

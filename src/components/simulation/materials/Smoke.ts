@@ -15,6 +15,7 @@ import {
   smokeMaxSpeed,
   smokeVerticalSpread,
 } from "@/lib/constants";
+import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 
 type SmokeProps = {
   color?: Color;
@@ -77,6 +78,16 @@ export class Smoke extends Particle {
           onDeath: (_, particle: Particle, grid: Grid) => {
             grid.clearIndex(particle.index);
           },
+        }),
+        new Cloneable({
+          color,
+          material: "Smoke",
+          maxSpeed,
+          acceleration,
+          initialVelocity,
+          diagonalSpread,
+          verticalSpread,
+          horizontalSpread,
         }),
       ]
     );

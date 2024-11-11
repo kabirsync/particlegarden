@@ -39,6 +39,7 @@ import {
   acidInitialVelocity,
   acidMaxSpeed,
   acidVerticalSpread,
+  clonerColor,
   fireAcceleration,
   fireColor,
   fireDirection,
@@ -330,6 +331,11 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         verticalSpreadRef.current = acidVerticalSpread;
         setHorizontalSpread(acidHorizontalSpread);
         horizontalSpreadRef.current = acidHorizontalSpread;
+        break;
+      }
+      case "Cloner": {
+        setMaterialColor(clonerColor);
+        materialColorRef.current = clonerColor;
         break;
       }
       default: {
