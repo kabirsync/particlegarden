@@ -95,6 +95,7 @@ import {
   smokeVerticalSpread,
   stoneColor,
   transparentColor,
+  voidColor,
   waterAcceleration,
   waterColor,
   waterDiagonalSpread,
@@ -336,6 +337,11 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
       case "Cloner": {
         setMaterialColor(clonerColor);
         materialColorRef.current = clonerColor;
+        break;
+      }
+      case "Void": {
+        setMaterialColor(voidColor);
+        materialColorRef.current = voidColor;
         break;
       }
       default: {

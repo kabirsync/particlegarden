@@ -31,6 +31,7 @@ const MaterialOptions = () => {
             "Oil",
             "Stone",
             "Cloner",
+            "Void",
           ].includes(selectedMaterial) && <StrokeColorOptions />}
         </div>
       </div>

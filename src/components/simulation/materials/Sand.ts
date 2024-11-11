@@ -4,6 +4,7 @@ import { Color } from "three";
 import { MovesVerticalSolid } from "@/components/simulation/behaviours/MovesVerticalSolid";
 import { sandColor } from "@/lib/constants";
 import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
+import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
 
 type SandProps = {
   color?: Color;
@@ -38,6 +39,7 @@ class Sand extends Particle {
           acceleration,
           initialVelocity,
         }),
+        new Destroyable(),
       ],
     });
   }
