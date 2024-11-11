@@ -119,4 +119,8 @@ export class Grid {
   clearIndex(i: number) {
     this.setIndex(i, new Empty(i));
   }
+
+  isEmpty(index: number) {
+    return this.grid[index]?.stateOfMatter == "empty";
+  }
 }
