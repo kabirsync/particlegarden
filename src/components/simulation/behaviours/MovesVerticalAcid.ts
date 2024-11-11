@@ -18,6 +18,7 @@ import {
 } from "@/lib/constants";
 import Stone from "@/components/simulation/materials/Stone";
 import Wood from "@/components/simulation/materials/Wood";
+import Sand from "@/components/simulation/materials/Sand";
 
 export type MovesVerticalAcidProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -52,7 +53,11 @@ export class MovesVerticalAcid extends MovesVertical {
   }
 
   canDissolve(particle: Particle) {
-    return particle instanceof Stone || particle instanceof Wood;
+    return (
+      particle instanceof Stone ||
+      particle instanceof Wood ||
+      particle instanceof Sand
+    );
   }
 
   dissolveParticle(particle: Particle, nextParticleIndex: number, grid: Grid) {
