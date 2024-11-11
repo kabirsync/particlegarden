@@ -8,6 +8,7 @@ import {
   Droplet,
   Flame,
   Grip,
+  Shell,
   TreePine,
 } from "lucide-react";
 import { Color } from "three";
@@ -21,6 +22,7 @@ import Lava from "@/components/simulation/materials/Lava";
 import Stone from "@/components/simulation/materials/Stone";
 import { Acid } from "@/components/simulation/materials/Acid";
 import Cloner from "@/components/simulation/materials/Cloner";
+import Void from "@/components/simulation/materials/Void";
 
 // New materials must be added here and at [3] points
 
@@ -39,7 +41,8 @@ type MaterialClasses =
   | Lava
   | Stone
   | Acid
-  | Cloner;
+  | Cloner
+  | Void;
 
 // [2] New materials must be added here
 
@@ -56,6 +59,7 @@ export const materialOptions = [
   "Stone",
   "Acid",
   "Cloner",
+  "Void",
 ] as const;
 export type MaterialOptionsType = (typeof materialOptions)[number];
 
@@ -99,6 +103,8 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
       return <Droplet className="h-3 w-3 text-green-500 fill-green-900" />;
     case "Cloner":
       return <Copy className="h-3 w-3 text-red-200 fill-red-200" />;
+    case "Void":
+      return <Shell className="h-3 w-3 text-purple-950 fill-zinc-950" />;
     default:
       return null;
   }
@@ -135,4 +141,5 @@ export const MaterialMapping: Record<
   Stone,
   Acid,
   Cloner,
+  Void,
 };
