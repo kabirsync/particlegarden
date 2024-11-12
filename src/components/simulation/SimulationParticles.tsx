@@ -93,11 +93,7 @@ const SimulationParticles = ({
 
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < columns; col++) {
-        positions.push(
-          (col + 0.5) * particleSize,
-          (rows - row - 0.5) * particleSize,
-          0
-        );
+        positions.push(col * particleSize, (rows - row) * particleSize, 0);
 
         const color = backgroundColor;
         colors.push(color.r, color.g, color.b);
