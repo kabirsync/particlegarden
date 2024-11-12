@@ -102,7 +102,7 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
     case "Acid":
       return <Droplet className="h-3 w-3 text-green-500 fill-green-900" />;
     case "Cloner":
-      return <Copy className="h-3 w-3 text-red-300 " />;
+      return <Copy className="h-3 w-3 text-red-300" />;
     case "Void":
       return <Shell className="h-3 w-3 text-purple-950 fill-zinc-950" />;
     default:
