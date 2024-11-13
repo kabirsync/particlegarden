@@ -4,6 +4,7 @@ import {
   // BrickWall,
   Circle,
   Droplet,
+  Flame,
   // Cloud,
   // Copy,
   // Droplet,
@@ -16,6 +17,7 @@ import { Color } from "three";
 import Empty from "./Empty";
 import Sand from "./Sand";
 import Lava from "@/components/simulation/materials/Lava";
+import { Fire } from "@/components/simulation/materials/Fire";
 // import { Smoke } from "@/components/simulation/materials/Smoke";
 // import { Fire } from "@/components/simulation/materials/Fire";
 // import Oil from "@/components/simulation/materials/Oil";
@@ -31,7 +33,7 @@ import Lava from "@/components/simulation/materials/Lava";
 // ------- Make sure to add case to handleSelectMaterialChange -----
 
 // [1] New materials must be added here
-type MaterialClasses = Empty | Sand | Lava;
+type MaterialClasses = Empty | Sand | Lava | Fire;
 // | Wood
 // | Water
 // | Smoke
@@ -52,7 +54,7 @@ export const materialOptions = [
   // "Wood",
   // "Water",
   // "Smoke",
-  // "Fire",
+  "Fire",
   // "Oil",
   // "Gas",
   "Lava",
@@ -71,7 +73,7 @@ type MaterialProps = {
   diagonalSpread?: number;
   verticalSpread?: number;
   horizontalSpread?: number;
-  // life?: number;
+  life?: number;
   fuel?: number;
   // chanceToCatch?: number;
   smokeColor?: Color;
@@ -90,8 +92,8 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
     //   return <Droplet className="h-3 w-3 text-blue-500 fill-blue-500" />;
     // case "Smoke":
     //   return <Cloud className="h-3 w-3 text-zinc-500 fill-zinc-500" />;
-    // case "Fire":
-    //   return <Flame className="h-3 w-3 text-red-500 fill-red-500" />;
+    case "Fire":
+      return <Flame className="h-3 w-3 text-red-500 fill-red-500" />;
     // case "Oil":
     //   return <Droplet className="h-3 w-3 text-amber-950 fill-amber-950" />;
     // case "Gas":
@@ -122,6 +124,7 @@ export const MaterialMapping: Record<
         initialVelocity,
         acceleration,
         fuel,
+        life,
         // chanceToCatch,
         smokeColor,
       }: // acidStrength,
@@ -137,7 +140,7 @@ export const MaterialMapping: Record<
   // Wood,
   // Water,
   // Smoke,
-  // Fire,
+  Fire,
   // Oil,
   // Gas,
   Lava,

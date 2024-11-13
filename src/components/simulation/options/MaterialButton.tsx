@@ -23,6 +23,8 @@ import {
   // horizontalSpreadRefAtom,
   initialVelocityAtom,
   initialVelocityRefAtom,
+  lifeAtom,
+  lifeRefAtom,
   // lifeAtom,
   // lifeRefAtom,
   materialColorAtom,
@@ -60,13 +62,13 @@ import {
   // acidMaxSpeed,
   // acidVerticalSpread,
   // clonerColor,
-  // fireAcceleration,
-  // fireColor,
-  // fireDirection,
-  // fireInitialVelocity,
-  // fireLife,
-  // fireMaxSpeed,
-  // fireSmokeColor,
+  fireAcceleration,
+  fireColor,
+  fireDirection,
+  fireInitialVelocity,
+  fireLife,
+  fireMaxSpeed,
+  fireSmokeColor,
   // gasAcceleration,
   // gasChanceToCatch,
   // gasColor,
@@ -146,8 +148,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
   const [initialVelocityRef] = useAtom(initialVelocityRefAtom);
   const [, setAcceleration] = useAtom(accelerationAtom);
   const [accelerationRef] = useAtom(accelerationRefAtom);
-  // const [, setLife] = useAtom(lifeAtom);
-  // const [lifeRef] = useAtom(lifeRefAtom);
+  const [, setLife] = useAtom(lifeAtom);
+  const [lifeRef] = useAtom(lifeRefAtom);
   const [, setGravityDirection] = useAtom(gravityDirectionAtom);
   const [gravityDirectionRef] = useAtom(gravityDirectionRefAtom);
   const [, setFuel] = useAtom(fuelAtom);
@@ -241,23 +243,23 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
       //   horizontalSpreadRef.current = smokeHorizontalSpread;
       //   break;
       // }
-      // case "Fire": {
-      //   setMaterialColor(fireColor);
-      //   materialColorRef.current = fireColor;
-      //   setMaxSpeed(smokeMaxSpeed);
-      //   maxSpeedRef.current = fireMaxSpeed;
-      //   setInitialVelocity(fireInitialVelocity);
-      //   initialVelocityRef.current = fireInitialVelocity;
-      //   setAcceleration(fireAcceleration);
-      //   accelerationRef.current = fireAcceleration;
-      //   setLife(fireLife);
-      //   lifeRef.current = fireLife;
-      //   setGravityDirection(fireDirection);
-      //   gravityDirectionRef.current = fireDirection;
-      //   setSmokeColor(fireSmokeColor);
-      //   smokeColorRef.current = fireSmokeColor;
-      //   break;
-      // }
+      case "Fire": {
+        setMaterialColor(fireColor);
+        materialColorRef.current = fireColor;
+        setMaxSpeed(fireMaxSpeed);
+        maxSpeedRef.current = fireMaxSpeed;
+        setInitialVelocity(fireInitialVelocity);
+        initialVelocityRef.current = fireInitialVelocity;
+        setAcceleration(fireAcceleration);
+        accelerationRef.current = fireAcceleration;
+        setLife(fireLife);
+        lifeRef.current = fireLife;
+        setGravityDirection(fireDirection);
+        gravityDirectionRef.current = fireDirection;
+        setSmokeColor(fireSmokeColor);
+        smokeColorRef.current = fireSmokeColor;
+        break;
+      }
       // case "Oil": {
       //   setMaterialColor(oilColor);
       //   materialColorRef.current = oilColor;

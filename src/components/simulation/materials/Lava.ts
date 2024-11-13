@@ -23,7 +23,7 @@ type LavaProps = {
   diagonalSpread?: number;
   verticalSpread?: number;
   horizontalSpread?: number;
-  fuel?: number;
+  life?: number;
   smokeColor?: Color;
 };
 
@@ -38,7 +38,7 @@ class Lava extends Particle2 {
       diagonalSpread = lavaDiagonalSpread,
       verticalSpread = lavaVerticalSpread,
       horizontalSpread = lavaHorizontalSpread,
-      fuel = lavaFuel + lavaFuel * Math.random(),
+      life = lavaFuel + lavaFuel * Math.random(),
       smokeColor = lavaSmokeColor,
     }: LavaProps
   ) {
@@ -52,7 +52,7 @@ class Lava extends Particle2 {
         diagonalSpread,
         verticalSpread,
         horizontalSpread,
-        fuel,
+        life,
         smokeColor,
       }),
     });

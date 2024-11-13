@@ -14,7 +14,7 @@ export type LavaMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
   horizontalSpread?: number;
   verticalSpread?: number;
-  fuel?: number;
+  life?: number;
   smokeColor?: Color;
 };
 
@@ -22,7 +22,7 @@ export class LavaMovement extends MovesVertical {
   diagonalSpread: number;
   verticalSpread: number;
   horizontalSpread: number;
-  fuel: number;
+  life: number;
   smokeColor: Color;
 
   constructor({
@@ -32,14 +32,14 @@ export class LavaMovement extends MovesVertical {
     diagonalSpread = 1,
     verticalSpread = 1,
     horizontalSpread = 1,
-    fuel = lavaFuel,
+    life = lavaFuel,
     smokeColor = lavaSmokeColor,
   }: LavaMovementProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;
     this.horizontalSpread = horizontalSpread;
-    this.fuel = fuel;
+    this.life = life;
     this.smokeColor = smokeColor;
   }
 
