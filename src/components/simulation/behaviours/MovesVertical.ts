@@ -1,6 +1,6 @@
 import { Behaviour } from "@/components/simulation/behaviours/Behaviour";
 import { Grid } from "../Grid";
-import Particle, { Params } from "@/components/simulation/materials/Particle";
+import Particle2 from "@/components/simulation/materials/Particle2";
 
 export type MovesVerticalProps = {
   maxSpeed?: number;
@@ -49,7 +49,7 @@ export abstract class MovesVertical extends Behaviour {
     // return floored + 1;
   }
 
-  update(particle: Particle, grid: Grid, params: Params) {
+  update(particle: Particle2, grid: Grid, params: Params) {
     if (!this.shouldUpdate(params)) return;
 
     if (this.maxSpeed === 0) {
@@ -69,7 +69,7 @@ export abstract class MovesVertical extends Behaviour {
     return direction === Math.sign(this.nextVelocity());
   }
 
-  applyMovement(particle: Particle, grid: Grid) {
+  applyMovement(particle: Particle2, grid: Grid) {
     let index = particle.index;
     const updateCount = this.getUpdateCount();
 
@@ -84,9 +84,9 @@ export abstract class MovesVertical extends Behaviour {
     }
   }
 
-  canPassThrough(particle: Particle) {
+  canPassThrough(particle: Particle2) {
     return particle?.stateOfMatter === "empty";
   }
 
-  abstract moveParticle(particle: Particle, grid: Grid): number;
+  abstract moveParticle(particle: Particle2, grid: Grid): number;
 }

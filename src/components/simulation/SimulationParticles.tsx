@@ -4,10 +4,13 @@ import {
 } from "@/components/simulation/materials/Material";
 import {
   accelerationRefAtom,
+  diagonalSpreadRefAtom,
   // acidStrengthRefAtom,
   // chanceToCatchRefAtom,
   // diagonalSpreadRefAtom,
   FPSAtom,
+  fuelRefAtom,
+  horizontalSpreadRefAtom,
   // fuelRefAtom,
   // horizontalSpreadRefAtom,
   initialVelocityRefAtom,
@@ -17,8 +20,10 @@ import {
   maxSpeedRefAtom,
   particleSizeAtom,
   selectedMaterialAtom,
+  smokeColorRefAtom,
   // smokeColorRefAtom,
   strokeSizeRefAtom,
+  verticalSpreadRefAtom,
   // verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
 import { backgroundColorDark, backgroundColorLight } from "@/lib/constants";
@@ -51,14 +56,14 @@ const SimulationParticles = ({
   const [maxSpeedRef] = useAtom(maxSpeedRefAtom);
   const [initialVelocityRef] = useAtom(initialVelocityRefAtom);
   const [accelerationRef] = useAtom(accelerationRefAtom);
-  // const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
-  // const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
-  // const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
+  const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
+  const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
+  const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
   const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
   // const [lifeRef] = useAtom(lifeRefAtom);
-  // const [fuelRef] = useAtom(fuelRefAtom);
+  const [fuelRef] = useAtom(fuelRefAtom);
   // const [chanceToCatchlRef] = useAtom(chanceToCatchRefAtom);
-  // const [smokeColorRef] = useAtom(smokeColorRefAtom);
+  const [smokeColorRef] = useAtom(smokeColorRefAtom);
   // const [acidStengthRef] = useAtom(acidStrengthRefAtom);
 
   const [, setFPS] = useAtom(FPSAtom);
@@ -136,13 +141,13 @@ const SimulationParticles = ({
                   maxSpeed: maxSpeedRef.current,
                   initialVelocity: initialVelocityRef.current,
                   acceleration: accelerationRef.current,
-                  // diagonalSpread: diagonalSpreadRef.current,
-                  // verticalSpread: verticalSpreadRef.current,
-                  // horizontalSpread: horizontalSpreadRef.current,
+                  diagonalSpread: diagonalSpreadRef.current,
+                  verticalSpread: verticalSpreadRef.current,
+                  horizontalSpread: horizontalSpreadRef.current,
                   // life: lifeRef.current,
-                  // fuel: fuelRef.current,
+                  fuel: fuelRef.current,
                   // chanceToCatch: chanceToCatchlRef.current,
-                  // smokeColor: smokeColorRef.current,
+                  smokeColor: smokeColorRef.current,
                   // acidStrength: acidStengthRef.current,
                 })
               );
@@ -229,9 +234,9 @@ const SimulationParticles = ({
         ? selectedMaterial === "Empty"
           ? backgroundColor
           : materialColor // Highlight color under mouse
-        : square.stateOfMatter === "empty"
+        : square?.stateOfMatter === "empty"
         ? backgroundColor
-        : square.color ?? backgroundColor;
+        : square?.color ?? backgroundColor;
 
       colors[index * 3] = color.r;
       colors[index * 3 + 1] = color.g;

@@ -2,7 +2,7 @@ import {
   MovesVertical,
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
-import Particle from "@/components/simulation/materials/Particle";
+import Particle2 from "@/components/simulation/materials/Particle2";
 import { Grid } from "../Grid";
 
 export class MovesVerticalSolid extends MovesVertical {
@@ -14,14 +14,14 @@ export class MovesVerticalSolid extends MovesVertical {
     super({ maxSpeed, acceleration, initialVelocity });
   }
 
-  canPassThrough(particle: Particle) {
+  canPassThrough(particle: Particle2) {
     return (
       particle?.stateOfMatter === "empty" ||
       (Math.random() < 0.5 ? particle?.stateOfMatter === "liquid" : false)
     );
   }
 
-  moveParticle(particle: Particle, grid: Grid): number {
+  moveParticle(particle: Particle2, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
     const nextDelta = Math.sign(this.velocity) * grid.columns;

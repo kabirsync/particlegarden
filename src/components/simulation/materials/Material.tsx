@@ -3,6 +3,7 @@
 import {
   // BrickWall,
   Circle,
+  Droplet,
   // Cloud,
   // Copy,
   // Droplet,
@@ -14,6 +15,7 @@ import {
 import { Color } from "three";
 import Empty from "./Empty";
 import Sand from "./Sand";
+import Lava from "@/components/simulation/materials/Lava";
 // import { Smoke } from "@/components/simulation/materials/Smoke";
 // import { Fire } from "@/components/simulation/materials/Fire";
 // import Oil from "@/components/simulation/materials/Oil";
@@ -29,14 +31,14 @@ import Sand from "./Sand";
 // ------- Make sure to add case to handleSelectMaterialChange -----
 
 // [1] New materials must be added here
-type MaterialClasses = Empty | Sand;
+type MaterialClasses = Empty | Sand | Lava;
 // | Wood
 // | Water
 // | Smoke
 // | Fire
 // | Oil
 // | Gas
-// | Lava
+
 // | Stone
 // | Acid;
 // | Cloner
@@ -53,7 +55,7 @@ export const materialOptions = [
   // "Fire",
   // "Oil",
   // "Gas",
-  // "Lava",
+  "Lava",
   // "Stone",
   // "Acid",
   // "Cloner",
@@ -66,13 +68,13 @@ type MaterialProps = {
   maxSpeed?: number;
   initialVelocity?: number;
   acceleration?: number;
-  // diagonalSpread?: number;
-  // verticalSpread?: number;
-  // horizontalSpread?: number;
+  diagonalSpread?: number;
+  verticalSpread?: number;
+  horizontalSpread?: number;
   // life?: number;
-  // fuel?: number;
+  fuel?: number;
   // chanceToCatch?: number;
-  // smokeColor?: Color;
+  smokeColor?: Color;
   // acidStrength?: number;
 };
 
@@ -94,8 +96,8 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
     //   return <Droplet className="h-3 w-3 text-amber-950 fill-amber-950" />;
     // case "Gas":
     //   return <Flame className="h-3 w-3 text-amber-100 fill-amber-100" />;
-    // case "Lava":
-    //   return <Droplet className="h-3 w-3 text-red-500 fill-red-900" />;
+    case "Lava":
+      return <Droplet className="h-3 w-3 text-red-500 fill-red-900" />;
     // case "Stone":
     //   return <BrickWall className="h-3 w-3 text-zinc-500 fill-zinc-700" />;
     // case "Acid":
@@ -119,11 +121,12 @@ export const MaterialMapping: Record<
         maxSpeed,
         initialVelocity,
         acceleration,
-      }: // life,
-      // fuel,
-      // chanceToCatch,
-      // smokeColor,
-      // acidStrength,
+        fuel,
+        // chanceToCatch,
+        smokeColor,
+      }: // acidStrength,
+      // life,
+
       MaterialProps
     ): MaterialClasses;
   }
@@ -137,7 +140,7 @@ export const MaterialMapping: Record<
   // Fire,
   // Oil,
   // Gas,
-  // Lava,
+  Lava,
   // Stone,
   // Acid,
   // Cloner,

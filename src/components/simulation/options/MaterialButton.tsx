@@ -5,6 +5,10 @@ import {
 import {
   accelerationAtom,
   accelerationRefAtom,
+  diagonalSpreadAtom,
+  diagonalSpreadRefAtom,
+  fuelAtom,
+  fuelRefAtom,
   // chanceToCatchAtom,
   // chanceToCatchRefAtom,
   // diagonalSpreadAtom,
@@ -13,6 +17,8 @@ import {
   // fuelRefAtom,
   gravityDirectionAtom,
   gravityDirectionRefAtom,
+  horizontalSpreadAtom,
+  horizontalSpreadRefAtom,
   // horizontalSpreadAtom,
   // horizontalSpreadRefAtom,
   initialVelocityAtom,
@@ -24,6 +30,10 @@ import {
   maxSpeedAtom,
   maxSpeedRefAtom,
   selectedMaterialAtom,
+  smokeColorAtom,
+  smokeColorRefAtom,
+  vertiacallSpreadAtom,
+  verticalSpreadRefAtom,
   // smokeColorAtom,
   // smokeColorRefAtom,
   // vertiacallSpreadAtom,
@@ -31,6 +41,16 @@ import {
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import {
+  lavaAcceleration,
+  lavaColor,
+  lavaDiagonalSpread,
+  lavaDirection,
+  lavaFuel,
+  lavaHorizontalSpread,
+  lavaInitialVelocity,
+  lavaMaxSpeed,
+  lavaSmokeColor,
+  lavaVerticalSpread,
   // acidAcceleration,
   // acidColor,
   // acidDiagonalSpread,
@@ -130,18 +150,18 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
   // const [lifeRef] = useAtom(lifeRefAtom);
   const [, setGravityDirection] = useAtom(gravityDirectionAtom);
   const [gravityDirectionRef] = useAtom(gravityDirectionRefAtom);
-  // const [, setFuel] = useAtom(fuelAtom);
-  // const [fuelRef] = useAtom(fuelRefAtom);
+  const [, setFuel] = useAtom(fuelAtom);
+  const [fuelRef] = useAtom(fuelRefAtom);
   // const [, setChanceToCatch] = useAtom(chanceToCatchAtom);
   // const [chanceToCatchRef] = useAtom(chanceToCatchRefAtom);
-  // const [, setSmokeColor] = useAtom(smokeColorAtom);
-  // const [smokeColorRef] = useAtom(smokeColorRefAtom);
-  // const [, setDiagonalSpread] = useAtom(diagonalSpreadAtom);
-  // const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
-  // const [, setVerticalSpread] = useAtom(vertiacallSpreadAtom);
-  // const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
-  // const [, setHorizontalSpread] = useAtom(horizontalSpreadAtom);
-  // const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
+  const [, setSmokeColor] = useAtom(smokeColorAtom);
+  const [smokeColorRef] = useAtom(smokeColorRefAtom);
+  const [, setDiagonalSpread] = useAtom(diagonalSpreadAtom);
+  const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
+  const [, setVerticalSpread] = useAtom(vertiacallSpreadAtom);
+  const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
+  const [, setHorizontalSpread] = useAtom(horizontalSpreadAtom);
+  const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
   // Helper function to enforce exhaustiveness
   function assertUnreachable(x: never): never {
     throw new Error(`Missing material type handling for: ${x}`);
@@ -288,29 +308,29 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
       //   horizontalSpreadRef.current = gasHorizontalSpread;
       //   break;
       // }
-      // case "Lava": {
-      //   setMaterialColor(lavaColor);
-      //   materialColorRef.current = lavaColor;
-      //   setMaxSpeed(lavaMaxSpeed);
-      //   maxSpeedRef.current = lavaMaxSpeed;
-      //   setInitialVelocity(lavaInitialVelocity);
-      //   initialVelocityRef.current = lavaInitialVelocity;
-      //   setAcceleration(lavaAcceleration);
-      //   accelerationRef.current = lavaAcceleration;
-      //   setGravityDirection(lavaDirection);
-      //   gravityDirectionRef.current = lavaDirection;
-      //   setSmokeColor(lavaSmokeColor);
-      //   smokeColorRef.current = lavaSmokeColor;
-      //   setFuel(lavaFuel);
-      //   fuelRef.current = lavaFuel;
-      //   setDiagonalSpread(lavaDiagonalSpread);
-      //   diagonalSpreadRef.current = lavaDiagonalSpread;
-      //   setVerticalSpread(lavaVerticalSpread);
-      //   verticalSpreadRef.current = lavaVerticalSpread;
-      //   setHorizontalSpread(lavaHorizontalSpread);
-      //   horizontalSpreadRef.current = lavaHorizontalSpread;
-      //   break;
-      // }
+      case "Lava": {
+        setMaterialColor(lavaColor);
+        materialColorRef.current = lavaColor;
+        setMaxSpeed(lavaMaxSpeed);
+        maxSpeedRef.current = lavaMaxSpeed;
+        setInitialVelocity(lavaInitialVelocity);
+        initialVelocityRef.current = lavaInitialVelocity;
+        setAcceleration(lavaAcceleration);
+        accelerationRef.current = lavaAcceleration;
+        setGravityDirection(lavaDirection);
+        gravityDirectionRef.current = lavaDirection;
+        setSmokeColor(lavaSmokeColor);
+        smokeColorRef.current = lavaSmokeColor;
+        setFuel(lavaFuel);
+        fuelRef.current = lavaFuel;
+        setDiagonalSpread(lavaDiagonalSpread);
+        diagonalSpreadRef.current = lavaDiagonalSpread;
+        setVerticalSpread(lavaVerticalSpread);
+        verticalSpreadRef.current = lavaVerticalSpread;
+        setHorizontalSpread(lavaHorizontalSpread);
+        horizontalSpreadRef.current = lavaHorizontalSpread;
+        break;
+      }
       // case "Stone": {
       //   setMaterialColor(stoneColor);
       //   materialColorRef.current = stoneColor;

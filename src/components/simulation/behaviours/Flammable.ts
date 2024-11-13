@@ -57,8 +57,8 @@ export class Flammable extends LimitedLife {
         const colors = this.colors;
         const frequency = Math.sqrt(behavior.lifetime / behavior.remainingLife);
         const period = frequency * colors.length;
-        particle.color =
-          colors[Math.floor(behavior.remainingLife / period) % colors.length];
+        // particle.color =
+        //   colors[Math.floor(behavior.remainingLife / period) % colors.length];
       },
       onDeath: onDeath ?? defaultOnDeath,
     });

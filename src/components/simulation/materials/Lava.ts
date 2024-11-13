@@ -1,9 +1,7 @@
 // import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 // import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
-import { Flammable } from "@/components/simulation/behaviours/Flammable";
-import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
-import Particle from "@/components/simulation/materials/Particle";
-import Stone from "@/components/simulation/materials/Stone";
+import { LavaMovement } from "@/components/simulation/behaviours/LavalMovement";
+import Particle2 from "@/components/simulation/materials/Particle2";
 import {
   lavaAcceleration,
   lavaColor,
@@ -26,11 +24,10 @@ type LavaProps = {
   verticalSpread?: number;
   horizontalSpread?: number;
   fuel?: number;
-  chanceToCatch?: number;
   smokeColor?: Color;
 };
 
-class Lava extends Particle {
+class Lava extends Particle2 {
   constructor(
     index: number,
     {
@@ -43,33 +40,21 @@ class Lava extends Particle {
       horizontalSpread = lavaHorizontalSpread,
       fuel = lavaFuel + lavaFuel * Math.random(),
       smokeColor = lavaSmokeColor,
-    }: //   chanceToCatch = 0.01,
-    LavaProps
+    }: LavaProps
   ) {
     super(index, {
-      // color: Math.random() < 0.5 ? lightenThreeColor(color, 0.1) : color,
       color,
       stateOfMatter: "liquid",
-      behaviours: [
-        new MovesVerticalWater({
-          maxSpeed,
-          acceleration,
-          initialVelocity,
-          diagonalSpread,
-          verticalSpread,
-          horizontalSpread,
-        }),
-        new Flammable({
-          fuel,
-          chanceToCatch: 0,
-          smokeColor,
-          //   chanceToCatch,
-          burning: true,
-          onDeath: (_, particle, grid) => {
-            grid.setIndex(particle.index, new Stone(particle.index, {}));
-          },
-        }),
-      ],
+      behaviour: new LavaMovement({
+        maxSpeed,
+        acceleration,
+        initialVelocity,
+        diagonalSpread,
+        verticalSpread,
+        horizontalSpread,
+        fuel,
+        smokeColor,
+      }),
     });
   }
 }
