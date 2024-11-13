@@ -1,15 +1,15 @@
 // import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 // import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
-import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
+// import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
 import {
-  waterAcceleration,
+  // waterAcceleration,
   waterColor,
-  waterDiagonalSpread,
-  waterHorizontalSpread,
-  waterInitialVelocity,
-  waterMaxSpeed,
-  waterVerticalSpread,
+  // waterDiagonalSpread,
+  // waterHorizontalSpread,
+  // waterInitialVelocity,
+  // waterMaxSpeed,
+  // waterVerticalSpread,
 } from "@/lib/constants";
 import { Color } from "three";
 
@@ -28,39 +28,39 @@ class Water extends Particle {
     index: number,
     {
       color = waterColor,
-      maxSpeed = waterMaxSpeed,
-      acceleration = waterAcceleration,
-      initialVelocity = waterInitialVelocity,
-      diagonalSpread = waterDiagonalSpread,
-      verticalSpread = waterVerticalSpread,
-      horizontalSpread = waterHorizontalSpread,
-    }: WaterProps
+    }: // maxSpeed = waterMaxSpeed,
+    // acceleration = waterAcceleration,
+    // initialVelocity = waterInitialVelocity,
+    // diagonalSpread = waterDiagonalSpread,
+    // verticalSpread = waterVerticalSpread,
+    // horizontalSpread = waterHorizontalSpread,
+    WaterProps
   ) {
     super(index, {
       // color: Math.random() < 0.5 ? lightenThreeColor(color, 0.1) : color,
       color,
       stateOfMatter: "liquid",
-      behaviours: [
-        new MovesVerticalWater({
-          maxSpeed,
-          acceleration,
-          initialVelocity,
-          diagonalSpread,
-          verticalSpread,
-          horizontalSpread,
-        }),
-        // new Cloneable({
-        //   color,
-        //   material: "Water",
-        //   maxSpeed,
-        //   acceleration,
-        //   initialVelocity,
-        //   diagonalSpread,
-        //   verticalSpread,
-        //   horizontalSpread,
-        // }),
-        // new Destroyable(),
-      ],
+      // behaviours: [
+      //   new MovesVerticalWater({
+      //     maxSpeed,
+      //     acceleration,
+      //     initialVelocity,
+      //     diagonalSpread,
+      //     verticalSpread,
+      //     horizontalSpread,
+      //   }),
+      //   // new Cloneable({
+      //   //   color,
+      //   //   material: "Water",
+      //   //   maxSpeed,
+      //   //   acceleration,
+      //   //   initialVelocity,
+      //   //   diagonalSpread,
+      //   //   verticalSpread,
+      //   //   horizontalSpread,
+      //   // }),
+      //   // new Destroyable(),
+      // ],
     });
   }
 }
