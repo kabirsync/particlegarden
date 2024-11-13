@@ -1,6 +1,6 @@
 import { Behaviour } from "@/components/simulation/behaviours/Behaviour";
 import { Grid } from "../Grid";
-import Particle from "@/components/simulation/materials/Particle";
+import Particle from "@/components/simulation/materials/Particle2";
 
 export type LimitedLifeProps = {
   onTick?: (behaviour: LimitedLife, particle: Particle) => void;

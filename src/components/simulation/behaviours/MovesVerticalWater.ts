@@ -2,7 +2,7 @@ import {
   MovesVertical,
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
-import Particle from "@/components/simulation/materials/Particle";
+import Particle from "@/components/simulation/materials/Particle2";
 import { Grid } from "../Grid";
 
 export type MovesVerticalWaterProps = MovesVerticalProps & {

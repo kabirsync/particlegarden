@@ -5,7 +5,7 @@ import {
   MaterialMapping,
   MaterialOptionsType,
 } from "@/components/simulation/materials/Material";
-import Particle from "@/components/simulation/materials/Particle";
+import Particle from "@/components/simulation/materials/Particle2";
 import Cloner from "@/components/simulation/materials/Cloner";
 
 export class Cloneable extends Behaviour {

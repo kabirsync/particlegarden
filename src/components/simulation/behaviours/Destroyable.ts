@@ -1,6 +1,6 @@
 import { Behaviour } from "@/components/simulation/behaviours/Behaviour";
 import Empty from "@/components/simulation/materials/Empty";
-import Particle from "@/components/simulation/materials/Particle";
+import Particle from "@/components/simulation/materials/Particle2";
 import Void from "@/components/simulation/materials/Void";
 import { Grid } from "../Grid";
 
