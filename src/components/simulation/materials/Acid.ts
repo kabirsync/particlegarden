@@ -1,6 +1,6 @@
 // import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 // import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
-import { MovesVerticalAcid } from "@/components/simulation/behaviours/MovesVerticalAcid";
+// import { MovesVerticalAcid } from "@/components/simulation/behaviours/MovesVerticalAcid";
 import Particle from "@/components/simulation/materials/Particle2";
 import {
   // acidAcceleration,

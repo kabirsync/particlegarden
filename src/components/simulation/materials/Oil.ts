@@ -41,10 +41,10 @@ class Oil extends Particle {
       diagonalSpread = oilDiagonalSpread,
       verticalSpread = oilVerticalSpread,
       horizontalSpread = oilHorizontalSpread,
-      // fuel = oilFuel + oilFuel * Math.random(),
-      // chanceToCatch = oilChanceToCatch,
-      // smokeColor = oilSmokeColor,
-    }: OilProps
+    }: // fuel = oilFuel + oilFuel * Math.random(),
+    // chanceToCatch = oilChanceToCatch,
+    // smokeColor = oilSmokeColor,
+    OilProps
   ) {
     super(index, {
       // color: Math.random() < 0.5 ? lightenThreeColor(color, 0.1) : color,

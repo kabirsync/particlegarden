@@ -6,16 +6,16 @@
 // import { Grid } from "@/components/simulation/Grid";
 import Particle from "@/components/simulation/materials/Particle";
 import {
-  gasAcceleration,
+  // gasAcceleration,
   // gasChanceToCatch,
   gasColor,
-  gasDiagonalSpread,
+  // gasDiagonalSpread,
   // gasFuel,
-  gasHorizontalSpread,
-  gasInitialVelocity,
-  gasMaxSpeed,
+  // gasHorizontalSpread,
+  // gasInitialVelocity,
+  // gasMaxSpeed,
   // gasSmokeColor,
-  gasVerticalSpread,
+  // gasVerticalSpread,
 } from "@/lib/constants";
 import { Color } from "three";
 

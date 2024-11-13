@@ -21,10 +21,10 @@ class Wood extends Particle {
     index: number,
     {
       color = woodColor,
-      // fuel = woodFuel + woodFuel * Math.random(),
-      // chanceToCatch = woodChanceToCatch,
-      // smokeColor = woodSmokeColor,
-    }: WoodProps
+    }: // fuel = woodFuel + woodFuel * Math.random(),
+    // chanceToCatch = woodChanceToCatch,
+    // smokeColor = woodSmokeColor,
+    WoodProps
   ) {
     super(index, {
       color: varyColor(color),

@@ -11,7 +11,7 @@ class Void extends Particle {
     super(index, {
       color: color,
       stateOfMatter: "solid",
-      behaviours: [],
+      // behaviours: [],
     });
   }
 }
