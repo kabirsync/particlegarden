@@ -1,12 +1,13 @@
 import Empty from "@/components/simulation/materials/Empty";
-import Particle, { Params } from "@/components/simulation/materials/Particle";
+// import Particle, { Params } from "@/components/simulation/materials/Particle";
+import Particle2, { Params } from "@/components/simulation/materials/Particle2";
 
 type GridParams = { rows: number; columns: number };
 
 export class Grid {
   rows: number;
   columns: number;
-  grid: Particle[];
+  grid: Particle2[];
 
   constructor({ rows, columns }: GridParams) {
     this.rows = rows;
@@ -24,12 +25,12 @@ export class Grid {
     return y * this.columns + x;
   }
 
-  setIndex(i: number, particle: Particle): void {
+  setIndex(i: number, particle: Particle2): void {
     this.grid[i] = particle;
     particle.index = i;
   }
 
-  set(column: number, row: number, particle: Particle): number {
+  set(column: number, row: number, particle: Particle2): number {
     if (column < 0 || column >= this.columns) return -1;
     if (row < 0 || row >= this.rows) return -1;
     const index = this.index(column, row);
@@ -67,26 +68,6 @@ export class Grid {
         const particle = this.grid[index];
         particle.update(this, params);
       }
-
-      // if (leftToRight) {
-      // for (let col = 0; col < columns; col++) {
-      //   const index = rowOffset + col;
-      //   const particle = grid[index];
-
-      //   if (particle.stateOfMatter === "empty") continue;
-
-      //   particle.update(this, params);
-      //   }
-      // } else {
-      //   for (let col = columns - 1; col >= 0; col--) {
-      //     const index = rowOffset + col;
-      //     const particle = grid[index];
-
-      //     if (particle.stateOfMatter === "empty") continue;
-
-      //     particle.update(this, params);
-      //   }
-      // }
     }
   }
 

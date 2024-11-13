@@ -4,22 +4,22 @@ import {
 } from "@/components/simulation/materials/Material";
 import {
   accelerationRefAtom,
-  acidStrengthRefAtom,
-  chanceToCatchRefAtom,
-  diagonalSpreadRefAtom,
+  // acidStrengthRefAtom,
+  // chanceToCatchRefAtom,
+  // diagonalSpreadRefAtom,
   FPSAtom,
-  fuelRefAtom,
-  horizontalSpreadRefAtom,
+  // fuelRefAtom,
+  // horizontalSpreadRefAtom,
   initialVelocityRefAtom,
   isPlayingAtom,
-  lifeRefAtom,
+  // lifeRefAtom,
   materialColorRefAtom,
   maxSpeedRefAtom,
   particleSizeAtom,
   selectedMaterialAtom,
-  smokeColorRefAtom,
+  // smokeColorRefAtom,
   strokeSizeRefAtom,
-  verticalSpreadRefAtom,
+  // verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
 import { backgroundColorDark, backgroundColorLight } from "@/lib/constants";
 import { throttle } from "@/lib/utils";
@@ -51,15 +51,15 @@ const SimulationParticles = ({
   const [maxSpeedRef] = useAtom(maxSpeedRefAtom);
   const [initialVelocityRef] = useAtom(initialVelocityRefAtom);
   const [accelerationRef] = useAtom(accelerationRefAtom);
-  const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
-  const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
-  const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
+  // const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
+  // const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
+  // const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
   const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
-  const [lifeRef] = useAtom(lifeRefAtom);
-  const [fuelRef] = useAtom(fuelRefAtom);
-  const [chanceToCatchlRef] = useAtom(chanceToCatchRefAtom);
-  const [smokeColorRef] = useAtom(smokeColorRefAtom);
-  const [acidStengthRef] = useAtom(acidStrengthRefAtom);
+  // const [lifeRef] = useAtom(lifeRefAtom);
+  // const [fuelRef] = useAtom(fuelRefAtom);
+  // const [chanceToCatchlRef] = useAtom(chanceToCatchRefAtom);
+  // const [smokeColorRef] = useAtom(smokeColorRefAtom);
+  // const [acidStengthRef] = useAtom(acidStrengthRefAtom);
 
   const [, setFPS] = useAtom(FPSAtom);
   const [, setFrame] = useState(0);
@@ -136,14 +136,14 @@ const SimulationParticles = ({
                   maxSpeed: maxSpeedRef.current,
                   initialVelocity: initialVelocityRef.current,
                   acceleration: accelerationRef.current,
-                  diagonalSpread: diagonalSpreadRef.current,
-                  verticalSpread: verticalSpreadRef.current,
-                  horizontalSpread: horizontalSpreadRef.current,
-                  life: lifeRef.current,
-                  fuel: fuelRef.current,
-                  chanceToCatch: chanceToCatchlRef.current,
-                  smokeColor: smokeColorRef.current,
-                  acidStrength: acidStengthRef.current,
+                  // diagonalSpread: diagonalSpreadRef.current,
+                  // verticalSpread: verticalSpreadRef.current,
+                  // horizontalSpread: horizontalSpreadRef.current,
+                  // life: lifeRef.current,
+                  // fuel: fuelRef.current,
+                  // chanceToCatch: chanceToCatchlRef.current,
+                  // smokeColor: smokeColorRef.current,
+                  // acidStrength: acidStengthRef.current,
                 })
               );
             }
