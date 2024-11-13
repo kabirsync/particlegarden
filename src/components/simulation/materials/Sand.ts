@@ -3,8 +3,8 @@ import Particle from "@/components/simulation/materials/Particle";
 import { Color } from "three";
 import { MovesVerticalSolid } from "@/components/simulation/behaviours/MovesVerticalSolid";
 import { sandColor } from "@/lib/constants";
-import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
-import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
+// import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
+// import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
 
 type SandProps = {
   color?: Color;
@@ -32,14 +32,14 @@ class Sand extends Particle {
           acceleration,
           initialVelocity,
         }),
-        new Cloneable({
-          color,
-          material: "Sand",
-          maxSpeed,
-          acceleration,
-          initialVelocity,
-        }),
-        new Destroyable(),
+        // new Cloneable({
+        //   color,
+        //   material: "Sand",
+        //   maxSpeed,
+        //   acceleration,
+        //   initialVelocity,
+        // }),
+        // new Destroyable(),
       ],
     });
   }

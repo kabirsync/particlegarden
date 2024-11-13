@@ -15,8 +15,8 @@ import {
   smokeMaxSpeed,
   smokeVerticalSpread,
 } from "@/lib/constants";
-import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
-import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
+// import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
+// import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
 
 type SmokeProps = {
   color?: Color;
@@ -80,17 +80,17 @@ export class Smoke extends Particle {
             grid.clearIndex(particle.index);
           },
         }),
-        new Cloneable({
-          color,
-          material: "Smoke",
-          maxSpeed,
-          acceleration,
-          initialVelocity,
-          diagonalSpread,
-          verticalSpread,
-          horizontalSpread,
-        }),
-        new Destroyable(),
+        // new Cloneable({
+        //   color,
+        //   material: "Smoke",
+        //   maxSpeed,
+        //   acceleration,
+        //   initialVelocity,
+        //   diagonalSpread,
+        //   verticalSpread,
+        //   horizontalSpread,
+        // }),
+        // new Destroyable(),
       ]
     );
     super(index, {

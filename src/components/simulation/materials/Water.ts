@@ -1,5 +1,5 @@
-import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
-import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
+// import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
+// import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
 import {
@@ -49,17 +49,17 @@ class Water extends Particle {
           verticalSpread,
           horizontalSpread,
         }),
-        new Cloneable({
-          color,
-          material: "Water",
-          maxSpeed,
-          acceleration,
-          initialVelocity,
-          diagonalSpread,
-          verticalSpread,
-          horizontalSpread,
-        }),
-        new Destroyable(),
+        // new Cloneable({
+        //   color,
+        //   material: "Water",
+        //   maxSpeed,
+        //   acceleration,
+        //   initialVelocity,
+        //   diagonalSpread,
+        //   verticalSpread,
+        //   horizontalSpread,
+        // }),
+        // new Destroyable(),
       ],
     });
   }

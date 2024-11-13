@@ -1,5 +1,5 @@
-import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
-import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
+// import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
+// import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { LimitedLife } from "@/components/simulation/behaviours/LimitedLife";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
@@ -70,19 +70,19 @@ class Gas extends Particle {
             grid.clearIndex(particle.index);
           },
         }),
-        new Cloneable({
-          color,
-          material: "Gas",
-          maxSpeed,
-          acceleration,
-          initialVelocity,
-          diagonalSpread,
-          verticalSpread,
-          horizontalSpread,
-          fuel,
-          smokeColor,
-        }),
-        new Destroyable(),
+        // new Cloneable({
+        //   color,
+        //   material: "Gas",
+        //   maxSpeed,
+        //   acceleration,
+        //   initialVelocity,
+        //   diagonalSpread,
+        //   verticalSpread,
+        //   horizontalSpread,
+        //   fuel,
+        //   smokeColor,
+        // }),
+        // new Destroyable(),
       ],
     });
   }

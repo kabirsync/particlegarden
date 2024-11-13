@@ -1,5 +1,5 @@
-import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
-import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
+// import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
+// import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
 import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
@@ -69,19 +69,19 @@ class Lava extends Particle {
             grid.setIndex(particle.index, new Stone(particle.index, {}));
           },
         }),
-        new Cloneable({
-          color,
-          material: "Lava",
-          maxSpeed,
-          acceleration,
-          initialVelocity,
-          diagonalSpread,
-          verticalSpread,
-          horizontalSpread,
-          fuel,
-          smokeColor,
-        }),
-        new Destroyable(),
+        // new Cloneable({
+        //   color,
+        //   material: "Lava",
+        //   maxSpeed,
+        //   acceleration,
+        //   initialVelocity,
+        //   diagonalSpread,
+        //   verticalSpread,
+        //   horizontalSpread,
+        //   fuel,
+        //   smokeColor,
+        // }),
+        // new Destroyable(),
       ],
     });
   }
