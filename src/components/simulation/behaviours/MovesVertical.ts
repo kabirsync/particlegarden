@@ -1,6 +1,6 @@
 import { Behaviour } from "@/components/simulation/behaviours/Behaviour";
 import { Grid } from "../Grid";
-import Particle2 from "@/components/simulation/materials/Particle2";
+import Particle2, { Params } from "@/components/simulation/materials/Particle2";
 
 export type MovesVerticalProps = {
   maxSpeed?: number;

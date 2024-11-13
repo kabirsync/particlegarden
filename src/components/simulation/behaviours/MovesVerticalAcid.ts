@@ -2,7 +2,6 @@ import {
   MovesVertical,
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
-import Particle from "@/components/simulation/materials/Particle";
 import { Grid } from "../Grid";
 import Empty from "@/components/simulation/materials/Empty";
 import { Smoke } from "@/components/simulation/materials/Smoke";
@@ -20,6 +19,7 @@ import {
 import Stone from "@/components/simulation/materials/Stone";
 import Wood from "@/components/simulation/materials/Wood";
 import Sand from "@/components/simulation/materials/Sand";
+import Particle2 from "@/components/simulation/materials/Particle2";
 
 export type MovesVerticalAcidProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -50,14 +50,14 @@ export class MovesVerticalAcid extends MovesVertical {
     this.acidStrength = acidStrength;
   }
 
-  canPassThrough(particle: Particle) {
+  canPassThrough(particle: Particle2) {
     return (
       particle?.stateOfMatter === "empty" ||
       (particle?.stateOfMatter === "liquid" && Math.random() < 0.1)
     );
   }
 
-  canDissolve(particle: Particle) {
+  canDissolve(particle: Particle2) {
     return (
       particle instanceof Stone ||
       particle instanceof Wood ||
@@ -65,7 +65,7 @@ export class MovesVerticalAcid extends MovesVertical {
     );
   }
 
-  dissolveParticle(particle: Particle, nextParticleIndex: number, grid: Grid) {
+  dissolveParticle(particle: Particle2, nextParticleIndex: number, grid: Grid) {
     if (Math.random() < this.acidStrength) {
       grid.setIndex(
         nextParticleIndex,
@@ -78,7 +78,7 @@ export class MovesVerticalAcid extends MovesVertical {
     }
   }
 
-  moveParticle(particle: Particle, grid: Grid): number {
+  moveParticle(particle: Particle2, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
     const nextDelta = Math.sign(this.velocity) * grid.columns;

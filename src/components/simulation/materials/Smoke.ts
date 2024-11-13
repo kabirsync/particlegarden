@@ -4,7 +4,7 @@ import Particle from "@/components/simulation/materials/Particle";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import { LimitedLife } from "@/components/simulation/behaviours/LimitedLife";
 import { varyColor } from "@/lib/colors";
-import { Flammable } from "@/components/simulation/behaviours/Flammable";
+// import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import {
   smokeAcceleration,
   smokeColor,
@@ -51,13 +51,13 @@ export class Smoke extends Particle {
 
     if (burning) {
       behaviours.push(
-        new Flammable({
-          fuel: life,
-          chanceToCatch: 0,
-          chanceToSpread: (behaviour: Flammable) =>
-            (0.5 * behaviour.remainingLife) / behaviour.lifetime,
-          burning: true,
-        })
+        // new Flammable({
+        //   fuel: life,
+        //   chanceToCatch: 0,
+        //   chanceToSpread: (behaviour: Flammable) =>
+        //     (0.5 * behaviour.remainingLife) / behaviour.lifetime,
+        //   burning: true,
+        // })
       );
     }
 

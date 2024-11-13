@@ -1,18 +1,18 @@
 // import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 // import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
-import { Flammable } from "@/components/simulation/behaviours/Flammable";
+// import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import Particle from "@/components/simulation/materials/Particle";
 import {
   oilAcceleration,
-  oilChanceToCatch,
+  // oilChanceToCatch,
   oilColor,
   oilDiagonalSpread,
-  oilFuel,
+  // oilFuel,
   oilHorizontalSpread,
   oilInitialVelocity,
   oilMaxSpeed,
-  oilSmokeColor,
+  // oilSmokeColor,
   oilVerticalSpread,
 } from "@/lib/constants";
 import { Color } from "three";
@@ -41,9 +41,9 @@ class Oil extends Particle {
       diagonalSpread = oilDiagonalSpread,
       verticalSpread = oilVerticalSpread,
       horizontalSpread = oilHorizontalSpread,
-      fuel = oilFuel + oilFuel * Math.random(),
-      chanceToCatch = oilChanceToCatch,
-      smokeColor = oilSmokeColor,
+      // fuel = oilFuel + oilFuel * Math.random(),
+      // chanceToCatch = oilChanceToCatch,
+      // smokeColor = oilSmokeColor,
     }: OilProps
   ) {
     super(index, {
@@ -59,11 +59,11 @@ class Oil extends Particle {
           verticalSpread,
           horizontalSpread,
         }),
-        new Flammable({
-          fuel,
-          chanceToCatch,
-          smokeColor,
-        }),
+        // new Flammable({
+        //   fuel,
+        //   chanceToCatch,
+        //   smokeColor,
+        // }),
         // new Cloneable({
         //   color,
         //   material: "Oil",

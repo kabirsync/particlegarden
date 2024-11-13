@@ -1,20 +1,20 @@
 // import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 // import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
-import { Flammable } from "@/components/simulation/behaviours/Flammable";
+// import { Flammable } from "@/components/simulation/behaviours/Flammable";
 import { LimitedLife } from "@/components/simulation/behaviours/LimitedLife";
 import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import { Grid } from "@/components/simulation/Grid";
 import Particle from "@/components/simulation/materials/Particle";
 import {
   gasAcceleration,
-  gasChanceToCatch,
+  // gasChanceToCatch,
   gasColor,
   gasDiagonalSpread,
-  gasFuel,
+  // gasFuel,
   gasHorizontalSpread,
   gasInitialVelocity,
   gasMaxSpeed,
-  gasSmokeColor,
+  // gasSmokeColor,
   gasVerticalSpread,
 } from "@/lib/constants";
 import { Color } from "three";
@@ -43,9 +43,9 @@ class Gas extends Particle {
       diagonalSpread = gasDiagonalSpread,
       verticalSpread = gasVerticalSpread,
       horizontalSpread = gasHorizontalSpread,
-      fuel = gasFuel + gasFuel * Math.random(),
-      chanceToCatch = gasChanceToCatch,
-      smokeColor = gasSmokeColor,
+      // fuel = gasFuel + gasFuel * Math.random(),
+      // chanceToCatch = gasChanceToCatch,
+      // smokeColor = gasSmokeColor,
     }: GasProps
   ) {
     super(index, {
@@ -60,11 +60,11 @@ class Gas extends Particle {
           verticalSpread,
           horizontalSpread,
         }),
-        new Flammable({
-          fuel,
-          chanceToCatch,
-          smokeColor,
-        }),
+        // new Flammable({
+        //   fuel,
+        //   chanceToCatch,
+        //   smokeColor,
+        // }),
         new LimitedLife(4000 - 400 * Math.random(), {
           onDeath: (_, particle: Particle, grid: Grid) => {
             grid.clearIndex(particle.index);
