@@ -243,6 +243,24 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         horizontalSpreadRef.current = smokeHorizontalSpread;
         break;
       }
+
+      case "Flame": {
+        setMaterialColor(fireColor);
+        materialColorRef.current = fireColor;
+        setMaxSpeed(fireMaxSpeed);
+        maxSpeedRef.current = fireMaxSpeed;
+        setInitialVelocity(fireInitialVelocity);
+        initialVelocityRef.current = fireInitialVelocity;
+        setAcceleration(fireAcceleration);
+        accelerationRef.current = fireAcceleration;
+        setLife(fireLife);
+        lifeRef.current = fireLife;
+        setGravityDirection(fireDirection);
+        gravityDirectionRef.current = fireDirection;
+        setSmokeColor(fireSmokeColor);
+        smokeColorRef.current = fireSmokeColor;
+        break;
+      }
       case "Fire": {
         setMaterialColor(fireColor);
         materialColorRef.current = fireColor;
