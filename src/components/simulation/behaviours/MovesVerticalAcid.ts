@@ -61,16 +61,18 @@ export class MovesVerticalAcid extends MovesVertical {
   }
 
   dissolveParticle(particle: Particle, nextParticleIndex: number, grid: Grid) {
-    if (Math.random() < 0.5)
-      grid.setIndex(particle.index, new Empty(particle.index));
-    grid.setIndex(
-      nextParticleIndex,
-      Math.random() < 0.2
-        ? new Smoke(nextParticleIndex, {
-            color: new Color().lerpColors(particle.color, smokeColor, 0.95),
-          })
-        : new Empty(nextParticleIndex)
-    );
+    // if (Math.random() < 0.5)
+    //   grid.setIndex(particle.index, new Empty(particle.index));
+    if (Math.random() < 0.1) {
+      grid.setIndex(
+        nextParticleIndex,
+        Math.random() < 0.2
+          ? new Smoke(nextParticleIndex, {
+              color: new Color().lerpColors(particle.color, smokeColor, 0.95),
+            })
+          : new Empty(nextParticleIndex)
+      );
+    }
   }
 
   moveParticle(particle: Particle, grid: Grid): number {
