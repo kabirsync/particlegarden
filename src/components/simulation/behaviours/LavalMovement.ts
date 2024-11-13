@@ -9,6 +9,7 @@ import Sand from "@/components/simulation/materials/Sand";
 import { fireColors, lavaFuel, lavaSmokeColor } from "@/lib/constants";
 import { Color } from "three";
 import { Grid } from "../Grid";
+import Empty from "@/components/simulation/materials/Empty";
 
 export type LavaMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -24,6 +25,7 @@ export class LavaMovement extends MovesVertical {
   horizontalSpread: number;
   life: number;
   smokeColor: Color;
+  remainingLife: number;
 
   constructor({
     maxSpeed = 0,
@@ -41,6 +43,7 @@ export class LavaMovement extends MovesVertical {
     this.horizontalSpread = horizontalSpread;
     this.life = life;
     this.smokeColor = smokeColor;
+    this.remainingLife = Math.random() * life;
   }
 
   update(particle: Particle2, grid: Grid, params: Params) {
@@ -57,6 +60,10 @@ export class LavaMovement extends MovesVertical {
     if (particle.modified) {
       this.applyMovement(particle, grid);
     }
+    if (this.remainingLife === 0) {
+      grid.setIndex(particle.index, new Empty(particle.index));
+    }
+    this.remainingLife = Math.floor(this.remainingLife - 1);
 
     particle.color = fireColors[Math.round(Math.random() * fireColors.length)];
   }
