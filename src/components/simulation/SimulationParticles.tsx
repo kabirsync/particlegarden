@@ -9,7 +9,7 @@ import {
   // chanceToCatchRefAtom,
   // diagonalSpreadRefAtom,
   FPSAtom,
-  fuelRefAtom,
+  // fuelRefAtom,
   horizontalSpreadRefAtom,
   // fuelRefAtom,
   // horizontalSpreadRefAtom,
@@ -61,7 +61,7 @@ const SimulationParticles = ({
   const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
   const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
   const [lifeRef] = useAtom(lifeRefAtom);
-  const [fuelRef] = useAtom(fuelRefAtom);
+  // const [fuelRef] = useAtom(fuelRefAtom);
   // const [chanceToCatchlRef] = useAtom(chanceToCatchRefAtom);
   const [smokeColorRef] = useAtom(smokeColorRefAtom);
   // const [acidStengthRef] = useAtom(acidStrengthRefAtom);
@@ -145,7 +145,7 @@ const SimulationParticles = ({
                   verticalSpread: verticalSpreadRef.current,
                   horizontalSpread: horizontalSpreadRef.current,
                   life: lifeRef.current,
-                  fuel: fuelRef.current,
+                  // fuel: fuelRef.current,
                   // chanceToCatch: chanceToCatchlRef.current,
                   smokeColor: smokeColorRef.current,
                   // acidStrength: acidStengthRef.current,

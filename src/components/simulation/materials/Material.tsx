@@ -3,6 +3,7 @@
 import {
   // BrickWall,
   Circle,
+  Cloud,
   Droplet,
   Flame,
   // Cloud,
@@ -10,6 +11,7 @@ import {
   // Droplet,
   // Flame,
   Grip,
+  TreePine,
   // Shell,
   // TreePine,
 } from "lucide-react";
@@ -18,6 +20,8 @@ import Empty from "./Empty";
 import Sand from "./Sand";
 import Lava from "@/components/simulation/materials/Lava";
 import { Fire } from "@/components/simulation/materials/Fire";
+import { Smoke } from "@/components/simulation/materials/Smoke";
+import Wood from "@/components/simulation/materials/Wood";
 // import { Smoke } from "@/components/simulation/materials/Smoke";
 // import { Fire } from "@/components/simulation/materials/Fire";
 // import Oil from "@/components/simulation/materials/Oil";
@@ -33,7 +37,7 @@ import { Fire } from "@/components/simulation/materials/Fire";
 // ------- Make sure to add case to handleSelectMaterialChange -----
 
 // [1] New materials must be added here
-type MaterialClasses = Empty | Sand | Lava | Fire;
+type MaterialClasses = Empty | Sand | Lava | Fire | Smoke | Wood;
 // | Wood
 // | Water
 // | Smoke
@@ -51,9 +55,9 @@ type MaterialClasses = Empty | Sand | Lava | Fire;
 export const materialOptions = [
   "Empty",
   "Sand",
-  // "Wood",
+  "Wood",
   // "Water",
-  // "Smoke",
+  "Smoke",
   "Fire",
   // "Oil",
   // "Gas",
@@ -74,7 +78,7 @@ type MaterialProps = {
   verticalSpread?: number;
   horizontalSpread?: number;
   life?: number;
-  fuel?: number;
+  // fuel?: number;
   // chanceToCatch?: number;
   smokeColor?: Color;
   // acidStrength?: number;
@@ -86,12 +90,12 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
       return <Circle className="h-3 w-3" />;
     case "Sand":
       return <Grip className="h-3 w-3 text-yellow-600 fill-yellow-600" />;
-    // case "Wood":
-    //   return <TreePine className="h-3 w-3 text-green-600 fill-green-600" />;
+    case "Wood":
+      return <TreePine className="h-3 w-3 text-green-600 fill-green-600" />;
     // case "Water":
     //   return <Droplet className="h-3 w-3 text-blue-500 fill-blue-500" />;
-    // case "Smoke":
-    //   return <Cloud className="h-3 w-3 text-zinc-500 fill-zinc-500" />;
+    case "Smoke":
+      return <Cloud className="h-3 w-3 text-zinc-500 fill-zinc-500" />;
     case "Fire":
       return <Flame className="h-3 w-3 text-red-500 fill-red-500" />;
     // case "Oil":
@@ -123,7 +127,7 @@ export const MaterialMapping: Record<
         maxSpeed,
         initialVelocity,
         acceleration,
-        fuel,
+        // fuel,
         life,
         // chanceToCatch,
         smokeColor,
@@ -137,9 +141,9 @@ export const MaterialMapping: Record<
   // [3] New materials must be added here
   Empty,
   Sand,
-  // Wood,
+  Wood,
   // Water,
-  // Smoke,
+  Smoke,
   Fire,
   // Oil,
   // Gas,

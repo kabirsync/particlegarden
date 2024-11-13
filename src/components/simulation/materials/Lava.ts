@@ -1,6 +1,6 @@
 // import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 // import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
-import { LavaMovement } from "@/components/simulation/behaviours/LavalMovement";
+import { LavaMovement } from "@/components/simulation/behaviours/LavaMovement";
 import Particle2 from "@/components/simulation/materials/Particle2";
 import {
   lavaAcceleration,

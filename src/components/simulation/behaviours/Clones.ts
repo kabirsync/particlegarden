@@ -114,7 +114,7 @@ export class Clones extends Behaviour {
 
         new MaterialClass(aboveIndex, {
           color: this.color,
-          fuel: this.fuel,
+          // fuel: this.fuel,
           // chanceToCatch: this.chanceToCatch,
           smokeColor: this.smokeColor,
           maxSpeed: this.maxSpeed,
@@ -132,7 +132,7 @@ export class Clones extends Behaviour {
 
         new MaterialClass(belowIndex, {
           color: this.color,
-          fuel: this.fuel,
+          // fuel: this.fuel,
           // chanceToCatch: this.chanceToCatch,
           smokeColor: this.smokeColor,
           maxSpeed: this.maxSpeed,
@@ -150,7 +150,7 @@ export class Clones extends Behaviour {
 
         new MaterialClass(rightIndex, {
           color: this.color,
-          fuel: this.fuel,
+          // fuel: this.fuel,
           // chanceToCatch: this.chanceToCatch,
           smokeColor: this.smokeColor,
           maxSpeed: this.maxSpeed,
@@ -167,7 +167,7 @@ export class Clones extends Behaviour {
         emptyNeighbour,
         new MaterialClass(leftIndex, {
           color: this.color,
-          fuel: this.fuel,
+          // fuel: this.fuel,
           // chanceToCatch: this.chanceToCatch,
           smokeColor: this.smokeColor,
           maxSpeed: this.maxSpeed,

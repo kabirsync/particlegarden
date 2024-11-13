@@ -3,15 +3,13 @@ import {
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
 //   import Particle from "@/components/simulation/materials/Particle";
-import Lava from "@/components/simulation/materials/Lava";
+import Empty from "@/components/simulation/materials/Empty";
 import Particle2, { Params } from "@/components/simulation/materials/Particle2";
-import Sand from "@/components/simulation/materials/Sand";
-import { fireColors, lavaFuel, lavaSmokeColor } from "@/lib/constants";
+import { smokeLife } from "@/lib/constants";
 import { Color } from "three";
 import { Grid } from "../Grid";
-import Empty from "@/components/simulation/materials/Empty";
 
-export type LavaMovementProps = MovesVerticalProps & {
+export type SmokeMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
   horizontalSpread?: number;
   verticalSpread?: number;
@@ -19,12 +17,12 @@ export type LavaMovementProps = MovesVerticalProps & {
   smokeColor?: Color;
 };
 
-export class LavaMovement extends MovesVertical {
+export class SmokeMovement extends MovesVertical {
   diagonalSpread: number;
   verticalSpread: number;
   horizontalSpread: number;
   life: number;
-  smokeColor: Color;
+  // smokeColor: Color;
   remainingLife: number;
 
   constructor({
@@ -34,15 +32,16 @@ export class LavaMovement extends MovesVertical {
     diagonalSpread = 1,
     verticalSpread = 1,
     horizontalSpread = 1,
-    life = lavaFuel,
-    smokeColor = lavaSmokeColor,
-  }: LavaMovementProps) {
+    life = smokeLife,
+  }: //   life = SmokeFuel,
+  //   smokeColor = SmokeSmokeColor,
+  SmokeMovementProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;
     this.horizontalSpread = horizontalSpread;
     this.life = life;
-    this.smokeColor = smokeColor;
+    //   this.smokeColor = smokeColor;
     this.remainingLife = Math.random() * life;
   }
 
@@ -60,12 +59,12 @@ export class LavaMovement extends MovesVertical {
     if (particle.modified) {
       this.applyMovement(particle, grid);
     }
-    if (this.remainingLife === 0) {
+    if (this.remainingLife < 0) {
       grid.setIndex(particle.index, new Empty(particle.index));
     }
     this.remainingLife = Math.floor(this.remainingLife - 1);
 
-    particle.color = fireColors[Math.round(Math.random() * fireColors.length)];
+    // particle.color = fireColors[Math.round(Math.random() * fireColors.length)];
   }
 
   canPassThrough(particle: Particle2) {
@@ -76,9 +75,6 @@ export class LavaMovement extends MovesVertical {
     );
   }
 
-  canSetFireTo(particle: Particle2) {
-    return particle instanceof Sand;
-  }
   moveParticle(particle: Particle2, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -100,9 +96,6 @@ export class LavaMovement extends MovesVertical {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
-    if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextVertical])) {
-      grid.setIndex(nextVertical, new Lava(nextVertical, {}));
-    }
 
     if (Math.random() < 0.5) {
       if (
@@ -112,12 +105,6 @@ export class LavaMovement extends MovesVertical {
         grid.swap(i, nextVerticalLeft);
         return nextVerticalLeft;
       }
-      if (
-        Math.random() < 0.1 &&
-        this.canSetFireTo(grid.grid[nextVerticalLeft])
-      ) {
-        grid.setIndex(nextVertical, new Lava(nextVerticalLeft, {}));
-      }
     } else {
       if (
         column < grid.columns - this.diagonalSpread &&
@@ -125,12 +112,6 @@ export class LavaMovement extends MovesVertical {
       ) {
         grid.swap(i, nextVerticalRight);
         return nextVerticalRight;
-      }
-      if (
-        Math.random() < 0.1 &&
-        this.canSetFireTo(grid.grid[nextVerticalRight])
-      ) {
-        grid.setIndex(nextVertical, new Lava(nextVerticalRight, {}));
       }
     }
 
@@ -142,9 +123,6 @@ export class LavaMovement extends MovesVertical {
         grid.swap(i, nextLeft);
         return nextLeft;
       }
-      if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextLeft])) {
-        grid.setIndex(nextVertical, new Lava(nextLeft, {}));
-      }
     } else {
       if (
         column < grid.columns - 2 - this.horizontalSpread &&
@@ -152,9 +130,6 @@ export class LavaMovement extends MovesVertical {
       ) {
         grid.swap(i, nextRight);
         return nextRight;
-      }
-      if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextRight])) {
-        grid.setIndex(nextVertical, new Lava(nextRight, {}));
       }
     }
 

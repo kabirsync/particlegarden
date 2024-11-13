@@ -106,15 +106,15 @@ import {
   sandDirection,
   sandInitialVelocity,
   sandMaxSpeed,
-  // smokeAcceleration,
-  // smokeColor,
-  // smokeDiagonalSpread,
-  // smokeDirection,
-  // smokeHorizontalSpread,
-  // smokeInitialVelocity,
-  // smokeLife,
-  // smokeMaxSpeed,
-  // smokeVerticalSpread,
+  smokeAcceleration,
+  smokeColor,
+  smokeDiagonalSpread,
+  smokeDirection,
+  smokeHorizontalSpread,
+  smokeInitialVelocity,
+  smokeLife,
+  smokeMaxSpeed,
+  smokeVerticalSpread,
   // stoneColor,
   transparentColor,
   // voidColor,
@@ -127,9 +127,9 @@ import {
   // waterMaxSpeed,
   // waterVerticalSpread,
   // woodChanceToCatch,
-  // woodColor,
-  // woodFuel,
-  // woodSmokeColor,
+  woodColor,
+  woodFuel,
+  woodSmokeColor,
 } from "@/lib/constants";
 import { useAtom } from "jotai";
 
@@ -191,17 +191,17 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         gravityDirectionRef.current = sandDirection;
         break;
       }
-      // case "Wood": {
-      //   setMaterialColor(woodColor);
-      //   materialColorRef.current = woodColor;
-      //   setFuel(woodFuel);
-      //   fuelRef.current = woodFuel;
-      //   setChanceToCatch(woodChanceToCatch);
-      //   chanceToCatchRef.current = woodChanceToCatch;
-      //   setSmokeColor(woodSmokeColor);
-      //   smokeColorRef.current = woodSmokeColor;
-      //   break;
-      // }
+      case "Wood": {
+        setMaterialColor(woodColor);
+        materialColorRef.current = woodColor;
+        setFuel(woodFuel);
+        fuelRef.current = woodFuel;
+        // setChanceToCatch(woodChanceToCatch);
+        // chanceToCatchRef.current = woodChanceToCatch;
+        setSmokeColor(woodSmokeColor);
+        smokeColorRef.current = woodSmokeColor;
+        break;
+      }
 
       // case "Water": {
       //   setMaterialColor(waterColor);
@@ -222,27 +222,27 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
       //   horizontalSpreadRef.current = waterHorizontalSpread;
       //   break;
       // }
-      // case "Smoke": {
-      //   setMaterialColor(smokeColor);
-      //   materialColorRef.current = smokeColor;
-      //   setMaxSpeed(smokeMaxSpeed);
-      //   maxSpeedRef.current = smokeMaxSpeed;
-      //   setInitialVelocity(smokeInitialVelocity);
-      //   initialVelocityRef.current = smokeInitialVelocity;
-      //   setAcceleration(smokeAcceleration);
-      //   accelerationRef.current = smokeAcceleration;
-      //   setLife(smokeLife);
-      //   lifeRef.current = smokeLife;
-      //   setGravityDirection(smokeDirection);
-      //   gravityDirectionRef.current = smokeDirection;
-      //   setDiagonalSpread(smokeDiagonalSpread);
-      //   diagonalSpreadRef.current = smokeDiagonalSpread;
-      //   setVerticalSpread(smokeVerticalSpread);
-      //   verticalSpreadRef.current = smokeVerticalSpread;
-      //   setHorizontalSpread(smokeHorizontalSpread);
-      //   horizontalSpreadRef.current = smokeHorizontalSpread;
-      //   break;
-      // }
+      case "Smoke": {
+        setMaterialColor(smokeColor);
+        materialColorRef.current = smokeColor;
+        setMaxSpeed(smokeMaxSpeed);
+        maxSpeedRef.current = smokeMaxSpeed;
+        setInitialVelocity(smokeInitialVelocity);
+        initialVelocityRef.current = smokeInitialVelocity;
+        setAcceleration(smokeAcceleration);
+        accelerationRef.current = smokeAcceleration;
+        setLife(smokeLife);
+        lifeRef.current = smokeLife;
+        setGravityDirection(smokeDirection);
+        gravityDirectionRef.current = smokeDirection;
+        setDiagonalSpread(smokeDiagonalSpread);
+        diagonalSpreadRef.current = smokeDiagonalSpread;
+        setVerticalSpread(smokeVerticalSpread);
+        verticalSpreadRef.current = smokeVerticalSpread;
+        setHorizontalSpread(smokeHorizontalSpread);
+        horizontalSpreadRef.current = smokeHorizontalSpread;
+        break;
+      }
       case "Fire": {
         setMaterialColor(fireColor);
         materialColorRef.current = fireColor;

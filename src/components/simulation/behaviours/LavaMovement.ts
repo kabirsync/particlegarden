@@ -2,22 +2,23 @@ import {
   MovesVertical,
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
+import Lava from "@/components/simulation/materials/Lava";
 import Particle2, { Params } from "@/components/simulation/materials/Particle2";
 import Sand from "@/components/simulation/materials/Sand";
 import {
   fireColors,
-  fireLife,
-  fireSmokeColor,
-  smokeColor,
+  lavaFuel,
+  lavaSmokeColor,
+  // smokeColor,
 } from "@/lib/constants";
 import { Color } from "three";
 import { Grid } from "../Grid";
-import { Smoke } from "@/components/simulation/materials/Smoke";
-import { Fire } from "@/components/simulation/materials/Fire";
 import Wood from "@/components/simulation/materials/Wood";
-import { Flame } from "@/components/simulation/materials/Flame";
+import { Smoke } from "@/components/simulation/materials/Smoke";
+// import { Smoke } from "@/components/simulation/materials/Smoke";
+// import { Fire } from "@/components/simulation/materials/Fire";
 
-export type FireMovementProps = MovesVerticalProps & {
+export type LavaMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
   horizontalSpread?: number;
   verticalSpread?: number;
@@ -25,7 +26,7 @@ export type FireMovementProps = MovesVerticalProps & {
   smokeColor?: Color;
 };
 
-export class FireMovement extends MovesVertical {
+export class LavaMovement extends MovesVertical {
   diagonalSpread: number;
   verticalSpread: number;
   horizontalSpread: number;
@@ -40,9 +41,9 @@ export class FireMovement extends MovesVertical {
     diagonalSpread = 1,
     verticalSpread = 1,
     horizontalSpread = 1,
-    life = fireLife,
-    smokeColor = fireSmokeColor,
-  }: FireMovementProps) {
+    life = lavaFuel,
+    smokeColor = lavaSmokeColor,
+  }: LavaMovementProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;
@@ -66,17 +67,18 @@ export class FireMovement extends MovesVertical {
     if (particle.modified) {
       this.applyMovement(particle, grid);
     }
+
     if (this.remainingLife < 0) {
       if (Math.random() < 0.9) {
         const smoke = new Smoke(particle.index, {
           burning: Math.random() < 0.1,
-          color: smokeColor,
+          color: this.smokeColor,
         });
         grid.setIndex(particle.index, smoke);
       } else {
         grid.setIndex(
           particle.index,
-          new Flame(particle.index, {
+          new Lava(particle.index, {
             maxSpeed: this.maxSpeed,
             acceleration: this.acceleration,
             initialVelocity: this.velocity,
@@ -98,7 +100,7 @@ export class FireMovement extends MovesVertical {
     if (!particle) return false;
     return (
       particle?.stateOfMatter === "empty" ||
-      (particle?.stateOfMatter === "gas" && Math.random() < 0.1)
+      (particle?.stateOfMatter === "liquid" && Math.random() < 0.1)
     );
   }
 
@@ -111,7 +113,6 @@ export class FireMovement extends MovesVertical {
     const nextDelta = Math.sign(this.velocity) * grid.columns;
     const nextVertical =
       i + nextDelta * Math.ceil(this.verticalSpread * Math.random());
-
     const nextVerticalLeft =
       nextVertical - Math.ceil(Math.random() * this.diagonalSpread);
     const nextVerticalRight =
@@ -120,48 +121,15 @@ export class FireMovement extends MovesVertical {
     const nextLeft = i - Math.ceil(Math.random() * this.horizontalSpread);
     const nextRight = i + Math.ceil(Math.random() * this.horizontalSpread);
 
-    // const neighbourTop = i - grid.columns;
-    // const neighbourRight = i + 1;
-    // const neighbourLeft = i - 1;
-    // const neighbourBottom = i + grid.columns;
-
     // need to randomise order of operations (check sand)
 
-    const previousVertical =
-      i - nextDelta * Math.ceil(this.verticalSpread * Math.random());
-
-    if (Math.random() < 0.8 && this.canSetFireTo(grid.grid[previousVertical])) {
-      grid.setIndex(previousVertical, new Fire(previousVertical, {}));
-    }
-    if (Math.random() < 0.01 && this.canSetFireTo(grid.grid[nextVertical])) {
-      grid.setIndex(nextVertical, new Fire(nextVertical, {}));
-    }
-    if (
-      Math.random() < 0.01 &&
-      this.canSetFireTo(grid.grid[nextVerticalLeft])
-    ) {
-      grid.setIndex(nextVerticalLeft, new Fire(nextVerticalLeft, {}));
-    }
-    if (
-      Math.random() < 0.01 &&
-      this.canSetFireTo(grid.grid[nextVerticalRight])
-    ) {
-      grid.setIndex(nextVerticalRight, new Fire(nextVerticalRight, {}));
-    }
-    if (Math.random() < 0.01 && this.canSetFireTo(grid.grid[nextLeft])) {
-      grid.setIndex(nextLeft, new Fire(nextVerticalLeft, {}));
-    }
-    if (Math.random() < 0.01 && this.canSetFireTo(grid.grid[nextRight])) {
-      grid.setIndex(nextRight, new Fire(nextRight, {}));
-    }
-
-    if (Math.random() < 0.9 && this.canPassThrough(grid.grid[nextVertical])) {
+    if (this.canPassThrough(grid.grid[nextVertical])) {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
-    // if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextVertical])) {
-    //   grid.setIndex(nextVertical, new Fire(nextVertical, {}));
-    // }
+    if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextVertical])) {
+      grid.setIndex(nextVertical, new Lava(nextVertical, {}));
+    }
 
     if (Math.random() < 0.5) {
       if (
@@ -171,12 +139,12 @@ export class FireMovement extends MovesVertical {
         grid.swap(i, nextVerticalLeft);
         return nextVerticalLeft;
       }
-      //   if (
-      //     Math.random() < 0.1 &&
-      //     this.canSetFireTo(grid.grid[nextVerticalLeft])
-      //   ) {
-      //     grid.setIndex(nextVertical, new Fire(nextVerticalLeft, {}));
-      //   }
+      if (
+        Math.random() < 0.1 &&
+        this.canSetFireTo(grid.grid[nextVerticalLeft])
+      ) {
+        grid.setIndex(nextVertical, new Lava(nextVerticalLeft, {}));
+      }
     } else {
       if (
         column < grid.columns - this.diagonalSpread &&
@@ -185,12 +153,12 @@ export class FireMovement extends MovesVertical {
         grid.swap(i, nextVerticalRight);
         return nextVerticalRight;
       }
-      //   if (
-      //     Math.random() < 0.1 &&
-      //     this.canSetFireTo(grid.grid[nextVerticalRight])
-      //   ) {
-      //     grid.setIndex(nextVertical, new Fire(nextVerticalRight, {}));
-      //   }
+      if (
+        Math.random() < 0.1 &&
+        this.canSetFireTo(grid.grid[nextVerticalRight])
+      ) {
+        grid.setIndex(nextVertical, new Lava(nextVerticalRight, {}));
+      }
     }
 
     if (Math.random() < 0.5) {
@@ -201,9 +169,9 @@ export class FireMovement extends MovesVertical {
         grid.swap(i, nextLeft);
         return nextLeft;
       }
-      //   if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextLeft])) {
-      //     grid.setIndex(nextVertical, new Fire(nextLeft, {}));
-      //   }
+      if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextLeft])) {
+        grid.setIndex(nextVertical, new Lava(nextLeft, {}));
+      }
     } else {
       if (
         column < grid.columns - 2 - this.horizontalSpread &&
@@ -212,9 +180,9 @@ export class FireMovement extends MovesVertical {
         grid.swap(i, nextRight);
         return nextRight;
       }
-      //   if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextRight])) {
-      //     grid.setIndex(nextVertical, new Fire(nextRight, {}));
-      //   }
+      if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextRight])) {
+        grid.setIndex(nextVertical, new Lava(nextRight, {}));
+      }
     }
 
     return i;
