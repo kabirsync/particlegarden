@@ -34,26 +34,19 @@ export class MovesVerticalSolid extends MovesVertical {
       return nextVertical;
     }
 
-    // Decide which direction to check first
-    const firstCheck =
-      Math.random() < 0.5 ? nextVerticalLeft : nextVerticalRight;
-    const secondCheck =
-      firstCheck === nextVerticalLeft ? nextVerticalRight : nextVerticalLeft;
-
-    if (
-      column > 0 &&
-      column < grid.columns - 1 &&
-      this.canPassThrough(grid.grid[firstCheck])
-    ) {
-      grid.swap(i, firstCheck);
-      return firstCheck;
-    } else if (
-      column > 0 &&
-      column < grid.columns - 1 &&
-      this.canPassThrough(grid.grid[secondCheck])
-    ) {
-      grid.swap(i, secondCheck);
-      return secondCheck;
+    if (Math.random() < 0.5) {
+      if (column > 0 && this.canPassThrough(grid.grid[nextVerticalLeft])) {
+        grid.swap(i, nextVerticalLeft);
+        return nextVerticalLeft;
+      }
+    } else {
+      if (
+        column < grid.columns - 1 &&
+        this.canPassThrough(grid.grid[nextVerticalRight])
+      ) {
+        grid.swap(i, nextVerticalRight);
+        return nextVerticalRight;
+      }
     }
 
     return i;
