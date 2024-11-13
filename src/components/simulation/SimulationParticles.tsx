@@ -4,6 +4,7 @@ import {
 } from "@/components/simulation/materials/Material";
 import {
   accelerationRefAtom,
+  acidStrengthRefAtom,
   chanceToCatchRefAtom,
   diagonalSpreadRefAtom,
   FPSAtom,
@@ -58,6 +59,7 @@ const SimulationParticles = ({
   const [fuelRef] = useAtom(fuelRefAtom);
   const [chanceToCatchlRef] = useAtom(chanceToCatchRefAtom);
   const [smokeColorRef] = useAtom(smokeColorRefAtom);
+  const [acidStengthRef] = useAtom(acidStrengthRefAtom);
 
   const [, setFPS] = useAtom(FPSAtom);
   const [, setFrame] = useState(0);
@@ -141,6 +143,7 @@ const SimulationParticles = ({
                   fuel: fuelRef.current,
                   chanceToCatch: chanceToCatchlRef.current,
                   smokeColor: smokeColorRef.current,
+                  acidStrength: acidStengthRef.current,
                 })
               );
             }

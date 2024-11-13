@@ -9,6 +9,7 @@ import { Smoke } from "@/components/simulation/materials/Smoke";
 import { Color } from "three";
 import {
   acidAcceleration,
+  acidDefaultStrength,
   acidDiagonalSpread,
   acidHorizontalSpread,
   acidInitialVelocity,
@@ -24,12 +25,14 @@ export type MovesVerticalAcidProps = MovesVerticalProps & {
   diagonalSpread?: number;
   horizontalSpread?: number;
   verticalSpread?: number;
+  acidStrength?: number;
 };
 
 export class MovesVerticalAcid extends MovesVertical {
   diagonalSpread: number;
   verticalSpread: number;
   horizontalSpread: number;
+  acidStrength: number;
 
   constructor({
     maxSpeed = acidMaxSpeed,
@@ -38,11 +41,13 @@ export class MovesVerticalAcid extends MovesVertical {
     diagonalSpread = acidDiagonalSpread,
     verticalSpread = acidVerticalSpread,
     horizontalSpread = acidHorizontalSpread,
+    acidStrength = acidDefaultStrength,
   }: MovesVerticalAcidProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;
     this.horizontalSpread = horizontalSpread;
+    this.acidStrength = acidStrength;
   }
 
   canPassThrough(particle: Particle) {
@@ -61,9 +66,7 @@ export class MovesVerticalAcid extends MovesVertical {
   }
 
   dissolveParticle(particle: Particle, nextParticleIndex: number, grid: Grid) {
-    // if (Math.random() < 0.5)
-    //   grid.setIndex(particle.index, new Empty(particle.index));
-    if (Math.random() < 0.1) {
+    if (Math.random() < this.acidStrength) {
       grid.setIndex(
         nextParticleIndex,
         Math.random() < 0.2

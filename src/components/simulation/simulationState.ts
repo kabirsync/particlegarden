@@ -1,5 +1,6 @@
 import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import {
+  acidDefaultStrength,
   defaultDiagonalSpread,
   defaultFPS,
   defaultHorizontalSpread,
@@ -95,3 +96,9 @@ export const smokeColorRefAtom = atom(() => ({
   current: woodSmokeColor,
 }));
 export const smokeColorAtom = atom(woodSmokeColor);
+
+// --------- Acid Options ---------
+export const acidStrengthRefAtom = atom(() => ({
+  current: acidDefaultStrength,
+}));
+export const acidStrengthAtom = atom(acidDefaultStrength);

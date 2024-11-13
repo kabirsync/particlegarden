@@ -85,6 +85,7 @@ export const acidAcceleration = 0.5;
 export const acidDiagonalSpread = 3;
 export const acidVerticalSpread = 1;
 export const acidHorizontalSpread = 3;
+export const acidDefaultStrength = 0.01;
 
 // Lava
 export const lavaDirection = 1;

@@ -75,6 +75,7 @@ type MaterialProps = {
   fuel?: number;
   chanceToCatch?: number;
   smokeColor?: Color;
+  acidStrength?: number;
 };
 
 export const getMaterialIcon = (material: MaterialOptionsType) => {
@@ -124,6 +125,7 @@ export const MaterialMapping: Record<
         fuel,
         chanceToCatch,
         smokeColor,
+        acidStrength,
       }: MaterialProps
     ): MaterialClasses;
   }

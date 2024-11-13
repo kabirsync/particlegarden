@@ -5,6 +5,7 @@ import Particle from "@/components/simulation/materials/Particle";
 import {
   acidAcceleration,
   acidColor,
+  acidDefaultStrength,
   acidDiagonalSpread,
   acidHorizontalSpread,
   acidInitialVelocity,
@@ -21,6 +22,7 @@ type AcidProps = {
   diagonalSpread?: number;
   verticalSpread?: number;
   horizontalSpread?: number;
+  acidStrength?: number;
 };
 
 export class Acid extends Particle {
@@ -34,6 +36,7 @@ export class Acid extends Particle {
       diagonalSpread = acidDiagonalSpread,
       verticalSpread = acidVerticalSpread,
       horizontalSpread = acidHorizontalSpread,
+      acidStrength = acidDefaultStrength,
     }: AcidProps
   ) {
     super(index, {
@@ -47,6 +50,7 @@ export class Acid extends Particle {
           diagonalSpread,
           verticalSpread,
           horizontalSpread,
+          acidStrength,
         }),
         // new Cloneable({
         //   color,
