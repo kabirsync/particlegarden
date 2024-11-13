@@ -39,7 +39,7 @@ import {
   acidInitialVelocity,
   acidMaxSpeed,
   acidVerticalSpread,
-  clonerColor,
+  // clonerColor,
   fireAcceleration,
   fireColor,
   fireDirection,
@@ -95,7 +95,7 @@ import {
   smokeVerticalSpread,
   stoneColor,
   transparentColor,
-  voidColor,
+  // voidColor,
   waterAcceleration,
   waterColor,
   waterDiagonalSpread,
@@ -334,16 +334,16 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         horizontalSpreadRef.current = acidHorizontalSpread;
         break;
       }
-      case "Cloner": {
-        setMaterialColor(clonerColor);
-        materialColorRef.current = clonerColor;
-        break;
-      }
-      case "Void": {
-        setMaterialColor(voidColor);
-        materialColorRef.current = voidColor;
-        break;
-      }
+      // case "Cloner": {
+      //   setMaterialColor(clonerColor);
+      //   materialColorRef.current = clonerColor;
+      //   break;
+      // }
+      // case "Void": {
+      //   setMaterialColor(voidColor);
+      //   materialColorRef.current = voidColor;
+      //   break;
+      // }
       default: {
         assertUnreachable(newSelectedMaterial);
       }
