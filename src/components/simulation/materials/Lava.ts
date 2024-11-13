@@ -69,19 +69,6 @@ class Lava extends Particle {
             grid.setIndex(particle.index, new Stone(particle.index, {}));
           },
         }),
-        // new Cloneable({
-        //   color,
-        //   material: "Lava",
-        //   maxSpeed,
-        //   acceleration,
-        //   initialVelocity,
-        //   diagonalSpread,
-        //   verticalSpread,
-        //   horizontalSpread,
-        //   fuel,
-        //   smokeColor,
-        // }),
-        // new Destroyable(),
       ],
     });
   }
