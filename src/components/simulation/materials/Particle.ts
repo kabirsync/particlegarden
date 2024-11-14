@@ -33,9 +33,6 @@ class Particle {
   }
 
   update(grid: Grid, params: Params) {
-    // this.behaviours?.forEach((behaviour) =>
-    //   behaviour.update(this, grid, params)
-    // );
     this.behaviour?.update(this, grid, params);
   }
 }
