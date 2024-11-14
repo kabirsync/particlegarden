@@ -2,22 +2,14 @@ import {
   MovesVertical,
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
-import Lava from "@/components/simulation/materials/Lava";
+import { Fire } from "@/components/simulation/materials/Fire";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
 import Sand from "@/components/simulation/materials/Sand";
-import {
-  fireColors,
-  lavaFuel,
-  lavaSmokeColor,
-  // smokeColor,
-} from "@/lib/constants";
+import { Smoke } from "@/components/simulation/materials/Smoke";
+import Wood from "@/components/simulation/materials/Wood";
+import { fireColors, lavaFuel, lavaSmokeColor } from "@/lib/constants";
 import { Color } from "three";
 import { Grid } from "../Grid";
-import Wood from "@/components/simulation/materials/Wood";
-import { Smoke } from "@/components/simulation/materials/Smoke";
-import { StaticFire } from "@/components/simulation/materials/StaticFire";
-// import { Smoke } from "@/components/simulation/materials/Smoke";
-// import { Fire } from "@/components/simulation/materials/Fire";
 
 export type LavaMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -79,15 +71,15 @@ export class LavaMovement extends MovesVertical {
       } else {
         grid.setIndex(
           particle.index,
-          new Lava(particle.index, {
-            maxSpeed: this.maxSpeed,
-            acceleration: this.acceleration,
-            initialVelocity: this.velocity,
-            diagonalSpread: this.diagonalSpread,
-            verticalSpread: this.verticalSpread,
-            horizontalSpread: this.horizontalSpread,
+          new Fire(particle.index, {
+            // maxSpeed: this.maxSpeed,
+            // acceleration: this.acceleration,
+            // initialVelocity: this.velocity,
+            // diagonalSpread: this.diagonalSpread,
+            // verticalSpread: this.verticalSpread,
+            // horizontalSpread: this.horizontalSpread,
             smokeColor: this.smokeColor,
-            life: this.life,
+            // life: this.life,
           })
         );
       }
@@ -101,6 +93,7 @@ export class LavaMovement extends MovesVertical {
     if (!particle) return false;
     return (
       particle?.stateOfMatter === "empty" ||
+      particle?.stateOfMatter === "gas" ||
       (particle?.stateOfMatter === "liquid" && Math.random() < 0.1)
     );
   }
@@ -129,7 +122,7 @@ export class LavaMovement extends MovesVertical {
       return nextVertical;
     }
     if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextVertical])) {
-      grid.setIndex(nextVertical, new StaticFire(nextVertical, {}));
+      grid.setIndex(nextVertical, new Fire(nextVertical, {}));
     }
 
     if (Math.random() < 0.5) {
@@ -144,7 +137,7 @@ export class LavaMovement extends MovesVertical {
         Math.random() < 0.1 &&
         this.canSetFireTo(grid.grid[nextVerticalLeft])
       ) {
-        grid.setIndex(nextVertical, new Lava(nextVerticalLeft, {}));
+        grid.setIndex(nextVertical, new Fire(nextVerticalLeft, {}));
       }
     } else {
       if (
@@ -158,7 +151,7 @@ export class LavaMovement extends MovesVertical {
         Math.random() < 0.1 &&
         this.canSetFireTo(grid.grid[nextVerticalRight])
       ) {
-        grid.setIndex(nextVertical, new Lava(nextVerticalRight, {}));
+        grid.setIndex(nextVertical, new Fire(nextVerticalRight, {}));
       }
     }
 
@@ -171,7 +164,7 @@ export class LavaMovement extends MovesVertical {
         return nextLeft;
       }
       if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextLeft])) {
-        grid.setIndex(nextVertical, new Lava(nextLeft, {}));
+        grid.setIndex(nextVertical, new Fire(nextLeft, {}));
       }
     } else {
       if (
@@ -182,7 +175,7 @@ export class LavaMovement extends MovesVertical {
         return nextRight;
       }
       if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextRight])) {
-        grid.setIndex(nextVertical, new Lava(nextRight, {}));
+        grid.setIndex(nextVertical, new Fire(nextRight, {}));
       }
     }
 

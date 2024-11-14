@@ -98,7 +98,7 @@ export const lavaDiagonalSpread = 1;
 export const lavaVerticalSpread = 1;
 export const lavaHorizontalSpread = 1;
 export const lavaSmokeColor = smokeMaterialColor;
-export const lavaFuel = Math.random() * 200;
+export const lavaFuel = 200;
 
 // Oil
 export const oilDirection = 1;
@@ -142,6 +142,6 @@ export const fireLife = 200;
 export const fireSmokeColor = smokeMaterialColor;
 
 // Wood
-export const woodFuel = 200;
+export const woodFuel = 1000;
 export const woodChanceToCatch = 0.005;
 export const woodSmokeColor = smokeMaterialColor;

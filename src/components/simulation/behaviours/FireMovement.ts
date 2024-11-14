@@ -3,7 +3,6 @@ import {
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
-import Sand from "@/components/simulation/materials/Sand";
 import {
   fireColors,
   fireLife,
@@ -49,7 +48,7 @@ export class FireMovement extends MovesVertical {
     this.horizontalSpread = horizontalSpread;
     this.life = life;
     this.smokeColor = smokeColor;
-    this.remainingLife = Math.random() * life;
+    this.remainingLife = life - life * Math.random();
   }
 
   update(particle: Particle, grid: Grid, params: Params) {
@@ -102,8 +101,12 @@ export class FireMovement extends MovesVertical {
     );
   }
 
-  canSetFireTo(particle: Particle) {
-    return particle instanceof Sand || particle instanceof Wood;
+  //  canSetFireTo(particle: Particle): particle is Wood | Oil | Gas {
+  //   return particle instanceof Wood || particle instanceof Oil || particle instanceof Gas;
+  // }
+
+  canSetFireTo(particle: Particle): particle is Wood {
+    return particle instanceof Wood;
   }
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
@@ -129,28 +132,66 @@ export class FireMovement extends MovesVertical {
     const previousVertical = i - 1;
 
     if (Math.random() < 0.8 && this.canSetFireTo(grid.grid[previousVertical])) {
-      grid.setIndex(previousVertical, new StaticFire(previousVertical, {}));
+      const FlammableParticle = grid.grid[previousVertical] as Wood;
+      grid.setIndex(
+        previousVertical,
+        new StaticFire(previousVertical, {
+          life: FlammableParticle.life,
+        })
+      );
     }
     if (Math.random() < 0.01 && this.canSetFireTo(grid.grid[nextVertical])) {
-      grid.setIndex(nextVertical, new StaticFire(nextVertical, {}));
+      const FlammableParticle = grid.grid[nextVertical] as Wood;
+      grid.setIndex(
+        nextVertical,
+        new StaticFire(nextVertical, {
+          life: FlammableParticle.life,
+        })
+      );
     }
     if (
       Math.random() < 0.01 &&
       this.canSetFireTo(grid.grid[nextVerticalLeft])
     ) {
-      grid.setIndex(nextVerticalLeft, new StaticFire(nextVerticalLeft, {}));
+      const FlammableParticle = grid.grid[nextVerticalLeft] as Wood;
+      grid.setIndex(
+        nextVerticalLeft,
+        new StaticFire(nextVerticalLeft, {
+          life: FlammableParticle.life,
+        })
+      );
     }
     if (
       Math.random() < 0.01 &&
       this.canSetFireTo(grid.grid[nextVerticalRight])
     ) {
-      grid.setIndex(nextVerticalRight, new StaticFire(nextVerticalRight, {}));
+      const FlammableParticle = grid.grid[nextVerticalRight] as Wood;
+      grid.setIndex(
+        nextVerticalRight,
+        new StaticFire(nextVerticalRight, {
+          life: FlammableParticle.life,
+        })
+      );
     }
-    if (Math.random() < 0.01 && this.canSetFireTo(grid.grid[nextLeft])) {
-      grid.setIndex(nextLeft, new StaticFire(nextVerticalLeft, {}));
-    }
+
     if (Math.random() < 0.01 && this.canSetFireTo(grid.grid[nextRight])) {
-      grid.setIndex(nextRight, new StaticFire(nextRight, {}));
+      const FlammableParticle = grid.grid[nextRight] as Wood;
+      grid.setIndex(
+        nextRight,
+        new StaticFire(nextRight, {
+          life: FlammableParticle.life,
+        })
+      );
+    }
+
+    if (Math.random() < 0.01 && this.canSetFireTo(grid.grid[nextLeft])) {
+      const FlammableParticle = grid.grid[nextLeft] as Wood;
+      grid.setIndex(
+        nextLeft,
+        new StaticFire(nextLeft, {
+          life: FlammableParticle.life,
+        })
+      );
     }
 
     if (Math.random() < 0.9 && this.canPassThrough(grid.grid[nextVertical])) {

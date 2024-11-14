@@ -30,7 +30,7 @@ export class Fire extends Particle {
     index: number,
     {
       color = fireColor,
-      life = fireLife - fireLife * Math.random(),
+      life = fireLife,
       maxSpeed = fireMaxSpeed,
       acceleration = fireAcceleration,
       initialVelocity = fireInitialVelocity,

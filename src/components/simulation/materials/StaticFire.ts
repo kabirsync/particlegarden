@@ -1,5 +1,6 @@
 import { Grid } from "@/components/simulation/Grid";
 import { Fire } from "@/components/simulation/materials/Fire";
+import Lava from "@/components/simulation/materials/Lava";
 import Particle from "@/components/simulation/materials/Particle";
 import Wood from "@/components/simulation/materials/Wood";
 import { fireColor, fireColors, fireLife } from "@/lib/constants";
@@ -24,17 +25,14 @@ export class StaticFire extends Particle {
   constructor(
     index: number,
 
-    {
-      life = fireLife - fireLife * Math.random(),
-      color = fireColor,
-    }: StaticFireProps
+    { life = fireLife, color = fireColor }: StaticFireProps
   ) {
     super(index, {
       color,
-      stateOfMatter: "gas",
+      stateOfMatter: "solid",
     });
     this.index = index;
-    this.remainingLife = life;
+    this.remainingLife = life - life * Math.random();
   }
 
   update(grid: Grid): void {
@@ -56,9 +54,12 @@ export class StaticFire extends Particle {
       grid.setIndex(neighbourBottom, new StaticFire(neighbourBottom, {}));
     }
     if (this.remainingLife < 0) {
-      if (Math.random() < 1) {
+      if (Math.random() < 0.99) {
         const flame = new Fire(this.index, {});
         grid.setIndex(this.index, flame);
+      } else {
+        const lava = new Lava(this.index, {});
+        grid.setIndex(this.index, lava);
       }
     }
     this.remainingLife = Math.floor(this.remainingLife - 1);
