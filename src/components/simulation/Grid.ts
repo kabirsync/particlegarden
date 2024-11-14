@@ -1,13 +1,13 @@
 import Empty from "@/components/simulation/materials/Empty";
 // import Particle, { Params } from "@/components/simulation/materials/Particle";
-import Particle2, { Params } from "@/components/simulation/materials/Particle";
+import Particle, { Params } from "@/components/simulation/materials/Particle";
 
 type GridParams = { rows: number; columns: number };
 
 export class Grid {
   rows: number;
   columns: number;
-  grid: Particle2[];
+  grid: Particle[];
 
   constructor({ rows, columns }: GridParams) {
     this.rows = rows;
@@ -25,12 +25,12 @@ export class Grid {
     return y * this.columns + x;
   }
 
-  setIndex(i: number, particle: Particle2): void {
+  setIndex(i: number, particle: Particle): void {
     this.grid[i] = particle;
     particle.index = i;
   }
 
-  set(column: number, row: number, particle: Particle2): number {
+  set(column: number, row: number, particle: Particle): number {
     if (column < 0 || column >= this.columns) return -1;
     if (row < 0 || row >= this.rows) return -1;
     const index = this.index(column, row);

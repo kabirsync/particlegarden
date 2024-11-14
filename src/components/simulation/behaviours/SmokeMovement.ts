@@ -4,7 +4,7 @@ import {
 } from "@/components/simulation/behaviours/MovesVertical";
 //   import Particle from "@/components/simulation/materials/Particle";
 import Empty from "@/components/simulation/materials/Empty";
-import Particle2, { Params } from "@/components/simulation/materials/Particle";
+import Particle, { Params } from "@/components/simulation/materials/Particle";
 import { smokeLife } from "@/lib/constants";
 import { Color } from "three";
 import { Grid } from "../Grid";
@@ -45,7 +45,7 @@ export class SmokeMovement extends MovesVertical {
     this.remainingLife = Math.random() * life;
   }
 
-  update(particle: Particle2, grid: Grid, params: Params) {
+  update(particle: Particle, grid: Grid, params: Params) {
     if (!this.shouldUpdate(params)) return;
 
     if (this.maxSpeed === 0) {
@@ -67,7 +67,7 @@ export class SmokeMovement extends MovesVertical {
     // particle.color = fireColors[Math.round(Math.random() * fireColors.length)];
   }
 
-  canPassThrough(particle: Particle2) {
+  canPassThrough(particle: Particle) {
     if (!particle) return false;
     return (
       particle?.stateOfMatter === "empty" ||
@@ -75,7 +75,7 @@ export class SmokeMovement extends MovesVertical {
     );
   }
 
-  moveParticle(particle: Particle2, grid: Grid): number {
+  moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
     // const row = i % grid.rows;

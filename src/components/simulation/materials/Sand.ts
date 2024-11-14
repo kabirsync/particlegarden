@@ -1,6 +1,6 @@
 import { varyColor } from "@/lib/colors";
 import { SandMovement } from "@/components/simulation/behaviours/SandMovement";
-import Particle2 from "@/components/simulation/materials/Particle";
+import Particle from "@/components/simulation/materials/Particle";
 import { sandColor } from "@/lib/constants";
 import { Color } from "three";
 
@@ -11,7 +11,7 @@ type SandProps = {
   initialVelocity?: number;
 };
 
-class Sand extends Particle2 {
+class Sand extends Particle {
   constructor(
     index: number,
     {

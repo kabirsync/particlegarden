@@ -2,7 +2,7 @@ import {
   MovesVertical,
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
-import Particle2, { Params } from "@/components/simulation/materials/Particle";
+import Particle, { Params } from "@/components/simulation/materials/Particle";
 import Sand from "@/components/simulation/materials/Sand";
 import {
   fireColors,
@@ -52,7 +52,7 @@ export class FireMovement extends MovesVertical {
     this.remainingLife = Math.random() * life;
   }
 
-  update(particle: Particle2, grid: Grid, params: Params) {
+  update(particle: Particle, grid: Grid, params: Params) {
     if (!this.shouldUpdate(params)) return;
 
     if (this.maxSpeed === 0) {
@@ -94,7 +94,7 @@ export class FireMovement extends MovesVertical {
     particle.color = fireColors[Math.round(Math.random() * fireColors.length)];
   }
 
-  canPassThrough(particle: Particle2) {
+  canPassThrough(particle: Particle) {
     if (!particle) return false;
     return (
       particle?.stateOfMatter === "empty" ||
@@ -102,10 +102,10 @@ export class FireMovement extends MovesVertical {
     );
   }
 
-  canSetFireTo(particle: Particle2) {
+  canSetFireTo(particle: Particle) {
     return particle instanceof Sand || particle instanceof Wood;
   }
-  moveParticle(particle: Particle2, grid: Grid): number {
+  moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
     const nextDelta = Math.sign(this.velocity) * grid.columns;
