@@ -2,9 +2,8 @@ import {
   MovesVertical,
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
-//   import Particle from "@/components/simulation/materials/Particle";
 import { Grid } from "../Grid";
-import Particle2 from "@/components/simulation/materials/Particle";
+import Particle from "@/components/simulation/materials/Particle";
 
 export class SandMovement extends MovesVertical {
   constructor({
@@ -15,14 +14,15 @@ export class SandMovement extends MovesVertical {
     super({ maxSpeed, acceleration, initialVelocity });
   }
 
-  canPassThrough(particle: Particle2) {
+  canPassThrough(particle: Particle) {
     return (
       particle?.stateOfMatter === "empty" ||
+      // TODO: pass in liquid viscocity?
       (Math.random() < 0.5 ? particle?.stateOfMatter === "liquid" : false)
     );
   }
 
-  moveParticle(particle: Particle2, grid: Grid): number {
+  moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
     const nextDelta = Math.sign(this.velocity) * grid.columns;

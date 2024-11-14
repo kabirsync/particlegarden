@@ -13,9 +13,9 @@ import {
 import { Color } from "three";
 import { Grid } from "../Grid";
 import { Smoke } from "@/components/simulation/materials/Smoke";
-import { Fire } from "@/components/simulation/materials/Fire";
+import { StaticFire } from "@/components/simulation/materials/StaticFire";
 import Wood from "@/components/simulation/materials/Wood";
-import { Flame } from "@/components/simulation/materials/Flame";
+import { Fire } from "@/components/simulation/materials/Fire";
 
 export type FireMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -76,7 +76,7 @@ export class FireMovement extends MovesVertical {
       } else {
         grid.setIndex(
           particle.index,
-          new Flame(particle.index, {
+          new Fire(particle.index, {
             maxSpeed: this.maxSpeed,
             acceleration: this.acceleration,
             initialVelocity: this.velocity,
@@ -129,28 +129,28 @@ export class FireMovement extends MovesVertical {
     const previousVertical = i - 1;
 
     if (Math.random() < 0.8 && this.canSetFireTo(grid.grid[previousVertical])) {
-      grid.setIndex(previousVertical, new Fire(previousVertical, {}));
+      grid.setIndex(previousVertical, new StaticFire(previousVertical, {}));
     }
     if (Math.random() < 0.01 && this.canSetFireTo(grid.grid[nextVertical])) {
-      grid.setIndex(nextVertical, new Fire(nextVertical, {}));
+      grid.setIndex(nextVertical, new StaticFire(nextVertical, {}));
     }
     if (
       Math.random() < 0.01 &&
       this.canSetFireTo(grid.grid[nextVerticalLeft])
     ) {
-      grid.setIndex(nextVerticalLeft, new Fire(nextVerticalLeft, {}));
+      grid.setIndex(nextVerticalLeft, new StaticFire(nextVerticalLeft, {}));
     }
     if (
       Math.random() < 0.01 &&
       this.canSetFireTo(grid.grid[nextVerticalRight])
     ) {
-      grid.setIndex(nextVerticalRight, new Fire(nextVerticalRight, {}));
+      grid.setIndex(nextVerticalRight, new StaticFire(nextVerticalRight, {}));
     }
     if (Math.random() < 0.01 && this.canSetFireTo(grid.grid[nextLeft])) {
-      grid.setIndex(nextLeft, new Fire(nextVerticalLeft, {}));
+      grid.setIndex(nextLeft, new StaticFire(nextVerticalLeft, {}));
     }
     if (Math.random() < 0.01 && this.canSetFireTo(grid.grid[nextRight])) {
-      grid.setIndex(nextRight, new Fire(nextRight, {}));
+      grid.setIndex(nextRight, new StaticFire(nextRight, {}));
     }
 
     if (Math.random() < 0.9 && this.canPassThrough(grid.grid[nextVertical])) {

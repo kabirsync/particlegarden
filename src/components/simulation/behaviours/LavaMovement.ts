@@ -15,6 +15,7 @@ import { Color } from "three";
 import { Grid } from "../Grid";
 import Wood from "@/components/simulation/materials/Wood";
 import { Smoke } from "@/components/simulation/materials/Smoke";
+import { StaticFire } from "@/components/simulation/materials/StaticFire";
 // import { Smoke } from "@/components/simulation/materials/Smoke";
 // import { Fire } from "@/components/simulation/materials/Fire";
 
@@ -128,7 +129,7 @@ export class LavaMovement extends MovesVertical {
       return nextVertical;
     }
     if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextVertical])) {
-      grid.setIndex(nextVertical, new Lava(nextVertical, {}));
+      grid.setIndex(nextVertical, new StaticFire(nextVertical, {}));
     }
 
     if (Math.random() < 0.5) {
