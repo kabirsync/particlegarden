@@ -1,6 +1,8 @@
 import {
   chanceToCatchAtom,
   chanceToCatchRefAtom,
+  chanceToMeltAtom,
+  chanceToMeltRefAtom,
   lifeAtom,
   lifeRefAtom,
   smokeColorAtom,
@@ -13,19 +15,14 @@ import { useAtom } from "jotai";
 import { Color } from "three";
 
 const FlammableOptions = () => {
-  // const [fuelRef] = useAtom(fuelRefAtom);
   const [chanceToCatchRef] = useAtom(chanceToCatchRefAtom);
   const [chanceToCatch, setChanceToCatch] = useAtom(chanceToCatchAtom);
-  // const [fuel, setFuel] = useAtom(fuelAtom);
+  const [chanceToMeltRef] = useAtom(chanceToMeltRefAtom);
+  const [chanceToMelt, setChanceToMelt] = useAtom(chanceToMeltAtom);
   const [smokeColor, setSmokeColor] = useAtom(smokeColorAtom);
   const [smokeColorRef] = useAtom(smokeColorRefAtom);
   const [lifeRef] = useAtom(lifeRefAtom);
   const [life, setLife] = useAtom(lifeAtom);
-
-  // const handleFuelChange = (value: number) => {
-  //   setFuel(value);
-  //   fuelRef.current = value;
-  // };
 
   const handleLifeChange = (value: number) => {
     setLife(value);
@@ -35,6 +32,10 @@ const FlammableOptions = () => {
   const handleChanceToCatchChange = (value: number) => {
     setChanceToCatch(value);
     chanceToCatchRef.current = value;
+  };
+  const handleChanceToMeltChange = (value: number) => {
+    setChanceToMelt(value);
+    chanceToMeltRef.current = value;
   };
 
   const handleSmokeColorChange = (
@@ -49,41 +50,6 @@ const FlammableOptions = () => {
   return (
     <>
       <div className="flex flex-col gap-3">
-        {/* <div className="flex flex-col gap-2">
-          <Label htmlFor="life" className="text-xs">
-            <div className="flex items-center justify-between gap-3">
-              <span className="text-zinc-400">Fuel : </span>
-              <Input
-                className="text-xs h-8 w-min"
-                type="number"
-                min={0}
-                max={1000}
-                value={fuel}
-                onChange={(e) => {
-                  if (Number(e.target.value) > 1000)
-                    handleFuelChange(Number(10));
-                  else if (Number(e.target.value) < 0) {
-                    handleFuelChange(Number(0));
-                  } else {
-                    handleFuelChange(Number(e.target.value));
-                  }
-                }}
-                step={10}
-              />
-            </div>
-          </Label>
-          <Slider
-            id="life"
-            className="py-1"
-            value={[fuel]}
-            min={0}
-            max={1000}
-            step={10}
-            onValueChange={(values: number[]) => {
-              handleFuelChange(values[0]);
-            }}
-          />
-        </div> */}
         <div className="flex flex-col gap-2">
           <Label htmlFor="life" className="text-xs">
             <div className="flex items-center justify-between gap-3">
@@ -92,11 +58,11 @@ const FlammableOptions = () => {
                 className="text-xs h-8 w-min"
                 type="number"
                 min={0}
-                max={1000}
+                max={10000}
                 value={life}
                 onChange={(e) => {
-                  if (Number(e.target.value) > 1000)
-                    handleLifeChange(Number(10));
+                  if (Number(e.target.value) > 10000)
+                    handleLifeChange(Number(10000));
                   else if (Number(e.target.value) < 0) {
                     handleLifeChange(Number(0));
                   } else {
@@ -112,7 +78,7 @@ const FlammableOptions = () => {
             className="py-1"
             value={[life]}
             min={0}
-            max={1000}
+            max={10000}
             step={10}
             onValueChange={(values: number[]) => {
               handleLifeChange(values[0]);
@@ -127,7 +93,7 @@ const FlammableOptions = () => {
                 className="text-xs h-8 w-min"
                 type="number"
                 min={0}
-                max={10}
+                max={1}
                 value={chanceToCatch}
                 onChange={(e) => {
                   if (Number(e.target.value) > 1)
@@ -147,10 +113,45 @@ const FlammableOptions = () => {
             className="py-1"
             value={[chanceToCatch]}
             min={0}
-            max={10}
+            max={1}
             step={0.005}
             onValueChange={(values: number[]) => {
               handleChanceToCatchChange(values[0]);
+            }}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="life" className="text-xs">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-zinc-400">Chance to melt : </span>
+              <Input
+                className="text-xs h-8 w-min"
+                type="number"
+                min={0}
+                max={1}
+                value={chanceToMelt}
+                onChange={(e) => {
+                  if (Number(e.target.value) > 1)
+                    handleChanceToMeltChange(Number(1));
+                  else if (Number(e.target.value) < 0) {
+                    handleChanceToMeltChange(Number(0));
+                  } else {
+                    handleChanceToMeltChange(Number(e.target.value));
+                  }
+                }}
+                step={0.005}
+              />
+            </div>
+          </Label>
+          <Slider
+            id="life"
+            className="py-1"
+            value={[chanceToMelt]}
+            min={0}
+            max={1}
+            step={0.005}
+            onValueChange={(values: number[]) => {
+              handleChanceToMeltChange(values[0]);
             }}
           />
         </div>

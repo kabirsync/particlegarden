@@ -9,8 +9,8 @@ import {
   diagonalSpreadRefAtom,
   fuelAtom,
   fuelRefAtom,
-  // chanceToCatchAtom,
-  // chanceToCatchRefAtom,
+  chanceToCatchAtom,
+  chanceToCatchRefAtom,
   // diagonalSpreadAtom,
   // diagonalSpreadRefAtom,
   // fuelAtom,
@@ -36,6 +36,8 @@ import {
   smokeColorRefAtom,
   vertiacallSpreadAtom,
   verticalSpreadRefAtom,
+  chanceToMeltAtom,
+  chanceToMeltRefAtom,
   // smokeColorAtom,
   // smokeColorRefAtom,
   // vertiacallSpreadAtom,
@@ -130,6 +132,7 @@ import {
   woodColor,
   woodFuel,
   woodSmokeColor,
+  woodChanceToCatch,
 } from "@/lib/constants";
 import { useAtom } from "jotai";
 
@@ -154,8 +157,10 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
   const [gravityDirectionRef] = useAtom(gravityDirectionRefAtom);
   const [, setFuel] = useAtom(fuelAtom);
   const [fuelRef] = useAtom(fuelRefAtom);
-  // const [, setChanceToCatch] = useAtom(chanceToCatchAtom);
-  // const [chanceToCatchRef] = useAtom(chanceToCatchRefAtom);
+  const [, setChanceToCatch] = useAtom(chanceToCatchAtom);
+  const [chanceToCatchRef] = useAtom(chanceToCatchRefAtom);
+  const [, setChanceToMelt] = useAtom(chanceToMeltAtom);
+  const [chanceToMeltRef] = useAtom(chanceToMeltRefAtom);
   const [, setSmokeColor] = useAtom(smokeColorAtom);
   const [smokeColorRef] = useAtom(smokeColorRefAtom);
   const [, setDiagonalSpread] = useAtom(diagonalSpreadAtom);
@@ -198,8 +203,10 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         fuelRef.current = woodFuel;
         setLife(woodFuel);
         lifeRef.current = woodFuel;
-        // setChanceToCatch(woodChanceToCatch);
-        // chanceToCatchRef.current = woodChanceToCatch;
+        setChanceToCatch(woodChanceToCatch);
+        chanceToCatchRef.current = woodChanceToCatch;
+        setChanceToMelt(woodChanceToCatch);
+        chanceToMeltRef.current = woodChanceToCatch;
         setSmokeColor(woodSmokeColor);
         smokeColorRef.current = woodSmokeColor;
         break;

@@ -98,9 +98,14 @@ export class LavaMovement extends MovesVertical {
     );
   }
 
-  canSetFireTo(particle: Particle) {
+  canSetFireTo(particle: Particle): particle is Wood {
+    return particle instanceof Wood;
+  }
+
+  canMelt(particle: Particle): particle is Sand | Wood {
     return particle instanceof Sand || particle instanceof Wood;
   }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -115,72 +120,160 @@ export class LavaMovement extends MovesVertical {
     const nextLeft = i - Math.ceil(Math.random() * this.horizontalSpread);
     const nextRight = i + Math.ceil(Math.random() * this.horizontalSpread);
 
+    const nextVerticalParticle = grid.grid[nextVertical];
+    const nextVerticalLeftParticle = grid.grid[nextVerticalLeft];
+    const nextVerticalRightParticle = grid.grid[nextVerticalRight];
+
+    const nextRightParticle = grid.grid[nextRight];
+    const nextLeftParticle = grid.grid[nextLeft];
+
     // need to randomise order of operations (check sand)
 
-    if (this.canPassThrough(grid.grid[nextVertical])) {
+    if (this.canPassThrough(nextVerticalParticle)) {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
-    if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextVertical])) {
-      grid.setIndex(nextVertical, new Fire(nextVertical, {}));
+    if (this.canSetFireTo(nextVerticalParticle)) {
+      if (Math.random() < nextVerticalParticle.chanceToCatch) {
+        grid.setIndex(
+          nextVertical,
+          new Fire(nextVertical, {
+            smokeColor: nextVerticalParticle.smokeColor,
+          })
+        );
+      }
+    }
+    if (this.canMelt(nextVerticalParticle)) {
+      if (Math.random() < nextVerticalParticle.chanceToMelt) {
+        grid.setIndex(
+          nextVertical,
+          new Smoke(nextVertical, {
+            color: nextVerticalParticle.smokeColor,
+          })
+        );
+      }
     }
 
     if (Math.random() < 0.5) {
       if (
         column > this.diagonalSpread - 1 &&
-        this.canPassThrough(grid.grid[nextVerticalLeft])
+        this.canPassThrough(nextVerticalLeftParticle)
       ) {
         grid.swap(i, nextVerticalLeft);
         return nextVerticalLeft;
       }
-      if (
-        Math.random() < 0.1 &&
-        this.canSetFireTo(grid.grid[nextVerticalLeft])
-      ) {
-        grid.setIndex(
-          nextVertical,
-          Math.random() < 0.5
-            ? new Fire(nextVerticalLeft, {})
-            : new Smoke(nextVerticalLeft, {})
-        );
+
+      if (this.canSetFireTo(nextVerticalLeftParticle)) {
+        if (Math.random() < nextVerticalLeftParticle.chanceToCatch) {
+          grid.setIndex(
+            nextVerticalLeft,
+            new Fire(nextVerticalLeft, {
+              smokeColor: nextVerticalLeftParticle.smokeColor,
+            })
+          );
+        }
+      }
+
+      if (this.canMelt(nextVerticalLeftParticle)) {
+        if (Math.random() < nextVerticalLeftParticle.chanceToMelt) {
+          grid.setIndex(
+            nextVerticalLeft,
+            new Smoke(nextVerticalLeft, {
+              color: nextVerticalLeftParticle.smokeColor,
+            })
+          );
+        }
       }
     } else {
       if (
         column < grid.columns - this.diagonalSpread &&
-        this.canPassThrough(grid.grid[nextVerticalRight])
+        this.canPassThrough(nextVerticalRightParticle)
       ) {
         grid.swap(i, nextVerticalRight);
         return nextVerticalRight;
       }
-      if (
-        Math.random() < 0.1 &&
-        this.canSetFireTo(grid.grid[nextVerticalRight])
-      ) {
-        grid.setIndex(nextVertical, new Fire(nextVerticalRight, {}));
+
+      if (this.canSetFireTo(nextVerticalRightParticle)) {
+        if (Math.random() < nextVerticalRightParticle.chanceToCatch) {
+          grid.setIndex(
+            nextVerticalRight,
+            new Fire(nextVerticalRight, {
+              smokeColor: nextVerticalRightParticle.smokeColor,
+            })
+          );
+        }
+      }
+
+      if (this.canMelt(nextVerticalRightParticle)) {
+        if (Math.random() < nextVerticalRightParticle.chanceToMelt) {
+          grid.setIndex(
+            nextVerticalRight,
+            new Smoke(nextVerticalRight, {
+              color: nextVerticalRightParticle.smokeColor,
+            })
+          );
+        }
       }
     }
 
     if (Math.random() < 0.5) {
       if (
         column > 0 + this.horizontalSpread - 1 &&
-        this.canPassThrough(grid.grid[nextLeft])
+        this.canPassThrough(nextLeftParticle)
       ) {
         grid.swap(i, nextLeft);
         return nextLeft;
       }
-      if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextLeft])) {
-        grid.setIndex(nextVertical, new Fire(nextLeft, {}));
+
+      if (this.canSetFireTo(nextLeftParticle)) {
+        if (Math.random() < nextLeftParticle.chanceToCatch) {
+          grid.setIndex(
+            nextLeft,
+            new Fire(nextLeft, {
+              smokeColor: nextLeftParticle.smokeColor,
+            })
+          );
+        }
+      }
+
+      if (this.canMelt(nextLeftParticle)) {
+        if (Math.random() < nextLeftParticle.chanceToMelt) {
+          grid.setIndex(
+            nextLeft,
+            new Smoke(nextLeft, {
+              color: nextLeftParticle.smokeColor,
+            })
+          );
+        }
       }
     } else {
       if (
         column < grid.columns - 2 - this.horizontalSpread &&
-        this.canPassThrough(grid.grid[nextRight])
+        this.canPassThrough(nextRightParticle)
       ) {
         grid.swap(i, nextRight);
         return nextRight;
       }
-      if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextRight])) {
-        grid.setIndex(nextVertical, new Fire(nextRight, {}));
+      if (this.canSetFireTo(nextRightParticle)) {
+        if (Math.random() < nextRightParticle.chanceToCatch) {
+          grid.setIndex(
+            nextRight,
+            new Fire(nextRight, {
+              smokeColor: nextRightParticle.smokeColor,
+            })
+          );
+        }
+      }
+
+      if (this.canMelt(nextRightParticle)) {
+        if (Math.random() < nextRightParticle.chanceToMelt) {
+          grid.setIndex(
+            nextRight,
+            new Smoke(nextRight, {
+              color: nextRightParticle.smokeColor,
+            })
+          );
+        }
       }
     }
 

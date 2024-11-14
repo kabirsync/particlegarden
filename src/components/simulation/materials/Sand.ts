@@ -1,7 +1,7 @@
 import { varyColor } from "@/lib/colors";
 import { SandMovement } from "@/components/simulation/behaviours/SandMovement";
 import Particle from "@/components/simulation/materials/Particle";
-import { sandColor } from "@/lib/constants";
+import { sandColor, woodSmokeColor } from "@/lib/constants";
 import { Color } from "three";
 
 type SandProps = {
@@ -9,9 +9,13 @@ type SandProps = {
   maxSpeed?: number;
   acceleration?: number;
   initialVelocity?: number;
+  chanceToMelt?: number;
+  smokeColor?: Color;
 };
 
 class Sand extends Particle {
+  chanceToMelt: number;
+  smokeColor: Color;
   constructor(
     index: number,
     {
@@ -19,6 +23,8 @@ class Sand extends Particle {
       maxSpeed = 10,
       acceleration = 0.5,
       initialVelocity = 0.1,
+      chanceToMelt = 0.01,
+      smokeColor = woodSmokeColor,
     }: SandProps
   ) {
     super(index, {
@@ -30,6 +36,8 @@ class Sand extends Particle {
         initialVelocity,
       }),
     });
+    this.chanceToMelt = chanceToMelt;
+    this.smokeColor = smokeColor;
   }
 }
 

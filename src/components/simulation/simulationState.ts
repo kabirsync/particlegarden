@@ -90,7 +90,12 @@ export const fuelAtom = atom(woodFuel);
 export const chanceToCatchRefAtom = atom(() => ({
   current: woodChanceToCatch,
 }));
-export const chanceToCatchAtom = atom(woodFuel);
+export const chanceToCatchAtom = atom(woodChanceToCatch);
+
+export const chanceToMeltRefAtom = atom(() => ({
+  current: woodChanceToCatch,
+}));
+export const chanceToMeltAtom = atom(woodChanceToCatch);
 
 export const smokeColorRefAtom = atom(() => ({
   current: woodSmokeColor,

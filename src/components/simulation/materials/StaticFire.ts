@@ -3,7 +3,12 @@ import { Fire } from "@/components/simulation/materials/Fire";
 import Lava from "@/components/simulation/materials/Lava";
 import Particle from "@/components/simulation/materials/Particle";
 import Wood from "@/components/simulation/materials/Wood";
-import { fireColor, fireColors, fireLife } from "@/lib/constants";
+import {
+  fireColor,
+  fireColors,
+  fireLife,
+  fireSmokeColor,
+} from "@/lib/constants";
 import { Color } from "three";
 
 type StaticFireProps = {
@@ -22,18 +27,27 @@ export class StaticFire extends Particle {
   index: number;
   life: number;
   remainingLife: number;
+  smokeColor: Color;
 
   constructor(
     index: number,
-    { life = fireLife, color = fireColor }: StaticFireProps
+    {
+      life = fireLife,
+      color = fireColor,
+      smokeColor = fireSmokeColor,
+    }: StaticFireProps
   ) {
     super(index, {
       color,
       stateOfMatter: "solid",
     });
+    this.smokeColor = smokeColor;
     this.index = index;
     this.life = life;
     this.remainingLife = life - life * Math.random();
+  }
+  canSetFireTo(particle: Particle): particle is Wood {
+    return particle instanceof Wood;
   }
 
   update(grid: Grid): void {
@@ -42,36 +56,62 @@ export class StaticFire extends Particle {
     const neighbourLeft = this.index - 1;
     const neighbourBottom = this.index + grid.columns;
 
-    if (Math.random() < 0.01 && grid.grid[neighbourTop] instanceof Wood) {
-      grid.setIndex(
-        neighbourTop,
-        new StaticFire(neighbourTop, { life: this.life })
-      );
+    const neighbourTopParticle = grid.grid[neighbourTop];
+
+    const neighbourRightParticle = grid.grid[neighbourRight];
+    const neighbourLeftParticle = grid.grid[neighbourLeft];
+    const neighbourBottomParticle = grid.grid[neighbourBottom];
+
+    if (this.canSetFireTo(neighbourTopParticle)) {
+      if (Math.random() < neighbourTopParticle.chanceToCatch) {
+        grid.setIndex(
+          neighbourTop,
+          new StaticFire(neighbourTop, {
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
     }
-    if (Math.random() < 0.01 && grid.grid[neighbourRight] instanceof Wood) {
-      grid.setIndex(
-        neighbourRight,
-        new StaticFire(neighbourRight, { life: this.life })
-      );
+    if (this.canSetFireTo(neighbourLeftParticle)) {
+      if (Math.random() < neighbourLeftParticle.chanceToCatch) {
+        grid.setIndex(
+          neighbourLeft,
+          new StaticFire(neighbourLeft, {
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
     }
-    if (Math.random() < 0.01 && grid.grid[neighbourLeft] instanceof Wood) {
-      grid.setIndex(
-        neighbourLeft,
-        new StaticFire(neighbourLeft, { life: this.life })
-      );
+    if (this.canSetFireTo(neighbourRightParticle)) {
+      if (Math.random() < neighbourRightParticle.chanceToCatch) {
+        grid.setIndex(
+          neighbourRight,
+          new StaticFire(neighbourRight, {
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
     }
-    if (Math.random() < 0.01 && grid.grid[neighbourBottom] instanceof Wood) {
-      grid.setIndex(
-        neighbourBottom,
-        new StaticFire(neighbourBottom, { life: this.life })
-      );
+    if (this.canSetFireTo(neighbourBottomParticle)) {
+      if (Math.random() < neighbourBottomParticle.chanceToCatch) {
+        grid.setIndex(
+          neighbourBottom,
+          new StaticFire(neighbourBottom, {
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
     }
     if (this.remainingLife < 0) {
       if (Math.random() < 0.99) {
-        const flame = new Fire(this.index, {});
+        const flame = new Fire(this.index, { smokeColor: this.smokeColor });
         grid.setIndex(this.index, flame);
       } else {
-        const lava = new Lava(this.index, {});
+        const lava = new Lava(this.index, { smokeColor: this.smokeColor });
         grid.setIndex(this.index, lava);
       }
     }

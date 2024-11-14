@@ -80,7 +80,8 @@ type MaterialProps = {
   horizontalSpread?: number;
   life?: number;
   // fuel?: number;
-  // chanceToCatch?: number;
+  chanceToCatch?: number;
+  chanceToMelt?: number;
   smokeColor?: Color;
   // acidStrength?: number;
 };
@@ -131,7 +132,8 @@ export const MaterialMapping: Record<
         acceleration,
         // fuel,
         life,
-        // chanceToCatch,
+        chanceToCatch,
+        chanceToMelt,
         smokeColor,
       }: // acidStrength,
       // life,

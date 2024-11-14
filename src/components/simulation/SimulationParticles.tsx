@@ -4,6 +4,8 @@ import {
 } from "@/components/simulation/materials/Material";
 import {
   accelerationRefAtom,
+  chanceToCatchRefAtom,
+  chanceToMeltRefAtom,
   diagonalSpreadRefAtom,
   // acidStrengthRefAtom,
   // chanceToCatchRefAtom,
@@ -62,7 +64,9 @@ const SimulationParticles = ({
   const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
   const [lifeRef] = useAtom(lifeRefAtom);
   // const [fuelRef] = useAtom(fuelRefAtom);
-  // const [chanceToCatchlRef] = useAtom(chanceToCatchRefAtom);
+  const [chanceToCatchlRef] = useAtom(chanceToCatchRefAtom);
+  const [chanceToMeltlRef] = useAtom(chanceToMeltRefAtom);
+
   const [smokeColorRef] = useAtom(smokeColorRefAtom);
   // const [acidStengthRef] = useAtom(acidStrengthRefAtom);
 
@@ -146,7 +150,8 @@ const SimulationParticles = ({
                   horizontalSpread: horizontalSpreadRef.current,
                   life: lifeRef.current,
                   // fuel: fuelRef.current,
-                  // chanceToCatch: chanceToCatchlRef.current,
+                  chanceToCatch: chanceToCatchlRef.current,
+                  chanceToMelt: chanceToMeltlRef.current,
                   smokeColor: smokeColorRef.current,
                   // acidStrength: acidStengthRef.current,
                 })
