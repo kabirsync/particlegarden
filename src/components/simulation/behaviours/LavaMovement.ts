@@ -137,7 +137,12 @@ export class LavaMovement extends MovesVertical {
         Math.random() < 0.1 &&
         this.canSetFireTo(grid.grid[nextVerticalLeft])
       ) {
-        grid.setIndex(nextVertical, new Fire(nextVerticalLeft, {}));
+        grid.setIndex(
+          nextVertical,
+          Math.random() < 0.5
+            ? new Fire(nextVerticalLeft, {})
+            : new Smoke(nextVerticalLeft, {})
+        );
       }
     } else {
       if (

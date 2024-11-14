@@ -1,8 +1,8 @@
 import {
   chanceToCatchAtom,
   chanceToCatchRefAtom,
-  fuelAtom,
-  fuelRefAtom,
+  lifeAtom,
+  lifeRefAtom,
   smokeColorAtom,
   smokeColorRefAtom,
 } from "@/components/simulation/simulationState";
@@ -13,16 +13,23 @@ import { useAtom } from "jotai";
 import { Color } from "three";
 
 const FlammableOptions = () => {
-  const [fuelRef] = useAtom(fuelRefAtom);
+  // const [fuelRef] = useAtom(fuelRefAtom);
   const [chanceToCatchRef] = useAtom(chanceToCatchRefAtom);
   const [chanceToCatch, setChanceToCatch] = useAtom(chanceToCatchAtom);
-  const [fuel, setFuel] = useAtom(fuelAtom);
+  // const [fuel, setFuel] = useAtom(fuelAtom);
   const [smokeColor, setSmokeColor] = useAtom(smokeColorAtom);
   const [smokeColorRef] = useAtom(smokeColorRefAtom);
+  const [lifeRef] = useAtom(lifeRefAtom);
+  const [life, setLife] = useAtom(lifeAtom);
 
-  const handleFuelChange = (value: number) => {
-    setFuel(value);
-    fuelRef.current = value;
+  // const handleFuelChange = (value: number) => {
+  //   setFuel(value);
+  //   fuelRef.current = value;
+  // };
+
+  const handleLifeChange = (value: number) => {
+    setLife(value);
+    lifeRef.current = value;
   };
 
   const handleChanceToCatchChange = (value: number) => {
@@ -42,7 +49,7 @@ const FlammableOptions = () => {
   return (
     <>
       <div className="flex flex-col gap-3">
-        <div className="flex flex-col gap-2">
+        {/* <div className="flex flex-col gap-2">
           <Label htmlFor="life" className="text-xs">
             <div className="flex items-center justify-between gap-3">
               <span className="text-zinc-400">Fuel : </span>
@@ -74,6 +81,41 @@ const FlammableOptions = () => {
             step={10}
             onValueChange={(values: number[]) => {
               handleFuelChange(values[0]);
+            }}
+          />
+        </div> */}
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="life" className="text-xs">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-zinc-400">Life : </span>
+              <Input
+                className="text-xs h-8 w-min"
+                type="number"
+                min={0}
+                max={1000}
+                value={life}
+                onChange={(e) => {
+                  if (Number(e.target.value) > 1000)
+                    handleLifeChange(Number(10));
+                  else if (Number(e.target.value) < 0) {
+                    handleLifeChange(Number(0));
+                  } else {
+                    handleLifeChange(Number(e.target.value));
+                  }
+                }}
+                step={10}
+              />
+            </div>
+          </Label>
+          <Slider
+            id="life"
+            className="py-1"
+            value={[life]}
+            min={0}
+            max={1000}
+            step={10}
+            onValueChange={(values: number[]) => {
+              handleLifeChange(values[0]);
             }}
           />
         </div>

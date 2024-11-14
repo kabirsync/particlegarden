@@ -19,12 +19,12 @@ type StaticFireProps = {
 };
 
 export class StaticFire extends Particle {
-  remainingLife: number;
   index: number;
+  life: number;
+  remainingLife: number;
 
   constructor(
     index: number,
-
     { life = fireLife, color = fireColor }: StaticFireProps
   ) {
     super(index, {
@@ -32,6 +32,7 @@ export class StaticFire extends Particle {
       stateOfMatter: "solid",
     });
     this.index = index;
+    this.life = life;
     this.remainingLife = life - life * Math.random();
   }
 
@@ -42,16 +43,28 @@ export class StaticFire extends Particle {
     const neighbourBottom = this.index + grid.columns;
 
     if (Math.random() < 0.01 && grid.grid[neighbourTop] instanceof Wood) {
-      grid.setIndex(neighbourTop, new StaticFire(neighbourTop, {}));
+      grid.setIndex(
+        neighbourTop,
+        new StaticFire(neighbourTop, { life: this.life })
+      );
     }
     if (Math.random() < 0.01 && grid.grid[neighbourRight] instanceof Wood) {
-      grid.setIndex(neighbourRight, new StaticFire(neighbourRight, {}));
+      grid.setIndex(
+        neighbourRight,
+        new StaticFire(neighbourRight, { life: this.life })
+      );
     }
     if (Math.random() < 0.01 && grid.grid[neighbourLeft] instanceof Wood) {
-      grid.setIndex(neighbourLeft, new StaticFire(neighbourLeft, {}));
+      grid.setIndex(
+        neighbourLeft,
+        new StaticFire(neighbourLeft, { life: this.life })
+      );
     }
     if (Math.random() < 0.01 && grid.grid[neighbourBottom] instanceof Wood) {
-      grid.setIndex(neighbourBottom, new StaticFire(neighbourBottom, {}));
+      grid.setIndex(
+        neighbourBottom,
+        new StaticFire(neighbourBottom, { life: this.life })
+      );
     }
     if (this.remainingLife < 0) {
       if (Math.random() < 0.99) {
