@@ -23,6 +23,7 @@ import Lava from "@/components/simulation/materials/Lava";
 import { Smoke } from "@/components/simulation/materials/Smoke";
 import Wood from "@/components/simulation/materials/Wood";
 import { Fire } from "@/components/simulation/materials/Fire";
+import Water from "@/components/simulation/materials/Water";
 // import { Smoke } from "@/components/simulation/materials/Smoke";
 // import { Fire } from "@/components/simulation/materials/Fire";
 // import Oil from "@/components/simulation/materials/Oil";
@@ -38,7 +39,7 @@ import { Fire } from "@/components/simulation/materials/Fire";
 // ------- Make sure to add case to handleSelectMaterialChange -----
 
 // [1] New materials must be added here
-type MaterialClasses = Empty | Sand | Lava | Fire | Smoke | Wood;
+type MaterialClasses = Empty | Sand | Lava | Fire | Smoke | Wood | Water;
 // | Wood
 // | Water
 // | Smoke
@@ -57,7 +58,7 @@ export const materialOptions = [
   "Empty",
   "Sand",
   "Wood",
-  // "Water",
+  "Water",
   "Smoke",
   "Fire",
   // "Oil",
@@ -94,8 +95,8 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
       return <Grip className="h-3 w-3 text-yellow-600 fill-yellow-600" />;
     case "Wood":
       return <TreePine className="h-3 w-3 text-green-600 fill-green-600" />;
-    // case "Water":
-    //   return <Droplet className="h-3 w-3 text-blue-500 fill-blue-500" />;
+    case "Water":
+      return <Droplet className="h-3 w-3 text-blue-500 fill-blue-500" />;
     case "Smoke":
       return <Cloud className="h-3 w-3 text-zinc-500 fill-zinc-500" />;
     case "Fire":
@@ -146,7 +147,7 @@ export const MaterialMapping: Record<
   Empty,
   Sand,
   Wood,
-  // Water,
+  Water,
   Smoke,
   Fire,
   // Oil,

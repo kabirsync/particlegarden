@@ -133,6 +133,14 @@ import {
   woodFuel,
   woodSmokeColor,
   woodChanceToCatch,
+  waterAcceleration,
+  waterColor,
+  waterDiagonalSpread,
+  waterDirection,
+  waterHorizontalSpread,
+  waterInitialVelocity,
+  waterMaxSpeed,
+  waterVerticalSpread,
 } from "@/lib/constants";
 import { useAtom } from "jotai";
 
@@ -212,25 +220,25 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         break;
       }
 
-      // case "Water": {
-      //   setMaterialColor(waterColor);
-      //   materialColorRef.current = waterColor;
-      //   setMaxSpeed(waterMaxSpeed);
-      //   maxSpeedRef.current = waterMaxSpeed;
-      //   setInitialVelocity(waterInitialVelocity);
-      //   initialVelocityRef.current = waterInitialVelocity;
-      //   setAcceleration(waterAcceleration);
-      //   accelerationRef.current = waterAcceleration;
-      //   setGravityDirection(waterDirection);
-      //   gravityDirectionRef.current = waterDirection;
-      //   setDiagonalSpread(waterDiagonalSpread);
-      //   diagonalSpreadRef.current = waterDiagonalSpread;
-      //   setVerticalSpread(waterVerticalSpread);
-      //   verticalSpreadRef.current = waterVerticalSpread;
-      //   setHorizontalSpread(waterHorizontalSpread);
-      //   horizontalSpreadRef.current = waterHorizontalSpread;
-      //   break;
-      // }
+      case "Water": {
+        setMaterialColor(waterColor);
+        materialColorRef.current = waterColor;
+        setMaxSpeed(waterMaxSpeed);
+        maxSpeedRef.current = waterMaxSpeed;
+        setInitialVelocity(waterInitialVelocity);
+        initialVelocityRef.current = waterInitialVelocity;
+        setAcceleration(waterAcceleration);
+        accelerationRef.current = waterAcceleration;
+        setGravityDirection(waterDirection);
+        gravityDirectionRef.current = waterDirection;
+        setDiagonalSpread(waterDiagonalSpread);
+        diagonalSpreadRef.current = waterDiagonalSpread;
+        setVerticalSpread(waterVerticalSpread);
+        verticalSpreadRef.current = waterVerticalSpread;
+        setHorizontalSpread(waterHorizontalSpread);
+        horizontalSpreadRef.current = waterHorizontalSpread;
+        break;
+      }
       case "Smoke": {
         setMaterialColor(smokeColor);
         materialColorRef.current = smokeColor;
