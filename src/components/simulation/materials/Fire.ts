@@ -6,7 +6,7 @@
 // import { LavaMovement } from "@/components/simulation/behaviours/LavaMovement";
 import { Grid } from "@/components/simulation/Grid";
 import { Flame } from "@/components/simulation/materials/Flame";
-import Particle from "@/components/simulation/materials/Particle2";
+import Particle from "@/components/simulation/materials/Particle";
 import Wood from "@/components/simulation/materials/Wood";
 import {
   // fireAcceleration,

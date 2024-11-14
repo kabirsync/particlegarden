@@ -4,7 +4,7 @@ import {
 } from "@/components/simulation/behaviours/MovesVertical";
 //   import Particle from "@/components/simulation/materials/Particle";
 import Empty from "@/components/simulation/materials/Empty";
-import Particle2, { Params } from "@/components/simulation/materials/Particle2";
+import Particle2, { Params } from "@/components/simulation/materials/Particle";
 import { smokeLife } from "@/lib/constants";
 import { Color } from "three";
 import { Grid } from "../Grid";

@@ -2,7 +2,7 @@ import {
   MovesVertical,
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
-import Particle2, { Params } from "@/components/simulation/materials/Particle2";
+import Particle2, { Params } from "@/components/simulation/materials/Particle";
 import Sand from "@/components/simulation/materials/Sand";
 import {
   fireColors,
@@ -126,9 +126,7 @@ export class FireMovement extends MovesVertical {
     // const neighbourBottom = i + grid.columns;
 
     // need to randomise order of operations (check sand)
-
-    const previousVertical =
-      i - nextDelta * Math.ceil(this.verticalSpread * Math.random());
+    const previousVertical = i - 1;
 
     if (Math.random() < 0.8 && this.canSetFireTo(grid.grid[previousVertical])) {
       grid.setIndex(previousVertical, new Fire(previousVertical, {}));
@@ -159,9 +157,6 @@ export class FireMovement extends MovesVertical {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
-    // if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextVertical])) {
-    //   grid.setIndex(nextVertical, new Fire(nextVertical, {}));
-    // }
 
     if (Math.random() < 0.5) {
       if (
@@ -171,12 +166,6 @@ export class FireMovement extends MovesVertical {
         grid.swap(i, nextVerticalLeft);
         return nextVerticalLeft;
       }
-      //   if (
-      //     Math.random() < 0.1 &&
-      //     this.canSetFireTo(grid.grid[nextVerticalLeft])
-      //   ) {
-      //     grid.setIndex(nextVertical, new Fire(nextVerticalLeft, {}));
-      //   }
     } else {
       if (
         column < grid.columns - this.diagonalSpread &&
@@ -185,12 +174,6 @@ export class FireMovement extends MovesVertical {
         grid.swap(i, nextVerticalRight);
         return nextVerticalRight;
       }
-      //   if (
-      //     Math.random() < 0.1 &&
-      //     this.canSetFireTo(grid.grid[nextVerticalRight])
-      //   ) {
-      //     grid.setIndex(nextVertical, new Fire(nextVerticalRight, {}));
-      //   }
     }
 
     if (Math.random() < 0.5) {
@@ -201,9 +184,6 @@ export class FireMovement extends MovesVertical {
         grid.swap(i, nextLeft);
         return nextLeft;
       }
-      //   if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextLeft])) {
-      //     grid.setIndex(nextVertical, new Fire(nextLeft, {}));
-      //   }
     } else {
       if (
         column < grid.columns - 2 - this.horizontalSpread &&
@@ -212,9 +192,6 @@ export class FireMovement extends MovesVertical {
         grid.swap(i, nextRight);
         return nextRight;
       }
-      //   if (Math.random() < 0.1 && this.canSetFireTo(grid.grid[nextRight])) {
-      //     grid.setIndex(nextVertical, new Fire(nextRight, {}));
-      //   }
     }
 
     return i;

@@ -4,7 +4,7 @@ import { Color } from "three";
 
 type ParticleOptions = {
   color: Color;
-  behaviours?: Behaviour[];
+  behaviour?: Behaviour;
   stateOfMatter: StateOfMatter;
 };
 
@@ -18,24 +18,25 @@ class Particle {
   index: number;
   color: Color;
   stateOfMatter: StateOfMatter;
-  behaviours: Behaviour[];
+  behaviour?: Behaviour;
   modified: boolean;
 
   constructor(
     index: number,
-    { color, stateOfMatter, behaviours = [] }: ParticleOptions
+    { color, stateOfMatter, behaviour }: ParticleOptions
   ) {
     this.index = index;
     this.color = color;
-    this.behaviours = behaviours;
+    this.behaviour = behaviour;
     this.modified = false;
     this.stateOfMatter = stateOfMatter;
   }
 
   update(grid: Grid, params: Params) {
-    this.behaviours?.forEach((behaviour) =>
-      behaviour.update(this, grid, params)
-    );
+    // this.behaviours?.forEach((behaviour) =>
+    //   behaviour.update(this, grid, params)
+    // );
+    this.behaviour?.update(this, grid, params);
   }
 }
 

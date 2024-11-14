@@ -4,7 +4,7 @@
 // import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
 import { FireMovement } from "@/components/simulation/behaviours/FireMovement";
 // import { LavaMovement } from "@/components/simulation/behaviours/LavaMovement";
-import Particle from "@/components/simulation/materials/Particle2";
+import Particle from "@/components/simulation/materials/Particle";
 import {
   fireAcceleration,
   fireColor,

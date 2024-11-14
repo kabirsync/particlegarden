@@ -1,5 +1,5 @@
 import { Color } from "three";
-import Particle from "@/components/simulation/materials/Particle2";
+import Particle from "@/components/simulation/materials/Particle";
 import { varyColor } from "@/lib/colors";
 import {
   smokeAcceleration,

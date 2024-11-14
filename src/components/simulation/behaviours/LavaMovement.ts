@@ -3,7 +3,7 @@ import {
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
 import Lava from "@/components/simulation/materials/Lava";
-import Particle2, { Params } from "@/components/simulation/materials/Particle2";
+import Particle2, { Params } from "@/components/simulation/materials/Particle";
 import Sand from "@/components/simulation/materials/Sand";
 import {
   fireColors,

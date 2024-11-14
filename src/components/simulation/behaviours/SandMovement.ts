@@ -4,7 +4,7 @@ import {
 } from "@/components/simulation/behaviours/MovesVertical";
 //   import Particle from "@/components/simulation/materials/Particle";
 import { Grid } from "../Grid";
-import Particle2 from "@/components/simulation/materials/Particle2";
+import Particle2 from "@/components/simulation/materials/Particle";
 
 export class SandMovement extends MovesVertical {
   constructor({

@@ -1,6 +1,6 @@
 import Empty from "@/components/simulation/materials/Empty";
 // import Particle, { Params } from "@/components/simulation/materials/Particle";
-import Particle2, { Params } from "@/components/simulation/materials/Particle2";
+import Particle2, { Params } from "@/components/simulation/materials/Particle";
 
 type GridParams = { rows: number; columns: number };
 
