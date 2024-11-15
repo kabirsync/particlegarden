@@ -5,7 +5,15 @@ import {
 //   import Particle from "@/components/simulation/materials/Particle";
 import Empty from "@/components/simulation/materials/Empty";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
-import { smokeLife } from "@/lib/constants";
+import {
+  smokeAcceleration,
+  smokeDiagonalSpread,
+  smokeHorizontalSpread,
+  smokeInitialVelocity,
+  smokeLife,
+  smokeMaxSpeed,
+  smokeVerticalSpread,
+} from "@/lib/constants";
 import { Color } from "three";
 import { Grid } from "../Grid";
 
@@ -26,12 +34,12 @@ export class SmokeMovement extends MovesVertical {
   remainingLife: number;
 
   constructor({
-    maxSpeed = 0,
-    acceleration = 0,
-    initialVelocity = 0,
-    diagonalSpread = 1,
-    verticalSpread = 1,
-    horizontalSpread = 1,
+    maxSpeed = smokeMaxSpeed,
+    acceleration = smokeAcceleration,
+    initialVelocity = smokeInitialVelocity,
+    diagonalSpread = smokeDiagonalSpread,
+    verticalSpread = smokeVerticalSpread,
+    horizontalSpread = smokeHorizontalSpread,
     life = smokeLife,
   }: //   life = SmokeFuel,
   //   smokeColor = SmokeSmokeColor,

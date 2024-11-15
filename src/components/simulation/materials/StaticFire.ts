@@ -1,7 +1,9 @@
 import { Grid } from "@/components/simulation/Grid";
 import { Fire } from "@/components/simulation/materials/Fire";
-import Lava from "@/components/simulation/materials/Lava";
+import Gas from "@/components/simulation/materials/Gas";
+import { LiquidFire } from "@/components/simulation/materials/LiquidFire";
 import { MaterialOptionsType } from "@/components/simulation/materials/Material";
+import Oil from "@/components/simulation/materials/Oil";
 import Particle from "@/components/simulation/materials/Particle";
 import Wood from "@/components/simulation/materials/Wood";
 import {
@@ -52,8 +54,12 @@ export class StaticFire extends Particle {
     this.remainingLife = life - life * Math.random();
     this.extinguishMaterial = extinguishMaterial;
   }
-  canSetFireTo(particle: Particle): particle is Wood {
-    return particle instanceof Wood;
+  canSetFireTo(particle: Particle): particle is Wood | Oil | Gas {
+    return (
+      particle instanceof Wood ||
+      particle instanceof Oil ||
+      particle instanceof Gas
+    );
   }
 
   update(grid: Grid): void {
@@ -117,8 +123,10 @@ export class StaticFire extends Particle {
         const flame = new Fire(this.index, { smokeColor: this.smokeColor });
         grid.setIndex(this.index, flame);
       } else {
-        const lava = new Lava(this.index, { smokeColor: this.smokeColor });
-        grid.setIndex(this.index, lava);
+        const liquidFire = new LiquidFire(this.index, {
+          smokeColor: this.smokeColor,
+        });
+        grid.setIndex(this.index, liquidFire);
       }
     }
     this.remainingLife = Math.floor(this.remainingLife - 1);
