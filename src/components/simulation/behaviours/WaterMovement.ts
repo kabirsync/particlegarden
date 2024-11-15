@@ -7,6 +7,8 @@ import { Fire } from "@/components/simulation/materials/Fire";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
 import { Grid } from "../Grid";
 import { StaticFire } from "@/components/simulation/materials/StaticFire";
+import Lava from "@/components/simulation/materials/Lava";
+import { MaterialMapping } from "@/components/simulation/materials/Material";
 
 export type WaterMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -94,8 +96,12 @@ export class WaterMovement extends MovesVertical {
     );
   }
 
-  canExtinguish(particle: Particle): particle is Fire | StaticFire {
-    return particle instanceof Fire || particle instanceof StaticFire;
+  canExtinguish(particle: Particle): particle is Fire | StaticFire | Lava {
+    return (
+      particle instanceof Fire ||
+      particle instanceof StaticFire ||
+      particle instanceof Lava
+    );
   }
 
   //   canMelt(particle: Particle): particle is Sand | Wood {
@@ -130,8 +136,19 @@ export class WaterMovement extends MovesVertical {
       return nextVertical;
     }
     if (this.canExtinguish(nextVerticalParticle)) {
+      // if (Math.random() < 1) {
+      //   grid.setIndex(nextVertical, new Empty(nextVertical));
+      // }
       if (Math.random() < 1) {
-        grid.setIndex(nextVertical, new Empty(nextVertical));
+        const MaterialClass =
+          MaterialMapping[nextVerticalParticle.extinguishMaterial];
+
+        grid.setIndex(
+          nextVertical,
+          new MaterialClass(nextVertical, {
+            smokeColor: nextVerticalParticle.smokeColor,
+          })
+        );
       }
     }
     // if (this.canMelt(nextVerticalParticle)) {
@@ -154,8 +171,19 @@ export class WaterMovement extends MovesVertical {
         return nextVerticalLeft;
       }
       if (this.canExtinguish(nextVerticalLeftParticle)) {
+        // if (Math.random() < 1) {
+        //   grid.setIndex(nextVerticalLeft, new Empty(nextVerticalLeft));
+        // }
         if (Math.random() < 1) {
-          grid.setIndex(nextVerticalLeft, new Empty(nextVerticalLeft));
+          const MaterialClass =
+            MaterialMapping[nextVerticalLeftParticle.extinguishMaterial];
+
+          grid.setIndex(
+            nextVerticalLeft,
+            new MaterialClass(nextVerticalLeft, {
+              smokeColor: nextVerticalLeftParticle.smokeColor,
+            })
+          );
         }
       }
 
@@ -190,7 +218,15 @@ export class WaterMovement extends MovesVertical {
       }
       if (this.canExtinguish(nextVerticalRightParticle)) {
         if (Math.random() < 1) {
-          grid.setIndex(nextVerticalRight, new Empty(nextVerticalRight));
+          const MaterialClass =
+            MaterialMapping[nextVerticalRightParticle.extinguishMaterial];
+
+          grid.setIndex(
+            nextVerticalRight,
+            new MaterialClass(nextVerticalRight, {
+              smokeColor: nextVerticalRightParticle.smokeColor,
+            })
+          );
         }
       }
       //   if (this.canSetFireTo(nextVerticalRightParticle)) {
@@ -226,7 +262,15 @@ export class WaterMovement extends MovesVertical {
       }
       if (this.canExtinguish(nextLeftParticle)) {
         if (Math.random() < 1) {
-          grid.setIndex(nextLeft, new Empty(nextLeft));
+          const MaterialClass =
+            MaterialMapping[nextLeftParticle.extinguishMaterial];
+
+          grid.setIndex(
+            nextLeft,
+            new MaterialClass(nextLeft, {
+              smokeColor: nextLeftParticle.smokeColor,
+            })
+          );
         }
       }
 
@@ -261,7 +305,15 @@ export class WaterMovement extends MovesVertical {
       }
       if (this.canExtinguish(nextRightParticle)) {
         if (Math.random() < 1) {
-          grid.setIndex(nextRight, new Empty(nextRight));
+          const MaterialClass =
+            MaterialMapping[nextRightParticle.extinguishMaterial];
+
+          grid.setIndex(
+            nextRight,
+            new MaterialClass(nextRight, {
+              smokeColor: nextRightParticle.smokeColor,
+            })
+          );
         }
       }
       //   if (this.canSetFireTo(nextRightParticle)) {

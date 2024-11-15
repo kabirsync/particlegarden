@@ -10,6 +10,7 @@ import Wood from "@/components/simulation/materials/Wood";
 import { fireColors, lavaFuel, lavaSmokeColor } from "@/lib/constants";
 import { Color } from "three";
 import { Grid } from "../Grid";
+import Stone from "@/components/simulation/materials/Stone";
 
 export type LavaMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -43,7 +44,7 @@ export class LavaMovement extends MovesVertical {
     this.horizontalSpread = horizontalSpread;
     this.life = life;
     this.smokeColor = smokeColor;
-    this.remainingLife = Math.random() * life;
+    this.remainingLife = life;
   }
 
   update(particle: Particle, grid: Grid, params: Params) {
@@ -62,27 +63,32 @@ export class LavaMovement extends MovesVertical {
     }
 
     if (this.remainingLife < 0) {
-      if (Math.random() < 0.9) {
-        const smoke = new Smoke(particle.index, {
-          burning: Math.random() < 0.1,
-          color: this.smokeColor,
-        });
-        grid.setIndex(particle.index, smoke);
-      } else {
-        grid.setIndex(
-          particle.index,
-          new Fire(particle.index, {
-            // maxSpeed: this.maxSpeed,
-            // acceleration: this.acceleration,
-            // initialVelocity: this.velocity,
-            // diagonalSpread: this.diagonalSpread,
-            // verticalSpread: this.verticalSpread,
-            // horizontalSpread: this.horizontalSpread,
-            smokeColor: this.smokeColor,
-            // life: this.life,
-          })
-        );
-      }
+      const smoke = new Stone(particle.index, {
+        // burning: Math.random() < 0.1,
+        // color: this.smokeColor,
+      });
+      grid.setIndex(particle.index, smoke);
+      // if (Math.random() < 0.9) {
+      //   const smoke = new Smoke(particle.index, {
+      //     burning: Math.random() < 0.1,
+      //     color: this.smokeColor,
+      //   });
+      //   grid.setIndex(particle.index, smoke);
+      // } else {
+      //   grid.setIndex(
+      //     particle.index,
+      //     new Fire(particle.index, {
+      //       // maxSpeed: this.maxSpeed,
+      //       // acceleration: this.acceleration,
+      //       // initialVelocity: this.velocity,
+      //       // diagonalSpread: this.diagonalSpread,
+      //       // verticalSpread: this.verticalSpread,
+      //       // horizontalSpread: this.horizontalSpread,
+      //       smokeColor: this.smokeColor,
+      //       // life: this.life,
+      //     })
+      //   );
+      // }
     }
     this.remainingLife = Math.floor(this.remainingLife - 1);
 

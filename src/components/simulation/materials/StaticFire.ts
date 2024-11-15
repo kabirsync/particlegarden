@@ -1,11 +1,13 @@
 import { Grid } from "@/components/simulation/Grid";
 import { Fire } from "@/components/simulation/materials/Fire";
 import Lava from "@/components/simulation/materials/Lava";
+import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import Particle from "@/components/simulation/materials/Particle";
 import Wood from "@/components/simulation/materials/Wood";
 import {
   fireColor,
   fireColors,
+  fireExtinguishMaterial,
   fireLife,
   fireSmokeColor,
 } from "@/lib/constants";
@@ -21,6 +23,7 @@ type StaticFireProps = {
   horizontalSpread?: number;
   life?: number;
   smokeColor?: Color;
+  extinguishMaterial?: MaterialOptionsType;
 };
 
 export class StaticFire extends Particle {
@@ -28,6 +31,7 @@ export class StaticFire extends Particle {
   life: number;
   remainingLife: number;
   smokeColor: Color;
+  extinguishMaterial: MaterialOptionsType;
 
   constructor(
     index: number,
@@ -35,6 +39,7 @@ export class StaticFire extends Particle {
       life = fireLife,
       color = fireColor,
       smokeColor = fireSmokeColor,
+      extinguishMaterial = fireExtinguishMaterial,
     }: StaticFireProps
   ) {
     super(index, {
@@ -45,6 +50,7 @@ export class StaticFire extends Particle {
     this.index = index;
     this.life = life;
     this.remainingLife = life - life * Math.random();
+    this.extinguishMaterial = extinguishMaterial;
   }
   canSetFireTo(particle: Particle): particle is Wood {
     return particle instanceof Wood;

@@ -1,6 +1,7 @@
 // import Water from "@/components/simulation/materials/Water";
 // import Wood from "@/components/simulation/materials/Wood";
 import {
+  BrickWall,
   // BrickWall,
   Circle,
   Cloud,
@@ -24,6 +25,7 @@ import { Smoke } from "@/components/simulation/materials/Smoke";
 import Wood from "@/components/simulation/materials/Wood";
 import { Fire } from "@/components/simulation/materials/Fire";
 import Water from "@/components/simulation/materials/Water";
+import Stone from "@/components/simulation/materials/Stone";
 // import { Smoke } from "@/components/simulation/materials/Smoke";
 // import { Fire } from "@/components/simulation/materials/Fire";
 // import Oil from "@/components/simulation/materials/Oil";
@@ -39,7 +41,15 @@ import Water from "@/components/simulation/materials/Water";
 // ------- Make sure to add case to handleSelectMaterialChange -----
 
 // [1] New materials must be added here
-type MaterialClasses = Empty | Sand | Lava | Fire | Smoke | Wood | Water;
+type MaterialClasses =
+  | Empty
+  | Sand
+  | Lava
+  | Fire
+  | Smoke
+  | Wood
+  | Water
+  | Stone;
 // | Wood
 // | Water
 // | Smoke
@@ -64,7 +74,7 @@ export const materialOptions = [
   // "Oil",
   // "Gas",
   "Lava",
-  // "Stone",
+  "Stone",
   // "Acid",
   // "Cloner",
   // "Void",
@@ -84,6 +94,7 @@ type MaterialProps = {
   chanceToCatch?: number;
   chanceToMelt?: number;
   smokeColor?: Color;
+  extinguishMaterial?: MaterialOptionsType;
   // acidStrength?: number;
 };
 
@@ -108,8 +119,8 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
     //   return <Flame className="h-3 w-3 text-amber-100 fill-amber-100" />;
     case "Lava":
       return <Droplet className="h-3 w-3 text-red-500 fill-red-900" />;
-    // case "Stone":
-    //   return <BrickWall className="h-3 w-3 text-zinc-500 fill-zinc-700" />;
+    case "Stone":
+      return <BrickWall className="h-3 w-3 text-zinc-500 fill-zinc-700" />;
     // case "Acid":
     //   return <Droplet className="h-3 w-3 text-green-500 fill-green-900" />;
     // case "Cloner":
@@ -136,6 +147,7 @@ export const MaterialMapping: Record<
         chanceToCatch,
         chanceToMelt,
         smokeColor,
+        extinguishMaterial,
       }: // acidStrength,
       // life,
 
@@ -153,7 +165,7 @@ export const MaterialMapping: Record<
   // Oil,
   // Gas,
   Lava,
-  // Stone,
+  Stone,
   // Acid,
   // Cloner,
   // Void,

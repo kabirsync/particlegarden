@@ -1,6 +1,7 @@
 // import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 // import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
 import { LavaMovement } from "@/components/simulation/behaviours/LavaMovement";
+import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import Particle from "@/components/simulation/materials/Particle";
 import {
   lavaAcceleration,
@@ -9,6 +10,7 @@ import {
   lavaFuel,
   lavaHorizontalSpread,
   lavaInitialVelocity,
+  lavalExtinguishMaterial,
   lavaMaxSpeed,
   lavaSmokeColor,
   lavaVerticalSpread,
@@ -25,9 +27,13 @@ type LavaProps = {
   horizontalSpread?: number;
   life?: number;
   smokeColor?: Color;
+  extinguishMaterial?: MaterialOptionsType;
 };
 
 class Lava extends Particle {
+  extinguishMaterial: MaterialOptionsType;
+  smokeColor: Color;
+
   constructor(
     index: number,
     {
@@ -38,8 +44,9 @@ class Lava extends Particle {
       diagonalSpread = lavaDiagonalSpread,
       verticalSpread = lavaVerticalSpread,
       horizontalSpread = lavaHorizontalSpread,
-      life = lavaFuel + lavaFuel * Math.random(),
+      life = lavaFuel,
       smokeColor = lavaSmokeColor,
+      extinguishMaterial = lavalExtinguishMaterial,
     }: LavaProps
   ) {
     super(index, {
@@ -56,6 +63,9 @@ class Lava extends Particle {
         smokeColor,
       }),
     });
+    this.smokeColor = smokeColor;
+
+    this.extinguishMaterial = extinguishMaterial;
   }
 }
 

@@ -7,6 +7,7 @@ import {
   chanceToCatchRefAtom,
   chanceToMeltRefAtom,
   diagonalSpreadRefAtom,
+  extinguishMaterialRefAtom,
   // acidStrengthRefAtom,
   // chanceToCatchRefAtom,
   // diagonalSpreadRefAtom,
@@ -68,6 +69,8 @@ const SimulationParticles = ({
   const [chanceToMeltlRef] = useAtom(chanceToMeltRefAtom);
 
   const [smokeColorRef] = useAtom(smokeColorRefAtom);
+  const [extinguishMaterialRef] = useAtom(extinguishMaterialRefAtom);
+
   // const [acidStengthRef] = useAtom(acidStrengthRefAtom);
 
   const [, setFPS] = useAtom(FPSAtom);
@@ -152,6 +155,7 @@ const SimulationParticles = ({
                 chanceToCatch: chanceToCatchlRef.current,
                 chanceToMelt: chanceToMeltlRef.current,
                 smokeColor: smokeColorRef.current,
+                extinguishMaterial: extinguishMaterialRef.current,
                 // acidStrength: acidStengthRef.current,
               })
             );

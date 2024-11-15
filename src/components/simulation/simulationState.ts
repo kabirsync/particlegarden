@@ -10,6 +10,7 @@ import {
   defaultSelecteMaterial,
   defaultStrokeSize,
   defaultVerticalSpread,
+  lavalExtinguishMaterial,
   sandAcceleration,
   sandDirection,
   sandInitialVelocity,
@@ -102,6 +103,14 @@ export const smokeColorRefAtom = atom(() => ({
 }));
 export const smokeColorAtom = atom(woodSmokeColor);
 
+export const extinguishMaterialRefAtom = atom<{ current: MaterialOptionsType }>(
+  () => ({
+    current: lavalExtinguishMaterial,
+  })
+);
+export const extinguishMaterialAtom = atom<MaterialOptionsType>(
+  lavalExtinguishMaterial
+);
 // --------- Acid Options ---------
 export const acidStrengthRefAtom = atom(() => ({
   current: acidDefaultStrength,

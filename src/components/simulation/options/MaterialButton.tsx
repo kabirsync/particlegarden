@@ -141,6 +141,9 @@ import {
   waterInitialVelocity,
   waterMaxSpeed,
   waterVerticalSpread,
+  stoneColor,
+  stoneChanceToCatch,
+  stoneSmokeColor,
 } from "@/lib/constants";
 import { useAtom } from "jotai";
 
@@ -368,11 +371,17 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         horizontalSpreadRef.current = lavaHorizontalSpread;
         break;
       }
-      // case "Stone": {
-      //   setMaterialColor(stoneColor);
-      //   materialColorRef.current = stoneColor;
-      //   break;
-      // }
+      case "Stone": {
+        setMaterialColor(stoneColor);
+        materialColorRef.current = stoneColor;
+        setChanceToCatch(stoneChanceToCatch);
+        chanceToCatchRef.current = stoneChanceToCatch;
+        setChanceToMelt(stoneChanceToCatch);
+        chanceToMeltRef.current = stoneChanceToCatch;
+        setSmokeColor(stoneSmokeColor);
+        smokeColorRef.current = stoneSmokeColor;
+        break;
+      }
       // case "Acid": {
       //   setMaterialColor(acidColor);
       //   materialColorRef.current = acidColor;

@@ -1,9 +1,11 @@
 import { FireMovement } from "@/components/simulation/behaviours/FireMovement";
+import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import Particle from "@/components/simulation/materials/Particle";
 import {
   fireAcceleration,
   fireColor,
   fireDiagonalSpread,
+  fireExtinguishMaterial,
   fireHorizontalSpread,
   fireInitialVelocity,
   fireLife,
@@ -23,9 +25,12 @@ type FireProps = {
   horizontalSpread?: number;
   life?: number;
   smokeColor?: Color;
+  extinguishMaterial?: MaterialOptionsType;
 };
 
 export class Fire extends Particle {
+  extinguishMaterial: MaterialOptionsType;
+  smokeColor: Color;
   constructor(
     index: number,
     {
@@ -38,6 +43,7 @@ export class Fire extends Particle {
       verticalSpread = fireVerticalSpread,
       horizontalSpread = fireHorizontalSpread,
       smokeColor = fireSmokeColor,
+      extinguishMaterial = fireExtinguishMaterial,
     }: FireProps
   ) {
     super(index, {
@@ -54,5 +60,7 @@ export class Fire extends Particle {
         smokeColor,
       }),
     });
+    this.smokeColor = smokeColor;
+    this.extinguishMaterial = extinguishMaterial;
   }
 }

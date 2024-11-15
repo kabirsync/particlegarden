@@ -25,6 +25,11 @@ export const voidColor = new Color("#301934");
 export const backgroundColorDark = new Color("#09090b");
 export const backgroundColorLight = new Color("#f4f4f5");
 
+// Stone
+export const stoneSmokeColor = smokeColor;
+export const stoneChanceToMelt = 0.01;
+export const stoneChanceToCatch = 0;
+
 // Fix - Particle.ts
 export const transparentColor = new Color("#09090b");
 
@@ -99,6 +104,7 @@ export const lavaVerticalSpread = 1;
 export const lavaHorizontalSpread = 1;
 export const lavaSmokeColor = smokeMaterialColor;
 export const lavaFuel = 200;
+export const lavalExtinguishMaterial = "Stone";
 
 // Oil
 export const oilDirection = 1;
@@ -140,6 +146,7 @@ export const fireVerticalSpread = 1;
 export const fireHorizontalSpread = 3;
 export const fireLife = 200;
 export const fireSmokeColor = smokeMaterialColor;
+export const fireExtinguishMaterial = "Smoke";
 
 // Wood
 export const woodFuel = 1000;
