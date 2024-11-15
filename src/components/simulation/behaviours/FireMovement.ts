@@ -11,6 +11,7 @@ import Wood from "@/components/simulation/materials/Wood";
 import { fireColors, fireLife, fireSmokeColor } from "@/lib/constants";
 import { Color } from "three";
 import { Grid } from "../Grid";
+import Gas from "@/components/simulation/materials/Gas";
 
 export type FireMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -102,8 +103,12 @@ export class FireMovement extends MovesVertical {
   //   return particle instanceof Wood || particle instanceof Oil || particle instanceof Gas;
   // }
 
-  canSetFireTo(particle: Particle): particle is Wood | Oil {
-    return particle instanceof Wood || particle instanceof Oil;
+  canSetFireTo(particle: Particle): particle is Wood | Oil | Gas {
+    return (
+      particle instanceof Wood ||
+      particle instanceof Oil ||
+      particle instanceof Gas
+    );
   }
 
   moveParticle(particle: Particle, grid: Grid): number {

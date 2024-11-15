@@ -6,7 +6,7 @@ import {
   Circle,
   Cloud,
   Droplet,
-  Flame as FlameIcon,
+  Flame,
   // Cloud,
   // Copy,
   // Droplet,
@@ -29,6 +29,7 @@ import Stone from "@/components/simulation/materials/Stone";
 import Oil from "@/components/simulation/materials/Oil";
 import { LiquidFire } from "@/components/simulation/materials/LiquidFire";
 import { StaticFire } from "@/components/simulation/materials/StaticFire";
+import Gas from "@/components/simulation/materials/Gas";
 // import { Smoke } from "@/components/simulation/materials/Smoke";
 // import { Fire } from "@/components/simulation/materials/Fire";
 // import Oil from "@/components/simulation/materials/Oil";
@@ -55,7 +56,8 @@ type MaterialClasses =
   | Stone
   | Oil
   | LiquidFire
-  | StaticFire;
+  | StaticFire
+  | Gas;
 // | Wood
 // | Water
 // | Smoke
@@ -78,7 +80,7 @@ export const materialOptions = [
   "Smoke",
   "Fire",
   "Oil",
-  // "Gas",
+  "Gas",
   "Lava",
   "Stone",
   // "Acid",
@@ -96,7 +98,7 @@ export const selectableMaterialOptions = [
   "Smoke",
   "Fire",
   "Oil",
-  // "Gas",
+  "Gas",
   "Lava",
   "Stone",
 ] as const;
@@ -137,12 +139,12 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
     case "Smoke":
       return <Cloud className="h-3 w-3 text-zinc-500 fill-zinc-500" />;
     case "Fire":
-      return <FlameIcon className="h-3 w-3 text-red-500 fill-red-500" />;
+      return <Flame className="h-3 w-3 text-red-500 fill-red-500" />;
 
     case "Oil":
       return <Droplet className="h-3 w-3 text-amber-950 fill-amber-950" />;
-    // case "Gas":
-    //   return <Flame className="h-3 w-3 text-amber-100 fill-amber-100" />;
+    case "Gas":
+      return <Flame className="h-3 w-3 text-amber-100 fill-amber-100" />;
     case "Lava":
       return <Droplet className="h-3 w-3 text-red-500 fill-red-900" />;
     case "Stone":
@@ -190,7 +192,7 @@ export const MaterialMapping: Record<
   Fire,
   Oil,
   StaticFire,
-  // Gas,
+  Gas,
   Lava,
   Stone,
   LiquidFire,

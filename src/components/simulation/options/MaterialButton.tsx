@@ -40,6 +40,17 @@ import {
   fireLife,
   fireMaxSpeed,
   fireSmokeColor,
+  gasAcceleration,
+  gasChanceToCatch,
+  gasColor,
+  gasDiagonalSpread,
+  gasDirection,
+  gasFuel,
+  gasHorizontalSpread,
+  gasInitialVelocity,
+  gasMaxSpeed,
+  gasSmokeColor,
+  gasVerticalSpread,
   lavaAcceleration,
   lavaColor,
   lavaDiagonalSpread,
@@ -266,31 +277,31 @@ const MaterialButton = ({ material }: { material: SelectableMaterials }) => {
         horizontalSpreadRef.current = oilHorizontalSpread;
         break;
       }
-      // case "Gas": {
-      //   setMaterialColor(gasColor);
-      //   materialColorRef.current = gasColor;
-      //   setMaxSpeed(gasMaxSpeed);
-      //   maxSpeedRef.current = gasMaxSpeed;
-      //   setInitialVelocity(gasInitialVelocity);
-      //   initialVelocityRef.current = gasInitialVelocity;
-      //   setAcceleration(gasAcceleration);
-      //   accelerationRef.current = gasAcceleration;
-      //   setGravityDirection(gasDirection);
-      //   gravityDirectionRef.current = gasDirection;
-      //   setFuel(gasFuel);
-      //   fuelRef.current = gasFuel;
-      //   setChanceToCatch(gasChanceToCatch);
-      //   chanceToCatchRef.current = gasChanceToCatch;
-      //   setSmokeColor(gasSmokeColor);
-      //   smokeColorRef.current = gasSmokeColor;
-      //   setDiagonalSpread(gasDiagonalSpread);
-      //   diagonalSpreadRef.current = gasDiagonalSpread;
-      //   setVerticalSpread(gasVerticalSpread);
-      //   verticalSpreadRef.current = gasVerticalSpread;
-      //   setHorizontalSpread(gasHorizontalSpread);
-      //   horizontalSpreadRef.current = gasHorizontalSpread;
-      //   break;
-      // }
+      case "Gas": {
+        setMaterialColor(gasColor);
+        materialColorRef.current = gasColor;
+        setMaxSpeed(gasMaxSpeed);
+        maxSpeedRef.current = gasMaxSpeed;
+        setInitialVelocity(gasInitialVelocity);
+        initialVelocityRef.current = gasInitialVelocity;
+        setAcceleration(gasAcceleration);
+        accelerationRef.current = gasAcceleration;
+        setGravityDirection(gasDirection);
+        gravityDirectionRef.current = gasDirection;
+        setLife(gasFuel);
+        lifeRef.current = gasFuel;
+        setChanceToCatch(gasChanceToCatch);
+        chanceToCatchRef.current = gasChanceToCatch;
+        setSmokeColor(gasSmokeColor);
+        smokeColorRef.current = gasSmokeColor;
+        setDiagonalSpread(gasDiagonalSpread);
+        diagonalSpreadRef.current = gasDiagonalSpread;
+        setVerticalSpread(gasVerticalSpread);
+        verticalSpreadRef.current = gasVerticalSpread;
+        setHorizontalSpread(gasHorizontalSpread);
+        horizontalSpreadRef.current = gasHorizontalSpread;
+        break;
+      }
       case "Lava": {
         setMaterialColor(lavaColor);
         materialColorRef.current = lavaColor;

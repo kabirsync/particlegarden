@@ -12,6 +12,7 @@ import { Color } from "three";
 import { Grid } from "../Grid";
 import Stone from "@/components/simulation/materials/Stone";
 import Oil from "@/components/simulation/materials/Oil";
+import Gas from "@/components/simulation/materials/Gas";
 
 export type LavaMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -105,8 +106,12 @@ export class LavaMovement extends MovesVertical {
     );
   }
 
-  canSetFireTo(particle: Particle): particle is Wood | Oil {
-    return particle instanceof Wood || particle instanceof Oil;
+  canSetFireTo(particle: Particle): particle is Wood | Oil | Gas {
+    return (
+      particle instanceof Wood ||
+      particle instanceof Oil ||
+      particle instanceof Gas
+    );
   }
 
   canMelt(particle: Particle): particle is Sand | Wood {
