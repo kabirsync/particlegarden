@@ -135,28 +135,26 @@ const SimulationParticles = ({
           const row = mouseRow + j;
 
           if (col >= 0 && col < columns && row >= 0 && row < rows) {
-            if (Math.random() > 0.25) {
-              const MaterialClass = MaterialMapping[material];
-              gridRef.current?.set(
-                col,
-                row,
-                new MaterialClass(row * columns + col, {
-                  color: materialColorRef.current,
-                  maxSpeed: maxSpeedRef.current,
-                  initialVelocity: initialVelocityRef.current,
-                  acceleration: accelerationRef.current,
-                  diagonalSpread: diagonalSpreadRef.current,
-                  verticalSpread: verticalSpreadRef.current,
-                  horizontalSpread: horizontalSpreadRef.current,
-                  life: lifeRef.current,
-                  // fuel: fuelRef.current,
-                  chanceToCatch: chanceToCatchlRef.current,
-                  chanceToMelt: chanceToMeltlRef.current,
-                  smokeColor: smokeColorRef.current,
-                  // acidStrength: acidStengthRef.current,
-                })
-              );
-            }
+            const MaterialClass = MaterialMapping[material];
+            gridRef.current?.set(
+              col,
+              row,
+              new MaterialClass(row * columns + col, {
+                color: materialColorRef.current,
+                maxSpeed: maxSpeedRef.current,
+                initialVelocity: initialVelocityRef.current,
+                acceleration: accelerationRef.current,
+                diagonalSpread: diagonalSpreadRef.current,
+                verticalSpread: verticalSpreadRef.current,
+                horizontalSpread: horizontalSpreadRef.current,
+                life: lifeRef.current,
+                // fuel: fuelRef.current,
+                chanceToCatch: chanceToCatchlRef.current,
+                chanceToMelt: chanceToMeltlRef.current,
+                smokeColor: smokeColorRef.current,
+                // acidStrength: acidStengthRef.current,
+              })
+            );
           }
         }
       }

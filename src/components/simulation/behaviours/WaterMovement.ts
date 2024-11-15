@@ -2,8 +2,11 @@ import {
   MovesVertical,
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
+import Empty from "@/components/simulation/materials/Empty";
+import { Fire } from "@/components/simulation/materials/Fire";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
 import { Grid } from "../Grid";
+import { StaticFire } from "@/components/simulation/materials/StaticFire";
 
 export type WaterMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -85,14 +88,15 @@ export class WaterMovement extends MovesVertical {
     if (!particle) return false;
     return (
       particle?.stateOfMatter === "empty" ||
-      particle?.stateOfMatter === "gas" ||
+      // particle instanceof Fire ||
+      (particle?.stateOfMatter === "gas" && !(particle instanceof Fire)) ||
       (particle?.stateOfMatter === "liquid" && Math.random() < 0.1)
     );
   }
 
-  //   canSetFireTo(particle: Particle): particle is Wood {
-  //     return particle instanceof Wood;
-  //   }
+  canExtinguish(particle: Particle): particle is Fire | StaticFire {
+    return particle instanceof Fire || particle instanceof StaticFire;
+  }
 
   //   canMelt(particle: Particle): particle is Sand | Wood {
   //     return particle instanceof Sand || particle instanceof Wood;
@@ -125,16 +129,11 @@ export class WaterMovement extends MovesVertical {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
-    // if (this.canSetFireTo(nextVerticalParticle)) {
-    //   if (Math.random() < nextVerticalParticle.chanceToCatch) {
-    //     grid.setIndex(
-    //       nextVertical,
-    //       new Fire(nextVertical, {
-    //         smokeColor: nextVerticalParticle.smokeColor,
-    //       })
-    //     );
-    //   }
-    // }
+    if (this.canExtinguish(nextVerticalParticle)) {
+      if (Math.random() < 1) {
+        grid.setIndex(nextVertical, new Empty(nextVertical));
+      }
+    }
     // if (this.canMelt(nextVerticalParticle)) {
     //   if (Math.random() < nextVerticalParticle.chanceToMelt) {
     //     grid.setIndex(
@@ -153,6 +152,11 @@ export class WaterMovement extends MovesVertical {
       ) {
         grid.swap(i, nextVerticalLeft);
         return nextVerticalLeft;
+      }
+      if (this.canExtinguish(nextVerticalLeftParticle)) {
+        if (Math.random() < 1) {
+          grid.setIndex(nextVerticalLeft, new Empty(nextVerticalLeft));
+        }
       }
 
       //   if (this.canSetFireTo(nextVerticalLeftParticle)) {
@@ -184,7 +188,11 @@ export class WaterMovement extends MovesVertical {
         grid.swap(i, nextVerticalRight);
         return nextVerticalRight;
       }
-
+      if (this.canExtinguish(nextVerticalRightParticle)) {
+        if (Math.random() < 1) {
+          grid.setIndex(nextVerticalRight, new Empty(nextVerticalRight));
+        }
+      }
       //   if (this.canSetFireTo(nextVerticalRightParticle)) {
       //     if (Math.random() < nextVerticalRightParticle.chanceToCatch) {
       //       grid.setIndex(
@@ -216,6 +224,11 @@ export class WaterMovement extends MovesVertical {
         grid.swap(i, nextLeft);
         return nextLeft;
       }
+      if (this.canExtinguish(nextLeftParticle)) {
+        if (Math.random() < 1) {
+          grid.setIndex(nextLeft, new Empty(nextLeft));
+        }
+      }
 
       //   if (this.canSetFireTo(nextLeftParticle)) {
       //     if (Math.random() < nextLeftParticle.chanceToCatch) {
@@ -245,6 +258,11 @@ export class WaterMovement extends MovesVertical {
       ) {
         grid.swap(i, nextRight);
         return nextRight;
+      }
+      if (this.canExtinguish(nextRightParticle)) {
+        if (Math.random() < 1) {
+          grid.setIndex(nextRight, new Empty(nextRight));
+        }
       }
       //   if (this.canSetFireTo(nextRightParticle)) {
       //     if (Math.random() < nextRightParticle.chanceToCatch) {
