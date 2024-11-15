@@ -90,6 +90,7 @@ import {
   stoneColor,
   stoneSmokeColor,
   transparentColor,
+  voidColor,
   waterAcceleration,
   waterColor,
   waterDiagonalSpread,
@@ -360,11 +361,11 @@ const MaterialButton = ({ material }: { material: SelectableMaterials }) => {
       //   materialColorRef.current = clonerColor;
       //   break;
       // }
-      // case "Void": {
-      //   setMaterialColor(voidColor);
-      //   materialColorRef.current = voidColor;
-      //   break;
-      // }
+      case "Void": {
+        setMaterialColor(voidColor);
+        materialColorRef.current = voidColor;
+        break;
+      }
       // case "LiquidFire": {
       //   // setMaterialColor(stoneColor);
       //   // materialColorRef.current = stoneColor;

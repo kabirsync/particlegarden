@@ -4,6 +4,8 @@ import {
 } from "@/components/simulation/behaviours/MovesVertical";
 import { Grid } from "../Grid";
 import Particle from "@/components/simulation/materials/Particle";
+import Void from "@/components/simulation/materials/Void";
+import Empty from "@/components/simulation/materials/Empty";
 
 export class SandMovement extends MovesVertical {
   constructor({
@@ -22,6 +24,10 @@ export class SandMovement extends MovesVertical {
     );
   }
 
+  isVoid(particle: Particle) {
+    return particle instanceof Void;
+  }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -34,13 +40,22 @@ export class SandMovement extends MovesVertical {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
+    if (this.isVoid(grid.grid[nextVertical])) {
+      grid.setIndex(i, new Empty(i));
+    }
 
     if (Math.random() < 0.5) {
+      if (this.isVoid(grid.grid[nextVerticalLeft])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (column > 0 && this.canPassThrough(grid.grid[nextVerticalLeft])) {
         grid.swap(i, nextVerticalLeft);
         return nextVerticalLeft;
       }
     } else {
+      if (this.isVoid(grid.grid[nextVerticalRight])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column < grid.columns - 1 &&
         this.canPassThrough(grid.grid[nextVerticalRight])
