@@ -1,32 +1,26 @@
 import {
   getMaterialIcon,
-  MaterialOptionsType,
+  SelectableMaterials,
 } from "@/components/simulation/materials/Material";
 import {
   accelerationAtom,
   accelerationRefAtom,
+  chanceToCatchAtom,
+  chanceToCatchRefAtom,
+  chanceToMeltAtom,
+  chanceToMeltRefAtom,
   diagonalSpreadAtom,
   diagonalSpreadRefAtom,
   fuelAtom,
   fuelRefAtom,
-  chanceToCatchAtom,
-  chanceToCatchRefAtom,
-  // diagonalSpreadAtom,
-  // diagonalSpreadRefAtom,
-  // fuelAtom,
-  // fuelRefAtom,
   gravityDirectionAtom,
   gravityDirectionRefAtom,
   horizontalSpreadAtom,
   horizontalSpreadRefAtom,
-  // horizontalSpreadAtom,
-  // horizontalSpreadRefAtom,
   initialVelocityAtom,
   initialVelocityRefAtom,
   lifeAtom,
   lifeRefAtom,
-  // lifeAtom,
-  // lifeRefAtom,
   materialColorAtom,
   materialColorRefAtom,
   maxSpeedAtom,
@@ -36,15 +30,16 @@ import {
   smokeColorRefAtom,
   vertiacallSpreadAtom,
   verticalSpreadRefAtom,
-  chanceToMeltAtom,
-  chanceToMeltRefAtom,
-  // smokeColorAtom,
-  // smokeColorRefAtom,
-  // vertiacallSpreadAtom,
-  // verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import {
+  fireAcceleration,
+  fireColor,
+  fireDirection,
+  fireInitialVelocity,
+  fireLife,
+  fireMaxSpeed,
+  fireSmokeColor,
   lavaAcceleration,
   lavaColor,
   lavaDiagonalSpread,
@@ -55,54 +50,17 @@ import {
   lavaMaxSpeed,
   lavaSmokeColor,
   lavaVerticalSpread,
-  // acidAcceleration,
-  // acidColor,
-  // acidDiagonalSpread,
-  // acidDirection,
-  // acidHorizontalSpread,
-  // acidInitialVelocity,
-  // acidMaxSpeed,
-  // acidVerticalSpread,
-  // clonerColor,
-  fireAcceleration,
-  fireColor,
-  fireDirection,
-  fireInitialVelocity,
-  fireLife,
-  fireMaxSpeed,
-  fireSmokeColor,
-  // gasAcceleration,
-  // gasChanceToCatch,
-  // gasColor,
-  // gasDiagonalSpread,
-  // gasDirection,
-  // gasFuel,
-  // gasHorizontalSpread,
-  // gasInitialVelocity,
-  // gasMaxSpeed,
-  // gasSmokeColor,
-  // gasVerticalSpread,
-  // lavaAcceleration,
-  // lavaColor,
-  // lavaDiagonalSpread,
-  // lavaDirection,
-  // lavaFuel,
-  // lavaHorizontalSpread,
-  // lavaInitialVelocity,
-  // lavaMaxSpeed,
-  // lavaSmokeColor,
-  // lavaVerticalSpread,
-  // oilAcceleration,
-  // oilChanceToCatch,
-  // oilColor,
-  // oilDiagonalSpread,
-  // oilDirection,
-  // oilFuel,
-  // oilHorizontalSpread,
-  // oilInitialVelocity,
-  // oilMaxSpeed,
-  // oilSmokeColor,
-  // oilVerticalSpread,
+  oilAcceleration,
+  oilChanceToCatch,
+  oilColor,
+  oilDiagonalSpread,
+  oilDirection,
+  oilFuel,
+  oilHorizontalSpread,
+  oilInitialVelocity,
+  oilMaxSpeed,
+  oilSmokeColor,
+  oilVerticalSpread,
   sandAcceleration,
   sandColor,
   sandDirection,
@@ -117,22 +75,10 @@ import {
   smokeLife,
   smokeMaxSpeed,
   smokeVerticalSpread,
-  // stoneColor,
+  stoneChanceToCatch,
+  stoneColor,
+  stoneSmokeColor,
   transparentColor,
-  // voidColor,
-  // waterAcceleration,
-  // waterColor,
-  // waterDiagonalSpread,
-  // waterDirection,
-  // waterHorizontalSpread,
-  // waterInitialVelocity,
-  // waterMaxSpeed,
-  // waterVerticalSpread,
-  // woodChanceToCatch,
-  woodColor,
-  woodFuel,
-  woodSmokeColor,
-  woodChanceToCatch,
   waterAcceleration,
   waterColor,
   waterDiagonalSpread,
@@ -141,17 +87,14 @@ import {
   waterInitialVelocity,
   waterMaxSpeed,
   waterVerticalSpread,
-  stoneColor,
-  stoneChanceToCatch,
-  stoneSmokeColor,
+  woodChanceToCatch,
+  woodColor,
+  woodFuel,
+  woodSmokeColor,
 } from "@/lib/constants";
 import { useAtom } from "jotai";
 
-type MaterialButtonProps = {
-  material: MaterialOptionsType;
-};
-
-const MaterialButton = ({ material }: MaterialButtonProps) => {
+const MaterialButton = ({ material }: { material: SelectableMaterials }) => {
   const [materialColorRef] = useAtom(materialColorRefAtom);
   const [selectedMaterial, setSelectedMaterial] = useAtom(selectedMaterialAtom);
 
@@ -186,7 +129,7 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
   }
 
   const handleSelectedMaterialChange = (
-    newSelectedMaterial: MaterialOptionsType
+    newSelectedMaterial: SelectableMaterials
   ) => {
     switch (newSelectedMaterial) {
       case "Empty": {
@@ -298,31 +241,31 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         smokeColorRef.current = fireSmokeColor;
         break;
       }
-      // case "Oil": {
-      //   setMaterialColor(oilColor);
-      //   materialColorRef.current = oilColor;
-      //   setMaxSpeed(oilMaxSpeed);
-      //   maxSpeedRef.current = oilMaxSpeed;
-      //   setInitialVelocity(oilInitialVelocity);
-      //   initialVelocityRef.current = oilInitialVelocity;
-      //   setAcceleration(oilAcceleration);
-      //   accelerationRef.current = oilAcceleration;
-      //   setGravityDirection(oilDirection);
-      //   gravityDirectionRef.current = oilDirection;
-      //   setFuel(oilFuel);
-      //   fuelRef.current = oilFuel;
-      //   setChanceToCatch(oilChanceToCatch);
-      //   chanceToCatchRef.current = oilChanceToCatch;
-      //   setSmokeColor(oilSmokeColor);
-      //   smokeColorRef.current = oilSmokeColor;
-      //   setDiagonalSpread(oilDiagonalSpread);
-      //   diagonalSpreadRef.current = oilDiagonalSpread;
-      //   setVerticalSpread(oilVerticalSpread);
-      //   verticalSpreadRef.current = oilVerticalSpread;
-      //   setHorizontalSpread(oilHorizontalSpread);
-      //   horizontalSpreadRef.current = oilHorizontalSpread;
-      //   break;
-      // }
+      case "Oil": {
+        setMaterialColor(oilColor);
+        materialColorRef.current = oilColor;
+        setMaxSpeed(oilMaxSpeed);
+        maxSpeedRef.current = oilMaxSpeed;
+        setInitialVelocity(oilInitialVelocity);
+        initialVelocityRef.current = oilInitialVelocity;
+        setAcceleration(oilAcceleration);
+        accelerationRef.current = oilAcceleration;
+        setGravityDirection(oilDirection);
+        gravityDirectionRef.current = oilDirection;
+        setLife(oilFuel);
+        lifeRef.current = oilFuel;
+        setChanceToCatch(oilChanceToCatch);
+        chanceToCatchRef.current = oilChanceToCatch;
+        setSmokeColor(oilSmokeColor);
+        smokeColorRef.current = oilSmokeColor;
+        setDiagonalSpread(oilDiagonalSpread);
+        diagonalSpreadRef.current = oilDiagonalSpread;
+        setVerticalSpread(oilVerticalSpread);
+        verticalSpreadRef.current = oilVerticalSpread;
+        setHorizontalSpread(oilHorizontalSpread);
+        horizontalSpreadRef.current = oilHorizontalSpread;
+        break;
+      }
       // case "Gas": {
       //   setMaterialColor(gasColor);
       //   materialColorRef.current = gasColor;
@@ -409,6 +352,28 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
       // case "Void": {
       //   setMaterialColor(voidColor);
       //   materialColorRef.current = voidColor;
+      //   break;
+      // }
+      // case "LiquidFire": {
+      //   // setMaterialColor(stoneColor);
+      //   // materialColorRef.current = stoneColor;
+      //   // setChanceToCatch(stoneChanceToCatch);
+      //   // chanceToCatchRef.current = stoneChanceToCatch;
+      //   // setChanceToMelt(stoneChanceToCatch);
+      //   // chanceToMeltRef.current = stoneChanceToCatch;
+      //   // setSmokeColor(stoneSmokeColor);
+      //   // smokeColorRef.current = stoneSmokeColor;
+      //   break;
+      // }
+      // case "StaticFire": {
+      //   // setMaterialColor(stoneColor);
+      //   // materialColorRef.current = stoneColor;
+      //   // setChanceToCatch(stoneChanceToCatch);
+      //   // chanceToCatchRef.current = stoneChanceToCatch;
+      //   // setChanceToMelt(stoneChanceToCatch);
+      //   // chanceToMeltRef.current = stoneChanceToCatch;
+      //   // setSmokeColor(stoneSmokeColor);
+      //   // smokeColorRef.current = stoneSmokeColor;
       //   break;
       // }
       default: {

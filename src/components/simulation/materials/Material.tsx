@@ -26,6 +26,9 @@ import Wood from "@/components/simulation/materials/Wood";
 import { Fire } from "@/components/simulation/materials/Fire";
 import Water from "@/components/simulation/materials/Water";
 import Stone from "@/components/simulation/materials/Stone";
+import Oil from "@/components/simulation/materials/Oil";
+import { LiquidFire } from "@/components/simulation/materials/LiquidFire";
+import { StaticFire } from "@/components/simulation/materials/StaticFire";
 // import { Smoke } from "@/components/simulation/materials/Smoke";
 // import { Fire } from "@/components/simulation/materials/Fire";
 // import Oil from "@/components/simulation/materials/Oil";
@@ -49,7 +52,10 @@ type MaterialClasses =
   | Smoke
   | Wood
   | Water
-  | Stone;
+  | Stone
+  | Oil
+  | LiquidFire
+  | StaticFire;
 // | Wood
 // | Water
 // | Smoke
@@ -71,13 +77,28 @@ export const materialOptions = [
   "Water",
   "Smoke",
   "Fire",
-  // "Oil",
+  "Oil",
   // "Gas",
   "Lava",
   "Stone",
   // "Acid",
   // "Cloner",
   // "Void",
+  "LiquidFire",
+  "StaticFire",
+] as const;
+
+export const selectableMaterialOptions = [
+  "Empty",
+  "Sand",
+  "Wood",
+  "Water",
+  "Smoke",
+  "Fire",
+  "Oil",
+  // "Gas",
+  "Lava",
+  "Stone",
 ] as const;
 export type MaterialOptionsType = (typeof materialOptions)[number];
 
@@ -98,6 +119,11 @@ type MaterialProps = {
   // acidStrength?: number;
 };
 
+export type SelectableMaterials = Exclude<
+  MaterialOptionsType,
+  "StaticFire" | "LiquidFire"
+>;
+
 export const getMaterialIcon = (material: MaterialOptionsType) => {
   switch (material) {
     case "Empty":
@@ -113,8 +139,8 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
     case "Fire":
       return <FlameIcon className="h-3 w-3 text-red-500 fill-red-500" />;
 
-    // case "Oil":
-    //   return <Droplet className="h-3 w-3 text-amber-950 fill-amber-950" />;
+    case "Oil":
+      return <Droplet className="h-3 w-3 text-amber-950 fill-amber-950" />;
     // case "Gas":
     //   return <Flame className="h-3 w-3 text-amber-100 fill-amber-100" />;
     case "Lava":
@@ -162,10 +188,12 @@ export const MaterialMapping: Record<
   Water,
   Smoke,
   Fire,
-  // Oil,
+  Oil,
+  StaticFire,
   // Gas,
   Lava,
   Stone,
+  LiquidFire,
   // Acid,
   // Cloner,
   // Void,

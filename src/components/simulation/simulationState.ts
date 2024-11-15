@@ -1,4 +1,7 @@
-import { MaterialOptionsType } from "@/components/simulation/materials/Material";
+import {
+  MaterialOptionsType,
+  SelectableMaterials,
+} from "@/components/simulation/materials/Material";
 import {
   acidDefaultStrength,
   defaultDiagonalSpread,
@@ -11,6 +14,7 @@ import {
   defaultStrokeSize,
   defaultVerticalSpread,
   lavalExtinguishMaterial,
+  oilBurningMaterial,
   sandAcceleration,
   sandDirection,
   sandInitialVelocity,
@@ -30,7 +34,7 @@ export const particleSizeAtom = atom(defaultParticleSize);
 
 // --------- Material Options ---------
 
-export const selectedMaterialAtom = atom<MaterialOptionsType>(
+export const selectedMaterialAtom = atom<SelectableMaterials>(
   defaultSelecteMaterial
 );
 
@@ -111,6 +115,14 @@ export const extinguishMaterialRefAtom = atom<{ current: MaterialOptionsType }>(
 export const extinguishMaterialAtom = atom<MaterialOptionsType>(
   lavalExtinguishMaterial
 );
+
+export const burningMaterialRefAtom = atom<{ current: MaterialOptionsType }>(
+  () => ({
+    current: oilBurningMaterial,
+  })
+);
+export const burningMaterialAtom =
+  atom<MaterialOptionsType>(oilBurningMaterial);
 // --------- Acid Options ---------
 export const acidStrengthRefAtom = atom(() => ({
   current: acidDefaultStrength,

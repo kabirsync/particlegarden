@@ -116,9 +116,10 @@ export const oilAcceleration = 0.5;
 export const oilDiagonalSpread = 3;
 export const oilVerticalSpread = 1;
 export const oilHorizontalSpread = 3;
-export const oilFuel = 500;
-export const oilChanceToCatch = 0.1;
+export const oilFuel = 800;
+export const oilChanceToCatch = 0.6;
 export const oilSmokeColor = smokeMaterialColor;
+export const oilBurningMaterial = "LiquidFire";
 
 // Gas
 export const gasDirection = -1;
@@ -151,4 +152,6 @@ export const fireExtinguishMaterial = "Smoke";
 // Wood
 export const woodFuel = 1000;
 export const woodChanceToCatch = 0.005;
+export const woodChanceToMelt = 0.1;
+
 export const woodSmokeColor = smokeMaterialColor;

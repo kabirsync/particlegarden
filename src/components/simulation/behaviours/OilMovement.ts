@@ -3,19 +3,16 @@ import {
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
 import { Fire } from "@/components/simulation/materials/Fire";
-import Lava from "@/components/simulation/materials/Lava";
-import { MaterialMapping } from "@/components/simulation/materials/Material";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
-import { StaticFire } from "@/components/simulation/materials/StaticFire";
 import { Grid } from "../Grid";
 
-export type WaterMovementProps = MovesVerticalProps & {
+export type OilMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
   horizontalSpread?: number;
   verticalSpread?: number;
 };
 
-export class WaterMovement extends MovesVertical {
+export class OilMovement extends MovesVertical {
   diagonalSpread: number;
   verticalSpread: number;
   horizontalSpread: number;
@@ -27,7 +24,7 @@ export class WaterMovement extends MovesVertical {
     diagonalSpread = 1,
     verticalSpread = 1,
     horizontalSpread = 1,
-  }: WaterMovementProps) {
+  }: OilMovementProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;
@@ -59,13 +56,13 @@ export class WaterMovement extends MovesVertical {
     );
   }
 
-  canExtinguish(particle: Particle): particle is Fire | StaticFire | Lava {
-    return (
-      particle instanceof Fire ||
-      particle instanceof StaticFire ||
-      particle instanceof Lava
-    );
-  }
+  //   canExtinguish(particle: Particle): particle is Fire | StaticFire | Lava {
+  //     return (
+  //       particle instanceof Fire ||
+  //       particle instanceof StaticFire ||
+  //       particle instanceof Lava
+  //     );
+  //   }
 
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
@@ -94,19 +91,19 @@ export class WaterMovement extends MovesVertical {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
-    if (this.canExtinguish(nextVerticalParticle)) {
-      if (Math.random() < 1) {
-        const MaterialClass =
-          MaterialMapping[nextVerticalParticle.extinguishMaterial];
+    // if (this.canExtinguish(nextVerticalParticle)) {
+    //   if (Math.random() < 1) {
+    //     const MaterialClass =
+    //       MaterialMapping[nextVerticalParticle.extinguishMaterial];
 
-        grid.setIndex(
-          nextVertical,
-          new MaterialClass(nextVertical, {
-            smokeColor: nextVerticalParticle.smokeColor,
-          })
-        );
-      }
-    }
+    //     grid.setIndex(
+    //       nextVertical,
+    //       new MaterialClass(nextVertical, {
+    //         smokeColor: nextVerticalParticle.smokeColor,
+    //       })
+    //     );
+    //   }
+    // }
 
     if (Math.random() < 0.5) {
       if (
@@ -116,19 +113,19 @@ export class WaterMovement extends MovesVertical {
         grid.swap(i, nextVerticalLeft);
         return nextVerticalLeft;
       }
-      if (this.canExtinguish(nextVerticalLeftParticle)) {
-        if (Math.random() < 1) {
-          const MaterialClass =
-            MaterialMapping[nextVerticalLeftParticle.extinguishMaterial];
+      //   if (this.canExtinguish(nextVerticalLeftParticle)) {
+      //     if (Math.random() < 1) {
+      //       const MaterialClass =
+      //         MaterialMapping[nextVerticalLeftParticle.extinguishMaterial];
 
-          grid.setIndex(
-            nextVerticalLeft,
-            new MaterialClass(nextVerticalLeft, {
-              smokeColor: nextVerticalLeftParticle.smokeColor,
-            })
-          );
-        }
-      }
+      //       grid.setIndex(
+      //         nextVerticalLeft,
+      //         new MaterialClass(nextVerticalLeft, {
+      //           smokeColor: nextVerticalLeftParticle.smokeColor,
+      //         })
+      //       );
+      //     }
+      //   }
     } else {
       if (
         column < grid.columns - this.diagonalSpread &&
@@ -137,19 +134,19 @@ export class WaterMovement extends MovesVertical {
         grid.swap(i, nextVerticalRight);
         return nextVerticalRight;
       }
-      if (this.canExtinguish(nextVerticalRightParticle)) {
-        if (Math.random() < 1) {
-          const MaterialClass =
-            MaterialMapping[nextVerticalRightParticle.extinguishMaterial];
+      //   if (this.canExtinguish(nextVerticalRightParticle)) {
+      //     if (Math.random() < 1) {
+      //       const MaterialClass =
+      //         MaterialMapping[nextVerticalRightParticle.extinguishMaterial];
 
-          grid.setIndex(
-            nextVerticalRight,
-            new MaterialClass(nextVerticalRight, {
-              smokeColor: nextVerticalRightParticle.smokeColor,
-            })
-          );
-        }
-      }
+      //       grid.setIndex(
+      //         nextVerticalRight,
+      //         new MaterialClass(nextVerticalRight, {
+      //           smokeColor: nextVerticalRightParticle.smokeColor,
+      //         })
+      //       );
+      //     }
+      //   }
     }
 
     if (Math.random() < 0.5) {
@@ -160,19 +157,19 @@ export class WaterMovement extends MovesVertical {
         grid.swap(i, nextLeft);
         return nextLeft;
       }
-      if (this.canExtinguish(nextLeftParticle)) {
-        if (Math.random() < 1) {
-          const MaterialClass =
-            MaterialMapping[nextLeftParticle.extinguishMaterial];
+      //   if (this.canExtinguish(nextLeftParticle)) {
+      //     if (Math.random() < 1) {
+      //       const MaterialClass =
+      //         MaterialMapping[nextLeftParticle.extinguishMaterial];
 
-          grid.setIndex(
-            nextLeft,
-            new MaterialClass(nextLeft, {
-              smokeColor: nextLeftParticle.smokeColor,
-            })
-          );
-        }
-      }
+      //       grid.setIndex(
+      //         nextLeft,
+      //         new MaterialClass(nextLeft, {
+      //           smokeColor: nextLeftParticle.smokeColor,
+      //         })
+      //       );
+      //     }
+      //   }
     } else {
       if (
         column < grid.columns - 2 - this.horizontalSpread &&
@@ -181,19 +178,19 @@ export class WaterMovement extends MovesVertical {
         grid.swap(i, nextRight);
         return nextRight;
       }
-      if (this.canExtinguish(nextRightParticle)) {
-        if (Math.random() < 1) {
-          const MaterialClass =
-            MaterialMapping[nextRightParticle.extinguishMaterial];
+      //   if (this.canExtinguish(nextRightParticle)) {
+      //     if (Math.random() < 1) {
+      //       const MaterialClass =
+      //         MaterialMapping[nextRightParticle.extinguishMaterial];
 
-          grid.setIndex(
-            nextRight,
-            new MaterialClass(nextRight, {
-              smokeColor: nextRightParticle.smokeColor,
-            })
-          );
-        }
-      }
+      //       grid.setIndex(
+      //         nextRight,
+      //         new MaterialClass(nextRight, {
+      //           smokeColor: nextRightParticle.smokeColor,
+      //         })
+      //       );
+      //     }
+      //   }
     }
 
     return i;

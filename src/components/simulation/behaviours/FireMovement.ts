@@ -2,14 +2,15 @@ import {
   MovesVertical,
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
+import { Fire } from "@/components/simulation/materials/Fire";
+import { MaterialMapping } from "@/components/simulation/materials/Material";
+import Oil from "@/components/simulation/materials/Oil";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
+import { Smoke } from "@/components/simulation/materials/Smoke";
+import Wood from "@/components/simulation/materials/Wood";
 import { fireColors, fireLife, fireSmokeColor } from "@/lib/constants";
 import { Color } from "three";
 import { Grid } from "../Grid";
-import { Smoke } from "@/components/simulation/materials/Smoke";
-import { StaticFire } from "@/components/simulation/materials/StaticFire";
-import Wood from "@/components/simulation/materials/Wood";
-import { Fire } from "@/components/simulation/materials/Fire";
 
 export type FireMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -100,8 +101,8 @@ export class FireMovement extends MovesVertical {
   //   return particle instanceof Wood || particle instanceof Oil || particle instanceof Gas;
   // }
 
-  canSetFireTo(particle: Particle): particle is Wood {
-    return particle instanceof Wood;
+  canSetFireTo(particle: Particle): particle is Wood | Oil {
+    return particle instanceof Wood || particle instanceof Oil;
   }
 
   moveParticle(particle: Particle, grid: Grid): number {
@@ -137,10 +138,12 @@ export class FireMovement extends MovesVertical {
 
     if (this.canSetFireTo(previousVerticalParticle)) {
       if (Math.random() < previousVerticalParticle.chanceToCatch) {
+        const MaterialClass =
+          MaterialMapping[previousVerticalParticle.burningMaterial];
+
         grid.setIndex(
           previousVertical,
-          new StaticFire(previousVertical, {
-            life: previousVerticalParticle.life,
+          new MaterialClass(previousVertical, {
             smokeColor: previousVerticalParticle.smokeColor,
           })
         );
@@ -148,38 +151,50 @@ export class FireMovement extends MovesVertical {
     }
     if (this.canSetFireTo(nextVerticalParticle)) {
       if (Math.random() < nextVerticalParticle.chanceToCatch) {
-        grid.setIndex(
-          nextVertical,
-          new StaticFire(nextVertical, {
-            life: nextVerticalParticle.life,
-            smokeColor: nextVerticalParticle.smokeColor,
-          })
-        );
+        if (Math.random() < nextVerticalParticle.chanceToCatch) {
+          const MaterialClass =
+            MaterialMapping[nextVerticalParticle.burningMaterial];
+
+          grid.setIndex(
+            nextVertical,
+            new MaterialClass(nextVertical, {
+              smokeColor: nextVerticalParticle.smokeColor,
+            })
+          );
+        }
       }
     }
 
     if (Math.random() < 0.5) {
       if (this.canSetFireTo(nextVerticalLeftParticle)) {
         if (Math.random() < nextVerticalLeftParticle.chanceToCatch) {
-          grid.setIndex(
-            nextVerticalLeft,
-            new StaticFire(nextVerticalLeft, {
-              life: nextVerticalLeftParticle.life,
-              smokeColor: nextVerticalLeftParticle.smokeColor,
-            })
-          );
+          if (Math.random() < nextVerticalLeftParticle.chanceToCatch) {
+            const MaterialClass =
+              MaterialMapping[nextVerticalLeftParticle.burningMaterial];
+
+            grid.setIndex(
+              nextVerticalLeft,
+              new MaterialClass(nextVerticalLeft, {
+                smokeColor: nextVerticalLeftParticle.smokeColor,
+              })
+            );
+          }
         }
       }
     } else {
       if (this.canSetFireTo(nextVerticalRightParticle)) {
         if (Math.random() < nextVerticalRightParticle.chanceToCatch) {
-          grid.setIndex(
-            nextVerticalRight,
-            new StaticFire(nextVerticalRight, {
-              life: nextVerticalRightParticle.life,
-              smokeColor: nextVerticalRightParticle.smokeColor,
-            })
-          );
+          if (Math.random() < nextVerticalRightParticle.chanceToCatch) {
+            const MaterialClass =
+              MaterialMapping[nextVerticalRightParticle.burningMaterial];
+
+            grid.setIndex(
+              nextVerticalRight,
+              new MaterialClass(nextVerticalRight, {
+                smokeColor: nextVerticalRightParticle.smokeColor,
+              })
+            );
+          }
         }
       }
     }
@@ -187,25 +202,33 @@ export class FireMovement extends MovesVertical {
     if (Math.random() < 0.5) {
       if (this.canSetFireTo(nextRightParticle)) {
         if (Math.random() < nextRightParticle.chanceToCatch) {
-          grid.setIndex(
-            nextRight,
-            new StaticFire(nextRight, {
-              life: nextRightParticle.life,
-              smokeColor: nextRightParticle.smokeColor,
-            })
-          );
+          if (Math.random() < nextRightParticle.chanceToCatch) {
+            const MaterialClass =
+              MaterialMapping[nextRightParticle.burningMaterial];
+
+            grid.setIndex(
+              nextRight,
+              new MaterialClass(nextRight, {
+                smokeColor: nextRightParticle.smokeColor,
+              })
+            );
+          }
         }
       }
     } else {
       if (this.canSetFireTo(nextLeftParticle)) {
         if (Math.random() < nextLeftParticle.chanceToCatch) {
-          grid.setIndex(
-            nextLeft,
-            new StaticFire(nextLeft, {
-              life: nextLeftParticle.life,
-              smokeColor: nextLeftParticle.smokeColor,
-            })
-          );
+          if (Math.random() < nextLeftParticle.chanceToCatch) {
+            const MaterialClass =
+              MaterialMapping[nextLeftParticle.burningMaterial];
+
+            grid.setIndex(
+              nextLeft,
+              new MaterialClass(nextLeft, {
+                smokeColor: nextLeftParticle.smokeColor,
+              })
+            );
+          }
         }
       }
     }
