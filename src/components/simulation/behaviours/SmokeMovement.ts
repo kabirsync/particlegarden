@@ -16,6 +16,7 @@ import {
 } from "@/lib/constants";
 import { Color } from "three";
 import { Grid } from "../Grid";
+import Void from "@/components/simulation/materials/Void";
 
 export type SmokeMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -83,6 +84,10 @@ export class SmokeMovement extends MovesVertical {
     );
   }
 
+  isVoid(particle: Particle) {
+    return particle instanceof Void;
+  }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -99,6 +104,9 @@ export class SmokeMovement extends MovesVertical {
     const nextRight = i + Math.ceil(Math.random() * this.horizontalSpread);
 
     // need to randomise order of operations (check sand)
+    if (this.isVoid(grid.grid[nextVertical])) {
+      grid.setIndex(i, new Empty(i));
+    }
 
     if (this.canPassThrough(grid.grid[nextVertical])) {
       grid.swap(i, nextVertical);
@@ -106,6 +114,9 @@ export class SmokeMovement extends MovesVertical {
     }
 
     if (Math.random() < 0.5) {
+      if (this.isVoid(grid.grid[nextVerticalLeft])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column > this.diagonalSpread - 1 &&
         this.canPassThrough(grid.grid[nextVerticalLeft])
@@ -114,6 +125,9 @@ export class SmokeMovement extends MovesVertical {
         return nextVerticalLeft;
       }
     } else {
+      if (this.isVoid(grid.grid[nextVerticalRight])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column < grid.columns - this.diagonalSpread &&
         this.canPassThrough(grid.grid[nextVerticalRight])
@@ -124,6 +138,9 @@ export class SmokeMovement extends MovesVertical {
     }
 
     if (Math.random() < 0.5) {
+      if (this.isVoid(grid.grid[nextLeft])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column > 0 + this.horizontalSpread - 1 &&
         this.canPassThrough(grid.grid[nextLeft])
@@ -132,6 +149,9 @@ export class SmokeMovement extends MovesVertical {
         return nextLeft;
       }
     } else {
+      if (this.isVoid(grid.grid[nextRight])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column < grid.columns - 2 - this.horizontalSpread &&
         this.canPassThrough(grid.grid[nextRight])

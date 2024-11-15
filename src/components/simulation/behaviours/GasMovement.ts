@@ -4,6 +4,8 @@ import {
 } from "@/components/simulation/behaviours/MovesVertical";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
 import { Grid } from "../Grid";
+import Void from "@/components/simulation/materials/Void";
+import Empty from "@/components/simulation/materials/Empty";
 // import { oilFuel, oilSmokeColor } from "@/lib/constants";
 
 export type GasMovementProps = MovesVerticalProps & {
@@ -76,6 +78,10 @@ export class GasMovement extends MovesVertical {
   //     );
   //   }
 
+  isVoid(particle: Particle) {
+    return particle instanceof Void;
+  }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -99,6 +105,10 @@ export class GasMovement extends MovesVertical {
 
     // need to randomise order of operations (check sand)
 
+    if (this.isVoid(grid.grid[nextVertical])) {
+      grid.setIndex(i, new Empty(i));
+    }
+
     if (this.canPassThrough(nextVerticalParticle)) {
       grid.swap(i, nextVertical);
       return nextVertical;
@@ -118,6 +128,9 @@ export class GasMovement extends MovesVertical {
     // }
 
     if (Math.random() < 0.5) {
+      if (this.isVoid(grid.grid[nextVerticalLeft])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column > this.diagonalSpread - 1 &&
         this.canPassThrough(nextVerticalLeftParticle)
@@ -139,6 +152,9 @@ export class GasMovement extends MovesVertical {
       //     }
       //   }
     } else {
+      if (this.isVoid(grid.grid[nextVerticalRight])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column < grid.columns - this.diagonalSpread &&
         this.canPassThrough(nextVerticalRightParticle)
@@ -162,6 +178,9 @@ export class GasMovement extends MovesVertical {
     }
 
     if (Math.random() < 0.5) {
+      if (this.isVoid(grid.grid[nextRight])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column > 0 + this.horizontalSpread - 1 &&
         this.canPassThrough(nextLeftParticle)
@@ -183,6 +202,9 @@ export class GasMovement extends MovesVertical {
       //     }
       //   }
     } else {
+      if (this.isVoid(grid.grid[nextLeft])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column < grid.columns - 2 - this.horizontalSpread &&
         this.canPassThrough(nextRightParticle)

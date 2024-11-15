@@ -12,6 +12,7 @@ import { fireColors, fireLife, fireSmokeColor } from "@/lib/constants";
 import { Color } from "three";
 import { Grid } from "../Grid";
 import Empty from "@/components/simulation/materials/Empty";
+import Void from "@/components/simulation/materials/Void";
 
 export type LiquidFireMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -123,6 +124,9 @@ export class LiquidFireMovement extends MovesVertical {
   canSetFireTo(particle: Particle): particle is Wood | Oil {
     return particle instanceof Wood || particle instanceof Oil;
   }
+  isVoid(particle: Particle) {
+    return particle instanceof Void;
+  }
 
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
@@ -170,6 +174,11 @@ export class LiquidFireMovement extends MovesVertical {
         );
       }
     }
+
+    if (this.isVoid(grid.grid[nextVertical])) {
+      grid.setIndex(i, new Empty(i));
+    }
+
     if (this.canSetFireTo(nextVerticalParticle)) {
       if (Math.random() < nextVerticalParticle.chanceToCatch) {
         if (Math.random() < nextVerticalParticle.chanceToCatch) {
@@ -189,6 +198,9 @@ export class LiquidFireMovement extends MovesVertical {
     }
 
     if (Math.random() < 0.5) {
+      if (this.isVoid(grid.grid[nextVerticalLeft])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (this.canSetFireTo(nextVerticalLeftParticle)) {
         if (Math.random() < nextVerticalLeftParticle.chanceToCatch) {
           if (Math.random() < nextVerticalLeftParticle.chanceToCatch) {
@@ -207,6 +219,9 @@ export class LiquidFireMovement extends MovesVertical {
         }
       }
     } else {
+      if (this.isVoid(grid.grid[nextVerticalRight])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (this.canSetFireTo(nextVerticalRightParticle)) {
         if (Math.random() < nextVerticalRightParticle.chanceToCatch) {
           if (Math.random() < nextVerticalRightParticle.chanceToCatch) {
@@ -227,6 +242,9 @@ export class LiquidFireMovement extends MovesVertical {
     }
 
     if (Math.random() < 0.5) {
+      if (this.isVoid(grid.grid[nextRight])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (this.canSetFireTo(nextRightParticle)) {
         if (Math.random() < nextRightParticle.chanceToCatch) {
           if (Math.random() < nextRightParticle.chanceToCatch) {
@@ -245,6 +263,9 @@ export class LiquidFireMovement extends MovesVertical {
         }
       }
     } else {
+      if (this.isVoid(grid.grid[nextLeft])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (this.canSetFireTo(nextLeftParticle)) {
         if (Math.random() < nextLeftParticle.chanceToCatch) {
           if (Math.random() < nextLeftParticle.chanceToCatch) {

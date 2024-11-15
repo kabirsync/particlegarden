@@ -13,6 +13,8 @@ import { Grid } from "../Grid";
 import Stone from "@/components/simulation/materials/Stone";
 import Oil from "@/components/simulation/materials/Oil";
 import Gas from "@/components/simulation/materials/Gas";
+import Empty from "@/components/simulation/materials/Empty";
+import Void from "@/components/simulation/materials/Void";
 
 export type LavaMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -118,6 +120,10 @@ export class LavaMovement extends MovesVertical {
     return particle instanceof Sand || particle instanceof Wood;
   }
 
+  isVoid(particle: Particle) {
+    return particle instanceof Void;
+  }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -141,6 +147,9 @@ export class LavaMovement extends MovesVertical {
 
     // need to randomise order of operations (check sand)
 
+    if (this.isVoid(grid.grid[nextVertical])) {
+      grid.setIndex(i, new Empty(i));
+    }
     if (this.canPassThrough(nextVerticalParticle)) {
       grid.swap(i, nextVertical);
       return nextVertical;
@@ -167,6 +176,9 @@ export class LavaMovement extends MovesVertical {
     }
 
     if (Math.random() < 0.5) {
+      if (this.isVoid(grid.grid[nextVerticalLeft])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column > this.diagonalSpread - 1 &&
         this.canPassThrough(nextVerticalLeftParticle)
@@ -197,6 +209,9 @@ export class LavaMovement extends MovesVertical {
         }
       }
     } else {
+      if (this.isVoid(grid.grid[nextVerticalRight])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column < grid.columns - this.diagonalSpread &&
         this.canPassThrough(nextVerticalRightParticle)
@@ -229,6 +244,9 @@ export class LavaMovement extends MovesVertical {
     }
 
     if (Math.random() < 0.5) {
+      if (this.isVoid(grid.grid[nextLeft])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column > 0 + this.horizontalSpread - 1 &&
         this.canPassThrough(nextLeftParticle)
@@ -259,6 +277,9 @@ export class LavaMovement extends MovesVertical {
         }
       }
     } else {
+      if (this.isVoid(grid.grid[nextRight])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column < grid.columns - 2 - this.horizontalSpread &&
         this.canPassThrough(nextRightParticle)

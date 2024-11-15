@@ -8,6 +8,8 @@ import { MaterialMapping } from "@/components/simulation/materials/Material";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
 import { StaticFire } from "@/components/simulation/materials/StaticFire";
 import { Grid } from "../Grid";
+import Void from "@/components/simulation/materials/Void";
+import Empty from "@/components/simulation/materials/Empty";
 
 export type WaterMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -67,6 +69,10 @@ export class WaterMovement extends MovesVertical {
     );
   }
 
+  isVoid(particle: Particle) {
+    return particle instanceof Void;
+  }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -90,6 +96,10 @@ export class WaterMovement extends MovesVertical {
 
     // need to randomise order of operations (check sand)
 
+    if (this.isVoid(grid.grid[nextVertical])) {
+      grid.setIndex(i, new Empty(i));
+    }
+
     if (this.canPassThrough(nextVerticalParticle)) {
       grid.swap(i, nextVertical);
       return nextVertical;
@@ -109,6 +119,9 @@ export class WaterMovement extends MovesVertical {
     }
 
     if (Math.random() < 0.5) {
+      if (this.isVoid(grid.grid[nextVerticalLeft])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column > this.diagonalSpread - 1 &&
         this.canPassThrough(nextVerticalLeftParticle)
@@ -130,6 +143,9 @@ export class WaterMovement extends MovesVertical {
         }
       }
     } else {
+      if (this.isVoid(grid.grid[nextVerticalRight])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column < grid.columns - this.diagonalSpread &&
         this.canPassThrough(nextVerticalRightParticle)
@@ -153,6 +169,9 @@ export class WaterMovement extends MovesVertical {
     }
 
     if (Math.random() < 0.5) {
+      if (this.isVoid(grid.grid[nextLeft])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column > 0 + this.horizontalSpread - 1 &&
         this.canPassThrough(nextLeftParticle)
@@ -174,6 +193,9 @@ export class WaterMovement extends MovesVertical {
         }
       }
     } else {
+      if (this.isVoid(grid.grid[nextRight])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column < grid.columns - 2 - this.horizontalSpread &&
         this.canPassThrough(nextRightParticle)
