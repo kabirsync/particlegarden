@@ -5,17 +5,24 @@ import {
 import { Fire } from "@/components/simulation/materials/Fire";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
 import { Grid } from "../Grid";
+import { LiquidFire } from "@/components/simulation/materials/LiquidFire";
+// import { oilFuel, oilSmokeColor } from "@/lib/constants";
 
 export type OilMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
   horizontalSpread?: number;
   verticalSpread?: number;
+  // life?: number;
+  // smokeColor?: Color;
 };
 
 export class OilMovement extends MovesVertical {
   diagonalSpread: number;
   verticalSpread: number;
   horizontalSpread: number;
+  // life: number;
+  // smokeColor: Color;
+  // remainingLife: number;
 
   constructor({
     maxSpeed = 0,
@@ -24,11 +31,16 @@ export class OilMovement extends MovesVertical {
     diagonalSpread = 1,
     verticalSpread = 1,
     horizontalSpread = 1,
-  }: OilMovementProps) {
+  }: // life = oilFuel,
+  // smokeColor = oilSmokeColor,
+  OilMovementProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;
     this.horizontalSpread = horizontalSpread;
+    // this.life = life;
+    // this.smokeColor = smokeColor;
+    // this.remainingLife = life - life * Math.random();
   }
 
   update(particle: Particle, grid: Grid, params: Params) {
@@ -52,7 +64,9 @@ export class OilMovement extends MovesVertical {
     return (
       particle?.stateOfMatter === "empty" ||
       (particle?.stateOfMatter === "gas" && !(particle instanceof Fire)) ||
-      (particle?.stateOfMatter === "liquid" && Math.random() < 0.1)
+      (particle?.stateOfMatter === "liquid" &&
+        !(particle instanceof LiquidFire) &&
+        Math.random() < 0.1)
     );
   }
 

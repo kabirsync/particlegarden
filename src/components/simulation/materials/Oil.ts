@@ -61,6 +61,8 @@ class Oil extends Particle {
         diagonalSpread,
         verticalSpread,
         horizontalSpread,
+        // life,
+        // smokeColor,
       }),
     });
     this.life = life;

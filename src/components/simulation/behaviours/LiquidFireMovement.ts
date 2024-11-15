@@ -2,7 +2,7 @@ import {
   MovesVertical,
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
-import Empty from "@/components/simulation/materials/Empty";
+import { Fire } from "@/components/simulation/materials/Fire";
 import { MaterialMapping } from "@/components/simulation/materials/Material";
 import Oil from "@/components/simulation/materials/Oil";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
@@ -11,8 +11,9 @@ import Wood from "@/components/simulation/materials/Wood";
 import { fireColors, fireLife, fireSmokeColor } from "@/lib/constants";
 import { Color } from "three";
 import { Grid } from "../Grid";
+import Empty from "@/components/simulation/materials/Empty";
 
-export type FireMovementProps = MovesVerticalProps & {
+export type LiquidFireMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
   horizontalSpread?: number;
   verticalSpread?: number;
@@ -20,7 +21,7 @@ export type FireMovementProps = MovesVerticalProps & {
   smokeColor?: Color;
 };
 
-export class FireMovement extends MovesVertical {
+export class LiquidFireMovement extends MovesVertical {
   diagonalSpread: number;
   verticalSpread: number;
   horizontalSpread: number;
@@ -37,7 +38,7 @@ export class FireMovement extends MovesVertical {
     horizontalSpread = 1,
     life = fireLife,
     smokeColor = fireSmokeColor,
-  }: FireMovementProps) {
+  }: LiquidFireMovementProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;
@@ -62,27 +63,44 @@ export class FireMovement extends MovesVertical {
       this.applyMovement(particle, grid);
     }
     if (this.remainingLife < 0) {
-      if (Math.random() < 0.9) {
-        const smoke = new Smoke(particle.index, {
-          // burning: Math.random() < 0.1,
-          color: this.smokeColor,
-        });
-        grid.setIndex(particle.index, smoke);
-      } else {
+      if (Math.random() < 0.01) {
         grid.setIndex(
           particle.index,
-          new Empty(particle.index)
-          // new Fire(particle.index, {
-          //   maxSpeed: this.maxSpeed,
-          //   acceleration: this.acceleration,
-          //   initialVelocity: this.velocity,
-          //   diagonalSpread: this.diagonalSpread,
-          //   verticalSpread: this.verticalSpread,
-          //   horizontalSpread: this.horizontalSpread,
-          //   smokeColor: this.smokeColor,
-          //   life: this.life,
-          // })
+          // new Empty(particle.index)
+          new Fire(particle.index, {
+            // maxSpeed: this.maxSpeed,
+            // acceleration: this.acceleration,
+            // initialVelocity: this.velocity,
+            // diagonalSpread: this.diagonalSpread,
+            // verticalSpread: this.verticalSpread,
+            // horizontalSpread: this.horizontalSpread,
+            smokeColor: this.smokeColor,
+            // life: this.life,
+          })
         );
+      } else {
+        if (Math.random() < 0.3) {
+          const smoke = new Smoke(particle.index, {
+            // burning: Math.random() < 0.1,
+            color: this.smokeColor,
+          });
+          grid.setIndex(particle.index, smoke);
+        } else {
+          grid.setIndex(
+            particle.index,
+            new Empty(particle.index)
+            // new Fire(particle.index, {
+            //   maxSpeed: this.maxSpeed,
+            //   acceleration: this.acceleration,
+            //   initialVelocity: this.velocity,
+            //   diagonalSpread: this.diagonalSpread,
+            //   verticalSpread: this.verticalSpread,
+            //   horizontalSpread: this.horizontalSpread,
+            //   smokeColor: this.smokeColor,
+            //   life: this.life,
+            // })
+          );
+        }
       }
     }
     this.remainingLife = Math.floor(this.remainingLife - 1);
