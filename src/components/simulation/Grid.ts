@@ -1,4 +1,5 @@
 import Empty from "@/components/simulation/materials/Empty";
+// import Particle, { Params } from "@/components/simulation/materials/Particle";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
 
 type GridParams = { rows: number; columns: number };
@@ -67,26 +68,6 @@ export class Grid {
         const particle = this.grid[index];
         particle.update(this, params);
       }
-
-      // if (leftToRight) {
-      // for (let col = 0; col < columns; col++) {
-      //   const index = rowOffset + col;
-      //   const particle = grid[index];
-
-      //   if (particle.stateOfMatter === "empty") continue;
-
-      //   particle.update(this, params);
-      //   }
-      // } else {
-      //   for (let col = columns - 1; col >= 0; col--) {
-      //     const index = rowOffset + col;
-      //     const particle = grid[index];
-
-      //     if (particle.stateOfMatter === "empty") continue;
-
-      //     particle.update(this, params);
-      //   }
-      // }
     }
   }
 

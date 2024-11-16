@@ -1,6 +1,7 @@
 import Particle from "@/components/simulation/materials/Particle";
 import { varyColor } from "@/lib/colors";
 import { clonerColor } from "@/lib/constants";
+
 import { Color } from "three";
 
 type ClonerProps = {
@@ -12,7 +13,6 @@ class Cloner extends Particle {
     super(index, {
       color: varyColor(color),
       stateOfMatter: "solid",
-      behaviours: [],
     });
   }
 }

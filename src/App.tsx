@@ -1,7 +1,7 @@
+import { selectableMaterialOptions } from "@/components/simulation/materials/Material";
 import EngineOptions from "@/components/simulation/options/EngineOptions";
 import MaterialButton from "@/components/simulation/options/MaterialButton";
 import MaterialOptions from "@/components/simulation/options/MaterialOptions";
-import { materialOptions } from "@/components/simulation/materials/Material";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Analytics } from "@vercel/analytics/react";
@@ -27,7 +27,7 @@ function App() {
             <div className="h-[calc(100%-40px)] md:h-[calc(100%-60px)] flex md:flex-col w-full border-b md:border-0 border-zinc-400 dark:border-zinc-800">
               <ScrollArea className="order-2 md:order-1  h-[100%] flex-1  p-3">
                 <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 content-start gap-4">
-                  {materialOptions.map((material) => {
+                  {selectableMaterialOptions.map((material) => {
                     return (
                       <MaterialButton key={material} material={material} />
                     );

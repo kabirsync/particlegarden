@@ -6,10 +6,17 @@ import {
   accelerationRefAtom,
   acidStrengthRefAtom,
   chanceToCatchRefAtom,
+  chanceToMeltRefAtom,
   diagonalSpreadRefAtom,
+  extinguishMaterialRefAtom,
+  // acidStrengthRefAtom,
+  // chanceToCatchRefAtom,
+  // diagonalSpreadRefAtom,
   FPSAtom,
-  fuelRefAtom,
+  // fuelRefAtom,
   horizontalSpreadRefAtom,
+  // fuelRefAtom,
+  // horizontalSpreadRefAtom,
   initialVelocityRefAtom,
   isPlayingAtom,
   lifeRefAtom,
@@ -18,8 +25,10 @@ import {
   particleSizeAtom,
   selectedMaterialAtom,
   smokeColorRefAtom,
+  // smokeColorRefAtom,
   strokeSizeRefAtom,
   verticalSpreadRefAtom,
+  // verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
 import { backgroundColorDark, backgroundColorLight } from "@/lib/constants";
 import { throttle } from "@/lib/utils";
@@ -56,9 +65,13 @@ const SimulationParticles = ({
   const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
   const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
   const [lifeRef] = useAtom(lifeRefAtom);
-  const [fuelRef] = useAtom(fuelRefAtom);
+  // const [fuelRef] = useAtom(fuelRefAtom);
   const [chanceToCatchlRef] = useAtom(chanceToCatchRefAtom);
+  const [chanceToMeltlRef] = useAtom(chanceToMeltRefAtom);
+
   const [smokeColorRef] = useAtom(smokeColorRefAtom);
+  const [extinguishMaterialRef] = useAtom(extinguishMaterialRefAtom);
+
   const [acidStengthRef] = useAtom(acidStrengthRefAtom);
 
   const [, setFPS] = useAtom(FPSAtom);
@@ -126,27 +139,27 @@ const SimulationParticles = ({
           const row = mouseRow + j;
 
           if (col >= 0 && col < columns && row >= 0 && row < rows) {
-            if (Math.random() > 0.25) {
-              const MaterialClass = MaterialMapping[material];
-              gridRef.current?.set(
-                col,
-                row,
-                new MaterialClass(row * columns + col, {
-                  color: materialColorRef.current,
-                  maxSpeed: maxSpeedRef.current,
-                  initialVelocity: initialVelocityRef.current,
-                  acceleration: accelerationRef.current,
-                  diagonalSpread: diagonalSpreadRef.current,
-                  verticalSpread: verticalSpreadRef.current,
-                  horizontalSpread: horizontalSpreadRef.current,
-                  life: lifeRef.current,
-                  fuel: fuelRef.current,
-                  chanceToCatch: chanceToCatchlRef.current,
-                  smokeColor: smokeColorRef.current,
-                  acidStrength: acidStengthRef.current,
-                })
-              );
-            }
+            const MaterialClass = MaterialMapping[material];
+            gridRef.current?.set(
+              col,
+              row,
+              new MaterialClass(row * columns + col, {
+                color: materialColorRef.current,
+                maxSpeed: maxSpeedRef.current,
+                initialVelocity: initialVelocityRef.current,
+                acceleration: accelerationRef.current,
+                diagonalSpread: diagonalSpreadRef.current,
+                verticalSpread: verticalSpreadRef.current,
+                horizontalSpread: horizontalSpreadRef.current,
+                life: lifeRef.current,
+                // fuel: fuelRef.current,
+                chanceToCatch: chanceToCatchlRef.current,
+                chanceToMelt: chanceToMeltlRef.current,
+                smokeColor: smokeColorRef.current,
+                extinguishMaterial: extinguishMaterialRef.current,
+                acidStrength: acidStengthRef.current,
+              })
+            );
           }
         }
       }
@@ -229,9 +242,9 @@ const SimulationParticles = ({
         ? selectedMaterial === "Empty"
           ? backgroundColor
           : materialColor // Highlight color under mouse
-        : square.stateOfMatter === "empty"
+        : square?.stateOfMatter === "empty"
         ? backgroundColor
-        : square.color ?? backgroundColor;
+        : square?.color ?? backgroundColor;
 
       colors[index * 3] = color.r;
       colors[index * 3 + 1] = color.g;

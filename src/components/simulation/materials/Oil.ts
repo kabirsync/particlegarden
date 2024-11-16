@@ -1,7 +1,4 @@
-// import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
-// import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
-import { Flammable } from "@/components/simulation/behaviours/Flammable";
-import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
+import { OilMovement } from "@/components/simulation/behaviours/OilMovement";
 import Particle from "@/components/simulation/materials/Particle";
 import {
   oilAcceleration,
@@ -15,6 +12,7 @@ import {
   oilSmokeColor,
   oilVerticalSpread,
 } from "@/lib/constants";
+
 import { Color } from "three";
 
 type OilProps = {
@@ -25,12 +23,18 @@ type OilProps = {
   diagonalSpread?: number;
   verticalSpread?: number;
   horizontalSpread?: number;
-  fuel?: number;
-  chanceToCatch?: number;
   smokeColor?: Color;
+  life?: number;
+  chanceToCatch?: number;
 };
 
 class Oil extends Particle {
+  life: number;
+  chanceToCatch: number;
+  //   chanceToMelt: number;
+  smokeColor: Color;
+  burningMaterial: "LiquidFire";
+
   constructor(
     index: number,
     {
@@ -41,44 +45,31 @@ class Oil extends Particle {
       diagonalSpread = oilDiagonalSpread,
       verticalSpread = oilVerticalSpread,
       horizontalSpread = oilHorizontalSpread,
-      fuel = oilFuel + oilFuel * Math.random(),
+      life = oilFuel,
       chanceToCatch = oilChanceToCatch,
+      //   chanceToMelt = oilC,
       smokeColor = oilSmokeColor,
     }: OilProps
   ) {
     super(index, {
-      // color: Math.random() < 0.5 ? lightenThreeColor(color, 0.1) : color,
-      color,
+      color: color,
       stateOfMatter: "liquid",
-      behaviours: [
-        new MovesVerticalWater({
-          maxSpeed,
-          acceleration,
-          initialVelocity,
-          diagonalSpread,
-          verticalSpread,
-          horizontalSpread,
-        }),
-        new Flammable({
-          fuel,
-          chanceToCatch,
-          smokeColor,
-        }),
-        // new Cloneable({
-        //   color,
-        //   material: "Oil",
-        //   maxSpeed,
-        //   acceleration,
-        //   initialVelocity,
-        //   diagonalSpread,
-        //   verticalSpread,
-        //   horizontalSpread,
-        //   fuel,
-        //   smokeColor,
-        // }),
-        // new Destroyable(),
-      ],
+      behaviour: new OilMovement({
+        maxSpeed,
+        acceleration,
+        initialVelocity,
+        diagonalSpread,
+        verticalSpread,
+        horizontalSpread,
+        // life,
+        // smokeColor,
+      }),
     });
+    this.life = life;
+    this.chanceToCatch = chanceToCatch;
+    // this.chanceToMelt = chanceToMelt;
+    this.smokeColor = smokeColor;
+    this.burningMaterial = "LiquidFire";
   }
 }
 

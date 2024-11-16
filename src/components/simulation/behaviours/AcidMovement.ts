@@ -21,14 +21,14 @@ import Stone from "@/components/simulation/materials/Stone";
 import Wood from "@/components/simulation/materials/Wood";
 import Sand from "@/components/simulation/materials/Sand";
 
-export type MovesVerticalAcidProps = MovesVerticalProps & {
+export type AcidMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
   horizontalSpread?: number;
   verticalSpread?: number;
   acidStrength?: number;
 };
 
-export class MovesVerticalAcid extends MovesVertical {
+export class AcidMovement extends MovesVertical {
   diagonalSpread: number;
   verticalSpread: number;
   horizontalSpread: number;
@@ -42,7 +42,7 @@ export class MovesVerticalAcid extends MovesVertical {
     verticalSpread = acidVerticalSpread,
     horizontalSpread = acidHorizontalSpread,
     acidStrength = acidDefaultStrength,
-  }: MovesVerticalAcidProps) {
+  }: AcidMovementProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;

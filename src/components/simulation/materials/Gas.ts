@@ -1,9 +1,4 @@
-// import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
-// import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
-import { Flammable } from "@/components/simulation/behaviours/Flammable";
-import { LimitedLife } from "@/components/simulation/behaviours/LimitedLife";
-import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
-import { Grid } from "@/components/simulation/Grid";
+import { GasMovement } from "@/components/simulation/behaviours/GasMovement";
 import Particle from "@/components/simulation/materials/Particle";
 import {
   gasAcceleration,
@@ -17,6 +12,7 @@ import {
   gasSmokeColor,
   gasVerticalSpread,
 } from "@/lib/constants";
+
 import { Color } from "three";
 
 type GasProps = {
@@ -27,12 +23,18 @@ type GasProps = {
   diagonalSpread?: number;
   verticalSpread?: number;
   horizontalSpread?: number;
-  fuel?: number;
-  chanceToCatch?: number;
   smokeColor?: Color;
+  life?: number;
+  chanceToCatch?: number;
 };
 
 class Gas extends Particle {
+  life: number;
+  chanceToCatch: number;
+  //   chanceToMelt: number;
+  smokeColor: Color;
+  burningMaterial: "Fire";
+
   constructor(
     index: number,
     {
@@ -43,48 +45,31 @@ class Gas extends Particle {
       diagonalSpread = gasDiagonalSpread,
       verticalSpread = gasVerticalSpread,
       horizontalSpread = gasHorizontalSpread,
-      fuel = gasFuel + gasFuel * Math.random(),
+      life = gasFuel,
       chanceToCatch = gasChanceToCatch,
+      //   chanceToMelt = gasC,
       smokeColor = gasSmokeColor,
     }: GasProps
   ) {
     super(index, {
-      color,
-      stateOfMatter: "liquid",
-      behaviours: [
-        new MovesVerticalWater({
-          maxSpeed,
-          acceleration,
-          initialVelocity,
-          diagonalSpread,
-          verticalSpread,
-          horizontalSpread,
-        }),
-        new Flammable({
-          fuel,
-          chanceToCatch,
-          smokeColor,
-        }),
-        new LimitedLife(4000 - 400 * Math.random(), {
-          onDeath: (_, particle: Particle, grid: Grid) => {
-            grid.clearIndex(particle.index);
-          },
-        }),
-        // new Cloneable({
-        //   color,
-        //   material: "Gas",
-        //   maxSpeed,
-        //   acceleration,
-        //   initialVelocity,
-        //   diagonalSpread,
-        //   verticalSpread,
-        //   horizontalSpread,
-        //   fuel,
-        //   smokeColor,
-        // }),
-        // new Destroyable(),
-      ],
+      color: color,
+      stateOfMatter: "gas",
+      behaviour: new GasMovement({
+        maxSpeed,
+        acceleration,
+        initialVelocity,
+        diagonalSpread,
+        verticalSpread,
+        horizontalSpread,
+        life,
+        smokeColor,
+      }),
     });
+    this.life = life;
+    this.chanceToCatch = chanceToCatch;
+    // this.chanceToMelt = chanceToMelt;
+    this.smokeColor = smokeColor;
+    this.burningMaterial = "Fire";
   }
 }
 

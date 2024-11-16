@@ -19,11 +19,17 @@ export const gasColor = new Color("#FF8585");
 export const lavaColor = new Color("#e34f0f");
 export const stoneColor = new Color("#4C4A4D");
 export const acidColor = new Color("#00FF00");
+
 export const clonerColor = new Color("#FF8585");
 export const voidColor = new Color("#301934");
 
 export const backgroundColorDark = new Color("#09090b");
 export const backgroundColorLight = new Color("#f4f4f5");
+
+// Stone
+export const stoneSmokeColor = smokeColor;
+export const stoneChanceToMelt = 0.01;
+export const stoneChanceToCatch = 0;
 
 // Fix - Particle.ts
 export const transparentColor = new Color("#09090b");
@@ -79,7 +85,7 @@ export const waterHorizontalSpread = 3;
 export const acidDirection = 1;
 export const acidMaterialColor = acidColor;
 export const acidStrokeSize = 10;
-export const acidMaxSpeed = 4;
+export const acidMaxSpeed = 8;
 export const acidInitialVelocity = 0.1;
 export const acidAcceleration = 0.5;
 export const acidDiagonalSpread = 3;
@@ -98,7 +104,8 @@ export const lavaDiagonalSpread = 1;
 export const lavaVerticalSpread = 1;
 export const lavaHorizontalSpread = 1;
 export const lavaSmokeColor = smokeMaterialColor;
-export const lavaFuel = 10000;
+export const lavaFuel = 200;
+export const lavalExtinguishMaterial = "Stone";
 
 // Oil
 export const oilDirection = 1;
@@ -110,9 +117,10 @@ export const oilAcceleration = 0.5;
 export const oilDiagonalSpread = 3;
 export const oilVerticalSpread = 1;
 export const oilHorizontalSpread = 3;
-export const oilFuel = 500;
-export const oilChanceToCatch = 0.1;
+export const oilFuel = 800;
+export const oilChanceToCatch = 0.6;
 export const oilSmokeColor = smokeMaterialColor;
+export const oilBurningMaterial = "LiquidFire";
 
 // Gas
 export const gasDirection = -1;
@@ -140,8 +148,11 @@ export const fireVerticalSpread = 1;
 export const fireHorizontalSpread = 3;
 export const fireLife = 200;
 export const fireSmokeColor = smokeMaterialColor;
+export const fireExtinguishMaterial = "Smoke";
 
 // Wood
-export const woodFuel = 200;
+export const woodFuel = 1000;
 export const woodChanceToCatch = 0.005;
+export const woodChanceToMelt = 0.1;
+
 export const woodSmokeColor = smokeMaterialColor;

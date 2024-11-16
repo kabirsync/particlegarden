@@ -1,26 +1,47 @@
-import Water from "@/components/simulation/materials/Water";
-import Wood from "@/components/simulation/materials/Wood";
+// import Water from "@/components/simulation/materials/Water";
+// import Wood from "@/components/simulation/materials/Wood";
 import {
   BrickWall,
+  // BrickWall,
   Circle,
   Cloud,
-  // Copy,
+  Copy,
   Droplet,
   Flame,
+  // Cloud,
+  // Copy,
+  // Droplet,
+  // Flame,
   Grip,
-  // Shell,
+  Shell,
   TreePine,
+  // Shell,
+  // TreePine,
 } from "lucide-react";
 import { Color } from "three";
 import Empty from "./Empty";
 import Sand from "./Sand";
-import { Smoke } from "@/components/simulation/materials/Smoke";
-import { Fire } from "@/components/simulation/materials/Fire";
-import Oil from "@/components/simulation/materials/Oil";
-import Gas from "@/components/simulation/materials/Gas";
 import Lava from "@/components/simulation/materials/Lava";
+// import { StaticFire } from "@/components/simulation/materials/StaticFire";
+import { Smoke } from "@/components/simulation/materials/Smoke";
+import Wood from "@/components/simulation/materials/Wood";
+import { Fire } from "@/components/simulation/materials/Fire";
+import Water from "@/components/simulation/materials/Water";
 import Stone from "@/components/simulation/materials/Stone";
+import Oil from "@/components/simulation/materials/Oil";
+import { LiquidFire } from "@/components/simulation/materials/LiquidFire";
+import { StaticFire } from "@/components/simulation/materials/StaticFire";
+import Gas from "@/components/simulation/materials/Gas";
+import Void from "@/components/simulation/materials/Void";
+import Cloner from "@/components/simulation/materials/Cloner";
 import { Acid } from "@/components/simulation/materials/Acid";
+// import { Smoke } from "@/components/simulation/materials/Smoke";
+// import { Fire } from "@/components/simulation/materials/Fire";
+// import Oil from "@/components/simulation/materials/Oil";
+// import Gas from "@/components/simulation/materials/Gas";
+// import Lava from "@/components/simulation/materials/Lava";
+// import Stone from "@/components/simulation/materials/Stone";
+// import { Acid } from "@/components/simulation/materials/Acid";
 // import Cloner from "@/components/simulation/materials/Cloner";
 // import Void from "@/components/simulation/materials/Void";
 
@@ -32,15 +53,22 @@ import { Acid } from "@/components/simulation/materials/Acid";
 type MaterialClasses =
   | Empty
   | Sand
+  | Lava
+  | Fire
+  | Smoke
   | Wood
   | Water
-  | Smoke
-  | Fire
-  | Oil
-  | Gas
-  | Lava
   | Stone
+  | Oil
+  | LiquidFire
+  | StaticFire
+  | Gas
+  | Void
+  | Cloner
   | Acid;
+
+// | Stone
+// | Acid;
 // | Cloner
 // | Void;
 
@@ -58,8 +86,26 @@ export const materialOptions = [
   "Lava",
   "Stone",
   "Acid",
-  // "Cloner",
-  // "Void",
+  "Cloner",
+  "Void",
+  "LiquidFire",
+  "StaticFire",
+] as const;
+
+export const selectableMaterialOptions = [
+  "Empty",
+  "Sand",
+  "Wood",
+  "Water",
+  "Smoke",
+  "Fire",
+  "Oil",
+  "Gas",
+  "Lava",
+  "Stone",
+  "Void",
+  "Cloner",
+  "Acid",
 ] as const;
 export type MaterialOptionsType = (typeof materialOptions)[number];
 
@@ -72,11 +118,18 @@ type MaterialProps = {
   verticalSpread?: number;
   horizontalSpread?: number;
   life?: number;
-  fuel?: number;
+  // fuel?: number;
   chanceToCatch?: number;
+  chanceToMelt?: number;
   smokeColor?: Color;
+  extinguishMaterial?: MaterialOptionsType;
   acidStrength?: number;
 };
+
+export type SelectableMaterials = Exclude<
+  MaterialOptionsType,
+  "StaticFire" | "LiquidFire"
+>;
 
 export const getMaterialIcon = (material: MaterialOptionsType) => {
   switch (material) {
@@ -92,6 +145,7 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
       return <Cloud className="h-3 w-3 text-zinc-500 fill-zinc-500" />;
     case "Fire":
       return <Flame className="h-3 w-3 text-red-500 fill-red-500" />;
+
     case "Oil":
       return <Droplet className="h-3 w-3 text-amber-950 fill-amber-950" />;
     case "Gas":
@@ -102,10 +156,10 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
       return <BrickWall className="h-3 w-3 text-zinc-500 fill-zinc-700" />;
     case "Acid":
       return <Droplet className="h-3 w-3 text-green-500 fill-green-900" />;
-    // case "Cloner":
-    //   return <Copy className="h-3 w-3 text-red-300" />;
-    // case "Void":
-    //   return <Shell className="h-3 w-3 text-purple-950 fill-zinc-950" />;
+    case "Cloner":
+      return <Copy className="h-3 w-3 text-red-300" />;
+    case "Void":
+      return <Shell className="h-3 w-3 text-purple-950 fill-zinc-950" />;
     default:
       return null;
   }
@@ -121,12 +175,17 @@ export const MaterialMapping: Record<
         maxSpeed,
         initialVelocity,
         acceleration,
+        // fuel,
         life,
-        fuel,
         chanceToCatch,
+        chanceToMelt,
         smokeColor,
+        extinguishMaterial,
         acidStrength,
-      }: MaterialProps
+      }: // acidStrength,
+      // life,
+
+      MaterialProps
     ): MaterialClasses;
   }
 > = {
@@ -138,10 +197,12 @@ export const MaterialMapping: Record<
   Smoke,
   Fire,
   Oil,
+  StaticFire,
   Gas,
   Lava,
   Stone,
+  LiquidFire,
   Acid,
-  // Cloner,
-  // Void,
+  Cloner,
+  Void,
 };

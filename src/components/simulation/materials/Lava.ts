@@ -1,9 +1,8 @@
 // import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 // import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
-import { Flammable } from "@/components/simulation/behaviours/Flammable";
-import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
+import { LavaMovement } from "@/components/simulation/behaviours/LavaMovement";
+import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import Particle from "@/components/simulation/materials/Particle";
-import Stone from "@/components/simulation/materials/Stone";
 import {
   lavaAcceleration,
   lavaColor,
@@ -11,6 +10,7 @@ import {
   lavaFuel,
   lavaHorizontalSpread,
   lavaInitialVelocity,
+  lavalExtinguishMaterial,
   lavaMaxSpeed,
   lavaSmokeColor,
   lavaVerticalSpread,
@@ -25,12 +25,15 @@ type LavaProps = {
   diagonalSpread?: number;
   verticalSpread?: number;
   horizontalSpread?: number;
-  fuel?: number;
-  chanceToCatch?: number;
+  life?: number;
   smokeColor?: Color;
+  extinguishMaterial?: MaterialOptionsType;
 };
 
 class Lava extends Particle {
+  extinguishMaterial: MaterialOptionsType;
+  smokeColor: Color;
+
   constructor(
     index: number,
     {
@@ -41,49 +44,28 @@ class Lava extends Particle {
       diagonalSpread = lavaDiagonalSpread,
       verticalSpread = lavaVerticalSpread,
       horizontalSpread = lavaHorizontalSpread,
-      fuel = lavaFuel + lavaFuel * Math.random(),
+      life = lavaFuel,
       smokeColor = lavaSmokeColor,
-    }: //   chanceToCatch = 0.01,
-    LavaProps
+      extinguishMaterial = lavalExtinguishMaterial,
+    }: LavaProps
   ) {
     super(index, {
-      // color: Math.random() < 0.5 ? lightenThreeColor(color, 0.1) : color,
       color,
       stateOfMatter: "liquid",
-      behaviours: [
-        new MovesVerticalWater({
-          maxSpeed,
-          acceleration,
-          initialVelocity,
-          diagonalSpread,
-          verticalSpread,
-          horizontalSpread,
-        }),
-        new Flammable({
-          fuel,
-          chanceToCatch: 0,
-          smokeColor,
-          //   chanceToCatch,
-          burning: true,
-          onDeath: (_, particle, grid) => {
-            grid.setIndex(particle.index, new Stone(particle.index, {}));
-          },
-        }),
-        // new Cloneable({
-        //   color,
-        //   material: "Lava",
-        //   maxSpeed,
-        //   acceleration,
-        //   initialVelocity,
-        //   diagonalSpread,
-        //   verticalSpread,
-        //   horizontalSpread,
-        //   fuel,
-        //   smokeColor,
-        // }),
-        // new Destroyable(),
-      ],
+      behaviour: new LavaMovement({
+        maxSpeed,
+        acceleration,
+        initialVelocity,
+        diagonalSpread,
+        verticalSpread,
+        horizontalSpread,
+        life,
+        smokeColor,
+      }),
     });
+    this.smokeColor = smokeColor;
+
+    this.extinguishMaterial = extinguishMaterial;
   }
 }
 

@@ -1,3 +1,4 @@
+import CombustibleOptions from "@/components/simulation/options/CombustbleOptions";
 import FlammableOptions from "@/components/simulation/options/FlammableOptions";
 import LimitedLifeOptions from "@/components/simulation/options/LimitedLifeOptions";
 import MovesVerticalAcidOptions from "@/components/simulation/options/MovesVerticalAcidOptions";
@@ -78,6 +79,13 @@ const MaterialOptions = () => {
             <FlammableOptions />
           </div>
         </>
+      )}{" "}
+      {["Wood", "Oil", "Gas"].includes(selectedMaterial) && (
+        <>
+          <div className="px-3 flex flex-col gap-4">
+            <CombustibleOptions />
+          </div>
+        </>
       )}
       {[
         "Sand",
@@ -100,7 +108,6 @@ const MaterialOptions = () => {
           </div>
         </>
       )}
-
       {["Water", "Smoke", "Acid", "Lava", "Oil", "Gas"].includes(
         selectedMaterial
       ) && (

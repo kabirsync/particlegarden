@@ -11,6 +11,7 @@ export abstract class MovesVertical extends Behaviour {
   maxSpeed: number;
   acceleration: number;
   velocity: number;
+  initialVelocity: number;
 
   constructor({
     maxSpeed = 0,
@@ -21,13 +22,13 @@ export abstract class MovesVertical extends Behaviour {
     this.maxSpeed = maxSpeed;
     this.acceleration = acceleration;
     this.velocity = initialVelocity;
+    this.initialVelocity = initialVelocity;
   }
 
   updateVelocity() {
-    const newVelocity =
-      Math.sign(this.velocity + this.acceleration) *
+    this.velocity =
+      (this.velocity + this.acceleration > 0 ? 1 : -1) *
       Math.min(Math.abs(this.velocity + this.acceleration), this.maxSpeed);
-    this.velocity = newVelocity;
   }
 
   resetVelocity() {

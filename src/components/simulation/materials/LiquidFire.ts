@@ -1,11 +1,10 @@
-import { FireMovement } from "@/components/simulation/behaviours/FireMovement";
+import { LiquidFireMovement } from "@/components/simulation/behaviours/LiquidFireMovement";
 import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import Particle from "@/components/simulation/materials/Particle";
 import {
   fireAcceleration,
   fireColor,
   fireDiagonalSpread,
-  fireExtinguishMaterial,
   fireHorizontalSpread,
   fireInitialVelocity,
   fireLife,
@@ -15,7 +14,7 @@ import {
 } from "@/lib/constants";
 import { Color } from "three";
 
-type FireProps = {
+type LiquidFireProps = {
   color?: Color;
   maxSpeed?: number;
   acceleration?: number;
@@ -28,7 +27,7 @@ type FireProps = {
   extinguishMaterial?: MaterialOptionsType;
 };
 
-export class Fire extends Particle {
+export class LiquidFire extends Particle {
   extinguishMaterial: MaterialOptionsType;
   smokeColor: Color;
   constructor(
@@ -37,19 +36,19 @@ export class Fire extends Particle {
       color = fireColor,
       life = fireLife,
       maxSpeed = fireMaxSpeed,
-      acceleration = fireAcceleration,
-      initialVelocity = fireInitialVelocity,
+      acceleration = -1 * fireAcceleration,
+      initialVelocity = -1 * fireInitialVelocity,
       diagonalSpread = fireDiagonalSpread,
       verticalSpread = fireVerticalSpread,
       horizontalSpread = fireHorizontalSpread,
       smokeColor = fireSmokeColor,
-      extinguishMaterial = fireExtinguishMaterial,
-    }: FireProps
+      extinguishMaterial = "Fire",
+    }: LiquidFireProps
   ) {
     super(index, {
       color,
       stateOfMatter: "gas",
-      behaviour: new FireMovement({
+      behaviour: new LiquidFireMovement({
         maxSpeed,
         acceleration,
         initialVelocity,

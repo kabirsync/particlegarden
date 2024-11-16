@@ -1,4 +1,7 @@
-import { MaterialOptionsType } from "@/components/simulation/materials/Material";
+import {
+  MaterialOptionsType,
+  SelectableMaterials,
+} from "@/components/simulation/materials/Material";
 import {
   acidDefaultStrength,
   defaultDiagonalSpread,
@@ -10,6 +13,8 @@ import {
   defaultSelecteMaterial,
   defaultStrokeSize,
   defaultVerticalSpread,
+  lavalExtinguishMaterial,
+  oilBurningMaterial,
   sandAcceleration,
   sandDirection,
   sandInitialVelocity,
@@ -29,7 +34,7 @@ export const particleSizeAtom = atom(defaultParticleSize);
 
 // --------- Material Options ---------
 
-export const selectedMaterialAtom = atom<MaterialOptionsType>(
+export const selectedMaterialAtom = atom<SelectableMaterials>(
   defaultSelecteMaterial
 );
 
@@ -90,13 +95,34 @@ export const fuelAtom = atom(woodFuel);
 export const chanceToCatchRefAtom = atom(() => ({
   current: woodChanceToCatch,
 }));
-export const chanceToCatchAtom = atom(woodFuel);
+export const chanceToCatchAtom = atom(woodChanceToCatch);
+
+export const chanceToMeltRefAtom = atom(() => ({
+  current: woodChanceToCatch,
+}));
+export const chanceToMeltAtom = atom(woodChanceToCatch);
 
 export const smokeColorRefAtom = atom(() => ({
   current: woodSmokeColor,
 }));
 export const smokeColorAtom = atom(woodSmokeColor);
 
+export const extinguishMaterialRefAtom = atom<{ current: MaterialOptionsType }>(
+  () => ({
+    current: lavalExtinguishMaterial,
+  })
+);
+export const extinguishMaterialAtom = atom<MaterialOptionsType>(
+  lavalExtinguishMaterial
+);
+
+export const burningMaterialRefAtom = atom<{ current: MaterialOptionsType }>(
+  () => ({
+    current: oilBurningMaterial,
+  })
+);
+export const burningMaterialAtom =
+  atom<MaterialOptionsType>(oilBurningMaterial);
 // --------- Acid Options ---------
 export const acidStrengthRefAtom = atom(() => ({
   current: acidDefaultStrength,

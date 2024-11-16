@@ -1,6 +1,4 @@
-// import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
-// import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
-import { MovesVerticalWater } from "@/components/simulation/behaviours/MovesVerticalWater";
+import { WaterMovement } from "@/components/simulation/behaviours/WaterMovement";
 import Particle from "@/components/simulation/materials/Particle";
 import {
   waterAcceleration,
@@ -11,6 +9,7 @@ import {
   waterMaxSpeed,
   waterVerticalSpread,
 } from "@/lib/constants";
+
 import { Color } from "three";
 
 type WaterProps = {
@@ -37,30 +36,17 @@ class Water extends Particle {
     }: WaterProps
   ) {
     super(index, {
-      // color: Math.random() < 0.5 ? lightenThreeColor(color, 0.1) : color,
-      color,
+      color: color,
       stateOfMatter: "liquid",
-      behaviours: [
-        new MovesVerticalWater({
-          maxSpeed,
-          acceleration,
-          initialVelocity,
-          diagonalSpread,
-          verticalSpread,
-          horizontalSpread,
-        }),
-        // new Cloneable({
-        //   color,
-        //   material: "Water",
-        //   maxSpeed,
-        //   acceleration,
-        //   initialVelocity,
-        //   diagonalSpread,
-        //   verticalSpread,
-        //   horizontalSpread,
-        // }),
-        // new Destroyable(),
-      ],
+      behaviour: new WaterMovement({
+        maxSpeed,
+        acceleration,
+        initialVelocity,
+        diagonalSpread,
+        verticalSpread,
+        horizontalSpread,
+        color,
+      }),
     });
   }
 }

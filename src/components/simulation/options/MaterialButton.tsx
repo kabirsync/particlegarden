@@ -1,12 +1,16 @@
 import {
   getMaterialIcon,
-  MaterialOptionsType,
+  SelectableMaterials,
 } from "@/components/simulation/materials/Material";
 import {
   accelerationAtom,
   accelerationRefAtom,
+  acidStrengthAtom,
+  acidStrengthRefAtom,
   chanceToCatchAtom,
   chanceToCatchRefAtom,
+  chanceToMeltAtom,
+  chanceToMeltRefAtom,
   diagonalSpreadAtom,
   diagonalSpreadRefAtom,
   fuelAtom,
@@ -33,13 +37,14 @@ import { Button } from "@/components/ui/button";
 import {
   acidAcceleration,
   acidColor,
+  acidDefaultStrength,
   acidDiagonalSpread,
   acidDirection,
   acidHorizontalSpread,
   acidInitialVelocity,
   acidMaxSpeed,
   acidVerticalSpread,
-  // clonerColor,
+  clonerColor,
   fireAcceleration,
   fireColor,
   fireDirection,
@@ -93,9 +98,11 @@ import {
   smokeLife,
   smokeMaxSpeed,
   smokeVerticalSpread,
+  stoneChanceToCatch,
   stoneColor,
+  stoneSmokeColor,
   transparentColor,
-  // voidColor,
+  voidColor,
   waterAcceleration,
   waterColor,
   waterDiagonalSpread,
@@ -111,11 +118,7 @@ import {
 } from "@/lib/constants";
 import { useAtom } from "jotai";
 
-type MaterialButtonProps = {
-  material: MaterialOptionsType;
-};
-
-const MaterialButton = ({ material }: MaterialButtonProps) => {
+const MaterialButton = ({ material }: { material: SelectableMaterials }) => {
   const [materialColorRef] = useAtom(materialColorRefAtom);
   const [selectedMaterial, setSelectedMaterial] = useAtom(selectedMaterialAtom);
 
@@ -134,6 +137,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
   const [fuelRef] = useAtom(fuelRefAtom);
   const [, setChanceToCatch] = useAtom(chanceToCatchAtom);
   const [chanceToCatchRef] = useAtom(chanceToCatchRefAtom);
+  const [, setChanceToMelt] = useAtom(chanceToMeltAtom);
+  const [chanceToMeltRef] = useAtom(chanceToMeltRefAtom);
   const [, setSmokeColor] = useAtom(smokeColorAtom);
   const [smokeColorRef] = useAtom(smokeColorRefAtom);
   const [, setDiagonalSpread] = useAtom(diagonalSpreadAtom);
@@ -142,29 +147,20 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
   const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
   const [, setHorizontalSpread] = useAtom(horizontalSpreadAtom);
   const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
+  const [, setAcidStrength] = useAtom(acidStrengthAtom);
+  const [acidStrengthRef] = useAtom(acidStrengthRefAtom);
   // Helper function to enforce exhaustiveness
   function assertUnreachable(x: never): never {
     throw new Error(`Missing material type handling for: ${x}`);
   }
 
   const handleSelectedMaterialChange = (
-    newSelectedMaterial: MaterialOptionsType
+    newSelectedMaterial: SelectableMaterials
   ) => {
     switch (newSelectedMaterial) {
       case "Empty": {
         setMaterialColor(transparentColor);
         materialColorRef.current = transparentColor;
-        break;
-      }
-      case "Wood": {
-        setMaterialColor(woodColor);
-        materialColorRef.current = woodColor;
-        setFuel(woodFuel);
-        fuelRef.current = woodFuel;
-        setChanceToCatch(woodChanceToCatch);
-        chanceToCatchRef.current = woodChanceToCatch;
-        setSmokeColor(woodSmokeColor);
-        smokeColorRef.current = woodSmokeColor;
         break;
       }
       case "Sand": {
@@ -180,6 +176,22 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         gravityDirectionRef.current = sandDirection;
         break;
       }
+      case "Wood": {
+        setMaterialColor(woodColor);
+        materialColorRef.current = woodColor;
+        setFuel(woodFuel);
+        fuelRef.current = woodFuel;
+        setLife(woodFuel);
+        lifeRef.current = woodFuel;
+        setChanceToCatch(woodChanceToCatch);
+        chanceToCatchRef.current = woodChanceToCatch;
+        setChanceToMelt(woodChanceToCatch);
+        chanceToMeltRef.current = woodChanceToCatch;
+        setSmokeColor(woodSmokeColor);
+        smokeColorRef.current = woodSmokeColor;
+        break;
+      }
+
       case "Water": {
         setMaterialColor(waterColor);
         materialColorRef.current = waterColor;
@@ -220,10 +232,28 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         horizontalSpreadRef.current = smokeHorizontalSpread;
         break;
       }
+
+      // case "Flame": {
+      //   setMaterialColor(fireColor);
+      //   materialColorRef.current = fireColor;
+      //   setMaxSpeed(fireMaxSpeed);
+      //   maxSpeedRef.current = fireMaxSpeed;
+      //   setInitialVelocity(fireInitialVelocity);
+      //   initialVelocityRef.current = fireInitialVelocity;
+      //   setAcceleration(fireAcceleration);
+      //   accelerationRef.current = fireAcceleration;
+      //   setLife(fireLife);
+      //   lifeRef.current = fireLife;
+      //   setGravityDirection(fireDirection);
+      //   gravityDirectionRef.current = fireDirection;
+      //   setSmokeColor(fireSmokeColor);
+      //   smokeColorRef.current = fireSmokeColor;
+      //   break;
+      // }
       case "Fire": {
         setMaterialColor(fireColor);
         materialColorRef.current = fireColor;
-        setMaxSpeed(smokeMaxSpeed);
+        setMaxSpeed(fireMaxSpeed);
         maxSpeedRef.current = fireMaxSpeed;
         setInitialVelocity(fireInitialVelocity);
         initialVelocityRef.current = fireInitialVelocity;
@@ -248,8 +278,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         accelerationRef.current = oilAcceleration;
         setGravityDirection(oilDirection);
         gravityDirectionRef.current = oilDirection;
-        setFuel(oilFuel);
-        fuelRef.current = oilFuel;
+        setLife(oilFuel);
+        lifeRef.current = oilFuel;
         setChanceToCatch(oilChanceToCatch);
         chanceToCatchRef.current = oilChanceToCatch;
         setSmokeColor(oilSmokeColor);
@@ -273,8 +303,8 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         accelerationRef.current = gasAcceleration;
         setGravityDirection(gasDirection);
         gravityDirectionRef.current = gasDirection;
-        setFuel(gasFuel);
-        fuelRef.current = gasFuel;
+        setLife(gasFuel);
+        lifeRef.current = gasFuel;
         setChanceToCatch(gasChanceToCatch);
         chanceToCatchRef.current = gasChanceToCatch;
         setSmokeColor(gasSmokeColor);
@@ -313,6 +343,12 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
       case "Stone": {
         setMaterialColor(stoneColor);
         materialColorRef.current = stoneColor;
+        setChanceToCatch(stoneChanceToCatch);
+        chanceToCatchRef.current = stoneChanceToCatch;
+        setChanceToMelt(stoneChanceToCatch);
+        chanceToMeltRef.current = stoneChanceToCatch;
+        setSmokeColor(stoneSmokeColor);
+        smokeColorRef.current = stoneSmokeColor;
         break;
       }
       case "Acid": {
@@ -332,16 +368,40 @@ const MaterialButton = ({ material }: MaterialButtonProps) => {
         verticalSpreadRef.current = acidVerticalSpread;
         setHorizontalSpread(acidHorizontalSpread);
         horizontalSpreadRef.current = acidHorizontalSpread;
+        setAcidStrength(acidDefaultStrength);
+        acidStrengthRef.current = acidDefaultStrength;
         break;
       }
-      // case "Cloner": {
-      //   setMaterialColor(clonerColor);
-      //   materialColorRef.current = clonerColor;
+      case "Cloner": {
+        setMaterialColor(clonerColor);
+        materialColorRef.current = clonerColor;
+        break;
+      }
+      case "Void": {
+        setMaterialColor(voidColor);
+        materialColorRef.current = voidColor;
+        break;
+      }
+      // case "LiquidFire": {
+      //   // setMaterialColor(stoneColor);
+      //   // materialColorRef.current = stoneColor;
+      //   // setChanceToCatch(stoneChanceToCatch);
+      //   // chanceToCatchRef.current = stoneChanceToCatch;
+      //   // setChanceToMelt(stoneChanceToCatch);
+      //   // chanceToMeltRef.current = stoneChanceToCatch;
+      //   // setSmokeColor(stoneSmokeColor);
+      //   // smokeColorRef.current = stoneSmokeColor;
       //   break;
       // }
-      // case "Void": {
-      //   setMaterialColor(voidColor);
-      //   materialColorRef.current = voidColor;
+      // case "StaticFire": {
+      //   // setMaterialColor(stoneColor);
+      //   // materialColorRef.current = stoneColor;
+      //   // setChanceToCatch(stoneChanceToCatch);
+      //   // chanceToCatchRef.current = stoneChanceToCatch;
+      //   // setChanceToMelt(stoneChanceToCatch);
+      //   // chanceToMeltRef.current = stoneChanceToCatch;
+      //   // setSmokeColor(stoneSmokeColor);
+      //   // smokeColorRef.current = stoneSmokeColor;
       //   break;
       // }
       default: {

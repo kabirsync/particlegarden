@@ -1,6 +1,6 @@
 // import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
 // import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
-import { MovesVerticalAcid } from "@/components/simulation/behaviours/MovesVerticalAcid";
+import { AcidMovement } from "@/components/simulation/behaviours/AcidMovement";
 import Particle from "@/components/simulation/materials/Particle";
 import {
   acidAcceleration,
@@ -42,28 +42,15 @@ export class Acid extends Particle {
     super(index, {
       color: color,
       stateOfMatter: "liquid",
-      behaviours: [
-        new MovesVerticalAcid({
-          maxSpeed,
-          acceleration,
-          initialVelocity,
-          diagonalSpread,
-          verticalSpread,
-          horizontalSpread,
-          acidStrength,
-        }),
-        // new Cloneable({
-        //   color,
-        //   material: "Acid",
-        //   maxSpeed,
-        //   acceleration,
-        //   initialVelocity,
-        //   diagonalSpread,
-        //   verticalSpread,
-        //   horizontalSpread,
-        // }),
-        // new Destroyable(),
-      ],
+      behaviour: new AcidMovement({
+        maxSpeed,
+        acceleration,
+        initialVelocity,
+        diagonalSpread,
+        verticalSpread,
+        horizontalSpread,
+        acidStrength,
+      }),
     });
   }
 }
