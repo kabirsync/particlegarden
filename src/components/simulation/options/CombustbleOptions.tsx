@@ -66,41 +66,43 @@ const CombustibleOptions = () => {
                 }}
               />
             </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="life" className="text-xs">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-zinc-400">Chance to melt : </span>
-                  <Input
-                    className="text-xs h-8 w-min"
-                    type="number"
-                    min={0}
-                    max={1}
-                    value={chanceToMelt}
-                    onChange={(e) => {
-                      if (Number(e.target.value) > 1)
-                        handleChanceToMeltChange(Number(1));
-                      else if (Number(e.target.value) < 0) {
-                        handleChanceToMeltChange(Number(0));
-                      } else {
-                        handleChanceToMeltChange(Number(e.target.value));
-                      }
-                    }}
-                    step={0.005}
-                  />
-                </div>
-              </Label>
-              <Slider
-                id="life"
-                className="py-1"
-                value={[chanceToMelt]}
-                min={0}
-                max={1}
-                step={0.005}
-                onValueChange={(values: number[]) => {
-                  handleChanceToMeltChange(values[0]);
-                }}
-              />
-            </div>
+            {["Wood"].includes(selectedMaterial) && (
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="life" className="text-xs">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-zinc-400">Chance to melt : </span>
+                    <Input
+                      className="text-xs h-8 w-min"
+                      type="number"
+                      min={0}
+                      max={1}
+                      value={chanceToMelt}
+                      onChange={(e) => {
+                        if (Number(e.target.value) > 1)
+                          handleChanceToMeltChange(Number(1));
+                        else if (Number(e.target.value) < 0) {
+                          handleChanceToMeltChange(Number(0));
+                        } else {
+                          handleChanceToMeltChange(Number(e.target.value));
+                        }
+                      }}
+                      step={0.005}
+                    />
+                  </div>
+                </Label>
+                <Slider
+                  id="life"
+                  className="py-1"
+                  value={[chanceToMelt]}
+                  min={0}
+                  max={1}
+                  step={0.005}
+                  onValueChange={(values: number[]) => {
+                    handleChanceToMeltChange(values[0]);
+                  }}
+                />
+              </div>
+            )}
           </div>
         </div>
       </>
