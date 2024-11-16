@@ -45,6 +45,7 @@ class Water extends Particle {
         diagonalSpread,
         verticalSpread,
         horizontalSpread,
+        color,
       }),
     });
   }
