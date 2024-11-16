@@ -43,6 +43,7 @@ export class Acid extends Particle {
       color: color,
       stateOfMatter: "liquid",
       behaviour: new AcidMovement({
+        color,
         maxSpeed,
         acceleration,
         initialVelocity,

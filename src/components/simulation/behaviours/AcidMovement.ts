@@ -9,6 +9,7 @@ import { Smoke } from "@/components/simulation/materials/Smoke";
 import { Color } from "three";
 import {
   acidAcceleration,
+  acidColor,
   acidDefaultStrength,
   acidDiagonalSpread,
   acidHorizontalSpread,
@@ -20,12 +21,16 @@ import {
 import Stone from "@/components/simulation/materials/Stone";
 import Wood from "@/components/simulation/materials/Wood";
 import Sand from "@/components/simulation/materials/Sand";
+import Void from "@/components/simulation/materials/Void";
+import Cloner from "@/components/simulation/materials/Cloner";
+import { Acid } from "@/components/simulation/materials/Acid";
 
 export type AcidMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
   horizontalSpread?: number;
   verticalSpread?: number;
   acidStrength?: number;
+  color?: Color;
 };
 
 export class AcidMovement extends MovesVertical {
@@ -33,8 +38,10 @@ export class AcidMovement extends MovesVertical {
   verticalSpread: number;
   horizontalSpread: number;
   acidStrength: number;
+  color: Color;
 
   constructor({
+    color = acidColor,
     maxSpeed = acidMaxSpeed,
     acceleration = acidAcceleration,
     initialVelocity = acidInitialVelocity,
@@ -48,6 +55,7 @@ export class AcidMovement extends MovesVertical {
     this.verticalSpread = verticalSpread;
     this.horizontalSpread = horizontalSpread;
     this.acidStrength = acidStrength;
+    this.color = color;
   }
 
   canPassThrough(particle: Particle) {
@@ -78,6 +86,14 @@ export class AcidMovement extends MovesVertical {
     }
   }
 
+  isVoid(particle: Particle) {
+    return particle instanceof Void;
+  }
+
+  isCloner(particle: Particle) {
+    return particle instanceof Cloner;
+  }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -91,6 +107,91 @@ export class AcidMovement extends MovesVertical {
 
     const nextLeft = i - Math.ceil(Math.random() * this.horizontalSpread);
     const nextRight = i + Math.ceil(Math.random() * this.horizontalSpread);
+    const nextVerticalParticle = grid.grid[nextVertical];
+    const nextVerticalLeftParticle = grid.grid[nextVerticalLeft];
+    const nextVerticalRightParticle = grid.grid[nextVerticalRight];
+    const previousVertical = i - grid.columns;
+
+    const nextRightParticle = grid.grid[nextRight];
+    const nextLeftParticle = grid.grid[nextLeft];
+
+    if (
+      this.isCloner(nextVerticalParticle) ||
+      this.isCloner(nextVerticalLeftParticle) ||
+      this.isCloner(nextVerticalRightParticle) ||
+      this.isCloner(nextLeftParticle) ||
+      this.isCloner(nextRightParticle)
+    ) {
+      if (Math.random() < 1 && grid.isEmpty(previousVertical)) {
+        grid.setIndex(
+          i,
+          new Acid(i, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            // life: this.life,
+            color: this.color,
+            acidStrength: this.acidStrength,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextVertical)) {
+        grid.setIndex(
+          nextVertical,
+          new Acid(nextVertical, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            // life: this.life,
+            color: this.color,
+            acidStrength: this.acidStrength,
+          })
+        );
+      }
+
+      if (Math.random() < 1 && grid.isEmpty(nextRight)) {
+        grid.setIndex(
+          nextRight,
+          new Acid(nextRight, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            // life: this.life,
+            color: this.color,
+            acidStrength: this.acidStrength,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextLeft)) {
+        grid.setIndex(
+          nextLeft,
+          new Acid(nextLeft, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            // life: this.life,
+            color: this.color,
+            acidStrength: this.acidStrength,
+          })
+        );
+      }
+    }
+
+    if (this.isVoid(grid.grid[nextVertical])) {
+      grid.setIndex(i, new Empty(i));
+    }
 
     if (this.canPassThrough(grid.grid[nextVertical])) {
       grid.swap(i, nextVertical);
@@ -102,6 +203,9 @@ export class AcidMovement extends MovesVertical {
     }
 
     if (Math.random() < 0.5) {
+      if (this.isVoid(grid.grid[nextVerticalLeft])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column > this.diagonalSpread - 1 &&
         this.canPassThrough(grid.grid[nextVerticalLeft])
@@ -113,6 +217,9 @@ export class AcidMovement extends MovesVertical {
         this.dissolveParticle(particle, nextVerticalLeft, grid);
       }
     } else {
+      if (this.isVoid(grid.grid[nextVerticalRight])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column < grid.columns - this.diagonalSpread &&
         this.canPassThrough(grid.grid[nextVerticalRight])
@@ -126,6 +233,9 @@ export class AcidMovement extends MovesVertical {
     }
 
     if (Math.random() < 0.5) {
+      if (this.isVoid(grid.grid[nextLeft])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column > 0 + this.horizontalSpread - 1 &&
         this.canPassThrough(grid.grid[nextLeft])
@@ -137,6 +247,9 @@ export class AcidMovement extends MovesVertical {
         this.dissolveParticle(particle, nextLeft, grid);
       }
     } else {
+      if (this.isVoid(grid.grid[nextRight])) {
+        grid.setIndex(i, new Empty(i));
+      }
       if (
         column < grid.columns - 2 - this.horizontalSpread &&
         this.canPassThrough(grid.grid[nextRight])
