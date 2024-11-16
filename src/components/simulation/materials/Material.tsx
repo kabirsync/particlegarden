@@ -34,6 +34,7 @@ import { StaticFire } from "@/components/simulation/materials/StaticFire";
 import Gas from "@/components/simulation/materials/Gas";
 import Void from "@/components/simulation/materials/Void";
 import Cloner from "@/components/simulation/materials/Cloner";
+import { Acid } from "@/components/simulation/materials/Acid";
 // import { Smoke } from "@/components/simulation/materials/Smoke";
 // import { Fire } from "@/components/simulation/materials/Fire";
 // import Oil from "@/components/simulation/materials/Oil";
@@ -63,7 +64,8 @@ type MaterialClasses =
   | StaticFire
   | Gas
   | Void
-  | Cloner;
+  | Cloner
+  | Acid;
 
 // | Stone
 // | Acid;
@@ -83,7 +85,7 @@ export const materialOptions = [
   "Gas",
   "Lava",
   "Stone",
-  // "Acid",
+  "Acid",
   "Cloner",
   "Void",
   "LiquidFire",
@@ -103,6 +105,7 @@ export const selectableMaterialOptions = [
   "Stone",
   "Void",
   "Cloner",
+  "Acid",
 ] as const;
 export type MaterialOptionsType = (typeof materialOptions)[number];
 
@@ -120,7 +123,7 @@ type MaterialProps = {
   chanceToMelt?: number;
   smokeColor?: Color;
   extinguishMaterial?: MaterialOptionsType;
-  // acidStrength?: number;
+  acidStrength?: number;
 };
 
 export type SelectableMaterials = Exclude<
@@ -151,8 +154,8 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
       return <Droplet className="h-3 w-3 text-red-500 fill-red-900" />;
     case "Stone":
       return <BrickWall className="h-3 w-3 text-zinc-500 fill-zinc-700" />;
-    // case "Acid":
-    //   return <Droplet className="h-3 w-3 text-green-500 fill-green-900" />;
+    case "Acid":
+      return <Droplet className="h-3 w-3 text-green-500 fill-green-900" />;
     case "Cloner":
       return <Copy className="h-3 w-3 text-red-300" />;
     case "Void":
@@ -178,6 +181,7 @@ export const MaterialMapping: Record<
         chanceToMelt,
         smokeColor,
         extinguishMaterial,
+        acidStrength,
       }: // acidStrength,
       // life,
 
@@ -198,7 +202,7 @@ export const MaterialMapping: Record<
   Lava,
   Stone,
   LiquidFire,
-  // Acid,
+  Acid,
   Cloner,
   Void,
 };

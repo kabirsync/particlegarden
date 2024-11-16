@@ -5,6 +5,8 @@ import {
 import {
   accelerationAtom,
   accelerationRefAtom,
+  acidStrengthAtom,
+  acidStrengthRefAtom,
   chanceToCatchAtom,
   chanceToCatchRefAtom,
   chanceToMeltAtom,
@@ -33,6 +35,15 @@ import {
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import {
+  acidAcceleration,
+  acidColor,
+  acidDefaultStrength,
+  acidDiagonalSpread,
+  acidDirection,
+  acidHorizontalSpread,
+  acidInitialVelocity,
+  acidMaxSpeed,
+  acidVerticalSpread,
   clonerColor,
   fireAcceleration,
   fireColor,
@@ -136,6 +147,8 @@ const MaterialButton = ({ material }: { material: SelectableMaterials }) => {
   const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
   const [, setHorizontalSpread] = useAtom(horizontalSpreadAtom);
   const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
+  const [, setAcidStrength] = useAtom(acidStrengthAtom);
+  const [acidStrengthRef] = useAtom(acidStrengthRefAtom);
   // Helper function to enforce exhaustiveness
   function assertUnreachable(x: never): never {
     throw new Error(`Missing material type handling for: ${x}`);
@@ -338,25 +351,27 @@ const MaterialButton = ({ material }: { material: SelectableMaterials }) => {
         smokeColorRef.current = stoneSmokeColor;
         break;
       }
-      // case "Acid": {
-      //   setMaterialColor(acidColor);
-      //   materialColorRef.current = acidColor;
-      //   setMaxSpeed(acidMaxSpeed);
-      //   maxSpeedRef.current = acidMaxSpeed;
-      //   setInitialVelocity(acidInitialVelocity);
-      //   initialVelocityRef.current = acidInitialVelocity;
-      //   setAcceleration(acidAcceleration);
-      //   accelerationRef.current = acidAcceleration;
-      //   setGravityDirection(acidDirection);
-      //   gravityDirectionRef.current = acidDirection;
-      //   setDiagonalSpread(acidDiagonalSpread);
-      //   diagonalSpreadRef.current = acidDiagonalSpread;
-      //   setVerticalSpread(acidVerticalSpread);
-      //   verticalSpreadRef.current = acidVerticalSpread;
-      //   setHorizontalSpread(acidHorizontalSpread);
-      //   horizontalSpreadRef.current = acidHorizontalSpread;
-      //   break;
-      // }
+      case "Acid": {
+        setMaterialColor(acidColor);
+        materialColorRef.current = acidColor;
+        setMaxSpeed(acidMaxSpeed);
+        maxSpeedRef.current = acidMaxSpeed;
+        setInitialVelocity(acidInitialVelocity);
+        initialVelocityRef.current = acidInitialVelocity;
+        setAcceleration(acidAcceleration);
+        accelerationRef.current = acidAcceleration;
+        setGravityDirection(acidDirection);
+        gravityDirectionRef.current = acidDirection;
+        setDiagonalSpread(acidDiagonalSpread);
+        diagonalSpreadRef.current = acidDiagonalSpread;
+        setVerticalSpread(acidVerticalSpread);
+        verticalSpreadRef.current = acidVerticalSpread;
+        setHorizontalSpread(acidHorizontalSpread);
+        horizontalSpreadRef.current = acidHorizontalSpread;
+        setAcidStrength(acidDefaultStrength);
+        acidStrengthRef.current = acidDefaultStrength;
+        break;
+      }
       case "Cloner": {
         setMaterialColor(clonerColor);
         materialColorRef.current = clonerColor;

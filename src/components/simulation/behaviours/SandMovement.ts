@@ -43,6 +43,16 @@ export class SandMovement extends MovesVertical {
     const nextVerticalLeft = nextVertical - 1;
     const nextVerticalRight = nextVertical + 1;
 
+    const nextVerticalParticle = grid.grid[nextVertical];
+    const nextVerticalLeftParticle = grid.grid[nextVerticalLeft];
+    const nextVerticalRightParticle = grid.grid[nextVerticalRight];
+    const nextRight = i + 1;
+    const nextLeft = i - 1;
+
+    const nextRightParticle = grid.grid[nextRight];
+    const nextLeftParticle = grid.grid[nextLeft];
+    // const previousVertical = i - grid.columns;
+
     if (this.canPassThrough(grid.grid[nextVertical])) {
       grid.swap(i, nextVertical);
       return nextVertical;
@@ -51,15 +61,74 @@ export class SandMovement extends MovesVertical {
       grid.setIndex(i, new Empty(i));
     }
 
-    if (this.isCloner(grid.grid[nextVertical])) {
-      grid.setIndex(
-        previousVertical,
-        new Sand(previousVertical, {
-          maxSpeed: this.maxSpeed,
-          initialVelocity: this.velocity,
-          acceleration: this.acceleration,
-        })
-      );
+    if (
+      this.isCloner(nextVerticalParticle) ||
+      this.isCloner(nextVerticalLeftParticle) ||
+      this.isCloner(nextVerticalRightParticle) ||
+      this.isCloner(nextLeftParticle) ||
+      this.isCloner(nextRightParticle)
+    ) {
+      if (Math.random() < 1 && grid.isEmpty(previousVertical)) {
+        grid.setIndex(
+          i,
+          new Sand(i, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            // diagonalSpread: this.diagonalSpread,
+            // verticalSpread: this.verticalSpread,
+            // horizontalSpread: this.horizontalSpread,
+            // life: this.life,
+            // smokeColor: this.smokeColor,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextVertical)) {
+        grid.setIndex(
+          nextVertical,
+          new Sand(nextVertical, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            // diagonalSpread: this.diagonalSpread,
+            // verticalSpread: this.verticalSpread,
+            // horizontalSpread: this.horizontalSpread,
+            // life: this.life,
+            // smokeColor: this.smokeColor,
+          })
+        );
+      }
+
+      if (Math.random() < 1 && grid.isEmpty(nextRight)) {
+        grid.setIndex(
+          nextRight,
+          new Sand(nextRight, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            // diagonalSpread: this.diagonalSpread,
+            // verticalSpread: this.verticalSpread,
+            // horizontalSpread: this.horizontalSpread,
+            // life: this.life,
+            // smokeColor: this.smokeColor,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextLeft)) {
+        grid.setIndex(
+          nextLeft,
+          new Sand(nextLeft, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            // diagonalSpread: this.diagonalSpread,
+            // verticalSpread: this.verticalSpread,
+            // horizontalSpread: this.horizontalSpread,
+            // life: this.life,
+            // smokeColor: this.smokeColor,
+          })
+        );
+      }
     }
 
     if (Math.random() < 0.5) {
