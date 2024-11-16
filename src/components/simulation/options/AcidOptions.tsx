@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { useAtom } from "jotai";
 
-const MovesVerticalAcidOptions = () => {
+const AcidOptions = () => {
   const [acidStengthRef] = useAtom(acidStrengthRefAtom);
 
   const [acidStrength, setAcidStrength] = useAtom(acidStrengthAtom);
@@ -60,4 +60,4 @@ const MovesVerticalAcidOptions = () => {
   );
 };
 
-export default MovesVerticalAcidOptions;
+export default AcidOptions;

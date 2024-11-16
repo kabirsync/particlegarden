@@ -1,8 +1,8 @@
 import CombustibleOptions from "@/components/simulation/options/CombustbleOptions";
 import FlammableOptions from "@/components/simulation/options/FlammableOptions";
 import LimitedLifeOptions from "@/components/simulation/options/LimitedLifeOptions";
-import MovesVerticalAcidOptions from "@/components/simulation/options/MovesVerticalAcidOptions";
-import MoveVerticalLiquidOptions from "@/components/simulation/options/MovesVerticalLiquidOptions";
+import AcidOptions from "@/components/simulation/options/AcidOptions";
+import LiquidOptions from "@/components/simulation/options/LiquidOptions";
 import MoveVerticalOptions from "@/components/simulation/options/MoveVerticalOptions";
 import StrokeColorOptions from "@/components/simulation/options/StrokeColorOptions";
 import StrokeSizeOptions from "@/components/simulation/options/StrokeSizeOptions";
@@ -52,7 +52,7 @@ const MaterialOptions = () => {
               <FlaskConical className="h-4 w-4 text-green-500 " />
               <span className="text-xs font-bold">Acid</span>
             </div>
-            <MovesVerticalAcidOptions />
+            <AcidOptions />
           </div>
         </>
       )}
@@ -118,7 +118,7 @@ const MaterialOptions = () => {
               <Droplet className="h-4 w-4 text-blue-500 " />
               <span className="text-xs font-bold">Liquid Movement</span>
             </div>
-            <MoveVerticalLiquidOptions />
+            <LiquidOptions />
           </div>
         </>
       )}

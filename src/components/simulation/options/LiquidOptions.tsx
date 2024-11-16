@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { useAtom } from "jotai";
 
-const MoveVerticalLiquidOptions = () => {
+const LiquidOptions = () => {
   const [diagonalSpreadRef] = useAtom(diagonalSpreadRefAtom);
   const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
   const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
@@ -144,4 +144,4 @@ const MoveVerticalLiquidOptions = () => {
   );
 };
 
-export default MoveVerticalLiquidOptions;
+export default LiquidOptions;
