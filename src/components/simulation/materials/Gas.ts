@@ -61,8 +61,8 @@ class Gas extends Particle {
         diagonalSpread,
         verticalSpread,
         horizontalSpread,
-        // life,
-        // smokeColor,
+        life,
+        smokeColor,
       }),
     });
     this.life = life;

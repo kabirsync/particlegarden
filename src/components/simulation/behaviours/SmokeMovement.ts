@@ -7,6 +7,7 @@ import Empty from "@/components/simulation/materials/Empty";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
 import {
   smokeAcceleration,
+  smokeColor,
   smokeDiagonalSpread,
   smokeHorizontalSpread,
   smokeInitialVelocity,
@@ -17,13 +18,15 @@ import {
 import { Color } from "three";
 import { Grid } from "../Grid";
 import Void from "@/components/simulation/materials/Void";
+import Cloner from "@/components/simulation/materials/Cloner";
+import { Smoke } from "@/components/simulation/materials/Smoke";
 
 export type SmokeMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
   horizontalSpread?: number;
   verticalSpread?: number;
   life?: number;
-  smokeColor?: Color;
+  color?: Color;
 };
 
 export class SmokeMovement extends MovesVertical {
@@ -33,6 +36,7 @@ export class SmokeMovement extends MovesVertical {
   life: number;
   // smokeColor: Color;
   remainingLife: number;
+  color: Color;
 
   constructor({
     maxSpeed = smokeMaxSpeed,
@@ -42,6 +46,7 @@ export class SmokeMovement extends MovesVertical {
     verticalSpread = smokeVerticalSpread,
     horizontalSpread = smokeHorizontalSpread,
     life = smokeLife,
+    color = smokeColor,
   }: //   life = SmokeFuel,
   //   smokeColor = SmokeSmokeColor,
   SmokeMovementProps) {
@@ -50,6 +55,7 @@ export class SmokeMovement extends MovesVertical {
     this.verticalSpread = verticalSpread;
     this.horizontalSpread = horizontalSpread;
     this.life = life;
+    this.color = color;
     //   this.smokeColor = smokeColor;
     this.remainingLife = Math.random() * life;
   }
@@ -88,6 +94,10 @@ export class SmokeMovement extends MovesVertical {
     return particle instanceof Void;
   }
 
+  isCloner(particle: Particle) {
+    return particle instanceof Cloner;
+  }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -102,6 +112,83 @@ export class SmokeMovement extends MovesVertical {
 
     const nextLeft = i - Math.ceil(Math.random() * this.horizontalSpread);
     const nextRight = i + Math.ceil(Math.random() * this.horizontalSpread);
+
+    const nextVerticalParticle = grid.grid[nextVertical];
+    const nextVerticalLeftParticle = grid.grid[nextVerticalLeft];
+    const nextVerticalRightParticle = grid.grid[nextVerticalRight];
+
+    const nextRightParticle = grid.grid[nextRight];
+    const nextLeftParticle = grid.grid[nextLeft];
+    const previousVertical = i - grid.columns;
+    if (
+      this.isCloner(nextVerticalParticle) ||
+      this.isCloner(nextVerticalLeftParticle) ||
+      this.isCloner(nextVerticalRightParticle) ||
+      this.isCloner(nextLeftParticle) ||
+      this.isCloner(nextRightParticle)
+    ) {
+      if (Math.random() < 1 && grid.isEmpty(previousVertical)) {
+        grid.setIndex(
+          i,
+          new Smoke(i, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            color: this.color,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextVertical)) {
+        grid.setIndex(
+          nextVertical,
+          new Smoke(nextVertical, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            color: this.color,
+          })
+        );
+      }
+
+      if (Math.random() < 1 && grid.isEmpty(nextRight)) {
+        grid.setIndex(
+          nextRight,
+          new Smoke(nextRight, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            color: this.color,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextLeft)) {
+        grid.setIndex(
+          nextLeft,
+          new Smoke(nextLeft, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            color: this.color,
+          })
+        );
+      }
+    }
 
     // need to randomise order of operations (check sand)
     if (this.isVoid(grid.grid[nextVertical])) {

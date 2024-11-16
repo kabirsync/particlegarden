@@ -10,17 +10,23 @@ import { StaticFire } from "@/components/simulation/materials/StaticFire";
 import { Grid } from "../Grid";
 import Void from "@/components/simulation/materials/Void";
 import Empty from "@/components/simulation/materials/Empty";
+import Cloner from "@/components/simulation/materials/Cloner";
+import Water from "@/components/simulation/materials/Water";
+import { Color } from "three";
+import { waterColor } from "@/lib/constants";
 
 export type WaterMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
   horizontalSpread?: number;
   verticalSpread?: number;
+  color: Color;
 };
 
 export class WaterMovement extends MovesVertical {
   diagonalSpread: number;
   verticalSpread: number;
   horizontalSpread: number;
+  color: Color;
 
   constructor({
     maxSpeed = 0,
@@ -29,11 +35,13 @@ export class WaterMovement extends MovesVertical {
     diagonalSpread = 1,
     verticalSpread = 1,
     horizontalSpread = 1,
+    color = waterColor,
   }: WaterMovementProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;
     this.horizontalSpread = horizontalSpread;
+    this.color = color;
   }
 
   update(particle: Particle, grid: Grid, params: Params) {
@@ -73,6 +81,10 @@ export class WaterMovement extends MovesVertical {
     return particle instanceof Void;
   }
 
+  isCloner(particle: Particle) {
+    return particle instanceof Cloner;
+  }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -86,6 +98,7 @@ export class WaterMovement extends MovesVertical {
 
     const nextLeft = i - Math.ceil(Math.random() * this.horizontalSpread);
     const nextRight = i + Math.ceil(Math.random() * this.horizontalSpread);
+    const previousVertical = i - grid.columns;
 
     const nextVerticalParticle = grid.grid[nextVertical];
     const nextVerticalLeftParticle = grid.grid[nextVerticalLeft];
@@ -95,6 +108,76 @@ export class WaterMovement extends MovesVertical {
     const nextLeftParticle = grid.grid[nextLeft];
 
     // need to randomise order of operations (check sand)
+
+    if (
+      this.isCloner(nextVerticalParticle) ||
+      this.isCloner(nextVerticalLeftParticle) ||
+      this.isCloner(nextVerticalRightParticle) ||
+      this.isCloner(nextLeftParticle) ||
+      this.isCloner(nextRightParticle)
+    ) {
+      if (Math.random() < 1 && grid.isEmpty(previousVertical)) {
+        grid.setIndex(
+          i,
+          new Water(i, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            // life: this.life,
+            color: this.color,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextVertical)) {
+        grid.setIndex(
+          nextVertical,
+          new Water(nextVertical, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            // life: this.life,
+            color: this.color,
+          })
+        );
+      }
+
+      if (Math.random() < 1 && grid.isEmpty(nextRight)) {
+        grid.setIndex(
+          nextRight,
+          new Water(nextRight, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            // life: this.life,
+            color: this.color,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextLeft)) {
+        grid.setIndex(
+          nextLeft,
+          new Water(nextLeft, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            // life: this.life,
+            color: this.color,
+          })
+        );
+      }
+    }
 
     if (this.isVoid(grid.grid[nextVertical])) {
       grid.setIndex(i, new Empty(i));

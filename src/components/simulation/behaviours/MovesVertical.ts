@@ -11,6 +11,7 @@ export abstract class MovesVertical extends Behaviour {
   maxSpeed: number;
   acceleration: number;
   velocity: number;
+  initialVelocity: number;
 
   constructor({
     maxSpeed = 0,
@@ -21,6 +22,7 @@ export abstract class MovesVertical extends Behaviour {
     this.maxSpeed = maxSpeed;
     this.acceleration = acceleration;
     this.velocity = initialVelocity;
+    this.initialVelocity = initialVelocity;
   }
 
   updateVelocity() {

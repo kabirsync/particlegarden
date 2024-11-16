@@ -8,22 +8,26 @@ import { Grid } from "../Grid";
 import { LiquidFire } from "@/components/simulation/materials/LiquidFire";
 import Void from "@/components/simulation/materials/Void";
 import Empty from "@/components/simulation/materials/Empty";
+import Cloner from "@/components/simulation/materials/Cloner";
+import { oilFuel, oilSmokeColor } from "@/lib/constants";
+import { Color } from "three";
+import Oil from "@/components/simulation/materials/Oil";
 // import { oilFuel, oilSmokeColor } from "@/lib/constants";
 
 export type OilMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
   horizontalSpread?: number;
   verticalSpread?: number;
-  // life?: number;
-  // smokeColor?: Color;
+  life?: number;
+  smokeColor?: Color;
 };
 
 export class OilMovement extends MovesVertical {
   diagonalSpread: number;
   verticalSpread: number;
   horizontalSpread: number;
-  // life: number;
-  // smokeColor: Color;
+  life: number;
+  smokeColor: Color;
   // remainingLife: number;
 
   constructor({
@@ -33,6 +37,8 @@ export class OilMovement extends MovesVertical {
     diagonalSpread = 1,
     verticalSpread = 1,
     horizontalSpread = 1,
+    life = oilFuel,
+    smokeColor = oilSmokeColor,
   }: // life = oilFuel,
   // smokeColor = oilSmokeColor,
   OilMovementProps) {
@@ -40,8 +46,8 @@ export class OilMovement extends MovesVertical {
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;
     this.horizontalSpread = horizontalSpread;
-    // this.life = life;
-    // this.smokeColor = smokeColor;
+    this.life = life;
+    this.smokeColor = smokeColor;
     // this.remainingLife = life - life * Math.random();
   }
 
@@ -84,6 +90,9 @@ export class OilMovement extends MovesVertical {
     return particle instanceof Void;
   }
 
+  isCloner(particle: Particle) {
+    return particle instanceof Cloner;
+  }
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -104,8 +113,79 @@ export class OilMovement extends MovesVertical {
 
     const nextRightParticle = grid.grid[nextRight];
     const nextLeftParticle = grid.grid[nextLeft];
+    const previousVertical = i - grid.columns;
 
     // need to randomise order of operations (check sand)
+
+    if (
+      this.isCloner(nextVerticalParticle) ||
+      this.isCloner(nextVerticalLeftParticle) ||
+      this.isCloner(nextVerticalRightParticle) ||
+      this.isCloner(nextLeftParticle) ||
+      this.isCloner(nextRightParticle)
+    ) {
+      if (Math.random() < 1 && grid.isEmpty(previousVertical)) {
+        grid.setIndex(
+          i,
+          new Oil(i, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextVertical)) {
+        grid.setIndex(
+          nextVertical,
+          new Oil(nextVertical, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
+
+      if (Math.random() < 1 && grid.isEmpty(nextRight)) {
+        grid.setIndex(
+          nextRight,
+          new Oil(nextRight, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextLeft)) {
+        grid.setIndex(
+          nextLeft,
+          new Oil(nextLeft, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
+    }
 
     if (this.isVoid(grid.grid[nextVertical])) {
       grid.setIndex(i, new Empty(i));

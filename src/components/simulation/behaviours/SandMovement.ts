@@ -6,6 +6,8 @@ import { Grid } from "../Grid";
 import Particle from "@/components/simulation/materials/Particle";
 import Void from "@/components/simulation/materials/Void";
 import Empty from "@/components/simulation/materials/Empty";
+import Cloner from "@/components/simulation/materials/Cloner";
+import Sand from "@/components/simulation/materials/Sand";
 
 export class SandMovement extends MovesVertical {
   constructor({
@@ -28,10 +30,15 @@ export class SandMovement extends MovesVertical {
     return particle instanceof Void;
   }
 
+  isCloner(particle: Particle) {
+    return particle instanceof Cloner;
+  }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
     const nextDelta = Math.sign(this.velocity) * grid.columns;
+    const previousVertical = i - grid.columns;
     const nextVertical = i + nextDelta;
     const nextVerticalLeft = nextVertical - 1;
     const nextVerticalRight = nextVertical + 1;
@@ -42,6 +49,17 @@ export class SandMovement extends MovesVertical {
     }
     if (this.isVoid(grid.grid[nextVertical])) {
       grid.setIndex(i, new Empty(i));
+    }
+
+    if (this.isCloner(grid.grid[nextVertical])) {
+      grid.setIndex(
+        previousVertical,
+        new Sand(previousVertical, {
+          maxSpeed: this.maxSpeed,
+          initialVelocity: this.velocity,
+          acceleration: this.acceleration,
+        })
+      );
     }
 
     if (Math.random() < 0.5) {

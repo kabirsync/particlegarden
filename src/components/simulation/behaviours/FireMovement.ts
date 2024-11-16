@@ -13,6 +13,8 @@ import { Color } from "three";
 import { Grid } from "../Grid";
 import Gas from "@/components/simulation/materials/Gas";
 import Void from "@/components/simulation/materials/Void";
+import Cloner from "@/components/simulation/materials/Cloner";
+import { Fire } from "@/components/simulation/materials/Fire";
 
 export type FireMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -116,6 +118,10 @@ export class FireMovement extends MovesVertical {
     return particle instanceof Void;
   }
 
+  isCloner(particle: Particle) {
+    return particle instanceof Cloner;
+  }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -146,6 +152,39 @@ export class FireMovement extends MovesVertical {
 
     const nextRightParticle = grid.grid[nextRight];
     const nextLeftParticle = grid.grid[nextLeft];
+
+    if (this.isCloner(grid.grid[nextVertical])) {
+      if (grid.isEmpty(previousVertical)) {
+        grid.setIndex(
+          previousVertical,
+          new Fire(previousVertical, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.velocity,
+            acceleration: this.acceleration,
+          })
+        );
+      }
+      if (grid.isEmpty(nextVerticalLeft)) {
+        grid.setIndex(
+          nextVerticalLeft,
+          new Fire(nextVerticalLeft, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.velocity,
+            acceleration: this.acceleration,
+          })
+        );
+      }
+      if (grid.isEmpty(nextVerticalRight)) {
+        grid.setIndex(
+          nextVerticalRight,
+          new Fire(nextVerticalRight, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.velocity,
+            acceleration: this.acceleration,
+          })
+        );
+      }
+    }
 
     if (this.canSetFireTo(previousVerticalParticle)) {
       if (Math.random() < previousVerticalParticle.chanceToCatch) {

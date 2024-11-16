@@ -13,6 +13,8 @@ import { Color } from "three";
 import { Grid } from "../Grid";
 import Empty from "@/components/simulation/materials/Empty";
 import Void from "@/components/simulation/materials/Void";
+import Cloner from "@/components/simulation/materials/Cloner";
+import { LiquidFire } from "@/components/simulation/materials/LiquidFire";
 
 export type LiquidFireMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -128,6 +130,10 @@ export class LiquidFireMovement extends MovesVertical {
     return particle instanceof Void;
   }
 
+  isCloner(particle: Particle) {
+    return particle instanceof Cloner;
+  }
+
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
@@ -158,6 +164,76 @@ export class LiquidFireMovement extends MovesVertical {
 
     const nextRightParticle = grid.grid[nextRight];
     const nextLeftParticle = grid.grid[nextLeft];
+
+    if (
+      this.isCloner(nextVerticalParticle) ||
+      this.isCloner(nextVerticalLeftParticle) ||
+      this.isCloner(nextVerticalRightParticle) ||
+      this.isCloner(nextLeftParticle) ||
+      this.isCloner(nextRightParticle)
+    ) {
+      if (Math.random() < 1 && grid.isEmpty(previousVertical)) {
+        grid.setIndex(
+          i,
+          new LiquidFire(i, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextVertical)) {
+        grid.setIndex(
+          nextVertical,
+          new LiquidFire(nextVertical, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
+
+      if (Math.random() < 1 && grid.isEmpty(nextRight)) {
+        grid.setIndex(
+          nextRight,
+          new LiquidFire(nextRight, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextLeft)) {
+        grid.setIndex(
+          nextLeft,
+          new LiquidFire(nextLeft, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
+    }
 
     if (this.canSetFireTo(previousVerticalParticle)) {
       if (Math.random() < previousVerticalParticle.chanceToCatch) {

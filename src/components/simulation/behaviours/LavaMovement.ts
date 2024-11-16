@@ -15,6 +15,8 @@ import Oil from "@/components/simulation/materials/Oil";
 import Gas from "@/components/simulation/materials/Gas";
 import Empty from "@/components/simulation/materials/Empty";
 import Void from "@/components/simulation/materials/Void";
+import Cloner from "@/components/simulation/materials/Cloner";
+import Lava from "@/components/simulation/materials/Lava";
 
 export type LavaMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -123,6 +125,9 @@ export class LavaMovement extends MovesVertical {
   isVoid(particle: Particle) {
     return particle instanceof Void;
   }
+  isCloner(particle: Particle) {
+    return particle instanceof Cloner;
+  }
 
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
@@ -144,8 +149,79 @@ export class LavaMovement extends MovesVertical {
 
     const nextRightParticle = grid.grid[nextRight];
     const nextLeftParticle = grid.grid[nextLeft];
+    const previousVertical = i - grid.columns;
 
     // need to randomise order of operations (check sand)
+
+    if (
+      this.isCloner(nextVerticalParticle) ||
+      this.isCloner(nextVerticalLeftParticle) ||
+      this.isCloner(nextVerticalRightParticle) ||
+      this.isCloner(nextLeftParticle) ||
+      this.isCloner(nextRightParticle)
+    ) {
+      if (Math.random() < 1 && grid.isEmpty(previousVertical)) {
+        grid.setIndex(
+          i,
+          new Lava(i, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextVertical)) {
+        grid.setIndex(
+          nextVertical,
+          new Lava(nextVertical, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
+
+      if (Math.random() < 1 && grid.isEmpty(nextRight)) {
+        grid.setIndex(
+          nextRight,
+          new Lava(nextRight, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
+      if (Math.random() < 1 && grid.isEmpty(nextLeft)) {
+        grid.setIndex(
+          nextLeft,
+          new Lava(nextLeft, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            life: this.life,
+            smokeColor: this.smokeColor,
+          })
+        );
+      }
+    }
 
     if (this.isVoid(grid.grid[nextVertical])) {
       grid.setIndex(i, new Empty(i));

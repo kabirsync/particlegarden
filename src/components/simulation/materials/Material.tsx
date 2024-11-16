@@ -5,6 +5,7 @@ import {
   // BrickWall,
   Circle,
   Cloud,
+  Copy,
   Droplet,
   Flame,
   // Cloud,
@@ -32,6 +33,7 @@ import { LiquidFire } from "@/components/simulation/materials/LiquidFire";
 import { StaticFire } from "@/components/simulation/materials/StaticFire";
 import Gas from "@/components/simulation/materials/Gas";
 import Void from "@/components/simulation/materials/Void";
+import Cloner from "@/components/simulation/materials/Cloner";
 // import { Smoke } from "@/components/simulation/materials/Smoke";
 // import { Fire } from "@/components/simulation/materials/Fire";
 // import Oil from "@/components/simulation/materials/Oil";
@@ -60,7 +62,8 @@ type MaterialClasses =
   | LiquidFire
   | StaticFire
   | Gas
-  | Void;
+  | Void
+  | Cloner;
 
 // | Stone
 // | Acid;
@@ -81,7 +84,7 @@ export const materialOptions = [
   "Lava",
   "Stone",
   // "Acid",
-  // "Cloner",
+  "Cloner",
   "Void",
   "LiquidFire",
   "StaticFire",
@@ -99,6 +102,7 @@ export const selectableMaterialOptions = [
   "Lava",
   "Stone",
   "Void",
+  "Cloner",
 ] as const;
 export type MaterialOptionsType = (typeof materialOptions)[number];
 
@@ -149,8 +153,8 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
       return <BrickWall className="h-3 w-3 text-zinc-500 fill-zinc-700" />;
     // case "Acid":
     //   return <Droplet className="h-3 w-3 text-green-500 fill-green-900" />;
-    // case "Cloner":
-    //   return <Copy className="h-3 w-3 text-red-300" />;
+    case "Cloner":
+      return <Copy className="h-3 w-3 text-red-300" />;
     case "Void":
       return <Shell className="h-3 w-3 text-purple-950 fill-zinc-950" />;
     default:
@@ -195,6 +199,6 @@ export const MaterialMapping: Record<
   Stone,
   LiquidFire,
   // Acid,
-  // Cloner,
+  Cloner,
   Void,
 };

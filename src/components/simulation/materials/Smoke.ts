@@ -52,6 +52,7 @@ export class Smoke extends Particle {
         verticalSpread,
         horizontalSpread,
         life,
+        color,
       }),
     });
   }

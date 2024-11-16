@@ -33,6 +33,7 @@ import {
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import {
+  clonerColor,
   fireAcceleration,
   fireColor,
   fireDirection,
@@ -356,11 +357,11 @@ const MaterialButton = ({ material }: { material: SelectableMaterials }) => {
       //   horizontalSpreadRef.current = acidHorizontalSpread;
       //   break;
       // }
-      // case "Cloner": {
-      //   setMaterialColor(clonerColor);
-      //   materialColorRef.current = clonerColor;
-      //   break;
-      // }
+      case "Cloner": {
+        setMaterialColor(clonerColor);
+        materialColorRef.current = clonerColor;
+        break;
+      }
       case "Void": {
         setMaterialColor(voidColor);
         materialColorRef.current = voidColor;
