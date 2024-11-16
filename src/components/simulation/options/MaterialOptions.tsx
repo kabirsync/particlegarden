@@ -30,18 +30,7 @@ const MaterialOptions = () => {
         </div>
         <div className="flex flex-col gap-3">
           <StrokeSizeOptions />
-          {[
-            "Sand",
-            "Wood",
-            "Water",
-            "Smoke",
-            "Acid",
-            "Gas",
-            "Oil",
-            "Stone",
-            "Cloner",
-            "Void",
-          ].includes(selectedMaterial) && <StrokeColorOptions />}
+          <StrokeColorOptions />
         </div>
       </div>
       {["Acid"].includes(selectedMaterial) && (
