@@ -50,7 +50,7 @@ const StrokeColorOptions = () => {
         />
       </div>
     );
-  }
+  } else return null;
 };
 
 export default StrokeColorOptions;
