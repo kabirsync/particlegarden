@@ -1,23 +1,27 @@
 import Empty from "@/components/simulation/materials/Empty";
-// import Particle, { Params } from "@/components/simulation/materials/Particle";
+import { MaterialMapping } from "@/components/simulation/materials/Material";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
+import { Color } from "three";
 
-type GridParams = { rows: number; columns: number };
+type GridParams = { rows: number; columns: number; grid?: Particle[] };
 
 export class Grid {
   rows: number;
   columns: number;
   grid: Particle[];
 
-  constructor({ rows, columns }: GridParams) {
+  constructor({ rows, columns, grid }: GridParams) {
     this.rows = rows;
     this.columns = columns;
     const totalCells = rows * columns;
     this.grid = new Array(totalCells);
 
-    // Initialize the grid with Empty particles
-    for (let i = 0; i < totalCells; i++) {
-      this.grid[i] = new Empty(i);
+    if (grid) {
+      this.grid = grid;
+    } else {
+      for (let i = 0; i < totalCells; i++) {
+        this.grid[i] = new Empty(i);
+      }
     }
   }
 
@@ -51,7 +55,6 @@ export class Grid {
     const endRow = direction > 0 ? -1 : this.rows;
     const rowStep = direction > 0 ? -1 : 1;
 
-    // const leftToRight = Math.random() > 0.5; // Decide once per call
     const columns = this.columns; // Cache columns
     const grid = this.grid; // Cache grid reference
 
@@ -64,7 +67,6 @@ export class Grid {
         const index = rowOffset + columnOffset;
 
         if (grid[index].stateOfMatter === "empty") continue;
-        // index = this.modifyIndexHook(index, params);
         const particle = this.grid[index];
         particle.update(this, params);
       }
@@ -103,5 +105,21 @@ export class Grid {
 
   isEmpty(index: number) {
     return this.grid[index]?.stateOfMatter == "empty";
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static fromJSON(data: any): Grid {
+    const mappedGrid = data.grid.map((particle: Particle) => {
+      const { name, index, color, ...rest } = particle;
+      const MaterialClass = MaterialMapping[name];
+      return new MaterialClass(index, { color: new Color(color), ...rest });
+    });
+    const gridInstance = new Grid({
+      rows: data.rows,
+      columns: data.columns,
+      grid: mappedGrid,
+    });
+
+    return gridInstance;
   }
 }

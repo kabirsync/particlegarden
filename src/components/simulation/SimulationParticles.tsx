@@ -10,6 +10,7 @@ import {
   diagonalSpreadRefAtom,
   extinguishMaterialRefAtom,
   FPSAtom,
+  gridRefAtom,
   horizontalSpreadRefAtom,
   initialVelocityRefAtom,
   isPlayingAtom,
@@ -66,7 +67,7 @@ const SimulationParticles = ({
   const [refresh] = useAtom(refreshAtom);
   const [, setFPS] = useAtom(FPSAtom);
   const [, setFrame] = useState(0);
-  const gridRef = useRef<Grid>();
+  const [gridRef] = useAtom(gridRefAtom);
   const [isReady, setIsReady] = useState(false);
   const lastTimeRef = useRef(performance.now());
   const mouseDownRef = useRef(false);
@@ -90,7 +91,7 @@ const SimulationParticles = ({
   useEffect(() => {
     gridRef.current = new Grid({ columns, rows });
     setIsReady(true);
-  }, [dimensions.width, dimensions.height, columns, rows, refresh]);
+  }, [dimensions.width, dimensions.height, columns, rows, refresh, gridRef]);
 
   useEffect(() => {
     const positions = [];
