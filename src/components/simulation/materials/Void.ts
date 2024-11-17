@@ -11,6 +11,7 @@ type VoidProps = {
 class Void extends Particle {
   constructor(index: number, { color = voidColor }: VoidProps) {
     super(index, {
+      name: "Void",
       color: varyColor(color),
       stateOfMatter: "solid",
     });

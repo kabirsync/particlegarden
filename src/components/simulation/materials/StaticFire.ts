@@ -45,6 +45,7 @@ export class StaticFire extends Particle {
     }: StaticFireProps
   ) {
     super(index, {
+      name: "StaticFire",
       color,
       stateOfMatter: "solid",
     });

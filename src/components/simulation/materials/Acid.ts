@@ -40,6 +40,7 @@ export class Acid extends Particle {
     }: AcidProps
   ) {
     super(index, {
+      name: "Acid",
       color: color,
       stateOfMatter: "liquid",
       behaviour: new AcidMovement({

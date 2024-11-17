@@ -47,6 +47,7 @@ export class Fire extends Particle {
     }: FireProps
   ) {
     super(index, {
+      name: "Fire",
       color,
       stateOfMatter: "gas",
       behaviour: new FireMovement({

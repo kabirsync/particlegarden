@@ -46,6 +46,7 @@ export class LiquidFire extends Particle {
     }: LiquidFireProps
   ) {
     super(index, {
+      name: "LiquidFire",
       color,
       stateOfMatter: "gas",
       behaviour: new LiquidFireMovement({

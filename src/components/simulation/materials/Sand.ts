@@ -28,6 +28,7 @@ class Sand extends Particle {
     }: SandProps
   ) {
     super(index, {
+      name: "Sand",
       color: varyColor(color),
       stateOfMatter: "solid",
       behaviour: new SandMovement({

@@ -34,6 +34,7 @@ class Stone extends Particle {
     }: StoneProps
   ) {
     super(index, {
+      name: "Stone",
       color: varyColor(color),
       stateOfMatter: "solid",
     });

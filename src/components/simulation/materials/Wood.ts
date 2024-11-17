@@ -35,6 +35,7 @@ class Wood extends Particle {
     }: WoodProps
   ) {
     super(index, {
+      name: "Wood",
       color: varyColor(color),
       stateOfMatter: "solid",
     });

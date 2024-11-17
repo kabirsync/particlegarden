@@ -1,11 +1,13 @@
 import { Behaviour } from "@/components/simulation/behaviours/Behaviour";
 import { Grid } from "@/components/simulation/Grid";
+import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import { Color } from "three";
 
 type ParticleOptions = {
   color: Color;
   behaviour?: Behaviour;
   stateOfMatter: StateOfMatter;
+  name: MaterialOptionsType;
 };
 
 export type Params = {
@@ -15,6 +17,7 @@ export type Params = {
 export type StateOfMatter = "solid" | "liquid" | "gas" | "empty";
 
 class Particle {
+  name: MaterialOptionsType;
   index: number;
   color: Color;
   stateOfMatter: StateOfMatter;
@@ -23,9 +26,10 @@ class Particle {
 
   constructor(
     index: number,
-    { color, stateOfMatter, behaviour }: ParticleOptions
+    { name, color, stateOfMatter, behaviour }: ParticleOptions
   ) {
     this.index = index;
+    this.name = name;
     this.color = color;
     this.behaviour = behaviour;
     this.modified = false;
