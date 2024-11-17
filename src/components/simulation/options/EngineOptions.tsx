@@ -2,15 +2,15 @@ import { Grid } from "@/components/simulation/Grid";
 import SimulationOptionsButton from "@/components/simulation/options/SimulationOptionsButton";
 import {
   FPSAtom,
-  particleSizeAtom,
-  isPlayingAtom,
-  refreshAtom,
   gridRefAtom,
+  isPlayingAtom,
+  particleSizeAtom,
+  refreshAtom,
 } from "@/components/simulation/simulationState";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
-import { File, Pause, Play, RefreshCcw, Save } from "lucide-react";
+import { FileUp, Pause, Play, RefreshCcw, Save } from "lucide-react";
 import pako from "pako";
 
 const EngineOptions = () => {
@@ -114,7 +114,7 @@ const EngineOptions = () => {
           <Save className="h-4 w-4" />
         </Button>
         <Button variant="ghost" size="icon" onClick={handleLoad}>
-          <File className="h-4 w-4" />
+          <FileUp className="h-4 w-4" />
         </Button>
         <SimulationOptionsButton
           particleSize={particleSize}
