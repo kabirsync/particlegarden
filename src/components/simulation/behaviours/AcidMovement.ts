@@ -165,7 +165,6 @@ export class AcidMovement extends MovesVertical {
             diagonalSpread: this.diagonalSpread,
             verticalSpread: this.verticalSpread,
             horizontalSpread: this.horizontalSpread,
-            // life: this.life,
             color: this.color,
             acidStrength: this.acidStrength,
           })
@@ -181,7 +180,6 @@ export class AcidMovement extends MovesVertical {
             diagonalSpread: this.diagonalSpread,
             verticalSpread: this.verticalSpread,
             horizontalSpread: this.horizontalSpread,
-            // life: this.life,
             color: this.color,
             acidStrength: this.acidStrength,
           })

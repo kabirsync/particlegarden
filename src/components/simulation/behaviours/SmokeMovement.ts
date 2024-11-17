@@ -2,7 +2,6 @@ import {
   MovesVertical,
   MovesVerticalProps,
 } from "@/components/simulation/behaviours/MovesVertical";
-//   import Particle from "@/components/simulation/materials/Particle";
 import Empty from "@/components/simulation/materials/Empty";
 import Particle, { Params } from "@/components/simulation/materials/Particle";
 import {
@@ -47,16 +46,13 @@ export class SmokeMovement extends MovesVertical {
     horizontalSpread = smokeHorizontalSpread,
     life = smokeLife,
     color = smokeColor,
-  }: //   life = SmokeFuel,
-  //   smokeColor = SmokeSmokeColor,
-  SmokeMovementProps) {
+  }: SmokeMovementProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;
     this.horizontalSpread = horizontalSpread;
     this.life = life;
     this.color = color;
-    //   this.smokeColor = smokeColor;
     this.remainingLife = Math.random() * life;
   }
 
@@ -78,8 +74,6 @@ export class SmokeMovement extends MovesVertical {
       grid.setIndex(particle.index, new Empty(particle.index));
     }
     this.remainingLife = Math.floor(this.remainingLife - 1);
-
-    // particle.color = fireColors[Math.round(Math.random() * fireColors.length)];
   }
 
   canPassThrough(particle: Particle) {
@@ -101,7 +95,6 @@ export class SmokeMovement extends MovesVertical {
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
-    // const row = i % grid.rows;
     const nextDelta = Math.sign(this.velocity) * grid.columns;
     const nextVertical =
       i + nextDelta * Math.ceil(this.verticalSpread * Math.random());
@@ -190,7 +183,6 @@ export class SmokeMovement extends MovesVertical {
       }
     }
 
-    // need to randomise order of operations (check sand)
     if (this.isVoid(grid.grid[nextVertical])) {
       grid.setIndex(i, new Empty(i));
     }

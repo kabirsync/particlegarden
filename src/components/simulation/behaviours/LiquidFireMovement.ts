@@ -69,40 +69,18 @@ export class LiquidFireMovement extends MovesVertical {
       if (Math.random() < 0.01) {
         grid.setIndex(
           particle.index,
-          // new Empty(particle.index)
           new Fire(particle.index, {
-            // maxSpeed: this.maxSpeed,
-            // acceleration: this.acceleration,
-            // initialVelocity: this.velocity,
-            // diagonalSpread: this.diagonalSpread,
-            // verticalSpread: this.verticalSpread,
-            // horizontalSpread: this.horizontalSpread,
             smokeColor: this.smokeColor,
-            // life: this.life,
           })
         );
       } else {
         if (Math.random() < 0.3) {
           const smoke = new Smoke(particle.index, {
-            // burning: Math.random() < 0.1,
             color: this.smokeColor,
           });
           grid.setIndex(particle.index, smoke);
         } else {
-          grid.setIndex(
-            particle.index,
-            new Empty(particle.index)
-            // new Fire(particle.index, {
-            //   maxSpeed: this.maxSpeed,
-            //   acceleration: this.acceleration,
-            //   initialVelocity: this.velocity,
-            //   diagonalSpread: this.diagonalSpread,
-            //   verticalSpread: this.verticalSpread,
-            //   horizontalSpread: this.horizontalSpread,
-            //   smokeColor: this.smokeColor,
-            //   life: this.life,
-            // })
-          );
+          grid.setIndex(particle.index, new Empty(particle.index));
         }
       }
     }
@@ -118,10 +96,6 @@ export class LiquidFireMovement extends MovesVertical {
       (particle?.stateOfMatter === "gas" && Math.random() < 0.1)
     );
   }
-
-  //  canSetFireTo(particle: Particle): particle is Wood | Oil | Gas {
-  //   return particle instanceof Wood || particle instanceof Oil || particle instanceof Gas;
-  // }
 
   canSetFireTo(particle: Particle): particle is Wood | Oil {
     return particle instanceof Wood || particle instanceof Oil;
@@ -149,12 +123,6 @@ export class LiquidFireMovement extends MovesVertical {
     const nextLeft = i - Math.ceil(Math.random() * this.horizontalSpread);
     const nextRight = i + Math.ceil(Math.random() * this.horizontalSpread);
 
-    // const neighbourTop = i - grid.columns;
-    // const neighbourRight = i + 1;
-    // const neighbourLeft = i - 1;
-    // const neighbourBottom = i + grid.columns;
-
-    // need to randomise order of operations (check sand)
     const previousVertical = i - 1;
     const previousVerticalParticle = grid.grid[previousVertical];
 

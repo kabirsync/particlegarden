@@ -13,7 +13,6 @@ import { oilFuel, oilSmokeColor } from "@/lib/constants";
 import { Color } from "three";
 import Oil from "@/components/simulation/materials/Oil";
 import Water from "@/components/simulation/materials/Water";
-// import { oilFuel, oilSmokeColor } from "@/lib/constants";
 
 export type OilMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -29,7 +28,6 @@ export class OilMovement extends MovesVertical {
   horizontalSpread: number;
   life: number;
   smokeColor: Color;
-  // remainingLife: number;
 
   constructor({
     maxSpeed = 0,
@@ -40,16 +38,13 @@ export class OilMovement extends MovesVertical {
     horizontalSpread = 1,
     life = oilFuel,
     smokeColor = oilSmokeColor,
-  }: // life = oilFuel,
-  // smokeColor = oilSmokeColor,
-  OilMovementProps) {
+  }: OilMovementProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;
     this.verticalSpread = verticalSpread;
     this.horizontalSpread = horizontalSpread;
     this.life = life;
     this.smokeColor = smokeColor;
-    // this.remainingLife = life - life * Math.random();
   }
 
   update(particle: Particle, grid: Grid, params: Params) {
@@ -80,14 +75,6 @@ export class OilMovement extends MovesVertical {
     );
   }
 
-  //   canExtinguish(particle: Particle): particle is Fire | StaticFire | Lava {
-  //     return (
-  //       particle instanceof Fire ||
-  //       particle instanceof StaticFire ||
-  //       particle instanceof Lava
-  //     );
-  //   }
-
   isVoid(particle: Particle) {
     return particle instanceof Void;
   }
@@ -116,8 +103,6 @@ export class OilMovement extends MovesVertical {
     const nextRightParticle = grid.grid[nextRight];
     const nextLeftParticle = grid.grid[nextLeft];
     const previousVertical = i - grid.columns;
-
-    // need to randomise order of operations (check sand)
 
     if (
       this.isCloner(nextVerticalParticle) ||
@@ -197,19 +182,6 @@ export class OilMovement extends MovesVertical {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
-    // if (this.canExtinguish(nextVerticalParticle)) {
-    //   if (Math.random() < 1) {
-    //     const MaterialClass =
-    //       MaterialMapping[nextVerticalParticle.extinguishMaterial];
-
-    //     grid.setIndex(
-    //       nextVertical,
-    //       new MaterialClass(nextVertical, {
-    //         smokeColor: nextVerticalParticle.smokeColor,
-    //       })
-    //     );
-    //   }
-    // }
 
     if (Math.random() < 0.5) {
       if (this.isVoid(grid.grid[nextVerticalLeft])) {
@@ -222,19 +194,6 @@ export class OilMovement extends MovesVertical {
         grid.swap(i, nextVerticalLeft);
         return nextVerticalLeft;
       }
-      //   if (this.canExtinguish(nextVerticalLeftParticle)) {
-      //     if (Math.random() < 1) {
-      //       const MaterialClass =
-      //         MaterialMapping[nextVerticalLeftParticle.extinguishMaterial];
-
-      //       grid.setIndex(
-      //         nextVerticalLeft,
-      //         new MaterialClass(nextVerticalLeft, {
-      //           smokeColor: nextVerticalLeftParticle.smokeColor,
-      //         })
-      //       );
-      //     }
-      //   }
     } else {
       if (this.isVoid(grid.grid[nextVerticalRight])) {
         grid.setIndex(i, new Empty(i));
@@ -246,19 +205,6 @@ export class OilMovement extends MovesVertical {
         grid.swap(i, nextVerticalRight);
         return nextVerticalRight;
       }
-      //   if (this.canExtinguish(nextVerticalRightParticle)) {
-      //     if (Math.random() < 1) {
-      //       const MaterialClass =
-      //         MaterialMapping[nextVerticalRightParticle.extinguishMaterial];
-
-      //       grid.setIndex(
-      //         nextVerticalRight,
-      //         new MaterialClass(nextVerticalRight, {
-      //           smokeColor: nextVerticalRightParticle.smokeColor,
-      //         })
-      //       );
-      //     }
-      //   }
     }
 
     if (Math.random() < 0.5) {
@@ -272,19 +218,6 @@ export class OilMovement extends MovesVertical {
         grid.swap(i, nextLeft);
         return nextLeft;
       }
-      //   if (this.canExtinguish(nextLeftParticle)) {
-      //     if (Math.random() < 1) {
-      //       const MaterialClass =
-      //         MaterialMapping[nextLeftParticle.extinguishMaterial];
-
-      //       grid.setIndex(
-      //         nextLeft,
-      //         new MaterialClass(nextLeft, {
-      //           smokeColor: nextLeftParticle.smokeColor,
-      //         })
-      //       );
-      //     }
-      //   }
     } else {
       if (this.isVoid(grid.grid[nextRight])) {
         grid.setIndex(i, new Empty(i));
@@ -296,19 +229,6 @@ export class OilMovement extends MovesVertical {
         grid.swap(i, nextRight);
         return nextRight;
       }
-      //   if (this.canExtinguish(nextRightParticle)) {
-      //     if (Math.random() < 1) {
-      //       const MaterialClass =
-      //         MaterialMapping[nextRightParticle.extinguishMaterial];
-
-      //       grid.setIndex(
-      //         nextRight,
-      //         new MaterialClass(nextRight, {
-      //           smokeColor: nextRightParticle.smokeColor,
-      //         })
-      //       );
-      //     }
-      //   }
     }
 
     return i;
