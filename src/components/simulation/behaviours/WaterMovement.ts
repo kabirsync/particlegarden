@@ -14,6 +14,8 @@ import Cloner from "@/components/simulation/materials/Cloner";
 import Water from "@/components/simulation/materials/Water";
 import { Color } from "three";
 import { waterColor } from "@/lib/constants";
+import { Acid } from "@/components/simulation/materials/Acid";
+import Oil from "@/components/simulation/materials/Oil";
 
 export type WaterMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -65,7 +67,9 @@ export class WaterMovement extends MovesVertical {
     return (
       particle?.stateOfMatter === "empty" ||
       (particle?.stateOfMatter === "gas" && !(particle instanceof Fire)) ||
-      (particle?.stateOfMatter === "liquid" && Math.random() < 0.1)
+      (particle?.stateOfMatter === "liquid" &&
+        !(particle instanceof Oil) &&
+        Math.random() < 0.1)
     );
   }
 
@@ -83,6 +87,10 @@ export class WaterMovement extends MovesVertical {
 
   isCloner(particle: Particle) {
     return particle instanceof Cloner;
+  }
+
+  canNeutralize(particle: Particle) {
+    return particle instanceof Acid;
   }
 
   moveParticle(particle: Particle, grid: Grid): number {
@@ -195,9 +203,44 @@ export class WaterMovement extends MovesVertical {
       }
     }
 
+    if (this.canNeutralize(nextVerticalParticle)) {
+      if (Math.random() < 0.01) {
+        grid.setIndex(
+          nextVertical,
+          new Water(nextVertical, {
+            maxSpeed: this.maxSpeed,
+            initialVelocity: this.initialVelocity,
+            acceleration: this.acceleration,
+            diagonalSpread: this.diagonalSpread,
+            verticalSpread: this.verticalSpread,
+            horizontalSpread: this.horizontalSpread,
+            // life: this.life,
+            color: this.color,
+          })
+        );
+      }
+    }
+
     if (Math.random() < 0.5) {
       if (this.isVoid(grid.grid[nextVerticalLeft])) {
         grid.setIndex(i, new Empty(i));
+      }
+      if (this.canNeutralize(nextVerticalLeftParticle)) {
+        if (Math.random() < 0.01) {
+          grid.setIndex(
+            nextVerticalLeft,
+            new Water(nextVerticalLeft, {
+              maxSpeed: this.maxSpeed,
+              initialVelocity: this.initialVelocity,
+              acceleration: this.acceleration,
+              diagonalSpread: this.diagonalSpread,
+              verticalSpread: this.verticalSpread,
+              horizontalSpread: this.horizontalSpread,
+              // life: this.life,
+              color: this.color,
+            })
+          );
+        }
       }
       if (
         column > this.diagonalSpread - 1 &&
@@ -222,6 +265,23 @@ export class WaterMovement extends MovesVertical {
     } else {
       if (this.isVoid(grid.grid[nextVerticalRight])) {
         grid.setIndex(i, new Empty(i));
+      }
+      if (this.canNeutralize(nextVerticalRightParticle)) {
+        if (Math.random() < 0.01) {
+          grid.setIndex(
+            nextVerticalRight,
+            new Water(nextVerticalRight, {
+              maxSpeed: this.maxSpeed,
+              initialVelocity: this.initialVelocity,
+              acceleration: this.acceleration,
+              diagonalSpread: this.diagonalSpread,
+              verticalSpread: this.verticalSpread,
+              horizontalSpread: this.horizontalSpread,
+              // life: this.life,
+              color: this.color,
+            })
+          );
+        }
       }
       if (
         column < grid.columns - this.diagonalSpread &&
@@ -249,6 +309,23 @@ export class WaterMovement extends MovesVertical {
       if (this.isVoid(grid.grid[nextLeft])) {
         grid.setIndex(i, new Empty(i));
       }
+      if (this.canNeutralize(nextLeftParticle)) {
+        if (Math.random() < 0.01) {
+          grid.setIndex(
+            nextLeft,
+            new Water(nextLeft, {
+              maxSpeed: this.maxSpeed,
+              initialVelocity: this.initialVelocity,
+              acceleration: this.acceleration,
+              diagonalSpread: this.diagonalSpread,
+              verticalSpread: this.verticalSpread,
+              horizontalSpread: this.horizontalSpread,
+              // life: this.life,
+              color: this.color,
+            })
+          );
+        }
+      }
       if (
         column > 0 + this.horizontalSpread - 1 &&
         this.canPassThrough(nextLeftParticle)
@@ -272,6 +349,23 @@ export class WaterMovement extends MovesVertical {
     } else {
       if (this.isVoid(grid.grid[nextRight])) {
         grid.setIndex(i, new Empty(i));
+      }
+      if (this.canNeutralize(nextRightParticle)) {
+        if (Math.random() < 0.01) {
+          grid.setIndex(
+            nextRight,
+            new Water(nextRight, {
+              maxSpeed: this.maxSpeed,
+              initialVelocity: this.initialVelocity,
+              acceleration: this.acceleration,
+              diagonalSpread: this.diagonalSpread,
+              verticalSpread: this.verticalSpread,
+              horizontalSpread: this.horizontalSpread,
+              // life: this.life,
+              color: this.color,
+            })
+          );
+        }
       }
       if (
         column < grid.columns - 2 - this.horizontalSpread &&

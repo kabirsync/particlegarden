@@ -12,6 +12,7 @@ import Cloner from "@/components/simulation/materials/Cloner";
 import { oilFuel, oilSmokeColor } from "@/lib/constants";
 import { Color } from "three";
 import Oil from "@/components/simulation/materials/Oil";
+import Water from "@/components/simulation/materials/Water";
 
 export type OilMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -69,6 +70,7 @@ export class OilMovement extends MovesVertical {
       (particle?.stateOfMatter === "gas" && !(particle instanceof Fire)) ||
       (particle?.stateOfMatter === "liquid" &&
         !(particle instanceof LiquidFire) &&
+        !(particle instanceof Water) &&
         Math.random() < 0.1)
     );
   }

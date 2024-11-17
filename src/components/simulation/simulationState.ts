@@ -28,6 +28,7 @@ import { atom } from "jotai";
 
 // --------- Engine Options ---------
 
+export const refreshAtom = atom(Date.now());
 export const isPlayingAtom = atom(defaultIsPlaying);
 export const FPSAtom = atom(defaultFPS);
 export const particleSizeAtom = atom(defaultParticleSize);
