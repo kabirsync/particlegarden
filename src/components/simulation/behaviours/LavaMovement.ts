@@ -69,32 +69,8 @@ export class LavaMovement extends MovesVertical {
     }
 
     if (this.remainingLife < 0) {
-      const smoke = new Stone(particle.index, {
-        // burning: Math.random() < 0.1,
-        // color: this.smokeColor,
-      });
+      const smoke = new Stone(particle.index, {});
       grid.setIndex(particle.index, smoke);
-      // if (Math.random() < 0.9) {
-      //   const smoke = new Smoke(particle.index, {
-      //     burning: Math.random() < 0.1,
-      //     color: this.smokeColor,
-      //   });
-      //   grid.setIndex(particle.index, smoke);
-      // } else {
-      //   grid.setIndex(
-      //     particle.index,
-      //     new Fire(particle.index, {
-      //       // maxSpeed: this.maxSpeed,
-      //       // acceleration: this.acceleration,
-      //       // initialVelocity: this.velocity,
-      //       // diagonalSpread: this.diagonalSpread,
-      //       // verticalSpread: this.verticalSpread,
-      //       // horizontalSpread: this.horizontalSpread,
-      //       smokeColor: this.smokeColor,
-      //       // life: this.life,
-      //     })
-      //   );
-      // }
     }
     this.remainingLife = Math.floor(this.remainingLife - 1);
 
@@ -150,8 +126,6 @@ export class LavaMovement extends MovesVertical {
     const nextRightParticle = grid.grid[nextRight];
     const nextLeftParticle = grid.grid[nextLeft];
     const previousVertical = i - grid.columns;
-
-    // need to randomise order of operations (check sand)
 
     if (
       this.isCloner(nextVerticalParticle) ||

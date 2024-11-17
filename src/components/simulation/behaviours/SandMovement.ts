@@ -51,7 +51,6 @@ export class SandMovement extends MovesVertical {
 
     const nextRightParticle = grid.grid[nextRight];
     const nextLeftParticle = grid.grid[nextLeft];
-    // const previousVertical = i - grid.columns;
 
     if (this.canPassThrough(grid.grid[nextVertical])) {
       grid.swap(i, nextVertical);
@@ -75,11 +74,6 @@ export class SandMovement extends MovesVertical {
             maxSpeed: this.maxSpeed,
             initialVelocity: this.initialVelocity,
             acceleration: this.acceleration,
-            // diagonalSpread: this.diagonalSpread,
-            // verticalSpread: this.verticalSpread,
-            // horizontalSpread: this.horizontalSpread,
-            // life: this.life,
-            // smokeColor: this.smokeColor,
           })
         );
       }
@@ -90,11 +84,6 @@ export class SandMovement extends MovesVertical {
             maxSpeed: this.maxSpeed,
             initialVelocity: this.initialVelocity,
             acceleration: this.acceleration,
-            // diagonalSpread: this.diagonalSpread,
-            // verticalSpread: this.verticalSpread,
-            // horizontalSpread: this.horizontalSpread,
-            // life: this.life,
-            // smokeColor: this.smokeColor,
           })
         );
       }
@@ -106,11 +95,6 @@ export class SandMovement extends MovesVertical {
             maxSpeed: this.maxSpeed,
             initialVelocity: this.initialVelocity,
             acceleration: this.acceleration,
-            // diagonalSpread: this.diagonalSpread,
-            // verticalSpread: this.verticalSpread,
-            // horizontalSpread: this.horizontalSpread,
-            // life: this.life,
-            // smokeColor: this.smokeColor,
           })
         );
       }
@@ -121,11 +105,6 @@ export class SandMovement extends MovesVertical {
             maxSpeed: this.maxSpeed,
             initialVelocity: this.initialVelocity,
             acceleration: this.acceleration,
-            // diagonalSpread: this.diagonalSpread,
-            // verticalSpread: this.verticalSpread,
-            // horizontalSpread: this.horizontalSpread,
-            // life: this.life,
-            // smokeColor: this.smokeColor,
           })
         );
       }

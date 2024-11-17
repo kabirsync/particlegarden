@@ -48,7 +48,6 @@ export abstract class MovesVertical extends Behaviour {
     return (
       floored + (Math.random() < Math.abs(this.velocity) - floored ? 1 : 0)
     );
-    // return floored + 1;
   }
 
   update(particle: Particle, grid: Grid, params: Params) {

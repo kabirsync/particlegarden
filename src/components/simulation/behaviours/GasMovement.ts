@@ -10,7 +10,6 @@ import Gas from "@/components/simulation/materials/Gas";
 import { Color } from "three";
 import { gasFuel, gasSmokeColor } from "@/lib/constants";
 import Cloner from "@/components/simulation/materials/Cloner";
-// import { oilFuel, oilSmokeColor } from "@/lib/constants";
 
 export type GasMovementProps = MovesVerticalProps & {
   diagonalSpread?: number;
@@ -26,7 +25,6 @@ export class GasMovement extends MovesVertical {
   horizontalSpread: number;
   life: number;
   smokeColor: Color;
-  // remainingLife: number;
 
   constructor({
     maxSpeed = 0,
@@ -44,7 +42,6 @@ export class GasMovement extends MovesVertical {
     this.horizontalSpread = horizontalSpread;
     this.life = life;
     this.smokeColor = smokeColor;
-    // this.remainingLife = life - life * Math.random();
   }
 
   update(particle: Particle, grid: Grid, params: Params) {
@@ -65,22 +62,8 @@ export class GasMovement extends MovesVertical {
 
   canPassThrough(particle: Particle) {
     if (!particle) return false;
-    return (
-      particle?.stateOfMatter === "empty"
-      //   (particle?.stateOfMatter === "gas" && !(particle instanceof Fire)) ||
-      //   (particle?.stateOfMatter === "liquid" &&
-      //     !(particle instanceof LiquidFire) &&
-      //     Math.random() < .3)
-    );
+    return particle?.stateOfMatter === "empty";
   }
-
-  //   canExtinguish(particle: Particle): particle is Fire | StaticFire | Lava {
-  //     return (
-  //       particle instanceof Fire ||
-  //       particle instanceof StaticFire ||
-  //       particle instanceof Lava
-  //     );
-  //   }
 
   isVoid(particle: Particle) {
     return particle instanceof Void;
@@ -111,7 +94,6 @@ export class GasMovement extends MovesVertical {
     const nextLeftParticle = grid.grid[nextLeft];
     const previousVertical = i - grid.columns;
 
-    // need to randomise order of operations (check sand)
     if (
       this.isCloner(nextVerticalParticle) ||
       this.isCloner(nextVerticalLeftParticle) ||
@@ -190,19 +172,6 @@ export class GasMovement extends MovesVertical {
       grid.swap(i, nextVertical);
       return nextVertical;
     }
-    // if (this.canExtinguish(nextVerticalParticle)) {
-    //   if (Math.random() < 1) {
-    //     const MaterialClass =
-    //       MaterialMapping[nextVerticalParticle.extinguishMaterial];
-
-    //     grid.setIndex(
-    //       nextVertical,
-    //       new MaterialClass(nextVertical, {
-    //         smokeColor: nextVerticalParticle.smokeColor,
-    //       })
-    //     );
-    //   }
-    // }
 
     if (Math.random() < 0.5) {
       if (this.isVoid(grid.grid[nextVerticalLeft])) {
@@ -215,19 +184,6 @@ export class GasMovement extends MovesVertical {
         grid.swap(i, nextVerticalLeft);
         return nextVerticalLeft;
       }
-      //   if (this.canExtinguish(nextVerticalLeftParticle)) {
-      //     if (Math.random() < 1) {
-      //       const MaterialClass =
-      //         MaterialMapping[nextVerticalLeftParticle.extinguishMaterial];
-
-      //       grid.setIndex(
-      //         nextVerticalLeft,
-      //         new MaterialClass(nextVerticalLeft, {
-      //           smokeColor: nextVerticalLeftParticle.smokeColor,
-      //         })
-      //       );
-      //     }
-      //   }
     } else {
       if (this.isVoid(grid.grid[nextVerticalRight])) {
         grid.setIndex(i, new Empty(i));
@@ -239,19 +195,6 @@ export class GasMovement extends MovesVertical {
         grid.swap(i, nextVerticalRight);
         return nextVerticalRight;
       }
-      //   if (this.canExtinguish(nextVerticalRightParticle)) {
-      //     if (Math.random() < 1) {
-      //       const MaterialClass =
-      //         MaterialMapping[nextVerticalRightParticle.extinguishMaterial];
-
-      //       grid.setIndex(
-      //         nextVerticalRight,
-      //         new MaterialClass(nextVerticalRight, {
-      //           smokeColor: nextVerticalRightParticle.smokeColor,
-      //         })
-      //       );
-      //     }
-      //   }
     }
 
     if (Math.random() < 0.5) {
@@ -265,19 +208,6 @@ export class GasMovement extends MovesVertical {
         grid.swap(i, nextLeft);
         return nextLeft;
       }
-      //   if (this.canExtinguish(nextLeftParticle)) {
-      //     if (Math.random() < 1) {
-      //       const MaterialClass =
-      //         MaterialMapping[nextLeftParticle.extinguishMaterial];
-
-      //       grid.setIndex(
-      //         nextLeft,
-      //         new MaterialClass(nextLeft, {
-      //           smokeColor: nextLeftParticle.smokeColor,
-      //         })
-      //       );
-      //     }
-      //   }
     } else {
       if (this.isVoid(grid.grid[nextLeft])) {
         grid.setIndex(i, new Empty(i));
@@ -289,19 +219,6 @@ export class GasMovement extends MovesVertical {
         grid.swap(i, nextRight);
         return nextRight;
       }
-      //   if (this.canExtinguish(nextRightParticle)) {
-      //     if (Math.random() < 1) {
-      //       const MaterialClass =
-      //         MaterialMapping[nextRightParticle.extinguishMaterial];
-
-      //       grid.setIndex(
-      //         nextRight,
-      //         new MaterialClass(nextRight, {
-      //           smokeColor: nextRightParticle.smokeColor,
-      //         })
-      //       );
-      //     }
-      //   }
     }
 
     return i;

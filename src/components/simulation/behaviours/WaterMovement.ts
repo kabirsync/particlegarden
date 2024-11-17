@@ -107,8 +107,6 @@ export class WaterMovement extends MovesVertical {
     const nextRightParticle = grid.grid[nextRight];
     const nextLeftParticle = grid.grid[nextLeft];
 
-    // need to randomise order of operations (check sand)
-
     if (
       this.isCloner(nextVerticalParticle) ||
       this.isCloner(nextVerticalLeftParticle) ||
@@ -126,7 +124,6 @@ export class WaterMovement extends MovesVertical {
             diagonalSpread: this.diagonalSpread,
             verticalSpread: this.verticalSpread,
             horizontalSpread: this.horizontalSpread,
-            // life: this.life,
             color: this.color,
           })
         );
@@ -141,7 +138,6 @@ export class WaterMovement extends MovesVertical {
             diagonalSpread: this.diagonalSpread,
             verticalSpread: this.verticalSpread,
             horizontalSpread: this.horizontalSpread,
-            // life: this.life,
             color: this.color,
           })
         );
@@ -157,7 +153,6 @@ export class WaterMovement extends MovesVertical {
             diagonalSpread: this.diagonalSpread,
             verticalSpread: this.verticalSpread,
             horizontalSpread: this.horizontalSpread,
-            // life: this.life,
             color: this.color,
           })
         );
@@ -172,7 +167,6 @@ export class WaterMovement extends MovesVertical {
             diagonalSpread: this.diagonalSpread,
             verticalSpread: this.verticalSpread,
             horizontalSpread: this.horizontalSpread,
-            // life: this.life,
             color: this.color,
           })
         );
