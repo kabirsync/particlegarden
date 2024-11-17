@@ -50,6 +50,7 @@ class Lava extends Particle {
     }: LavaProps
   ) {
     super(index, {
+      name: "Lava",
       color,
       stateOfMatter: "liquid",
       behaviour: new LavaMovement({

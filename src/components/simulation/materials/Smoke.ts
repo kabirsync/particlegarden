@@ -42,6 +42,7 @@ export class Smoke extends Particle {
     }: SmokeProps
   ) {
     super(index, {
+      name: "Smoke",
       color: varyColor(color ?? smokeColor),
       stateOfMatter: "gas",
       behaviour: new SmokeMovement({

@@ -11,6 +11,7 @@ type ClonerProps = {
 class Cloner extends Particle {
   constructor(index: number, { color = clonerColor }: ClonerProps) {
     super(index, {
+      name: "Cloner",
       color: varyColor(color),
       stateOfMatter: "solid",
     });

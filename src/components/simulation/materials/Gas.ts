@@ -52,6 +52,7 @@ class Gas extends Particle {
     }: GasProps
   ) {
     super(index, {
+      name: "Gas",
       color: color,
       stateOfMatter: "gas",
       behaviour: new GasMovement({

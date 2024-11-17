@@ -36,6 +36,7 @@ class Water extends Particle {
     }: WaterProps
   ) {
     super(index, {
+      name: "Water",
       color: color,
       stateOfMatter: "liquid",
       behaviour: new WaterMovement({

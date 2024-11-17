@@ -52,6 +52,7 @@ class Oil extends Particle {
     }: OilProps
   ) {
     super(index, {
+      name: "Oil",
       color: color,
       stateOfMatter: "liquid",
       behaviour: new OilMovement({

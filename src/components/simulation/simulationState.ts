@@ -1,3 +1,4 @@
+import { Grid } from "@/components/simulation/Grid";
 import {
   MaterialOptionsType,
   SelectableMaterials,
@@ -32,6 +33,9 @@ export const refreshAtom = atom(Date.now());
 export const isPlayingAtom = atom(defaultIsPlaying);
 export const FPSAtom = atom(defaultFPS);
 export const particleSizeAtom = atom(defaultParticleSize);
+export const gridRefAtom = atom<{ current: Grid | null }>(() => ({
+  current: null,
+}));
 
 // --------- Material Options ---------
 
