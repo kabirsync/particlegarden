@@ -9,26 +9,19 @@ import {
   chanceToMeltRefAtom,
   diagonalSpreadRefAtom,
   extinguishMaterialRefAtom,
-  // acidStrengthRefAtom,
-  // chanceToCatchRefAtom,
-  // diagonalSpreadRefAtom,
   FPSAtom,
-  // fuelRefAtom,
   horizontalSpreadRefAtom,
-  // fuelRefAtom,
-  // horizontalSpreadRefAtom,
   initialVelocityRefAtom,
   isPlayingAtom,
   lifeRefAtom,
   materialColorRefAtom,
   maxSpeedRefAtom,
   particleSizeAtom,
+  refreshAtom,
   selectedMaterialAtom,
   smokeColorRefAtom,
-  // smokeColorRefAtom,
   strokeSizeRefAtom,
   verticalSpreadRefAtom,
-  // verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
 import { backgroundColorDark, backgroundColorLight } from "@/lib/constants";
 import { throttle } from "@/lib/utils";
@@ -65,15 +58,12 @@ const SimulationParticles = ({
   const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
   const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
   const [lifeRef] = useAtom(lifeRefAtom);
-  // const [fuelRef] = useAtom(fuelRefAtom);
   const [chanceToCatchlRef] = useAtom(chanceToCatchRefAtom);
   const [chanceToMeltlRef] = useAtom(chanceToMeltRefAtom);
-
   const [smokeColorRef] = useAtom(smokeColorRefAtom);
   const [extinguishMaterialRef] = useAtom(extinguishMaterialRefAtom);
-
   const [acidStengthRef] = useAtom(acidStrengthRefAtom);
-
+  const [refresh] = useAtom(refreshAtom);
   const [, setFPS] = useAtom(FPSAtom);
   const [, setFrame] = useState(0);
   const gridRef = useRef<Grid>();
@@ -100,7 +90,7 @@ const SimulationParticles = ({
   useEffect(() => {
     gridRef.current = new Grid({ columns, rows });
     setIsReady(true);
-  }, [dimensions.width, dimensions.height, columns, rows]);
+  }, [dimensions.width, dimensions.height, columns, rows, refresh]);
 
   useEffect(() => {
     const positions = [];
