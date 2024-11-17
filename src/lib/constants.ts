@@ -91,7 +91,7 @@ export const acidAcceleration = 0.5;
 export const acidDiagonalSpread = 3;
 export const acidVerticalSpread = 1;
 export const acidHorizontalSpread = 3;
-export const acidDefaultStrength = 0.05;
+export const acidDefaultStrength = 0.1;
 
 // Lava
 export const lavaDirection = 1;
@@ -152,7 +152,7 @@ export const fireExtinguishMaterial = "Smoke";
 
 // Wood
 export const woodFuel = 1000;
-export const woodChanceToCatch = 0.005;
+export const woodChanceToCatch = 0.065;
 export const woodChanceToMelt = 0.1;
 
 export const woodSmokeColor = smokeMaterialColor;
