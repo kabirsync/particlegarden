@@ -1,30 +1,14 @@
-import { Grid } from "@/components/simulation/Grid";
 import SimulationParticles from "@/components/simulation/SimulationParticles";
-import { particleSizeAtom } from "@/components/simulation/simulationState";
 import { useTheme } from "@/components/theme/useTheme";
 import { useContainerSize } from "@/hooks/useContainerSize";
 import { Canvas } from "@react-three/fiber";
-import { useAtom } from "jotai";
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import { MouseEvent, useRef } from "react";
 import { WebGLRenderer } from "three";
 
 const Simulation = () => {
-  const [particleSize] = useAtom(particleSizeAtom);
   const { containerRef, dimensions } = useContainerSize();
   const { theme } = useTheme();
-  const gridRef = useRef<Grid>();
-  const [, setIsReady] = useState(false);
   const rendererRef = useRef<WebGLRenderer | null>(null);
-
-  const columns = Math.floor(dimensions.width / particleSize);
-  const rows = Math.floor(dimensions.height / particleSize);
-
-  useEffect(() => {
-    if (columns > 0 && rows > 0) {
-      gridRef.current = new Grid({ columns, rows });
-      setIsReady(true); // force rerender
-    }
-  }, [columns, dimensions.height, dimensions.width, particleSize, rows]);
 
   const handleContextMenu = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault(); // Prevent the default context menu from appearing
