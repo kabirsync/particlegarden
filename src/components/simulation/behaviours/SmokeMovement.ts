@@ -26,6 +26,7 @@ export type SmokeMovementProps = MovesVerticalProps & {
   verticalSpread?: number;
   life?: number;
   color?: Color;
+  cloneable?: boolean;
 };
 
 export class SmokeMovement extends MovesVertical {
@@ -33,9 +34,9 @@ export class SmokeMovement extends MovesVertical {
   verticalSpread: number;
   horizontalSpread: number;
   life: number;
-  // smokeColor: Color;
   remainingLife: number;
   color: Color;
+  cloneable: boolean;
 
   constructor({
     maxSpeed = smokeMaxSpeed,
@@ -46,6 +47,7 @@ export class SmokeMovement extends MovesVertical {
     horizontalSpread = smokeHorizontalSpread,
     life = smokeLife,
     color = smokeColor,
+    cloneable = true,
   }: SmokeMovementProps) {
     super({ maxSpeed, acceleration, initialVelocity });
     this.diagonalSpread = diagonalSpread;
@@ -54,6 +56,7 @@ export class SmokeMovement extends MovesVertical {
     this.life = life;
     this.color = color;
     this.remainingLife = Math.random() * life;
+    this.cloneable = cloneable;
   }
 
   update(particle: Particle, grid: Grid, params: Params) {
@@ -114,11 +117,12 @@ export class SmokeMovement extends MovesVertical {
     const nextLeftParticle = grid.grid[nextLeft];
     const previousVertical = i - grid.columns;
     if (
-      this.isCloner(nextVerticalParticle) ||
-      this.isCloner(nextVerticalLeftParticle) ||
-      this.isCloner(nextVerticalRightParticle) ||
-      this.isCloner(nextLeftParticle) ||
-      this.isCloner(nextRightParticle)
+      this.cloneable &&
+      (this.isCloner(nextVerticalParticle) ||
+        this.isCloner(nextVerticalLeftParticle) ||
+        this.isCloner(nextVerticalRightParticle) ||
+        this.isCloner(nextLeftParticle) ||
+        this.isCloner(nextRightParticle))
     ) {
       if (Math.random() < 1 && grid.isEmpty(previousVertical)) {
         grid.setIndex(

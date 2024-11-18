@@ -66,9 +66,10 @@ export class FireMovement extends MovesVertical {
       this.applyMovement(particle, grid);
     }
     if (this.remainingLife < 0) {
-      if (Math.random() < 0.9) {
+      if (Math.random() < 0.5) {
         const smoke = new Smoke(particle.index, {
           color: this.smokeColor,
+          cloneable: false,
         });
         grid.setIndex(particle.index, smoke);
       } else {
@@ -119,7 +120,7 @@ export class FireMovement extends MovesVertical {
     const nextLeft = i - Math.ceil(Math.random() * this.horizontalSpread);
     const nextRight = i + Math.ceil(Math.random() * this.horizontalSpread);
 
-    const previousVertical = i - 1;
+    const previousVertical = i - nextDelta;
     const previousVerticalParticle = grid.grid[previousVertical];
 
     const nextVerticalParticle = grid.grid[nextVerticalRight];
@@ -129,11 +130,19 @@ export class FireMovement extends MovesVertical {
     const nextRightParticle = grid.grid[nextRight];
     const nextLeftParticle = grid.grid[nextLeft];
 
-    if (this.isCloner(grid.grid[nextVertical])) {
+    if (
+      this.isCloner(nextVerticalParticle) ||
+      this.isCloner(nextVerticalLeftParticle) ||
+      this.isCloner(nextVerticalRightParticle) ||
+      this.isCloner(nextLeftParticle) ||
+      this.isCloner(nextRightParticle) ||
+      this.isCloner(previousVerticalParticle)
+    ) {
       if (grid.isEmpty(previousVertical)) {
         grid.setIndex(
           previousVertical,
           new Fire(previousVertical, {
+            life: this.life,
             maxSpeed: this.maxSpeed,
             initialVelocity: this.velocity,
             acceleration: this.acceleration,
@@ -144,6 +153,7 @@ export class FireMovement extends MovesVertical {
         grid.setIndex(
           nextVerticalLeft,
           new Fire(nextVerticalLeft, {
+            life: this.life,
             maxSpeed: this.maxSpeed,
             initialVelocity: this.velocity,
             acceleration: this.acceleration,
@@ -154,6 +164,7 @@ export class FireMovement extends MovesVertical {
         grid.setIndex(
           nextVerticalRight,
           new Fire(nextVerticalRight, {
+            life: this.life,
             maxSpeed: this.maxSpeed,
             initialVelocity: this.velocity,
             acceleration: this.acceleration,

@@ -23,11 +23,10 @@ type SmokeProps = {
   horizontalSpread?: number;
   burning?: boolean;
   life?: number;
+  cloneable?: boolean;
 };
 
 export class Smoke extends Particle {
-  static addProbability = 0.25;
-
   constructor(
     index: number,
     {
@@ -39,6 +38,7 @@ export class Smoke extends Particle {
       verticalSpread = smokeVerticalSpread,
       horizontalSpread = smokeHorizontalSpread,
       life = smokeLife - smokeLife * Math.random(),
+      cloneable = true,
     }: SmokeProps
   ) {
     super(index, {
@@ -54,6 +54,7 @@ export class Smoke extends Particle {
         horizontalSpread,
         life,
         color,
+        cloneable,
       }),
     });
   }
