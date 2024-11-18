@@ -23,6 +23,7 @@ import { useAtom } from "jotai";
 import { FileUp, Pause, Play, RefreshCcw, Save } from "lucide-react";
 import pako from "pako";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const EngineOptions = () => {
   const [, setRefresh] = useAtom(refreshAtom);
@@ -69,6 +70,21 @@ const EngineOptions = () => {
     }
     return uint8Array;
   };
+  const formatCurrentDate = (): string => {
+    const date = new Date();
+
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "2-digit",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    };
+
+    return new Intl.DateTimeFormat("en-US", options).format(date);
+  };
 
   const handleSave = () => {
     try {
@@ -78,7 +94,13 @@ const EngineOptions = () => {
       const compressedBase64 = uint8ArrayToBase64(compressedData);
 
       localStorage.setItem("gridData", compressedBase64);
-
+      toast("Canvas has been saved", {
+        description: formatCurrentDate(),
+        // action: {
+        //   label: "Undo",
+        //   onClick: () => console.log("Undo"),
+        // },
+      });
       console.log("Data successfully compressed and saved!");
 
       // Todo: this is only for debuggins, remove
@@ -99,6 +121,13 @@ const EngineOptions = () => {
         const decompressedData = pako.inflate(compressedData, { to: "string" });
         const gridData: Grid = JSON.parse(decompressedData);
         gridRef.current = Grid.fromJSON(gridData);
+        toast("Canvas loaded successfully", {
+          description: formatCurrentDate(),
+          // action: {
+          //   label: "Undo",
+          //   onClick: () => console.log("Undo"),
+          // },
+        });
       } else {
         console.log("No data found in localStorage.");
       }
