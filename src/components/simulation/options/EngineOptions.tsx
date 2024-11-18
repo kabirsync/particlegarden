@@ -9,6 +9,7 @@ import {
 } from "@/components/simulation/simulationState";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
+import Discord from "@/components/ui/discord";
 import { useAtom } from "jotai";
 import {
   FileUp,
@@ -130,6 +131,15 @@ const EngineOptions = () => {
             rel="noopener noreferrer"
           >
             <MessageSquareText className="h-4 w-4" />
+          </a>
+        </Button>
+        <Button variant="ghost" size="icon" asChild>
+          <a
+            href="https://discord.gg/Gt5sS2xYtK"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Discord className="h-4 w-4 fill-zinc-50" />
           </a>
         </Button>
         <SimulationOptionsButton
