@@ -80,6 +80,7 @@ export class AcidMovement extends MovesVertical {
         Math.random() < 0.2
           ? new Smoke(nextParticleIndex, {
               color: new Color().lerpColors(particle.color, smokeColor, 0.95),
+              cloneable: false,
             })
           : new Empty(nextParticleIndex)
       );
@@ -132,7 +133,6 @@ export class AcidMovement extends MovesVertical {
             diagonalSpread: this.diagonalSpread,
             verticalSpread: this.verticalSpread,
             horizontalSpread: this.horizontalSpread,
-            // life: this.life,
             color: this.color,
             acidStrength: this.acidStrength,
           })
@@ -148,7 +148,6 @@ export class AcidMovement extends MovesVertical {
             diagonalSpread: this.diagonalSpread,
             verticalSpread: this.verticalSpread,
             horizontalSpread: this.horizontalSpread,
-            // life: this.life,
             color: this.color,
             acidStrength: this.acidStrength,
           })

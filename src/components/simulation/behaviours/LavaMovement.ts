@@ -220,6 +220,7 @@ export class LavaMovement extends MovesVertical {
           nextVertical,
           new Smoke(nextVertical, {
             color: nextVerticalParticle.smokeColor,
+            cloneable: false,
           })
         );
       }
@@ -254,6 +255,7 @@ export class LavaMovement extends MovesVertical {
             nextVerticalLeft,
             new Smoke(nextVerticalLeft, {
               color: nextVerticalLeftParticle.smokeColor,
+              cloneable: false,
             })
           );
         }
@@ -287,6 +289,7 @@ export class LavaMovement extends MovesVertical {
             nextVerticalRight,
             new Smoke(nextVerticalRight, {
               color: nextVerticalRightParticle.smokeColor,
+              cloneable: false,
             })
           );
         }
@@ -322,6 +325,7 @@ export class LavaMovement extends MovesVertical {
             nextLeft,
             new Smoke(nextLeft, {
               color: nextLeftParticle.smokeColor,
+              cloneable: false,
             })
           );
         }
@@ -354,6 +358,7 @@ export class LavaMovement extends MovesVertical {
             nextRight,
             new Smoke(nextRight, {
               color: nextRightParticle.smokeColor,
+              cloneable: false,
             })
           );
         }

@@ -77,6 +77,7 @@ export class LiquidFireMovement extends MovesVertical {
         if (Math.random() < 0.3) {
           const smoke = new Smoke(particle.index, {
             color: this.smokeColor,
+            cloneable: false,
           });
           grid.setIndex(particle.index, smoke);
         } else {
