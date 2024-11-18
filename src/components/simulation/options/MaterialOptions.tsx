@@ -13,7 +13,7 @@ const MaterialOptions = () => {
     <div className="flex flex-col gap-3 mb-3">
       <div className="flex flex-col gap-4 px-3">
         <div className="flex gap-2 items-center">
-          <Brush className="h-4 w-4 text-zinc-300" />
+          <Brush className="h-4 w-4" />
           <span className="text-xs font-bold">Stroke</span>
         </div>
         <div className="flex flex-col gap-3">

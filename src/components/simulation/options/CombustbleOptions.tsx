@@ -34,7 +34,7 @@ const CombustibleOptions = () => {
             <div className="flex flex-col gap-2">
               <Label htmlFor="life" className="text-xs">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-zinc-400">Chance to catch : </span>
+                  <span>Chance to catch : </span>
                   <Input
                     className="text-xs h-8 w-min"
                     type="number"
@@ -70,7 +70,7 @@ const CombustibleOptions = () => {
               <div className="flex flex-col gap-2">
                 <Label htmlFor="life" className="text-xs">
                   <div className="flex items-center justify-between gap-3">
-                    <span className="text-zinc-400">Chance to melt : </span>
+                    <span>Chance to melt : </span>
                     <Input
                       className="text-xs h-8 w-min"
                       type="number"

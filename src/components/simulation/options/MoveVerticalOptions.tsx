@@ -72,7 +72,7 @@ const MoveVerticalOptions = () => {
             <div className="flex flex-col gap-2">
               <Label htmlFor="initialVelocity" className="text-xs">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-zinc-400">Max Speed : </span>
+                  <span>Max Speed : </span>
                   <Input
                     className="text-xs h-8 w-min"
                     type="number"
@@ -107,7 +107,7 @@ const MoveVerticalOptions = () => {
             <div className="flex flex-col gap-2">
               <Label htmlFor="initialVelocity" className="text-xs">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-zinc-400">Initial Velocity: </span>
+                  <span>Initial Velocity: </span>
                   <Input
                     className="text-xs h-8 w-min"
                     type="number"
@@ -142,7 +142,7 @@ const MoveVerticalOptions = () => {
             <div className="flex flex-col gap-2">
               <Label htmlFor="acceleration" className="text-xs">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-zinc-400">Acceleration: </span>
+                  <span>Acceleration: </span>
                   <div className="flex gap-2">
                     <ToggleGroup
                       size={"xs"}

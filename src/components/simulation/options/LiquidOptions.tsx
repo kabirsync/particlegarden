@@ -51,7 +51,7 @@ const LiquidOptions = () => {
             <div className="flex flex-col gap-2">
               <Label htmlFor="diagonalSpread" className="text-xs">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-zinc-400">Diagonal Spread : </span>
+                  <span>Diagonal Spread : </span>
                   <Input
                     className="text-xs h-8 w-min"
                     type="number"
@@ -86,7 +86,7 @@ const LiquidOptions = () => {
             <div className="flex flex-col gap-2">
               <Label htmlFor="verticalSpread" className="text-xs">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-zinc-400">Vertical Spread : </span>
+                  <span>Vertical Spread : </span>
                   <Input
                     className="text-xs h-8 w-min"
                     type="number"
@@ -121,7 +121,7 @@ const LiquidOptions = () => {
             <div className="flex flex-col gap-2">
               <Label htmlFor="horizontalSpread" className="text-xs">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-zinc-400">Horizontal Spread : </span>
+                  <span>Horizontal Spread : </span>
                   <Input
                     className="text-xs h-8 w-min"
                     type="number"

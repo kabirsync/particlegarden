@@ -47,7 +47,7 @@ const FlammableOptions = () => {
             <div className="flex flex-col gap-2">
               <Label htmlFor="life" className="text-xs">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-zinc-400">Fuel : </span>
+                  <span>Fuel : </span>
                   <Input
                     className="text-xs h-8 w-min"
                     type="number"
@@ -81,7 +81,7 @@ const FlammableOptions = () => {
             </div>
 
             <div className="flex flex-col gap-2">
-              <Label htmlFor="colorPicker" className="text-xs text-zinc-400">
+              <Label htmlFor="colorPicker" className="text-xs">
                 Smoke Color:
               </Label>
               <Input

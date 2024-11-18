@@ -7,18 +7,9 @@ import {
   particleSizeAtom,
   refreshAtom,
 } from "@/components/simulation/simulationState";
-import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
-import Discord from "@/components/ui/discord";
 import { useAtom } from "jotai";
-import {
-  FileUp,
-  MessageSquareText,
-  Pause,
-  Play,
-  RefreshCcw,
-  Save,
-} from "lucide-react";
+import { FileUp, Pause, Play, RefreshCcw, Save } from "lucide-react";
 import pako from "pako";
 
 const EngineOptions = () => {
@@ -124,31 +115,12 @@ const EngineOptions = () => {
         <Button variant="ghost" size="icon" onClick={handleLoad}>
           <FileUp className="h-4 w-4" />
         </Button>
-        <Button variant="ghost" size="icon" asChild>
-          <a
-            href="https://forms.gle/FFmkrXfJjw4n7GFh9"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <MessageSquareText className="h-4 w-4" />
-          </a>
-        </Button>
-        <Button variant="ghost" size="icon" asChild>
-          <a
-            href="https://discord.gg/Gt5sS2xYtK"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Discord className="h-4 w-4 fill-zinc-50" />
-          </a>
-        </Button>
+      </div>{" "}
+      <div className="flex-1 flex justify-end">
         <SimulationOptionsButton
           particleSize={particleSize}
           setParticleSize={setParticleSize}
         />
-      </div>
-      <div className="flex-1 flex justify-end">
-        <ThemeToggleButton />
       </div>
     </div>
   );
