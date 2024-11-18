@@ -8,6 +8,12 @@ import {
   refreshAtom,
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useAtom } from "jotai";
 import { FileUp, Pause, Play, RefreshCcw, Save } from "lucide-react";
 import pako from "pako";
@@ -99,28 +105,76 @@ const EngineOptions = () => {
         <span>{FPS} FPS</span>
       </div>
       <div className="flex-1 flex justify-center">
-        <Button variant="ghost" size="icon" onClick={toggleIsPlaying}>
-          {isPlaying ? (
-            <Pause className="h-5 w-5" />
-          ) : (
-            <Play className="h-5 w-5" />
-          )}
-        </Button>
-        <Button variant="ghost" size="icon" onClick={handleRefresh}>
-          <RefreshCcw className="h-4 w-4" />
-        </Button>
-        <Button variant="ghost" size="icon" onClick={handleSave}>
-          <Save className="h-4 w-4" />
-        </Button>
-        <Button variant="ghost" size="icon" onClick={handleLoad}>
-          <FileUp className="h-4 w-4" />
-        </Button>
-      </div>{" "}
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="ghost" size="icon" onClick={toggleIsPlaying}>
+                {isPlaying ? (
+                  <Pause className="h-5 w-5" />
+                ) : (
+                  <Play className="h-5 w-5" />
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="text-xs">Pause/Play</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="ghost" size="icon" onClick={handleRefresh}>
+                <RefreshCcw className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="text-xs">Reset Canvas</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="ghost" size="icon" onClick={handleSave}>
+                <Save className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="text-xs">Save</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="ghost" size="icon" onClick={handleLoad}>
+                <FileUp className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="text-xs">Load</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
       <div className="flex-1 flex justify-end">
-        <SimulationOptionsButton
-          particleSize={particleSize}
-          setParticleSize={setParticleSize}
-        />
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <SimulationOptionsButton
+                particleSize={particleSize}
+                setParticleSize={setParticleSize}
+              />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="text-xs">Settings</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );
