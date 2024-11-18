@@ -10,7 +10,14 @@ import {
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
-import { FileUp, Pause, Play, RefreshCcw, Save } from "lucide-react";
+import {
+  FileUp,
+  MessageSquareText,
+  Pause,
+  Play,
+  RefreshCcw,
+  Save,
+} from "lucide-react";
 import pako from "pako";
 
 const EngineOptions = () => {
@@ -115,6 +122,15 @@ const EngineOptions = () => {
         </Button>
         <Button variant="ghost" size="icon" onClick={handleLoad}>
           <FileUp className="h-4 w-4" />
+        </Button>
+        <Button variant="ghost" size="icon" asChild>
+          <a
+            href="https://forms.gle/FFmkrXfJjw4n7GFh9"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <MessageSquareText className="h-4 w-4" />
+          </a>
         </Button>
         <SimulationOptionsButton
           particleSize={particleSize}
