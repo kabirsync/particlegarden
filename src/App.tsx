@@ -4,6 +4,7 @@ import MaterialButton from "@/components/simulation/options/MaterialButton";
 import MaterialOptions from "@/components/simulation/options/MaterialOptions";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { LoaderIcon } from "lucide-react";
@@ -52,6 +53,7 @@ function App() {
           </div>
         </div>
       </div>
+      <Toaster />
     </ThemeProvider>
   );
 }
