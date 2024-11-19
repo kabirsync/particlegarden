@@ -8,7 +8,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { MessageSquareText, Moon, Settings, Sun } from "lucide-react";
+import {
+  HeartIcon,
+  MessageSquareText,
+  Moon,
+  Settings,
+  Sun,
+} from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
 type SimulationOptionsButtonProps = {
@@ -105,6 +111,20 @@ const SimulationOptionsButton = ({
               setParticleSize(values[0]);
             }}
           />
+        </div>
+        <div className="p-3">
+          <span className="text-xs">Made with</span>
+          <HeartIcon className="h-4 w-4 fill-red-400 stroke-none" />
+          <span className="text-xs">
+            by{" "}
+            <a
+              href="https://github.com/kabirsync"
+              className="underline"
+              target="_blank"
+            >
+              KabirSync
+            </a>
+          </span>
         </div>
       </DropdownMenuContent>
     </DropdownMenu>
