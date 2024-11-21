@@ -1,5 +1,3 @@
-// import { Cloneable } from "@/components/simulation/behaviours/Cloneable";
-// import { Destroyable } from "@/components/simulation/behaviours/Destroyable";
 import { AcidMovement } from "@/components/simulation/behaviours/AcidMovement";
 import Particle from "@/components/simulation/materials/Particle";
 import {
