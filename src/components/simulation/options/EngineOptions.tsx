@@ -96,10 +96,6 @@ const EngineOptions = () => {
       localStorage.setItem("gridData", compressedBase64);
       toast("Canvas has been saved", {
         description: formatCurrentDate(),
-        // action: {
-        //   label: "Undo",
-        //   onClick: () => console.log("Undo"),
-        // },
       });
       console.log("Data successfully compressed and saved!");
 
