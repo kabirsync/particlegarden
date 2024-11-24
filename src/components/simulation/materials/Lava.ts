@@ -7,10 +7,10 @@ import {
   lavaAcceleration,
   lavaColor,
   lavaDiagonalSpread,
+  lavaExtinguishMaterial,
   lavaFuel,
   lavaHorizontalSpread,
   lavaInitialVelocity,
-  lavalExtinguishMaterial,
   lavaMaxSpeed,
   lavaSmokeColor,
   lavaVerticalSpread,
@@ -46,7 +46,7 @@ class Lava extends Particle {
       horizontalSpread = lavaHorizontalSpread,
       life = lavaFuel,
       smokeColor = lavaSmokeColor,
-      extinguishMaterial = lavalExtinguishMaterial,
+      extinguishMaterial = lavaExtinguishMaterial,
     }: LavaProps
   ) {
     super(index, {
