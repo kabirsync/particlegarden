@@ -13,6 +13,8 @@ import {
   chanceToMeltRefAtom,
   diagonalSpreadAtom,
   diagonalSpreadRefAtom,
+  extinguishMaterialAtom,
+  extinguishMaterialRefAtom,
   fuelAtom,
   fuelRefAtom,
   gravityDirectionAtom,
@@ -48,6 +50,7 @@ import {
   fireAcceleration,
   fireColor,
   fireDirection,
+  fireExtinguishMaterial,
   fireInitialVelocity,
   fireLife,
   fireMaxSpeed,
@@ -67,6 +70,7 @@ import {
   lavaColor,
   lavaDiagonalSpread,
   lavaDirection,
+  lavaExtinguishMaterial,
   lavaFuel,
   lavaHorizontalSpread,
   lavaInitialVelocity,
@@ -149,6 +153,8 @@ const MaterialButton = ({ material }: { material: SelectableMaterials }) => {
   const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
   const [, setAcidStrength] = useAtom(acidStrengthAtom);
   const [acidStrengthRef] = useAtom(acidStrengthRefAtom);
+  const [, setExtinguishMaterial] = useAtom(extinguishMaterialAtom);
+  const [extinguishMaterialRef] = useAtom(extinguishMaterialRefAtom);
   // Helper function to enforce exhaustiveness
   function assertUnreachable(x: never): never {
     throw new Error(`Missing material type handling for: ${x}`);
@@ -265,6 +271,8 @@ const MaterialButton = ({ material }: { material: SelectableMaterials }) => {
         gravityDirectionRef.current = fireDirection;
         setSmokeColor(fireSmokeColor);
         smokeColorRef.current = fireSmokeColor;
+        setExtinguishMaterial(fireExtinguishMaterial);
+        extinguishMaterialRef.current = fireExtinguishMaterial;
         break;
       }
       case "Oil": {
@@ -338,6 +346,8 @@ const MaterialButton = ({ material }: { material: SelectableMaterials }) => {
         verticalSpreadRef.current = lavaVerticalSpread;
         setHorizontalSpread(lavaHorizontalSpread);
         horizontalSpreadRef.current = lavaHorizontalSpread;
+        setExtinguishMaterial(lavaExtinguishMaterial);
+        extinguishMaterialRef.current = lavaExtinguishMaterial;
         break;
       }
       case "Stone": {
