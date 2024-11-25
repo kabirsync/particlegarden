@@ -78,7 +78,7 @@ export const diagonalSpreadAtom = atom(defaultDiagonalSpread);
 export const verticalSpreadRefAtom = atom(() => ({
   current: defaultVerticalSpread,
 }));
-export const vertiacallSpreadAtom = atom(defaultVerticalSpread);
+export const verticalSpreadAtom = atom(defaultVerticalSpread);
 
 export const horizontalSpreadRefAtom = atom(() => ({
   current: defaultHorizontalSpread,
