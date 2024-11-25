@@ -4,7 +4,7 @@ import {
   horizontalSpreadAtom,
   horizontalSpreadRefAtom,
   selectedMaterialAtom,
-  vertiacallSpreadAtom,
+  verticalSpreadAtom,
   verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
 import { Input } from "@/components/ui/input";
@@ -20,7 +20,7 @@ const LiquidOptions = () => {
   const [verticalSpreadRef] = useAtom(verticalSpreadRefAtom);
   const [horizontalSpreadRef] = useAtom(horizontalSpreadRefAtom);
   const [diagonalSpread, setDiagonalSpread] = useAtom(diagonalSpreadAtom);
-  const [verticalSpread, setVerticalSpread] = useAtom(vertiacallSpreadAtom);
+  const [verticalSpread, setVerticalSpread] = useAtom(verticalSpreadAtom);
   const [horizontalSpread, setHorizontalSpread] = useAtom(horizontalSpreadAtom);
 
   const handleDiagonalSpreadChange = (value: number) => {
