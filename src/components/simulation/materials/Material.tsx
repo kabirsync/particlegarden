@@ -35,15 +35,116 @@ import Gas from "@/components/simulation/materials/Gas";
 import Void from "@/components/simulation/materials/Void";
 import Cloner from "@/components/simulation/materials/Cloner";
 import { Acid } from "@/components/simulation/materials/Acid";
-// import { Smoke } from "@/components/simulation/materials/Smoke";
-// import { Fire } from "@/components/simulation/materials/Fire";
-// import Oil from "@/components/simulation/materials/Oil";
-// import Gas from "@/components/simulation/materials/Gas";
-// import Lava from "@/components/simulation/materials/Lava";
-// import Stone from "@/components/simulation/materials/Stone";
-// import { Acid } from "@/components/simulation/materials/Acid";
-// import Cloner from "@/components/simulation/materials/Cloner";
-// import Void from "@/components/simulation/materials/Void";
+import {
+  acidAcceleration,
+  acidColor,
+  acidDiagonalSpread,
+  acidHorizontalSpread,
+  acidInitialVelocity,
+  acidMaxSpeed,
+  acidVerticalSpread,
+  clonerColor,
+  fireAcceleration,
+  fireColor,
+  fireDiagonalSpread,
+  fireExtinguishMaterial,
+  fireHorizontalSpread,
+  fireInitialVelocity,
+  fireLife,
+  fireMaxSpeed,
+  fireSmokeColor,
+  fireVerticalSpread,
+  gasAcceleration,
+  gasChanceToCatch,
+  gasColor,
+  gasDiagonalSpread,
+  gasHorizontalSpread,
+  gasInitialVelocity,
+  gasMaxSpeed,
+  gasSmokeColor,
+  gasVerticalSpread,
+  lavaAcceleration,
+  lavaColor,
+  lavaDiagonalSpread,
+  lavaExtinguishMaterial,
+  lavaHorizontalSpread,
+  lavaInitialVelocity,
+  lavaMaxSpeed,
+  lavaSmokeColor,
+  lavaVerticalSpread,
+  oilAcceleration,
+  oilBurningMaterial,
+  oilChanceToCatch,
+  oilColor,
+  oilDiagonalSpread,
+  oilHorizontalSpread,
+  oilInitialVelocity,
+  oilMaxSpeed,
+  oilSmokeColor,
+  oilVerticalSpread,
+  sandAcceleration,
+  sandColor,
+  sandInitialVelocity,
+  sandMaxSpeed,
+  smokeAcceleration,
+  smokeColor,
+  smokeDiagonalSpread,
+  smokeHorizontalSpread,
+  smokeInitialVelocity,
+  smokeLife,
+  smokeMaxSpeed,
+  smokeVerticalSpread,
+  stoneChanceToCatch,
+  stoneChanceToMelt,
+  stoneColor,
+  stoneSmokeColor,
+  transparentColor,
+  voidColor,
+  waterAcceleration,
+  waterColor,
+  waterDiagonalSpread,
+  waterHorizontalSpread,
+  waterInitialVelocity,
+  waterMaxSpeed,
+  waterVerticalSpread,
+  woodChanceToCatch,
+  woodChanceToMelt,
+  woodColor,
+  woodSmokeColor,
+} from "@/lib/constants";
+
+export interface MaterialProperties {
+  // Basic properties
+  color?: Color;
+  name?: string;
+  stateOfMatter?: "solid" | "liquid" | "gas";
+
+  // Movement properties
+  maxSpeed?: number;
+  initialVelocity?: number;
+  acceleration?: number;
+  gravityDirection?: number;
+
+  // Spread properties
+  diagonalSpread?: number;
+  verticalSpread?: number;
+  horizontalSpread?: number;
+
+  // Life properties
+  life?: number;
+
+  // Fire properties
+  chanceToCatch?: number;
+  chanceToMelt?: number;
+  smokeColor?: Color;
+  extinguishMaterial?: MaterialOptionsType;
+  burningMaterial?: MaterialOptionsType;
+
+  // Acid properties
+  acidStrength?: number;
+}
+
+export type MaterialPropertyKey = keyof MaterialProperties;
 
 // New materials must be added here and at [3] points
 
@@ -206,3 +307,128 @@ export const MaterialMapping: Record<
   Cloner,
   Void,
 };
+
+export const materialConfigs: Record<SelectableMaterials, MaterialProperties> =
+  {
+    Sand: {
+      color: sandColor,
+      maxSpeed: sandMaxSpeed,
+      acceleration: sandAcceleration,
+      initialVelocity: sandInitialVelocity,
+      stateOfMatter: "solid",
+    },
+    Acid: {
+      color: acidColor,
+      stateOfMatter: "liquid",
+      acceleration: acidAcceleration,
+      maxSpeed: acidMaxSpeed,
+      initialVelocity: acidInitialVelocity,
+      horizontalSpread: acidHorizontalSpread,
+      verticalSpread: acidVerticalSpread,
+      diagonalSpread: acidDiagonalSpread,
+    },
+    Wood: {
+      color: woodColor,
+      stateOfMatter: "solid",
+      chanceToCatch: woodChanceToCatch,
+      chanceToMelt: woodChanceToMelt,
+      smokeColor: woodSmokeColor,
+    },
+    Water: {
+      color: waterColor,
+      stateOfMatter: "liquid",
+      acceleration: waterAcceleration,
+      initialVelocity: waterInitialVelocity,
+      maxSpeed: waterMaxSpeed,
+      horizontalSpread: waterHorizontalSpread,
+      verticalSpread: waterVerticalSpread,
+      diagonalSpread: waterDiagonalSpread,
+    },
+    Smoke: {
+      color: smokeColor,
+      stateOfMatter: "gas",
+      maxSpeed: smokeMaxSpeed,
+      acceleration: smokeAcceleration,
+      initialVelocity: smokeInitialVelocity,
+      horizontalSpread: smokeHorizontalSpread,
+      verticalSpread: smokeVerticalSpread,
+      diagonalSpread: smokeDiagonalSpread,
+      life: smokeLife,
+    },
+    Fire: {
+      color: fireColor,
+      stateOfMatter: "gas",
+      maxSpeed: fireMaxSpeed,
+      acceleration: fireAcceleration,
+      initialVelocity: fireInitialVelocity,
+      horizontalSpread: fireHorizontalSpread,
+      verticalSpread: fireVerticalSpread,
+      diagonalSpread: fireDiagonalSpread,
+      life: fireLife,
+      smokeColor: fireSmokeColor,
+      extinguishMaterial: fireExtinguishMaterial,
+    },
+    Oil: {
+      color: oilColor,
+      stateOfMatter: "liquid",
+      maxSpeed: oilMaxSpeed,
+      acceleration: oilAcceleration,
+      initialVelocity: oilInitialVelocity,
+      horizontalSpread: oilHorizontalSpread,
+      verticalSpread: oilVerticalSpread,
+      diagonalSpread: oilDiagonalSpread,
+      chanceToCatch: oilChanceToCatch,
+      smokeColor: oilSmokeColor,
+      burningMaterial: oilBurningMaterial,
+    },
+    Gas: {
+      color: gasColor,
+      stateOfMatter: "gas",
+      maxSpeed: gasMaxSpeed,
+      acceleration: gasAcceleration,
+      initialVelocity: gasInitialVelocity,
+      horizontalSpread: gasHorizontalSpread,
+      verticalSpread: gasVerticalSpread,
+      diagonalSpread: gasDiagonalSpread,
+      chanceToCatch: gasChanceToCatch,
+      smokeColor: gasSmokeColor,
+    },
+    Lava: {
+      color: lavaColor,
+      stateOfMatter: "liquid",
+      maxSpeed: lavaMaxSpeed,
+      acceleration: lavaAcceleration,
+      initialVelocity: lavaInitialVelocity,
+      horizontalSpread: lavaHorizontalSpread,
+      verticalSpread: lavaVerticalSpread,
+      diagonalSpread: lavaDiagonalSpread,
+      smokeColor: lavaSmokeColor,
+      extinguishMaterial: lavaExtinguishMaterial,
+    },
+    Stone: {
+      color: stoneColor,
+      stateOfMatter: "solid",
+      chanceToCatch: stoneChanceToCatch,
+      chanceToMelt: stoneChanceToMelt,
+      smokeColor: stoneSmokeColor,
+    },
+    Void: {
+      color: voidColor,
+      stateOfMatter: "solid",
+    },
+    Cloner: {
+      color: clonerColor,
+      stateOfMatter: "solid",
+    },
+    Empty: {
+      color: transparentColor,
+    },
+  };
+
+// Helper function to get property for a material
+export function getMaterialProperty<K extends MaterialPropertyKey>(
+  material: SelectableMaterials,
+  property: K
+): MaterialProperties[K] | undefined {
+  return materialConfigs[material]?.[property];
+}
