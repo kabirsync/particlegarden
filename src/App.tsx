@@ -31,7 +31,7 @@ function App() {
         <SpeedInsights />
         <div className="h-dvh flex flex-col dark:bg-zinc-950 bg-white text-zinc-900 dark:text-zinc-300 ">
           <div className="h-full flex flex-col md:flex-row">
-            <div className="md:order-2 sm:min-h-[240px] h-[40%] sm:h-[30%] md:h-[100%] md:w-[340px] flex flex-col md:border-l border-zinc-400 dark:border-zinc-800">
+            <div className="md:order-2 sm:min-h-[240px] h-[40%] sm:h-[30%] md:h-[100%] md:w-[350px] flex flex-col md:border-l border-zinc-400 dark:border-zinc-800">
               <div className="h-[40px] md:h-[60px] border-b border-zinc-400 dark:border-zinc-800 px-3 py-2">
                 <EngineOptions />
               </div>
