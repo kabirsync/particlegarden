@@ -1,5 +1,5 @@
 import { Dimension } from "@/types";
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 export const useContainerSize = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -8,16 +8,22 @@ export const useContainerSize = () => {
     height: 0,
   });
 
-  useEffect(() => {
-    const container = containerRef.current;
-
-    if (container) {
-      const { width, height } = container.getBoundingClientRect();
-
-      if (width && height) {
-        setDimensions({ width, height });
+  useLayoutEffect(() => {
+    const updateDimensions = () => {
+      const container = containerRef.current;
+      if (container) {
+        const { width, height } = container.getBoundingClientRect();
+        if (width && height) {
+          setDimensions({ width, height });
+        }
       }
-    }
+    };
+
+    updateDimensions();
+
+    window.addEventListener("resize", updateDimensions);
+
+    return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
   return { containerRef, dimensions };
