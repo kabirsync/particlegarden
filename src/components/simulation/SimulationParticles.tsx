@@ -281,6 +281,7 @@ const SimulationParticles = ({
         }}
         onPointerLeave={() => {
           mouseOverRef.current = false;
+          mouseDownRef.current = false;
         }}
         position={[dimensions.width / 2, dimensions.height / 2, 0]}
       >
