@@ -158,8 +158,6 @@ const SimulationParticles = ({
   };
 
   useFrame(() => {
-    if (!isPlaying) return;
-
     const currentTime = performance.now();
     const deltaTime = currentTime - lastTimeRef.current;
 
@@ -244,7 +242,9 @@ const SimulationParticles = ({
 
     colorAttributeRef.current.needsUpdate = true;
 
-    gridRef.current.update();
+    if (isPlaying) {
+      gridRef.current.update();
+    }
 
     setFrame((prev) => prev + 1);
   });
