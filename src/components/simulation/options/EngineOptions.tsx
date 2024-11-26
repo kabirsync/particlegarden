@@ -78,7 +78,7 @@ const EngineOptions = () => {
 
   const handleUndo = () => {
     handleLoadFromLocalStorage({
-      key: "autoSave",
+      key: "autoSaveUndo",
       gridRef,
       onSucces: () => {
         toast("Undo Successful", {
