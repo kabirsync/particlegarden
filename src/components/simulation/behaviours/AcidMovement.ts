@@ -61,6 +61,7 @@ export class AcidMovement extends MovesVertical {
   canPassThrough(particle: Particle) {
     return (
       particle?.stateOfMatter === "empty" ||
+      particle?.stateOfMatter === "gas" ||
       (particle?.stateOfMatter === "liquid" && Math.random() < 0.1)
     );
   }
