@@ -108,27 +108,36 @@ export class FireMovement extends MovesVertical {
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
+    const row = Math.floor(i / grid.columns);
     const nextDelta = Math.sign(this.velocity) * grid.columns;
-    const nextVertical =
+    const nextVerticalIndex =
       i + nextDelta * Math.ceil(this.verticalSpread * Math.random());
 
-    const nextVerticalLeft =
-      nextVertical - Math.ceil(Math.random() * this.diagonalSpread);
-    const nextVerticalRight =
-      nextVertical + Math.ceil(Math.random() * this.diagonalSpread);
+    const nextVerticalLeftIndex =
+      nextVerticalIndex - Math.ceil(Math.random() * this.diagonalSpread);
+    const nextVerticalRightIndex =
+      nextVerticalIndex + Math.ceil(Math.random() * this.diagonalSpread);
 
-    const nextLeft = i - Math.ceil(Math.random() * this.horizontalSpread);
-    const nextRight = i + Math.ceil(Math.random() * this.horizontalSpread);
+    const nextVerticalLeftRow = Math.floor(
+      nextVerticalLeftIndex / grid.columns
+    );
+    const nextVerticalRightRow = Math.floor(
+      nextVerticalRightIndex / grid.columns
+    );
+    const nextLeftIndex = i - Math.ceil(Math.random() * this.horizontalSpread);
+    const nextRightIndex = i + Math.ceil(Math.random() * this.horizontalSpread);
+    const nextLeftRow = Math.floor(nextLeftIndex / grid.columns);
+    const nextRightRow = Math.floor(nextRightIndex / grid.columns);
 
-    const previousVertical = i - nextDelta;
-    const previousVerticalParticle = grid.grid[previousVertical];
+    const previousVerticalIndex = i - nextDelta;
+    const previousVerticalParticle = grid.grid[previousVerticalIndex];
 
-    const nextVerticalParticle = grid.grid[nextVerticalRight];
-    const nextVerticalLeftParticle = grid.grid[nextVerticalLeft];
-    const nextVerticalRightParticle = grid.grid[nextVerticalRight];
+    const nextVerticalParticle = grid.grid[nextVerticalRightIndex];
+    const nextVerticalLeftParticle = grid.grid[nextVerticalLeftIndex];
+    const nextVerticalRightParticle = grid.grid[nextVerticalRightIndex];
 
-    const nextRightParticle = grid.grid[nextRight];
-    const nextLeftParticle = grid.grid[nextLeft];
+    const nextRightParticle = grid.grid[nextRightIndex];
+    const nextLeftParticle = grid.grid[nextLeftIndex];
 
     if (
       this.isCloner(nextVerticalParticle) ||
@@ -138,10 +147,10 @@ export class FireMovement extends MovesVertical {
       this.isCloner(nextRightParticle) ||
       this.isCloner(previousVerticalParticle)
     ) {
-      if (grid.isEmpty(previousVertical)) {
+      if (grid.isEmpty(previousVerticalIndex)) {
         grid.setIndex(
-          previousVertical,
-          new Fire(previousVertical, {
+          previousVerticalIndex,
+          new Fire(previousVerticalIndex, {
             life: this.life,
             maxSpeed: this.maxSpeed,
             initialVelocity: this.velocity,
@@ -149,10 +158,10 @@ export class FireMovement extends MovesVertical {
           })
         );
       }
-      if (grid.isEmpty(nextVerticalLeft)) {
+      if (grid.isEmpty(nextVerticalLeftIndex)) {
         grid.setIndex(
-          nextVerticalLeft,
-          new Fire(nextVerticalLeft, {
+          nextVerticalLeftIndex,
+          new Fire(nextVerticalLeftIndex, {
             life: this.life,
             maxSpeed: this.maxSpeed,
             initialVelocity: this.velocity,
@@ -160,10 +169,10 @@ export class FireMovement extends MovesVertical {
           })
         );
       }
-      if (grid.isEmpty(nextVerticalRight)) {
+      if (grid.isEmpty(nextVerticalRightIndex)) {
         grid.setIndex(
-          nextVerticalRight,
-          new Fire(nextVerticalRight, {
+          nextVerticalRightIndex,
+          new Fire(nextVerticalRightIndex, {
             life: this.life,
             maxSpeed: this.maxSpeed,
             initialVelocity: this.velocity,
@@ -179,8 +188,8 @@ export class FireMovement extends MovesVertical {
           MaterialMapping[previousVerticalParticle.burningMaterial];
 
         grid.setIndex(
-          previousVertical,
-          new MaterialClass(previousVertical, {
+          previousVerticalIndex,
+          new MaterialClass(previousVerticalIndex, {
             smokeColor: previousVerticalParticle.smokeColor,
             chanceToCatch: previousVerticalParticle.chanceToCatch,
             life: previousVerticalParticle.life,
@@ -189,7 +198,7 @@ export class FireMovement extends MovesVertical {
       }
     }
 
-    if (this.isVoid(grid.grid[nextVertical])) {
+    if (this.isVoid(grid.grid[nextVerticalIndex])) {
       grid.setIndex(i, new Empty(i));
     }
 
@@ -200,8 +209,8 @@ export class FireMovement extends MovesVertical {
             MaterialMapping[nextVerticalParticle.burningMaterial];
 
           grid.setIndex(
-            nextVertical,
-            new MaterialClass(nextVertical, {
+            nextVerticalIndex,
+            new MaterialClass(nextVerticalIndex, {
               smokeColor: nextVerticalParticle.smokeColor,
               chanceToCatch: nextVerticalParticle.chanceToCatch,
               life: nextVerticalParticle.life,
@@ -212,18 +221,23 @@ export class FireMovement extends MovesVertical {
     }
 
     if (Math.random() < 0.5) {
-      if (this.isVoid(grid.grid[nextVerticalLeft])) {
+      if (this.isVoid(grid.grid[nextVerticalLeftIndex])) {
         grid.setIndex(i, new Empty(i));
       }
-      if (this.canSetFireTo(nextVerticalLeftParticle)) {
+
+      if (
+        this.canSetFireTo(nextVerticalLeftParticle) &&
+        nextVerticalLeftIndex < i &&
+        nextVerticalLeftRow === row
+      ) {
         if (Math.random() < nextVerticalLeftParticle.chanceToCatch) {
           if (Math.random() < nextVerticalLeftParticle.chanceToCatch) {
             const MaterialClass =
               MaterialMapping[nextVerticalLeftParticle.burningMaterial];
 
             grid.setIndex(
-              nextVerticalLeft,
-              new MaterialClass(nextVerticalLeft, {
+              nextVerticalLeftIndex,
+              new MaterialClass(nextVerticalLeftIndex, {
                 smokeColor: nextVerticalLeftParticle.smokeColor,
                 chanceToCatch: nextVerticalLeftParticle.chanceToCatch,
                 life: nextVerticalLeftParticle.life,
@@ -233,18 +247,22 @@ export class FireMovement extends MovesVertical {
         }
       }
     } else {
-      if (this.isVoid(grid.grid[nextVerticalRight])) {
+      if (this.isVoid(grid.grid[nextVerticalRightIndex])) {
         grid.setIndex(i, new Empty(i));
       }
-      if (this.canSetFireTo(nextVerticalRightParticle)) {
+      if (
+        this.canSetFireTo(nextVerticalRightParticle) &&
+        nextVerticalRightIndex > i &&
+        nextVerticalRightRow === row
+      ) {
         if (Math.random() < nextVerticalRightParticle.chanceToCatch) {
           if (Math.random() < nextVerticalRightParticle.chanceToCatch) {
             const MaterialClass =
               MaterialMapping[nextVerticalRightParticle.burningMaterial];
 
             grid.setIndex(
-              nextVerticalRight,
-              new MaterialClass(nextVerticalRight, {
+              nextVerticalRightIndex,
+              new MaterialClass(nextVerticalRightIndex, {
                 smokeColor: nextVerticalRightParticle.smokeColor,
                 chanceToCatch: nextVerticalRightParticle.chanceToCatch,
                 life: nextVerticalRightParticle.life,
@@ -256,18 +274,22 @@ export class FireMovement extends MovesVertical {
     }
 
     if (Math.random() < 0.5) {
-      if (this.isVoid(grid.grid[nextRight])) {
+      if (this.isVoid(grid.grid[nextRightIndex])) {
         grid.setIndex(i, new Empty(i));
       }
-      if (this.canSetFireTo(nextRightParticle)) {
+      if (
+        this.canSetFireTo(nextRightParticle) &&
+        nextRightIndex > i &&
+        nextRightRow === row
+      ) {
         if (Math.random() < nextRightParticle.chanceToCatch) {
           if (Math.random() < nextRightParticle.chanceToCatch) {
             const MaterialClass =
               MaterialMapping[nextRightParticle.burningMaterial];
 
             grid.setIndex(
-              nextRight,
-              new MaterialClass(nextRight, {
+              nextRightIndex,
+              new MaterialClass(nextRightIndex, {
                 smokeColor: nextRightParticle.smokeColor,
                 chanceToCatch: nextRightParticle.chanceToCatch,
                 life: nextRightParticle.life,
@@ -277,18 +299,22 @@ export class FireMovement extends MovesVertical {
         }
       }
     } else {
-      if (this.isVoid(grid.grid[nextLeft])) {
+      if (this.isVoid(grid.grid[nextLeftIndex])) {
         grid.setIndex(i, new Empty(i));
       }
-      if (this.canSetFireTo(nextLeftParticle)) {
+      if (
+        this.canSetFireTo(nextLeftParticle) &&
+        nextLeftIndex < i &&
+        nextLeftRow === row
+      ) {
         if (Math.random() < nextLeftParticle.chanceToCatch) {
           if (Math.random() < nextLeftParticle.chanceToCatch) {
             const MaterialClass =
               MaterialMapping[nextLeftParticle.burningMaterial];
 
             grid.setIndex(
-              nextLeft,
-              new MaterialClass(nextLeft, {
+              nextLeftIndex,
+              new MaterialClass(nextLeftIndex, {
                 smokeColor: nextLeftParticle.smokeColor,
                 chanceToCatch: nextLeftParticle.chanceToCatch,
                 life: nextLeftParticle.life,
@@ -299,44 +325,47 @@ export class FireMovement extends MovesVertical {
       }
     }
 
-    if (Math.random() < 0.9 && this.canPassThrough(grid.grid[nextVertical])) {
-      grid.swap(i, nextVertical);
-      return nextVertical;
+    if (
+      Math.random() < 0.9 &&
+      this.canPassThrough(grid.grid[nextVerticalIndex])
+    ) {
+      grid.swap(i, nextVerticalIndex);
+      return nextVerticalIndex;
     }
 
     if (Math.random() < 0.5) {
       if (
         column > this.diagonalSpread - 1 &&
-        this.canPassThrough(grid.grid[nextVerticalLeft])
+        this.canPassThrough(grid.grid[nextVerticalLeftIndex])
       ) {
-        grid.swap(i, nextVerticalLeft);
-        return nextVerticalLeft;
+        grid.swap(i, nextVerticalLeftIndex);
+        return nextVerticalLeftIndex;
       }
     } else {
       if (
         column < grid.columns - this.diagonalSpread &&
-        this.canPassThrough(grid.grid[nextVerticalRight])
+        this.canPassThrough(grid.grid[nextVerticalRightIndex])
       ) {
-        grid.swap(i, nextVerticalRight);
-        return nextVerticalRight;
+        grid.swap(i, nextVerticalRightIndex);
+        return nextVerticalRightIndex;
       }
     }
 
     if (Math.random() < 0.5) {
       if (
         column > 0 + this.horizontalSpread - 1 &&
-        this.canPassThrough(grid.grid[nextLeft])
+        this.canPassThrough(grid.grid[nextLeftIndex])
       ) {
-        grid.swap(i, nextLeft);
-        return nextLeft;
+        grid.swap(i, nextLeftIndex);
+        return nextLeftIndex;
       }
     } else {
       if (
         column < grid.columns - 2 - this.horizontalSpread &&
-        this.canPassThrough(grid.grid[nextRight])
+        this.canPassThrough(grid.grid[nextRightIndex])
       ) {
-        grid.swap(i, nextRight);
-        return nextRight;
+        grid.swap(i, nextRightIndex);
+        return nextRightIndex;
       }
     }
 
