@@ -96,11 +96,11 @@ export const handleSaveToLocalStorage = ({
 
 export const handleLoadFromLocalStorage = ({
   gridRef,
-  onSucces,
+  onSucces = () => {},
   key = "gridData",
 }: {
   gridRef: MutableRefObject<Grid | null>;
-  onSucces: () => void;
+  onSucces?: () => void;
   key?: string;
 }) => {
   getLocalStorageSize();

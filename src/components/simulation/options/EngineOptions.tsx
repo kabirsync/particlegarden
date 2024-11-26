@@ -24,7 +24,15 @@ import {
   handleSaveToLocalStorage,
 } from "@/lib/utils";
 import { useAtom } from "jotai";
-import { FileUp, Pause, Play, RotateCw, Save, Undo2 } from "lucide-react";
+import {
+  FileUp,
+  Pause,
+  Play,
+  Redo2,
+  RotateCw,
+  Save,
+  Undo2,
+} from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -80,6 +88,18 @@ const EngineOptions = () => {
     });
   };
 
+  const handleRedo = () => {
+    handleLoadFromLocalStorage({
+      key: "autoSaveRedo",
+      gridRef,
+      onSucces: () => {
+        toast("Redo Successful", {
+          description: formatCurrentDate(),
+        });
+      },
+    });
+  };
+
   return (
     <div className="h-full flex flex-row items-center text-xs">
       <div className="h-10 min-w-12 flex-1 justify-start flex items-center">
@@ -111,6 +131,18 @@ const EngineOptions = () => {
             </TooltipTrigger>
             <TooltipContent>
               <p className="text-xs">Pause/Play</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>{" "}
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon" onClick={handleRedo}>
+                <Redo2 className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="text-xs">Redo</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -163,7 +195,6 @@ const EngineOptions = () => {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

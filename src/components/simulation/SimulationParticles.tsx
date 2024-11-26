@@ -155,8 +155,6 @@ const SimulationParticles = ({
         }
       }
     }
-
-    // handleSaveToLocalStorage({ gridRef, key: "autoSave" });
   };
 
   useFrame(() => {
@@ -258,7 +256,6 @@ const SimulationParticles = ({
       <mesh
         onPointerDown={(event) => {
           handleSaveToLocalStorage({ gridRef, key: "autoSaveUndo" });
-
           if (event.isPrimary) {
             mouseDownRef.current = true;
             if (event.uv) {
@@ -272,7 +269,7 @@ const SimulationParticles = ({
           if (event.isPrimary) {
             mouseDownRef.current = false;
           }
-          // handleSaveToLocalStorage({ gridRef, key: "autoSaveRedo" });
+          handleSaveToLocalStorage({ gridRef, key: "autoSaveRedo" });
         }}
         onPointerMove={(event) => {
           if (event.isPrimary && event.uv) {
