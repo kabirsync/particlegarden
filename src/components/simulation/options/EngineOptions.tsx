@@ -55,6 +55,7 @@ const EngineOptions = () => {
 
   const handleSave = () => {
     handleSaveToLocalStorage({
+      key: "gridData",
       gridRef,
       onSucces: () => {
         toast("Canvas has been saved", {

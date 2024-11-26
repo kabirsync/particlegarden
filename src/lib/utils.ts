@@ -79,16 +79,29 @@ export const handleSaveToLocalStorage = ({
   try {
     const jsonString = JSON.stringify(gridRef.current);
 
-    const compressedData = pako.deflate(jsonString);
-    const compressedBase64 = uint8ArrayToBase64(compressedData);
+    // Create worker
+    const worker = new Worker(
+      new URL("../workers/saveWorker.ts", import.meta.url)
+    );
 
-    localStorage.setItem(key, compressedBase64);
+    // Handle worker response
+    worker.onmessage = (e) => {
+      const { success, compressedBase64, error } = e.data;
 
-    onSucces();
-    console.log("Data successfully compressed and saved!");
+      if (success) {
+        localStorage.setItem(key, compressedBase64);
+        onSucces();
+        console.log("Data successfully compressed and saved!");
+        getLocalStorageSize();
+      } else {
+        console.error("Worker error:", error);
+      }
 
-    // Todo: this is only for debuggins, remove
-    getLocalStorageSize();
+      worker.terminate();
+    };
+
+    // Start the worker
+    worker.postMessage({ jsonString, key });
   } catch (error) {
     console.error("Error compressing and saving data:", error);
   }
