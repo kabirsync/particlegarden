@@ -64,10 +64,15 @@ export class StaticFire extends Particle {
   }
 
   update(grid: Grid): void {
+    const i = this.index;
+    const row = Math.floor(i / grid.columns);
+
     const neighbourTop = this.index - grid.columns;
     const neighbourRight = this.index + 1;
     const neighbourLeft = this.index - 1;
     const neighbourBottom = this.index + grid.columns;
+    const neighbourLeftRow = Math.floor(neighbourLeft / grid.columns);
+    const neighbourRightRow = Math.floor(neighbourRight / grid.columns);
 
     const neighbourTopParticle = grid.grid[neighbourTop];
 
@@ -86,7 +91,12 @@ export class StaticFire extends Particle {
         );
       }
     }
-    if (this.canSetFireTo(neighbourLeftParticle)) {
+
+    if (
+      this.canSetFireTo(neighbourLeftParticle) &&
+      neighbourLeft < this.index &&
+      neighbourLeftRow === row
+    ) {
       if (Math.random() < neighbourLeftParticle.chanceToCatch) {
         grid.setIndex(
           neighbourLeft,
@@ -97,7 +107,11 @@ export class StaticFire extends Particle {
         );
       }
     }
-    if (this.canSetFireTo(neighbourRightParticle)) {
+    if (
+      this.canSetFireTo(neighbourRightParticle) &&
+      neighbourRight > this.index &&
+      neighbourRightRow === row
+    ) {
       if (Math.random() < neighbourRightParticle.chanceToCatch) {
         grid.setIndex(
           neighbourRight,
