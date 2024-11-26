@@ -45,10 +45,6 @@ const EngineOptions = () => {
     setIsOpen(false);
   };
 
-  const handleUndo = () => {
-    console.log("Undo");
-  };
-
   const handleSave = () => {
     handleSaveToLocalStorage({
       gridRef,
@@ -62,6 +58,7 @@ const EngineOptions = () => {
 
   const handleLoad = () => {
     handleLoadFromLocalStorage({
+      key: "gridData",
       gridRef,
       onSucces: () => {
         toast("Canvas loaded successfully", {
@@ -70,6 +67,19 @@ const EngineOptions = () => {
       },
     });
   };
+
+  const handleUndo = () => {
+    handleLoadFromLocalStorage({
+      key: "autoSave",
+      gridRef,
+      onSucces: () => {
+        toast("Undo Successful", {
+          description: formatCurrentDate(),
+        });
+      },
+    });
+  };
+
   return (
     <div className="h-full flex flex-row items-center text-xs">
       <div className="h-10 min-w-12 flex-1 justify-start flex items-center">

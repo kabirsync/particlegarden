@@ -69,10 +69,12 @@ export const formatCurrentDate = (): string => {
 
 export const handleSaveToLocalStorage = ({
   gridRef,
-  onSucces,
+  onSucces = () => {},
+  key = "gridData",
 }: {
   gridRef: MutableRefObject<Grid | null>;
-  onSucces: () => void;
+  onSucces?: () => void;
+  key?: string;
 }) => {
   try {
     const jsonString = JSON.stringify(gridRef.current);
@@ -80,10 +82,8 @@ export const handleSaveToLocalStorage = ({
     const compressedData = pako.deflate(jsonString);
     const compressedBase64 = uint8ArrayToBase64(compressedData);
 
-    localStorage.setItem("gridData", compressedBase64);
-    // toast("Canvas has been saved", {
-    //   description: formatCurrentDate(),
-    // });
+    localStorage.setItem(key, compressedBase64);
+
     onSucces();
     console.log("Data successfully compressed and saved!");
 
@@ -97,27 +97,22 @@ export const handleSaveToLocalStorage = ({
 export const handleLoadFromLocalStorage = ({
   gridRef,
   onSucces,
+  key = "gridData",
 }: {
   gridRef: MutableRefObject<Grid | null>;
   onSucces: () => void;
+  key?: string;
 }) => {
   getLocalStorageSize();
 
   try {
-    const compressedBase64 = localStorage.getItem("gridData");
+    const compressedBase64 = localStorage.getItem(key);
 
     if (compressedBase64) {
       const compressedData = base64ToUint8Array(compressedBase64);
       const decompressedData = pako.inflate(compressedData, { to: "string" });
       const gridData: Grid = JSON.parse(decompressedData);
       gridRef.current = Grid.fromJSON(gridData);
-      // toast("Canvas loaded successfully", {
-      //   description: formatCurrentDate(),
-      //   // action: {
-      //   //   label: "Undo",
-      //   //   onClick: () => console.log("Undo"),
-      //   // },
-      // });
       onSucces();
     } else {
       console.log("No data found in localStorage.");
