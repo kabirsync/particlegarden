@@ -25,7 +25,7 @@ import {
   verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
 import { backgroundColorDark, backgroundColorLight } from "@/lib/constants";
-import { throttle } from "@/lib/utils";
+import { handleSaveToLocalStorage, throttle } from "@/lib/utils";
 import { Dimension } from "@/types";
 import { useFrame } from "@react-three/fiber";
 import { useAtom } from "jotai";
@@ -255,6 +255,7 @@ const SimulationParticles = ({
     <>
       <mesh
         onPointerDown={(event) => {
+          handleSaveToLocalStorage({ gridRef, key: "autoSaveUndo" });
           if (event.isPrimary) {
             mouseDownRef.current = true;
             if (event.uv) {
@@ -268,6 +269,7 @@ const SimulationParticles = ({
           if (event.isPrimary) {
             mouseDownRef.current = false;
           }
+          handleSaveToLocalStorage({ gridRef, key: "autoSaveRedo" });
         }}
         onPointerMove={(event) => {
           if (event.isPrimary && event.uv) {
