@@ -4,9 +4,11 @@ import { useContainerSize } from "@/hooks/useContainerSize";
 import { Canvas } from "@react-three/fiber";
 import { MouseEvent, useRef } from "react";
 import { WebGLRenderer } from "three";
+import { useViewportSize } from "@/hooks/useViewportSize";
 
 const Simulation = () => {
   const { containerRef, dimensions } = useContainerSize();
+  const viewportSize = useViewportSize();
   const { theme } = useTheme();
   const rendererRef = useRef<WebGLRenderer | null>(null);
 
@@ -20,6 +22,7 @@ const Simulation = () => {
       className="w-full h-full relative cursor-pointer"
     >
       <Canvas
+        key={`${viewportSize.width}-${viewportSize.height}`}
         orthographic
         camera={{
           right: dimensions.width,
