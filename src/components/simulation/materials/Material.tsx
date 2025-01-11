@@ -1,28 +1,18 @@
-// import Water from "@/components/simulation/materials/Water";
-// import Wood from "@/components/simulation/materials/Wood";
 import {
   BrickWall,
-  // BrickWall,
   Circle,
   Cloud,
   Copy,
   Droplet,
   Flame,
-  // Cloud,
-  // Copy,
-  // Droplet,
-  // Flame,
   Grip,
   Shell,
   TreePine,
-  // Shell,
-  // TreePine,
 } from "lucide-react";
 import { Color } from "three";
 import Empty from "./Empty";
 import Sand from "./Sand";
 import Lava from "@/components/simulation/materials/Lava";
-// import { StaticFire } from "@/components/simulation/materials/StaticFire";
 import { Smoke } from "@/components/simulation/materials/Smoke";
 import Wood from "@/components/simulation/materials/Wood";
 import { Fire } from "@/components/simulation/materials/Fire";
@@ -168,11 +158,6 @@ type MaterialClasses =
   | Cloner
   | Acid;
 
-// | Stone
-// | Acid;
-// | Cloner
-// | Void;
-
 // [2] New materials must be added here
 
 export const materialOptions = [
@@ -219,7 +204,6 @@ type MaterialProps = {
   verticalSpread?: number;
   horizontalSpread?: number;
   life?: number;
-  // fuel?: number;
   chanceToCatch?: number;
   chanceToMelt?: number;
   smokeColor?: Color;
@@ -246,7 +230,6 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
       return <Cloud className="h-3 w-3 text-zinc-500 fill-zinc-500" />;
     case "Fire":
       return <Flame className="h-3 w-3 text-red-500 fill-red-500" />;
-
     case "Oil":
       return <Droplet className="h-3 w-3 text-amber-950 fill-amber-950" />;
     case "Gas":
@@ -276,17 +259,13 @@ export const MaterialMapping: Record<
         maxSpeed,
         initialVelocity,
         acceleration,
-        // fuel,
         life,
         chanceToCatch,
         chanceToMelt,
         smokeColor,
         extinguishMaterial,
         acidStrength,
-      }: // acidStrength,
-      // life,
-
-      MaterialProps
+      }: MaterialProps
     ): MaterialClasses;
   }
 > = {

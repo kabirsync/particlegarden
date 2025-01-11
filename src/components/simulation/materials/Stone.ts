@@ -11,14 +11,12 @@ import { Color } from "three";
 
 type StoneProps = {
   color?: Color;
-  //   life?: number;
   chanceToCatch?: number;
   chanceToMelt?: number;
   smokeColor?: Color;
 };
 
 class Stone extends Particle {
-  //   life: number;
   chanceToCatch: number;
   chanceToMelt: number;
   smokeColor: Color;
@@ -27,7 +25,6 @@ class Stone extends Particle {
     index: number,
     {
       color = stoneColor,
-      //   life = ,
       chanceToCatch = stoneChanceToCatch,
       chanceToMelt = stoneChanceToMelt,
       smokeColor = stoneSmokeColor,
@@ -38,8 +35,6 @@ class Stone extends Particle {
       color: varyColor(color),
       stateOfMatter: "solid",
     });
-
-    // this.life = life;
     this.chanceToCatch = chanceToCatch;
     this.chanceToMelt = chanceToMelt;
     this.smokeColor = smokeColor;

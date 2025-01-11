@@ -1,5 +1,3 @@
-// import { sandColor } from "@/lib/colors";
-
 import { Color } from "three";
 
 export const sandColor = new Color("#dcb159");

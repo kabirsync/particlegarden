@@ -31,7 +31,6 @@ type OilProps = {
 class Oil extends Particle {
   life: number;
   chanceToCatch: number;
-  //   chanceToMelt: number;
   smokeColor: Color;
   burningMaterial: "LiquidFire";
 
@@ -47,7 +46,6 @@ class Oil extends Particle {
       horizontalSpread = oilHorizontalSpread,
       life = oilFuel,
       chanceToCatch = oilChanceToCatch,
-      //   chanceToMelt = oilC,
       smokeColor = oilSmokeColor,
     }: OilProps
   ) {
@@ -62,13 +60,10 @@ class Oil extends Particle {
         diagonalSpread,
         verticalSpread,
         horizontalSpread,
-        // life,
-        // smokeColor,
       }),
     });
     this.life = life;
     this.chanceToCatch = chanceToCatch;
-    // this.chanceToMelt = chanceToMelt;
     this.smokeColor = smokeColor;
     this.burningMaterial = "LiquidFire";
   }
