@@ -4,6 +4,8 @@ Hello and welcome to Particle Garden, a falling sand style simulator created usi
 
 Live Preview https://particlegarden.com
 
+![App Preview](.docs/preview.png)
+
 ## Getting Started
 
 ### Installation
