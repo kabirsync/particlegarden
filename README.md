@@ -2,7 +2,7 @@
 
 Hello and welcome to Particle Garden, a falling sand style simulator created using TypeScript, React and Three.js
 
-Live Preview https://particlegarden.vercel.app
+Live Preview https://particlegarden.com
 
 ## Getting Started
 
