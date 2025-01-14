@@ -31,7 +31,6 @@ type GasProps = {
 class Gas extends Particle {
   life: number;
   chanceToCatch: number;
-  //   chanceToMelt: number;
   smokeColor: Color;
   burningMaterial: "Fire";
 
@@ -47,7 +46,6 @@ class Gas extends Particle {
       horizontalSpread = gasHorizontalSpread,
       life = gasFuel,
       chanceToCatch = gasChanceToCatch,
-      //   chanceToMelt = gasC,
       smokeColor = gasSmokeColor,
     }: GasProps
   ) {
@@ -68,7 +66,6 @@ class Gas extends Particle {
     });
     this.life = life;
     this.chanceToCatch = chanceToCatch;
-    // this.chanceToMelt = chanceToMelt;
     this.smokeColor = smokeColor;
     this.burningMaterial = "Fire";
   }
