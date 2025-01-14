@@ -1,30 +1,16 @@
-import {
-  BrickWall,
-  Circle,
-  Cloud,
-  Copy,
-  Droplet,
-  Flame,
-  Grip,
-  Shell,
-  TreePine,
-} from "lucide-react";
-import { Color } from "three";
-import Empty from "./Empty";
-import Sand from "./Sand";
-import Lava from "@/components/simulation/materials/Lava";
-import { Smoke } from "@/components/simulation/materials/Smoke";
-import Wood from "@/components/simulation/materials/Wood";
-import { Fire } from "@/components/simulation/materials/Fire";
-import Water from "@/components/simulation/materials/Water";
-import Stone from "@/components/simulation/materials/Stone";
-import Oil from "@/components/simulation/materials/Oil";
-import { LiquidFire } from "@/components/simulation/materials/LiquidFire";
-import { StaticFire } from "@/components/simulation/materials/StaticFire";
-import Gas from "@/components/simulation/materials/Gas";
-import Void from "@/components/simulation/materials/Void";
-import Cloner from "@/components/simulation/materials/Cloner";
 import { Acid } from "@/components/simulation/materials/Acid";
+import Cloner from "@/components/simulation/materials/Cloner";
+import { Fire } from "@/components/simulation/materials/Fire";
+import Gas from "@/components/simulation/materials/Gas";
+import Lava from "@/components/simulation/materials/Lava";
+import { LiquidFire } from "@/components/simulation/materials/LiquidFire";
+import Oil from "@/components/simulation/materials/Oil";
+import { Smoke } from "@/components/simulation/materials/Smoke";
+import { StaticFire } from "@/components/simulation/materials/StaticFire";
+import Stone from "@/components/simulation/materials/Stone";
+import Void from "@/components/simulation/materials/Void";
+import Water from "@/components/simulation/materials/Water";
+import Wood from "@/components/simulation/materials/Wood";
 import {
   acidAcceleration,
   acidColor,
@@ -102,6 +88,10 @@ import {
   woodColor,
   woodSmokeColor,
 } from "@/lib/constants";
+import { Circle } from "lucide-react";
+import { Color } from "three";
+import Empty from "./Empty";
+import Sand from "./Sand";
 
 export interface MaterialProperties {
   // Basic properties
@@ -221,29 +211,29 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
     case "Empty":
       return <Circle className="h-3 w-3" />;
     case "Sand":
-      return <Grip className="h-3 w-3 text-yellow-600 fill-yellow-600" />;
+      return <img src="/icons/sand.png" alt="sand" className="h-5 w-5" />;
     case "Wood":
-      return <TreePine className="h-3 w-3 text-green-600 fill-green-600" />;
+      return <img src="/icons/wood.png" alt="wood" className="h-5 w-5" />;
     case "Water":
-      return <Droplet className="h-3 w-3 text-blue-500 fill-blue-500" />;
+      return <img src="/icons/water.png" alt="water" className="h-5 w-5" />;
     case "Smoke":
-      return <Cloud className="h-3 w-3 text-zinc-500 fill-zinc-500" />;
+      return <img src="/icons/smoke.png" alt="smoke" className="h-5 w-5" />;
     case "Fire":
-      return <Flame className="h-3 w-3 text-red-500 fill-red-500" />;
+      return <img src="/icons/fire.png" alt="fire" className="h-5 w-5" />;
     case "Oil":
-      return <Droplet className="h-3 w-3 text-amber-950 fill-amber-950" />;
+      return <img src="/icons/oil.png" alt="oil" className="h-5 w-5" />;
     case "Gas":
-      return <Flame className="h-3 w-3 text-amber-100 fill-amber-100" />;
+      return <img src="/icons/gas.png" alt="gas" className="h-5 w-5" />;
     case "Lava":
-      return <Droplet className="h-3 w-3 text-red-500 fill-red-900" />;
+      return <img src="/icons/lava.png" alt="lava" className="h-5 w-5" />;
     case "Stone":
-      return <BrickWall className="h-3 w-3 text-zinc-500 fill-zinc-700" />;
+      return <img src="/icons/stone.png" alt="stone" className="h-5 w-5" />;
     case "Acid":
-      return <Droplet className="h-3 w-3 text-green-500 fill-green-900" />;
+      return <img src="/icons/acid.png" alt="acid" className="h-5 w-5" />;
     case "Cloner":
-      return <Copy className="h-3 w-3 text-red-300" />;
+      return <img src="/icons/cloner.png" alt="cloner" className="h-5 w-5" />;
     case "Void":
-      return <Shell className="h-3 w-3 text-purple-950 fill-zinc-950" />;
+      return <img src="/icons/void.png" alt="void" className="h-5 w-5" />;
     default:
       return null;
   }
