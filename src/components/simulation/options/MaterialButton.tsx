@@ -22,8 +22,10 @@ import {
   materialConfigs,
   SelectableMaterials,
 } from "@/components/simulation/materials/Material";
+import { useTheme } from "@/components/theme/useTheme";
 
 const MaterialButton = ({ material }: { material: SelectableMaterials }) => {
+  const { theme } = useTheme();
   const { updateProperty } = useMaterialProperties();
   const [, setSelectedMaterial] = useAtom(selectedMaterialAtom);
   const [selectedMaterial] = useAtom(selectedMaterialAtom);
@@ -78,7 +80,7 @@ const MaterialButton = ({ material }: { material: SelectableMaterials }) => {
       variant={selectedMaterial === material ? "secondary" : "outline"}
       onClick={handleClick}
     >
-      {getMaterialIcon(material)} {material}
+      {getMaterialIcon(material, theme)} {material}
     </Button>
   );
 };

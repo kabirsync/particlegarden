@@ -206,7 +206,10 @@ export type SelectableMaterials = Exclude<
   "StaticFire" | "LiquidFire"
 >;
 
-export const getMaterialIcon = (material: MaterialOptionsType) => {
+export const getMaterialIcon = (
+  material: MaterialOptionsType,
+  theme?: "light" | "dark"
+) => {
   switch (material) {
     case "Empty":
       return <Circle className="h-3 w-3" />;
@@ -229,7 +232,11 @@ export const getMaterialIcon = (material: MaterialOptionsType) => {
     case "Stone":
       return <img src="/icons/stone.png" alt="stone" className="h-5 w-5" />;
     case "Acid":
-      return <img src="/icons/acid.png" alt="acid" className="h-5 w-5" />;
+      return theme === "light" ? (
+        <img src="/icons/acid-light.png" alt="acid" className="h-5 w-5" />
+      ) : (
+        <img src="/icons/acid.png" alt="acid" className="h-5 w-5" />
+      );
     case "Cloner":
       return <img src="/icons/cloner.png" alt="cloner" className="h-5 w-5" />;
     case "Void":
