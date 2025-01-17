@@ -2,6 +2,7 @@ import {
   MaterialMapping,
   MaterialOptionsType,
 } from "@/components/simulation/materials/Material";
+import Wood from "@/components/simulation/materials/Wood";
 import {
   accelerationRefAtom,
   acidStrengthRefAtom,
@@ -12,6 +13,7 @@ import {
   FPSAtom,
   gridRefAtom,
   horizontalSpreadRefAtom,
+  imageDataAtom,
   initialVelocityRefAtom,
   isPlayingAtom,
   lifeRefAtom,
@@ -29,9 +31,10 @@ import { handleSaveToLocalStorage, throttle } from "@/lib/utils";
 import { Dimension } from "@/types";
 import { useFrame } from "@react-three/fiber";
 import { useAtom } from "jotai";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import {
   BufferGeometry,
+  Color,
   Float32BufferAttribute,
   Points,
   PointsMaterial,
@@ -73,6 +76,7 @@ const SimulationParticles = ({
   const mouseDownRef = useRef(false);
   const mousePositionRef = useRef({ u: 0, v: 0 });
   const mouseOverRef = useRef(false);
+  const [imageData] = useAtom(imageDataAtom);
 
   const backgroundColor =
     theme === "light" ? backgroundColorLight : backgroundColorDark;
@@ -156,6 +160,75 @@ const SimulationParticles = ({
       }
     }
   };
+
+  const updateParticlesFromImage = useCallback(() => {
+    if (!imageData || !gridRef.current) return;
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Calculate dimensions maintaining aspect ratio
+    const imageAspectRatio = imageData.width / imageData.height;
+    const gridAspectRatio = columns / rows;
+
+    let targetWidth,
+      targetHeight,
+      offsetX = 0,
+      offsetY = 0;
+
+    if (imageAspectRatio > gridAspectRatio) {
+      targetWidth = columns;
+      targetHeight = columns / imageAspectRatio;
+      offsetY = (rows - targetHeight) / 2;
+    } else {
+      targetHeight = rows;
+      targetWidth = rows * imageAspectRatio;
+      offsetX = (columns - targetWidth) / 2;
+    }
+
+    canvas.width = columns;
+    canvas.height = rows;
+    ctx.clearRect(0, 0, columns, rows);
+
+    ctx.drawImage(
+      imageData,
+      Math.round(offsetX),
+      Math.round(offsetY),
+      Math.round(targetWidth),
+      Math.round(targetHeight)
+    );
+
+    const imageColors = ctx.getImageData(0, 0, columns, rows).data;
+    gridRef.current.clear();
+
+    for (let i = 0; i < rows * columns; i++) {
+      const r = imageColors[i * 4] / 255;
+      const g = imageColors[i * 4 + 1] / 255;
+      const b = imageColors[i * 4 + 2] / 255;
+      const a = imageColors[i * 4 + 3] / 255;
+
+      if (a > 0.1) {
+        const col = i % columns;
+        const row = Math.floor(i / columns);
+        const exactColor = new Color(r, g, b);
+        gridRef.current.set(
+          col,
+          row,
+          new Wood(row * columns + col, {
+            color: exactColor,
+            _skipColorVariation: true,
+          })
+        );
+      }
+    }
+  }, [imageData, columns, rows, gridRef]);
+
+  useEffect(() => {
+    if (imageData) {
+      updateParticlesFromImage();
+    }
+  }, [imageData, columns, rows, updateParticlesFromImage]);
 
   useFrame(() => {
     const currentTime = performance.now();

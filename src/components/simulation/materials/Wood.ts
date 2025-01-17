@@ -15,6 +15,7 @@ type WoodProps = {
   chanceToCatch?: number;
   chanceToMelt?: number;
   smokeColor?: Color;
+  _skipColorVariation?: boolean; // Add this
 };
 
 class Wood extends Particle {
@@ -32,11 +33,12 @@ class Wood extends Particle {
       chanceToCatch = woodChanceToCatch,
       chanceToMelt = woodChanceToMelt,
       smokeColor = woodSmokeColor,
+      _skipColorVariation = false,
     }: WoodProps
   ) {
     super(index, {
       name: "Wood",
-      color: varyColor(color),
+      color: _skipColorVariation ? color : varyColor(color),
       stateOfMatter: "solid",
     });
 
