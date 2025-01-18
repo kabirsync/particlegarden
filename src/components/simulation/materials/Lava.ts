@@ -3,6 +3,7 @@
 import { LavaMovement } from "@/components/simulation/behaviours/LavaMovement";
 import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import Particle from "@/components/simulation/materials/Particle";
+import { varyColor } from "@/lib/colors";
 import {
   lavaAcceleration,
   lavaColor,
@@ -28,6 +29,7 @@ type LavaProps = {
   life?: number;
   smokeColor?: Color;
   extinguishMaterial?: MaterialOptionsType;
+  _skipColorVariation?: boolean;
 };
 
 class Lava extends Particle {
@@ -47,11 +49,12 @@ class Lava extends Particle {
       life = lavaFuel,
       smokeColor = lavaSmokeColor,
       extinguishMaterial = lavaExtinguishMaterial,
+      _skipColorVariation = false,
     }: LavaProps
   ) {
     super(index, {
       name: "Lava",
-      color,
+      color: _skipColorVariation ? color : varyColor(color),
       stateOfMatter: "liquid",
       behaviour: new LavaMovement({
         maxSpeed,

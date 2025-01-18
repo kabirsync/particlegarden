@@ -133,3 +133,5 @@ export const acidStrengthRefAtom = atom(() => ({
   current: acidDefaultStrength,
 }));
 export const acidStrengthAtom = atom(acidDefaultStrength);
+
+export const imageDataAtom = atom<HTMLImageElement | null>(null);

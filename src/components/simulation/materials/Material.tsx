@@ -122,6 +122,9 @@ export interface MaterialProperties {
 
   // Acid properties
   acidStrength?: number;
+
+  // Internal properties
+  _skipColorVariation?: boolean;
 }
 
 export type MaterialPropertyKey = keyof MaterialProperties;
@@ -199,6 +202,7 @@ type MaterialProps = {
   smokeColor?: Color;
   extinguishMaterial?: MaterialOptionsType;
   acidStrength?: number;
+  _skipColorVariation?: boolean;
 };
 
 export type SelectableMaterials = Exclude<
@@ -262,6 +266,7 @@ export const MaterialMapping: Record<
         smokeColor,
         extinguishMaterial,
         acidStrength,
+        _skipColorVariation,
       }: MaterialProps
     ): MaterialClasses;
   }
@@ -292,6 +297,7 @@ export const materialConfigs: Record<SelectableMaterials, MaterialProperties> =
       acceleration: sandAcceleration,
       initialVelocity: sandInitialVelocity,
       stateOfMatter: "solid",
+      _skipColorVariation: true,
     },
     Acid: {
       color: acidColor,
@@ -302,6 +308,7 @@ export const materialConfigs: Record<SelectableMaterials, MaterialProperties> =
       horizontalSpread: acidHorizontalSpread,
       verticalSpread: acidVerticalSpread,
       diagonalSpread: acidDiagonalSpread,
+      _skipColorVariation: true,
     },
     Wood: {
       color: woodColor,
@@ -309,6 +316,7 @@ export const materialConfigs: Record<SelectableMaterials, MaterialProperties> =
       chanceToCatch: woodChanceToCatch,
       chanceToMelt: woodChanceToMelt,
       smokeColor: woodSmokeColor,
+      _skipColorVariation: true,
     },
     Water: {
       color: waterColor,
@@ -319,6 +327,7 @@ export const materialConfigs: Record<SelectableMaterials, MaterialProperties> =
       horizontalSpread: waterHorizontalSpread,
       verticalSpread: waterVerticalSpread,
       diagonalSpread: waterDiagonalSpread,
+      _skipColorVariation: true,
     },
     Smoke: {
       color: smokeColor,
@@ -330,6 +339,7 @@ export const materialConfigs: Record<SelectableMaterials, MaterialProperties> =
       verticalSpread: smokeVerticalSpread,
       diagonalSpread: smokeDiagonalSpread,
       life: smokeLife,
+      _skipColorVariation: true,
     },
     Fire: {
       color: fireColor,
@@ -343,6 +353,7 @@ export const materialConfigs: Record<SelectableMaterials, MaterialProperties> =
       life: fireLife,
       smokeColor: fireSmokeColor,
       extinguishMaterial: fireExtinguishMaterial,
+      _skipColorVariation: true,
     },
     Oil: {
       color: oilColor,
@@ -356,6 +367,7 @@ export const materialConfigs: Record<SelectableMaterials, MaterialProperties> =
       chanceToCatch: oilChanceToCatch,
       smokeColor: oilSmokeColor,
       burningMaterial: oilBurningMaterial,
+      _skipColorVariation: true,
     },
     Gas: {
       color: gasColor,
@@ -368,6 +380,7 @@ export const materialConfigs: Record<SelectableMaterials, MaterialProperties> =
       diagonalSpread: gasDiagonalSpread,
       chanceToCatch: gasChanceToCatch,
       smokeColor: gasSmokeColor,
+      _skipColorVariation: true,
     },
     Lava: {
       color: lavaColor,
@@ -380,6 +393,7 @@ export const materialConfigs: Record<SelectableMaterials, MaterialProperties> =
       diagonalSpread: lavaDiagonalSpread,
       smokeColor: lavaSmokeColor,
       extinguishMaterial: lavaExtinguishMaterial,
+      _skipColorVariation: true,
     },
     Stone: {
       color: stoneColor,
@@ -387,17 +401,21 @@ export const materialConfigs: Record<SelectableMaterials, MaterialProperties> =
       chanceToCatch: stoneChanceToCatch,
       chanceToMelt: stoneChanceToMelt,
       smokeColor: stoneSmokeColor,
+      _skipColorVariation: true,
     },
     Void: {
       color: voidColor,
       stateOfMatter: "solid",
+      _skipColorVariation: true,
     },
     Cloner: {
       color: clonerColor,
       stateOfMatter: "solid",
+      _skipColorVariation: true,
     },
     Empty: {
       color: transparentColor,
+      _skipColorVariation: true,
     },
   };
 

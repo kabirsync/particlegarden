@@ -6,6 +6,7 @@ import { MaterialOptionsType } from "@/components/simulation/materials/Material"
 import Oil from "@/components/simulation/materials/Oil";
 import Particle from "@/components/simulation/materials/Particle";
 import Wood from "@/components/simulation/materials/Wood";
+import { varyColor } from "@/lib/colors";
 import {
   fireColor,
   fireColors,
@@ -26,6 +27,7 @@ type StaticFireProps = {
   life?: number;
   smokeColor?: Color;
   extinguishMaterial?: MaterialOptionsType;
+  _skipColorVariation?: boolean;
 };
 
 export class StaticFire extends Particle {
@@ -42,11 +44,12 @@ export class StaticFire extends Particle {
       color = fireColor,
       smokeColor = fireSmokeColor,
       extinguishMaterial = fireExtinguishMaterial,
+      _skipColorVariation = false,
     }: StaticFireProps
   ) {
     super(index, {
       name: "StaticFire",
-      color,
+      color: _skipColorVariation ? color : varyColor(color),
       stateOfMatter: "solid",
     });
     this.smokeColor = smokeColor;

@@ -12,6 +12,7 @@ import {
   FPSAtom,
   gridRefAtom,
   horizontalSpreadRefAtom,
+  imageDataAtom,
   initialVelocityRefAtom,
   isPlayingAtom,
   lifeRefAtom,
@@ -24,6 +25,7 @@ import {
   strokeSizeRefAtom,
   verticalSpreadRefAtom,
 } from "@/components/simulation/simulationState";
+import { useImageProcessor } from "@/hooks/useImageProcessor";
 import { backgroundColorDark, backgroundColorLight } from "@/lib/constants";
 import { handleSaveToLocalStorage, throttle } from "@/lib/utils";
 import { Dimension } from "@/types";
@@ -73,6 +75,7 @@ const SimulationParticles = ({
   const mouseDownRef = useRef(false);
   const mousePositionRef = useRef({ u: 0, v: 0 });
   const mouseOverRef = useRef(false);
+  const [imageData] = useAtom(imageDataAtom);
 
   const backgroundColor =
     theme === "light" ? backgroundColorLight : backgroundColorDark;
@@ -87,6 +90,8 @@ const SimulationParticles = ({
 
   const geometryRef = useRef(new BufferGeometry());
   const colorAttributeRef = useRef<Float32BufferAttribute>();
+
+  const { processImage } = useImageProcessor({ columns, rows, gridRef });
 
   useEffect(() => {
     gridRef.current = new Grid({ columns, rows });
@@ -156,6 +161,12 @@ const SimulationParticles = ({
       }
     }
   };
+
+  useEffect(() => {
+    if (imageData) {
+      processImage(imageData);
+    }
+  }, [imageData, processImage]);
 
   useFrame(() => {
     const currentTime = performance.now();

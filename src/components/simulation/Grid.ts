@@ -112,8 +112,13 @@ export class Grid {
     const mappedGrid = data.grid.map((particle: Particle) => {
       const { name, index, color, ...rest } = particle;
       const MaterialClass = MaterialMapping[name];
-      return new MaterialClass(index, { color: new Color(color), ...rest });
+      return new MaterialClass(index, {
+        color: new Color(color),
+        _skipColorVariation: true,
+        ...rest,
+      });
     });
+
     const gridInstance = new Grid({
       rows: data.rows,
       columns: data.columns,

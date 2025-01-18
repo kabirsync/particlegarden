@@ -14,6 +14,7 @@ type StoneProps = {
   chanceToCatch?: number;
   chanceToMelt?: number;
   smokeColor?: Color;
+  _skipColorVariation?: boolean;
 };
 
 class Stone extends Particle {
@@ -28,11 +29,12 @@ class Stone extends Particle {
       chanceToCatch = stoneChanceToCatch,
       chanceToMelt = stoneChanceToMelt,
       smokeColor = stoneSmokeColor,
+      _skipColorVariation = false,
     }: StoneProps
   ) {
     super(index, {
       name: "Stone",
-      color: varyColor(color),
+      color: _skipColorVariation ? color : varyColor(color),
       stateOfMatter: "solid",
     });
     this.chanceToCatch = chanceToCatch;
