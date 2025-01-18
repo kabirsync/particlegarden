@@ -11,6 +11,7 @@ type SandProps = {
   initialVelocity?: number;
   chanceToMelt?: number;
   smokeColor?: Color;
+  _skipColorVariation?: boolean;
 };
 
 class Sand extends Particle {
@@ -25,11 +26,12 @@ class Sand extends Particle {
       initialVelocity = 0.1,
       chanceToMelt = 0.01,
       smokeColor = woodSmokeColor,
+      _skipColorVariation = false,
     }: SandProps
   ) {
     super(index, {
       name: "Sand",
-      color: varyColor(color),
+      color: _skipColorVariation ? color : varyColor(color),
       stateOfMatter: "solid",
       behaviour: new SandMovement({
         maxSpeed,

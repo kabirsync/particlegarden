@@ -122,6 +122,9 @@ export interface MaterialProperties {
 
   // Acid properties
   acidStrength?: number;
+
+  // Internal properties
+  _skipColorVariation?: boolean;
 }
 
 export type MaterialPropertyKey = keyof MaterialProperties;
@@ -199,6 +202,7 @@ type MaterialProps = {
   smokeColor?: Color;
   extinguishMaterial?: MaterialOptionsType;
   acidStrength?: number;
+  _skipColorVariation?: boolean;
 };
 
 export type SelectableMaterials = Exclude<
@@ -262,6 +266,7 @@ export const MaterialMapping: Record<
         smokeColor,
         extinguishMaterial,
         acidStrength,
+        _skipColorVariation,
       }: MaterialProps
     ): MaterialClasses;
   }
@@ -309,6 +314,7 @@ export const materialConfigs: Record<SelectableMaterials, MaterialProperties> =
       chanceToCatch: woodChanceToCatch,
       chanceToMelt: woodChanceToMelt,
       smokeColor: woodSmokeColor,
+      _skipColorVariation: true,
     },
     Water: {
       color: waterColor,
