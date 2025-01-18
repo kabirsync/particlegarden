@@ -1,6 +1,7 @@
 import { LiquidFireMovement } from "@/components/simulation/behaviours/LiquidFireMovement";
 import { MaterialOptionsType } from "@/components/simulation/materials/Material";
 import Particle from "@/components/simulation/materials/Particle";
+import { varyColor } from "@/lib/colors";
 import {
   fireAcceleration,
   fireColor,
@@ -25,6 +26,7 @@ type LiquidFireProps = {
   life?: number;
   smokeColor?: Color;
   extinguishMaterial?: MaterialOptionsType;
+  _skipColorVariation?: boolean;
 };
 
 export class LiquidFire extends Particle {
@@ -43,11 +45,12 @@ export class LiquidFire extends Particle {
       horizontalSpread = fireHorizontalSpread,
       smokeColor = fireSmokeColor,
       extinguishMaterial = "Fire",
+      _skipColorVariation = false,
     }: LiquidFireProps
   ) {
     super(index, {
       name: "LiquidFire",
-      color,
+      color: _skipColorVariation ? color : varyColor(color),
       stateOfMatter: "gas",
       behaviour: new LiquidFireMovement({
         maxSpeed,

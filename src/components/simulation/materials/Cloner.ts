@@ -6,13 +6,17 @@ import { Color } from "three";
 
 type ClonerProps = {
   color?: Color;
+  _skipColorVariation?: boolean;
 };
 
 class Cloner extends Particle {
-  constructor(index: number, { color = clonerColor }: ClonerProps) {
+  constructor(
+    index: number,
+    { color = clonerColor, _skipColorVariation = false }: ClonerProps
+  ) {
     super(index, {
       name: "Cloner",
-      color: varyColor(color),
+      color: _skipColorVariation ? color : varyColor(color),
       stateOfMatter: "solid",
     });
   }

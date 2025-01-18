@@ -1,5 +1,6 @@
 import { GasMovement } from "@/components/simulation/behaviours/GasMovement";
 import Particle from "@/components/simulation/materials/Particle";
+import { varyColor } from "@/lib/colors";
 import {
   gasAcceleration,
   gasChanceToCatch,
@@ -26,6 +27,7 @@ type GasProps = {
   smokeColor?: Color;
   life?: number;
   chanceToCatch?: number;
+  _skipColorVariation?: boolean;
 };
 
 class Gas extends Particle {
@@ -47,11 +49,12 @@ class Gas extends Particle {
       life = gasFuel,
       chanceToCatch = gasChanceToCatch,
       smokeColor = gasSmokeColor,
+      _skipColorVariation = false,
     }: GasProps
   ) {
     super(index, {
       name: "Gas",
-      color: color,
+      color: _skipColorVariation ? color : varyColor(color),
       stateOfMatter: "gas",
       behaviour: new GasMovement({
         maxSpeed,

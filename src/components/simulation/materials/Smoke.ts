@@ -24,6 +24,7 @@ type SmokeProps = {
   burning?: boolean;
   life?: number;
   cloneable?: boolean;
+  _skipColorVariation?: boolean;
 };
 
 export class Smoke extends Particle {
@@ -39,11 +40,12 @@ export class Smoke extends Particle {
       horizontalSpread = smokeHorizontalSpread,
       life = smokeLife - smokeLife * Math.random(),
       cloneable = true,
+      _skipColorVariation = false,
     }: SmokeProps
   ) {
     super(index, {
       name: "Smoke",
-      color: varyColor(color ?? smokeColor),
+      color: _skipColorVariation ? color : varyColor(color ?? smokeColor),
       stateOfMatter: "gas",
       behaviour: new SmokeMovement({
         maxSpeed,
