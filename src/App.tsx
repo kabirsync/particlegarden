@@ -9,9 +9,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { LoaderIcon } from "lucide-react";
 import React, { Suspense } from "react";
-import ImageUpload from "@/components/ImageUpload";
 import { PostHogProvider } from "posthog-js/react";
-import RectangleDrawButton from "@/components/simulation/options/RectangleDrawButton";
 import RectangleImageDrawButton from "@/components/simulation/options/RectangleImageDrawButton";
 
 const options = {
@@ -47,9 +45,8 @@ function App() {
                         );
                       })}
                     </div>
-                    {/* <ImageUpload /> */}
+
                     <div className="flex gap-2">
-                      <RectangleDrawButton />
                       <RectangleImageDrawButton />
                     </div>
                   </div>

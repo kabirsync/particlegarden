@@ -1,11 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { ImageIcon } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
-import { useAtom } from "jotai";
+import Wood from "@/components/simulation/materials/Wood";
 import { gridRefAtom } from "@/components/simulation/simulationState";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useAtom } from "jotai";
+import { ImageIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Color } from "three";
-import Wood from "@/components/simulation/materials/Wood";
 
 interface Point {
   x: number;
@@ -41,11 +42,6 @@ const RectangleImageDrawButton = () => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 10 * 1024 * 1024) {
-      toast.error("Image size should be less than 10MB");
-      return;
-    }
-
     const reader = new FileReader();
     reader.onload = (e) => {
       const img = new Image();
@@ -53,6 +49,9 @@ const RectangleImageDrawButton = () => {
         setImageAspectRatio(img.width / img.height);
         setImageElement(img);
         setIsDrawing(true);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
       };
       img.src = (e.target?.result as string) ?? "";
     };
@@ -209,8 +208,8 @@ const RectangleImageDrawButton = () => {
   };
 
   return (
-    <div>
-      <input
+    <div className="text-xs">
+      <Input
         type="file"
         ref={fileInputRef}
         onChange={handleFileSelect}
@@ -219,11 +218,10 @@ const RectangleImageDrawButton = () => {
       />
       <Button
         variant="outline"
-        size="icon"
         onClick={() => fileInputRef.current?.click()}
-        className={isDrawing ? "bg-zinc-200 dark:bg-zinc-800" : ""}
+        className="text-xs"
       >
-        <ImageIcon className="h-4 w-4" />
+        <ImageIcon className="h-4 w-4" /> Upload Image
       </Button>
       {isDrawing && (
         <canvas
