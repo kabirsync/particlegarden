@@ -9,8 +9,8 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { LoaderIcon } from "lucide-react";
 import React, { Suspense } from "react";
-import ImageUpload from "@/components/ImageUpload";
 import { PostHogProvider } from "posthog-js/react";
+import RectangleImageDrawButton from "@/components/simulation/options/RectangleImageDrawButton";
 
 const options = {
   api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
@@ -45,7 +45,10 @@ function App() {
                         );
                       })}
                     </div>
-                    <ImageUpload />
+
+                    <div className="flex gap-2">
+                      <RectangleImageDrawButton />
+                    </div>
                   </div>
                 </ScrollArea>
                 <ScrollArea className="order-1 md:order-2 h-[100%] flex-1 border-r md:border-r-0 md:border-t border-zinc-400 dark:border-zinc-800 py-3">
