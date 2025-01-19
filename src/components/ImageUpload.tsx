@@ -2,10 +2,12 @@ import { imageDataAtom } from "@/components/simulation/simulationState";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAtom } from "jotai";
+import { useRef } from "react";
 import { toast } from "sonner";
 
 const ImageUpload = () => {
   const [, setImageData] = useAtom(imageDataAtom);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -22,6 +24,10 @@ const ImageUpload = () => {
         img.onload = () => {
           setImageData(img);
           toast.success("Image uploaded successfully!");
+          // Reset the file input after successful upload
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
         };
         img.src = (e.target?.result as string) ?? "";
       };
@@ -35,6 +41,7 @@ const ImageUpload = () => {
         Upload Image
       </Label>
       <Input
+        ref={fileInputRef}
         className="text-xs"
         id="picture"
         type="file"
