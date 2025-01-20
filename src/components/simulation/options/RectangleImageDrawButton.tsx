@@ -133,6 +133,87 @@ const RectangleImageDrawButton = () => {
     setImageAspectRatio(null);
   };
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDrawing || !imageAspectRatio) return;
+    // e.preventDefault(); // Prevent scrolling while drawing
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    setStartPoint({ x, y });
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDrawing || !startPoint || !canvasRef.current || !imageAspectRatio)
+      return;
+    // e.preventDefault();
+
+    const ctx = canvasRef.current.getContext("2d");
+    if (!ctx) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.touches[0];
+    const currentX = touch.clientX - rect.left;
+    const currentY = touch.clientY - rect.top;
+
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
+    ctx.fillStyle = "rgba(59, 130, 246, 0.2)";
+    ctx.strokeStyle = "rgb(59, 130, 246)";
+    ctx.lineWidth = 2;
+
+    const width = currentX - startPoint.x;
+    const height = currentY - startPoint.y;
+
+    let finalWidth, finalHeight;
+    if (Math.abs(width / imageAspectRatio) > Math.abs(height)) {
+      finalWidth = width;
+      finalHeight = width / imageAspectRatio;
+    } else {
+      finalHeight = height;
+      finalWidth = height * imageAspectRatio;
+    }
+
+    ctx.fillRect(startPoint.x, startPoint.y, finalWidth, finalHeight);
+    ctx.strokeRect(startPoint.x, startPoint.y, finalWidth, finalHeight);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDrawing || !startPoint || !imageAspectRatio || !imageElement) return;
+    e.preventDefault();
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.changedTouches[0];
+    const endX = touch.clientX - rect.left;
+    const endY = touch.clientY - rect.top;
+
+    const width = endX - startPoint.x;
+    const height = endY - startPoint.y;
+
+    let finalWidth, finalHeight;
+    if (Math.abs(width / imageAspectRatio) > Math.abs(height)) {
+      finalWidth = width;
+      finalHeight = width / imageAspectRatio;
+    } else {
+      finalHeight = height;
+      finalWidth = height * imageAspectRatio;
+    }
+
+    const area = {
+      x: width > 0 ? startPoint.x : startPoint.x + finalWidth,
+      y: height > 0 ? startPoint.y : startPoint.y + finalHeight,
+      width: Math.abs(finalWidth),
+      height: Math.abs(finalHeight),
+    };
+
+    processImage(imageElement, area);
+    setIsDrawing(false);
+    setStartPoint(null);
+    setImageElement(null);
+    setImageAspectRatio(null);
+  };
+
   const processImage = (
     img: HTMLImageElement,
     area: {
@@ -243,10 +324,14 @@ const RectangleImageDrawButton = () => {
             zIndex: 50,
             pointerEvents: "all",
             cursor: "crosshair",
+            touchAction: "none", // Prevent default touch actions
           }}
           onMouseDown={handleStartDrawing}
           onMouseMove={handleDrawing}
           onMouseUp={handleEndDrawing}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         />
       )}
     </div>
