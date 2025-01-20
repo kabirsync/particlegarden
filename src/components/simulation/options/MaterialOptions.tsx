@@ -1,4 +1,5 @@
 import AcidOptions from "@/components/simulation/options/AcidOptions";
+import CircleDrawButton from "@/components/simulation/options/CircleDrawButton";
 import CombustibleOptions from "@/components/simulation/options/CombustbleOptions";
 import FlammableOptions from "@/components/simulation/options/FlammableOptions";
 import LimitedLifeOptions from "@/components/simulation/options/LimitedLifeOptions";
@@ -17,7 +18,10 @@ const MaterialOptions = () => {
         <div className="text-xs flex gap-2 items-center">
           <Shapes className="h-5 w-5" /> Shapes
         </div>
-        <RectangleDrawButton />
+        <div className="flex gap-4">
+          <RectangleDrawButton />
+          <CircleDrawButton />
+        </div>
       </div>
       <Separator className="mt-2" />
       <div className="flex flex-col gap-4 px-3">
