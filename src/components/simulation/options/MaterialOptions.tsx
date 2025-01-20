@@ -1,6 +1,7 @@
 import AcidOptions from "@/components/simulation/options/AcidOptions";
 import CircleDrawButton from "@/components/simulation/options/CircleDrawButton";
 import CombustibleOptions from "@/components/simulation/options/CombustbleOptions";
+import DiamondDrawButton from "@/components/simulation/options/DiamondDrawButton";
 import FlammableOptions from "@/components/simulation/options/FlammableOptions";
 import LimitedLifeOptions from "@/components/simulation/options/LimitedLifeOptions";
 import LiquidOptions from "@/components/simulation/options/LiquidOptions";
@@ -23,6 +24,7 @@ const MaterialOptions = () => {
           <RectangleDrawButton />
           <CircleDrawButton />
           <TriangleDrawButton />
+          <DiamondDrawButton />
         </div>
       </div>
       <Separator className="mt-2" />
