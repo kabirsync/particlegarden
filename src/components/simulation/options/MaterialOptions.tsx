@@ -8,6 +8,7 @@ import MoveVerticalOptions from "@/components/simulation/options/MoveVerticalOpt
 import RectangleDrawButton from "@/components/simulation/options/RectangleDrawButton";
 import StrokeColorOptions from "@/components/simulation/options/StrokeColorOptions";
 import StrokeSizeOptions from "@/components/simulation/options/StrokeSizeOptions";
+import TriangleDrawButton from "@/components/simulation/options/TriangleDrawButton";
 import { Separator } from "@/components/ui/separator";
 import { Brush, Shapes } from "lucide-react";
 
@@ -21,6 +22,7 @@ const MaterialOptions = () => {
         <div className="flex gap-4">
           <RectangleDrawButton />
           <CircleDrawButton />
+          <TriangleDrawButton />
         </div>
       </div>
       <Separator className="mt-2" />
