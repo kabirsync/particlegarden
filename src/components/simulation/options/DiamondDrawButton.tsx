@@ -6,7 +6,7 @@ import {
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
-import { Square } from "lucide-react";
+import { Diamond } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface Point {
@@ -14,7 +14,7 @@ interface Point {
   y: number;
 }
 
-const RectangleDrawButton = () => {
+const DiamondDrawButton = () => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [startPoint, setStartPoint] = useState<Point | null>(null);
   const [selectedMaterial] = useAtom(selectedMaterialAtom);
@@ -54,11 +54,17 @@ const RectangleDrawButton = () => {
     ctx.strokeStyle = "rgb(59, 130, 246)";
     ctx.lineWidth = 2;
 
-    const width = currentX - startPoint.x;
-    const height = currentY - startPoint.y;
+    const width = Math.abs(currentX - startPoint.x) * 2;
+    const height = Math.abs(currentY - startPoint.y) * 2;
 
-    ctx.fillRect(startPoint.x, startPoint.y, width, height);
-    ctx.strokeRect(startPoint.x, startPoint.y, width, height);
+    ctx.beginPath();
+    ctx.moveTo(startPoint.x, startPoint.y - height / 2);
+    ctx.lineTo(startPoint.x + width / 2, startPoint.y);
+    ctx.lineTo(startPoint.x, startPoint.y + height / 2);
+    ctx.lineTo(startPoint.x - width / 2, startPoint.y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
   };
 
   const handleEndDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -69,6 +75,8 @@ const RectangleDrawButton = () => {
     const endY = e.clientY - rect.top;
 
     const particleSize = 4;
+    const width = Math.abs(endX - startPoint.x) * 2;
+    const height = Math.abs(endY - startPoint.y) * 2;
 
     const isMobile = window.innerWidth < 768;
     const isSmall = window.innerWidth < 640;
@@ -78,26 +86,32 @@ const RectangleDrawButton = () => {
         : window.innerHeight * 0.3
       : 0;
 
-    const startCol = Math.floor(Math.min(startPoint.x, endX) / particleSize);
+    const startCol = Math.floor((startPoint.x - width / 2) / particleSize);
     const startRow = Math.floor(
-      (Math.min(startPoint.y, endY) - mobileOffset) / particleSize
+      (startPoint.y - height / 2 - mobileOffset) / particleSize
     );
-    const endCol = Math.floor(Math.max(startPoint.x, endX) / particleSize);
+    const endCol = Math.floor((startPoint.x + width / 2) / particleSize);
     const endRow = Math.floor(
-      (Math.max(startPoint.y, endY) - mobileOffset) / particleSize
+      (startPoint.y + height / 2 - mobileOffset) / particleSize
     );
 
-    // Fill the rectangle with particles
     for (let row = startRow; row <= endRow; row++) {
       for (let col = startCol; col <= endCol; col++) {
-        const MaterialClass = MaterialMapping[selectedMaterial];
-        gridRef.current.set(
-          col,
-          row,
-          new MaterialClass(row * gridRef.current.columns + col, {
-            color: materialColorRef.current,
-          })
-        );
+        const px = col * particleSize + particleSize / 2;
+        const py = row * particleSize + particleSize / 2;
+
+        const dx = Math.abs(px - startPoint.x);
+        const dy = Math.abs(py - (startPoint.y - mobileOffset));
+        if (dx / (width / 2) + dy / (height / 2) <= 1) {
+          const MaterialClass = MaterialMapping[selectedMaterial];
+          gridRef.current.set(
+            col,
+            row,
+            new MaterialClass(row * gridRef.current.columns + col, {
+              color: materialColorRef.current,
+            })
+          );
+        }
       }
     }
 
@@ -136,11 +150,17 @@ const RectangleDrawButton = () => {
     ctx.strokeStyle = "rgb(59, 130, 246)";
     ctx.lineWidth = 2;
 
-    const width = currentX - startPoint.x;
-    const height = currentY - startPoint.y;
+    const width = Math.abs(currentX - startPoint.x) * 2;
+    const height = Math.abs(currentY - startPoint.y) * 2;
 
-    ctx.fillRect(startPoint.x, startPoint.y, width, height);
-    ctx.strokeRect(startPoint.x, startPoint.y, width, height);
+    ctx.beginPath();
+    ctx.moveTo(startPoint.x, startPoint.y - height / 2);
+    ctx.lineTo(startPoint.x + width / 2, startPoint.y);
+    ctx.lineTo(startPoint.x, startPoint.y + height / 2);
+    ctx.lineTo(startPoint.x - width / 2, startPoint.y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
   };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
@@ -153,8 +173,9 @@ const RectangleDrawButton = () => {
     const endY = touch.clientY - rect.top;
 
     const particleSize = 4;
+    const width = Math.abs(endX - startPoint.x) * 2;
+    const height = Math.abs(endY - startPoint.y) * 2;
 
-    // Add mobile offset calculation
     const isMobile = window.innerWidth < 768;
     const isSmall = window.innerWidth < 640;
     const mobileOffset = isMobile
@@ -163,26 +184,32 @@ const RectangleDrawButton = () => {
         : window.innerHeight * 0.3
       : 0;
 
-    // Calculate grid coordinates with offset
-    const startCol = Math.floor(Math.min(startPoint.x, endX) / particleSize);
+    const startCol = Math.floor((startPoint.x - width / 2) / particleSize);
     const startRow = Math.floor(
-      (Math.min(startPoint.y, endY) - mobileOffset) / particleSize
+      (startPoint.y - height / 2 - mobileOffset) / particleSize
     );
-    const endCol = Math.floor(Math.max(startPoint.x, endX) / particleSize);
+    const endCol = Math.floor((startPoint.x + width / 2) / particleSize);
     const endRow = Math.floor(
-      (Math.max(startPoint.y, endY) - mobileOffset) / particleSize
+      (startPoint.y + height / 2 - mobileOffset) / particleSize
     );
 
     for (let row = startRow; row <= endRow; row++) {
       for (let col = startCol; col <= endCol; col++) {
-        const MaterialClass = MaterialMapping[selectedMaterial];
-        gridRef.current.set(
-          col,
-          row,
-          new MaterialClass(row * gridRef.current.columns + col, {
-            color: materialColorRef.current,
-          })
-        );
+        const px = col * particleSize + particleSize / 2;
+        const py = row * particleSize + particleSize / 2;
+
+        const dx = Math.abs(px - startPoint.x);
+        const dy = Math.abs(py - (startPoint.y - mobileOffset));
+        if (dx / (width / 2) + dy / (height / 2) <= 1) {
+          const MaterialClass = MaterialMapping[selectedMaterial];
+          gridRef.current.set(
+            col,
+            row,
+            new MaterialClass(row * gridRef.current.columns + col, {
+              color: materialColorRef.current,
+            })
+          );
+        }
       }
     }
 
@@ -202,7 +229,7 @@ const RectangleDrawButton = () => {
         onClick={() => setIsDrawing(!isDrawing)}
         className={isDrawing ? "bg-zinc-200 dark:bg-zinc-800" : ""}
       >
-        <Square className="h-4 w-4" />
+        <Diamond className="h-4 w-4" />
       </Button>
       {isDrawing && (
         <canvas
@@ -230,4 +257,4 @@ const RectangleDrawButton = () => {
   );
 };
 
-export default RectangleDrawButton;
+export default DiamondDrawButton;

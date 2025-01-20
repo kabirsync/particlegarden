@@ -6,7 +6,7 @@ import {
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
-import { Square } from "lucide-react";
+import { Circle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface Point {
@@ -14,7 +14,7 @@ interface Point {
   y: number;
 }
 
-const RectangleDrawButton = () => {
+const CircleDrawButton = () => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [startPoint, setStartPoint] = useState<Point | null>(null);
   const [selectedMaterial] = useAtom(selectedMaterialAtom);
@@ -54,11 +54,15 @@ const RectangleDrawButton = () => {
     ctx.strokeStyle = "rgb(59, 130, 246)";
     ctx.lineWidth = 2;
 
-    const width = currentX - startPoint.x;
-    const height = currentY - startPoint.y;
+    const radius = Math.sqrt(
+      Math.pow(currentX - startPoint.x, 2) +
+        Math.pow(currentY - startPoint.y, 2)
+    );
 
-    ctx.fillRect(startPoint.x, startPoint.y, width, height);
-    ctx.strokeRect(startPoint.x, startPoint.y, width, height);
+    ctx.beginPath();
+    ctx.arc(startPoint.x, startPoint.y, radius, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.stroke();
   };
 
   const handleEndDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -69,6 +73,9 @@ const RectangleDrawButton = () => {
     const endY = e.clientY - rect.top;
 
     const particleSize = 4;
+    const radius = Math.sqrt(
+      Math.pow(endX - startPoint.x, 2) + Math.pow(endY - startPoint.y, 2)
+    );
 
     const isMobile = window.innerWidth < 768;
     const isSmall = window.innerWidth < 640;
@@ -78,26 +85,34 @@ const RectangleDrawButton = () => {
         : window.innerHeight * 0.3
       : 0;
 
-    const startCol = Math.floor(Math.min(startPoint.x, endX) / particleSize);
+    // Calculate the bounding box of the circle
+    const startCol = Math.floor((startPoint.x - radius) / particleSize);
     const startRow = Math.floor(
-      (Math.min(startPoint.y, endY) - mobileOffset) / particleSize
+      (startPoint.y - radius - mobileOffset) / particleSize
     );
-    const endCol = Math.floor(Math.max(startPoint.x, endX) / particleSize);
+    const endCol = Math.floor((startPoint.x + radius) / particleSize);
     const endRow = Math.floor(
-      (Math.max(startPoint.y, endY) - mobileOffset) / particleSize
+      (startPoint.y + radius - mobileOffset) / particleSize
     );
 
-    // Fill the rectangle with particles
+    // Fill the circle with particles
     for (let row = startRow; row <= endRow; row++) {
       for (let col = startCol; col <= endCol; col++) {
-        const MaterialClass = MaterialMapping[selectedMaterial];
-        gridRef.current.set(
-          col,
-          row,
-          new MaterialClass(row * gridRef.current.columns + col, {
-            color: materialColorRef.current,
-          })
-        );
+        const dx = col * particleSize + particleSize / 2 - startPoint.x;
+        const dy =
+          row * particleSize + particleSize / 2 - (startPoint.y - mobileOffset);
+
+        // Check if the current particle is within the circle
+        if (dx * dx + dy * dy <= radius * radius) {
+          const MaterialClass = MaterialMapping[selectedMaterial];
+          gridRef.current.set(
+            col,
+            row,
+            new MaterialClass(row * gridRef.current.columns + col, {
+              color: materialColorRef.current,
+            })
+          );
+        }
       }
     }
 
@@ -136,11 +151,15 @@ const RectangleDrawButton = () => {
     ctx.strokeStyle = "rgb(59, 130, 246)";
     ctx.lineWidth = 2;
 
-    const width = currentX - startPoint.x;
-    const height = currentY - startPoint.y;
+    const radius = Math.sqrt(
+      Math.pow(currentX - startPoint.x, 2) +
+        Math.pow(currentY - startPoint.y, 2)
+    );
 
-    ctx.fillRect(startPoint.x, startPoint.y, width, height);
-    ctx.strokeRect(startPoint.x, startPoint.y, width, height);
+    ctx.beginPath();
+    ctx.arc(startPoint.x, startPoint.y, radius, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.stroke();
   };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
@@ -153,8 +172,10 @@ const RectangleDrawButton = () => {
     const endY = touch.clientY - rect.top;
 
     const particleSize = 4;
+    const radius = Math.sqrt(
+      Math.pow(endX - startPoint.x, 2) + Math.pow(endY - startPoint.y, 2)
+    );
 
-    // Add mobile offset calculation
     const isMobile = window.innerWidth < 768;
     const isSmall = window.innerWidth < 640;
     const mobileOffset = isMobile
@@ -163,26 +184,31 @@ const RectangleDrawButton = () => {
         : window.innerHeight * 0.3
       : 0;
 
-    // Calculate grid coordinates with offset
-    const startCol = Math.floor(Math.min(startPoint.x, endX) / particleSize);
+    const startCol = Math.floor((startPoint.x - radius) / particleSize);
     const startRow = Math.floor(
-      (Math.min(startPoint.y, endY) - mobileOffset) / particleSize
+      (startPoint.y - radius - mobileOffset) / particleSize
     );
-    const endCol = Math.floor(Math.max(startPoint.x, endX) / particleSize);
+    const endCol = Math.floor((startPoint.x + radius) / particleSize);
     const endRow = Math.floor(
-      (Math.max(startPoint.y, endY) - mobileOffset) / particleSize
+      (startPoint.y + radius - mobileOffset) / particleSize
     );
 
     for (let row = startRow; row <= endRow; row++) {
       for (let col = startCol; col <= endCol; col++) {
-        const MaterialClass = MaterialMapping[selectedMaterial];
-        gridRef.current.set(
-          col,
-          row,
-          new MaterialClass(row * gridRef.current.columns + col, {
-            color: materialColorRef.current,
-          })
-        );
+        const dx = col * particleSize + particleSize / 2 - startPoint.x;
+        const dy =
+          row * particleSize + particleSize / 2 - (startPoint.y - mobileOffset);
+
+        if (dx * dx + dy * dy <= radius * radius) {
+          const MaterialClass = MaterialMapping[selectedMaterial];
+          gridRef.current.set(
+            col,
+            row,
+            new MaterialClass(row * gridRef.current.columns + col, {
+              color: materialColorRef.current,
+            })
+          );
+        }
       }
     }
 
@@ -202,7 +228,7 @@ const RectangleDrawButton = () => {
         onClick={() => setIsDrawing(!isDrawing)}
         className={isDrawing ? "bg-zinc-200 dark:bg-zinc-800" : ""}
       >
-        <Square className="h-4 w-4" />
+        <Circle className="h-4 w-4" />
       </Button>
       {isDrawing && (
         <canvas
@@ -230,4 +256,4 @@ const RectangleDrawButton = () => {
   );
 };
 
-export default RectangleDrawButton;
+export default CircleDrawButton;
