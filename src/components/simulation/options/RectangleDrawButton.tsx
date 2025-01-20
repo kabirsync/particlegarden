@@ -70,15 +70,28 @@ const RectangleDrawButton = () => {
     const endX = e.clientX - rect.left;
     const endY = e.clientY - rect.top;
 
-    const particleSize = 4; // Match your simulation's particle size
+    const particleSize = 4;
 
-    // Calculate grid coordinates
+    // Add mobile offset calculation
+    const isMobile = window.innerWidth < 768; // md breakpoint in Tailwind
+    const isSmall = window.innerWidth < 640; // sm breakpoint in Tailwind
+    const mobileOffset = isMobile
+      ? isSmall
+        ? window.innerHeight * 0.4
+        : window.innerHeight * 0.3
+      : 0;
+
+    // Calculate grid coordinates with offset
     const startCol = Math.floor(Math.min(startPoint.x, endX) / particleSize);
-    const startRow = Math.floor(Math.min(startPoint.y, endY) / particleSize);
+    const startRow = Math.floor(
+      (Math.min(startPoint.y, endY) - mobileOffset) / particleSize
+    );
     const endCol = Math.floor(Math.max(startPoint.x, endX) / particleSize);
-    const endRow = Math.floor(Math.max(startPoint.y, endY) / particleSize);
+    const endRow = Math.floor(
+      (Math.max(startPoint.y, endY) - mobileOffset) / particleSize
+    );
 
-    // Fill the rectangle with wood particles
+    // Fill the rectangle with particles
     for (let row = startRow; row <= endRow; row++) {
       for (let col = startCol; col <= endCol; col++) {
         const MaterialClass = MaterialMapping[selectedMaterial];
@@ -93,6 +106,91 @@ const RectangleDrawButton = () => {
     }
 
     // Reset drawing state
+    setIsDrawing(false);
+    setStartPoint(null);
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext("2d");
+      ctx?.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    }
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDrawing) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    setStartPoint({ x, y });
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDrawing || !startPoint || !canvasRef.current) return;
+
+    const ctx = canvasRef.current.getContext("2d");
+    if (!ctx) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.touches[0];
+    const currentX = touch.clientX - rect.left;
+    const currentY = touch.clientY - rect.top;
+
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
+    ctx.fillStyle = "rgba(59, 130, 246, 0.2)";
+    ctx.strokeStyle = "rgb(59, 130, 246)";
+    ctx.lineWidth = 2;
+
+    const width = currentX - startPoint.x;
+    const height = currentY - startPoint.y;
+
+    ctx.fillRect(startPoint.x, startPoint.y, width, height);
+    ctx.strokeRect(startPoint.x, startPoint.y, width, height);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDrawing || !startPoint || !gridRef.current) return;
+    e.preventDefault();
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.changedTouches[0];
+    const endX = touch.clientX - rect.left;
+    const endY = touch.clientY - rect.top;
+
+    const particleSize = 4;
+
+    // Add mobile offset calculation
+    const isMobile = window.innerWidth < 768;
+    const isSmall = window.innerWidth < 640;
+    const mobileOffset = isMobile
+      ? isSmall
+        ? window.innerHeight * 0.4
+        : window.innerHeight * 0.3
+      : 0;
+
+    // Calculate grid coordinates with offset
+    const startCol = Math.floor(Math.min(startPoint.x, endX) / particleSize);
+    const startRow = Math.floor(
+      (Math.min(startPoint.y, endY) - mobileOffset) / particleSize
+    );
+    const endCol = Math.floor(Math.max(startPoint.x, endX) / particleSize);
+    const endRow = Math.floor(
+      (Math.max(startPoint.y, endY) - mobileOffset) / particleSize
+    );
+
+    for (let row = startRow; row <= endRow; row++) {
+      for (let col = startCol; col <= endCol; col++) {
+        const MaterialClass = MaterialMapping[selectedMaterial];
+        gridRef.current.set(
+          col,
+          row,
+          new MaterialClass(row * gridRef.current.columns + col, {
+            color: materialColorRef.current,
+          })
+        );
+      }
+    }
+
     setIsDrawing(false);
     setStartPoint(null);
     if (canvasRef.current) {
@@ -123,10 +221,14 @@ const RectangleDrawButton = () => {
             zIndex: 50,
             pointerEvents: "all",
             cursor: "crosshair",
+            touchAction: "none",
           }}
           onMouseDown={handleStartDrawing}
           onMouseMove={handleDrawing}
           onMouseUp={handleEndDrawing}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         />
       )}
     </div>

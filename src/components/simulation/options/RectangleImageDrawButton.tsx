@@ -234,8 +234,8 @@ const RectangleImageDrawButton = () => {
     canvas.height = gridRef.current.rows;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const isMobile = window.innerWidth < 768; // md breakpoint in Tailwind
-    const isSmall = window.innerWidth < 640; // sm breakpoint in Tailwind
+    const isMobile = window.innerWidth < 768;
+    const isSmall = window.innerWidth < 640;
     const mobileOffset = isMobile
       ? isSmall
         ? window.innerHeight * 0.4
