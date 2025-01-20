@@ -112,25 +112,61 @@ export class LiquidFireMovement extends MovesVertical {
   moveParticle(particle: Particle, grid: Grid): number {
     const i = particle.index;
     const column = i % grid.columns;
+    const row = Math.floor(i / grid.columns);
     const nextDelta = Math.sign(this.velocity) * grid.columns;
+
+    // Only check vertical grid boundaries
+    if (nextDelta < 0 && row === 0) {
+      return i;
+    }
+    if (nextDelta > 0 && row === grid.rows - 1) {
+      return i;
+    }
+
     const nextVertical =
       i + nextDelta * Math.ceil(this.verticalSpread * Math.random());
+
+    // Check if next vertical position would be outside grid bounds
+    if (nextVertical < 0 || nextVertical >= grid.columns * grid.rows) {
+      return i;
+    }
 
     const nextVerticalLeft =
       nextVertical - Math.ceil(Math.random() * this.diagonalSpread);
     const nextVerticalRight =
       nextVertical + Math.ceil(Math.random() * this.diagonalSpread);
 
+    // Only prevent horizontal wrapping
+    const nextVerticalLeftColumn = nextVerticalLeft % grid.columns;
+    const nextVerticalRightColumn = nextVerticalRight % grid.columns;
+
+    if (
+      Math.abs(nextVerticalLeftColumn - column) > this.diagonalSpread ||
+      Math.abs(nextVerticalRightColumn - column) > this.diagonalSpread
+    ) {
+      return i;
+    }
+
     const nextLeft = i - Math.ceil(Math.random() * this.horizontalSpread);
     const nextRight = i + Math.ceil(Math.random() * this.horizontalSpread);
 
+    // Check horizontal boundaries for wrapping only
+    const nextLeftColumn = nextLeft % grid.columns;
+    const nextRightColumn = nextRight % grid.columns;
+
+    if (
+      Math.abs(nextLeftColumn - column) > this.horizontalSpread ||
+      Math.abs(nextRightColumn - column) > this.horizontalSpread
+    ) {
+      return i;
+    }
+
+    // Rest of the existing movement logic
     const previousVertical = i - 1;
     const previousVerticalParticle = grid.grid[previousVertical];
-
     const nextVerticalParticle = grid.grid[nextVerticalRight];
     const nextVerticalLeftParticle = grid.grid[nextVerticalLeft];
     const nextVerticalRightParticle = grid.grid[nextVerticalRight];
-
     const nextRightParticle = grid.grid[nextRight];
     const nextLeftParticle = grid.grid[nextLeft];
 
