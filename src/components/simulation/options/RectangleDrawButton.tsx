@@ -48,12 +48,10 @@ const RectangleDrawButton = () => {
     const currentX = e.clientX - rect.left;
     const currentY = e.clientY - rect.top;
 
-    // Clear previous rectangle
     ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 
-    // Draw new rectangle with semi-transparent blue fill
-    ctx.fillStyle = "rgba(59, 130, 246, 0.2)"; // blue-500 with 0.2 opacity
-    ctx.strokeStyle = "rgb(59, 130, 246)"; // blue-500
+    ctx.fillStyle = "rgba(59, 130, 246, 0.2)";
+    ctx.strokeStyle = "rgb(59, 130, 246)";
     ctx.lineWidth = 2;
 
     const width = currentX - startPoint.x;
@@ -72,16 +70,14 @@ const RectangleDrawButton = () => {
 
     const particleSize = 4;
 
-    // Add mobile offset calculation
-    const isMobile = window.innerWidth < 768; // md breakpoint in Tailwind
-    const isSmall = window.innerWidth < 640; // sm breakpoint in Tailwind
+    const isMobile = window.innerWidth < 768;
+    const isSmall = window.innerWidth < 640;
     const mobileOffset = isMobile
       ? isSmall
         ? window.innerHeight * 0.4
         : window.innerHeight * 0.3
       : 0;
 
-    // Calculate grid coordinates with offset
     const startCol = Math.floor(Math.min(startPoint.x, endX) / particleSize);
     const startRow = Math.floor(
       (Math.min(startPoint.y, endY) - mobileOffset) / particleSize
@@ -105,7 +101,6 @@ const RectangleDrawButton = () => {
       }
     }
 
-    // Reset drawing state
     setIsDrawing(false);
     setStartPoint(null);
     if (canvasRef.current) {
