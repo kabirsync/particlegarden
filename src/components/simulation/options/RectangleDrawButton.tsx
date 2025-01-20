@@ -6,7 +6,7 @@ import {
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
-import { SquareDashed } from "lucide-react";
+import { Square } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface Point {
@@ -202,7 +202,7 @@ const RectangleDrawButton = () => {
         onClick={() => setIsDrawing(!isDrawing)}
         className={isDrawing ? "bg-zinc-200 dark:bg-zinc-800" : ""}
       >
-        <SquareDashed className="h-4 w-4" />
+        <Square className="h-4 w-4" />
       </Button>
       {isDrawing && (
         <canvas

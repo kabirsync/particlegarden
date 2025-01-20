@@ -6,7 +6,7 @@ import {
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
-import { CircleDashed } from "lucide-react";
+import { Circle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface Point {
@@ -228,7 +228,7 @@ const CircleDrawButton = () => {
         onClick={() => setIsDrawing(!isDrawing)}
         className={isDrawing ? "bg-zinc-200 dark:bg-zinc-800" : ""}
       >
-        <CircleDashed className="h-4 w-4" />
+        <Circle className="h-4 w-4" />
       </Button>
       {isDrawing && (
         <canvas
