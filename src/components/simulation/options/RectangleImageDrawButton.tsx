@@ -153,10 +153,18 @@ const RectangleImageDrawButton = () => {
     canvas.height = gridRef.current.rows;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    const isMobile = window.innerWidth < 768; // md breakpoint in Tailwind
+    const isSmall = window.innerWidth < 640; // sm breakpoint in Tailwind
+    const mobileOffset = isMobile
+      ? isSmall
+        ? window.innerHeight * 0.4
+        : window.innerHeight * 0.3
+      : 0;
+
     const targetWidth = Math.floor(area.width / particleSize);
     const targetHeight = Math.floor(area.height / particleSize);
     const targetX = Math.floor(area.x / particleSize);
-    const targetY = Math.floor(area.y / particleSize);
+    const targetY = Math.floor((area.y - mobileOffset) / particleSize);
 
     ctx.drawImage(
       img,
