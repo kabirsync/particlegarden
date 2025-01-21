@@ -8,6 +8,7 @@ import {
   chanceToCatchRefAtom,
   chanceToMeltRefAtom,
   diagonalSpreadRefAtom,
+  drawModeAtom,
   extinguishMaterialRefAtom,
   FPSAtom,
   gridRefAtom,
@@ -35,6 +36,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   BufferGeometry,
   Float32BufferAttribute,
+  Mesh,
   Points,
   PointsMaterial,
 } from "three";
@@ -76,6 +78,11 @@ const SimulationParticles = ({
   const mousePositionRef = useRef({ u: 0, v: 0 });
   const mouseOverRef = useRef(false);
   const [imageData] = useAtom(imageDataAtom);
+  const [drawMode] = useAtom(drawModeAtom);
+  const [startPoint, setStartPoint] = useState<{ x: number; y: number } | null>(
+    null
+  );
+  const previewCircleRef = useRef<Mesh | null>(null);
 
   const backgroundColor =
     theme === "light" ? backgroundColorLight : backgroundColorDark;
@@ -192,12 +199,35 @@ const SimulationParticles = ({
         mouseRow >= 0 &&
         mouseRow < rows
       ) {
-        handleMouseAction(
-          mouseColumn,
-          mouseRow,
-          selectedMaterial as MaterialOptionsType,
-          strokeSizeRef.current
-        );
+        if (drawMode === "brush") {
+          handleMouseAction(
+            mouseColumn,
+            mouseRow,
+            selectedMaterial as MaterialOptionsType,
+            strokeSizeRef.current
+          );
+        } else if (drawMode === "circle") {
+          if (!startPoint) {
+            setStartPoint({ x: mouseColumn, y: mouseRow });
+          } else {
+            const dx = mouseColumn - startPoint.x;
+            const dy = mouseRow - startPoint.y;
+            const radius = Math.sqrt(dx * dx + dy * dy);
+
+            if (previewCircleRef.current) {
+              previewCircleRef.current.position.set(
+                startPoint.x * particleSize,
+                (rows - startPoint.y) * particleSize,
+                1
+              );
+              previewCircleRef.current.scale.set(
+                radius * particleSize * 2,
+                radius * particleSize * 2,
+                1
+              );
+            }
+          }
+        }
       }
     }
 
@@ -208,29 +238,38 @@ const SimulationParticles = ({
     const materialColor = materialColorRef.current;
 
     // Detect cells under mouse hover
-    let isCellUnderMouse = (col: number, row: number) => {
-      void col;
-      void row;
-      return false;
-    };
-    if (mouseOverRef.current) {
+    const isCellUnderMouse = (col: number, row: number) => {
+      if (!mouseOverRef.current) return false;
+
       const u = mousePositionRef.current.u;
       const v = mousePositionRef.current.v;
-
       const mouseXWorld = u * dimensions.width;
       const mouseYWorld = (1 - v) * dimensions.height;
-
       const mouseColumn = Math.floor(mouseXWorld / particleSize);
       const mouseRow = Math.floor(mouseYWorld / particleSize);
 
-      const radiusSquared = Math.pow(strokeSizeRef.current / 2, 2);
+      if (drawMode === "circle" && startPoint) {
+        const dx = col - startPoint.x;
+        const dy = row - startPoint.y;
+        const radius = Math.sqrt(
+          Math.pow(mouseColumn - startPoint.x, 2) +
+            Math.pow(mouseRow - startPoint.y, 2)
+        );
+        const distSquared = dx * dx + dy * dy;
+        // Check if point is near the circle's perimeter (within 1 unit)
+        return Math.abs(Math.sqrt(distSquared) - radius) < 1;
+      }
 
-      isCellUnderMouse = (col: number, row: number) => {
+      // Only show brush preview if not in circle mode
+      if (drawMode !== "circle") {
+        const radiusSquared = Math.pow(strokeSizeRef.current / 2, 2);
         const dx = col - mouseColumn;
         const dy = row - mouseRow;
         return dx * dx + dy * dy <= radiusSquared;
-      };
-    }
+      }
+
+      return false;
+    };
 
     for (let index = 0; index < grid.length; index++) {
       const square = grid[index];
@@ -241,7 +280,27 @@ const SimulationParticles = ({
       const color = isHovered
         ? selectedMaterial === "Empty"
           ? backgroundColor
-          : materialColor // Highlight color under mouse
+          : drawMode === "circle" && startPoint && mousePositionRef.current
+          ? (() => {
+              const mouseXWorld = mousePositionRef.current.u * dimensions.width;
+              const mouseYWorld =
+                (1 - mousePositionRef.current.v) * dimensions.height;
+              const mouseColumn = Math.floor(mouseXWorld / particleSize);
+              const mouseRow = Math.floor(mouseYWorld / particleSize);
+
+              return Math.abs(
+                Math.sqrt(
+                  (col - startPoint.x) ** 2 + (row - startPoint.y) ** 2
+                ) -
+                  Math.sqrt(
+                    (mouseColumn - startPoint.x) ** 2 +
+                      (mouseRow - startPoint.y) ** 2
+                  )
+              ) < 1
+                ? materialColor
+                : backgroundColor;
+            })()
+          : materialColor
         : square?.stateOfMatter === "empty"
         ? backgroundColor
         : square?.color ?? backgroundColor;
@@ -279,8 +338,39 @@ const SimulationParticles = ({
         onPointerUp={(event) => {
           if (event.isPrimary) {
             mouseDownRef.current = false;
+            if (drawMode === "circle" && startPoint) {
+              const mouseXWorld = mousePositionRef.current.u * dimensions.width;
+              const mouseYWorld =
+                (1 - mousePositionRef.current.v) * dimensions.height;
+              const mouseColumn = Math.floor(mouseXWorld / particleSize);
+              const mouseRow = Math.floor(mouseYWorld / particleSize);
+
+              // Use handleMouseAction for consistent particle placement
+              const radius = Math.floor(
+                Math.sqrt(
+                  Math.pow(mouseColumn - startPoint.x, 2) +
+                    Math.pow(mouseRow - startPoint.y, 2)
+                )
+              );
+
+              // Fill circle using handleMouseAction
+              for (let y = -radius; y <= radius; y++) {
+                for (let x = -radius; x <= radius; x++) {
+                  if (x * x + y * y <= radius * radius) {
+                    handleMouseAction(
+                      startPoint.x + x,
+                      startPoint.y + y,
+                      selectedMaterial as MaterialOptionsType,
+                      1
+                    );
+                  }
+                }
+              }
+
+              setStartPoint(null);
+            }
+            handleSaveToLocalStorage({ gridRef, key: "autoSaveRedo" });
           }
-          handleSaveToLocalStorage({ gridRef, key: "autoSaveRedo" });
         }}
         onPointerMove={(event) => {
           if (event.isPrimary && event.uv) {
@@ -312,6 +402,13 @@ const SimulationParticles = ({
           )
         }
       />
+
+      {drawMode === "circle" && startPoint && (
+        <mesh ref={previewCircleRef} position={[0, 0, 1]}>
+          <circleGeometry args={[0.5, 32]} />
+          <meshBasicMaterial color={0x3b82f6} opacity={0.2} transparent />
+        </mesh>
+      )}
     </>
   );
 };
