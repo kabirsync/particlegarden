@@ -14,7 +14,13 @@ interface Point {
   y: number;
 }
 
-const DiamondDrawButton = () => {
+const DiamondDrawButton = ({
+  isSelected,
+  onClick,
+}: {
+  isSelected: boolean;
+  onClick: () => void;
+}) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [startPoint, setStartPoint] = useState<Point | null>(null);
   const [selectedMaterial] = useAtom(selectedMaterialAtom);
@@ -224,9 +230,12 @@ const DiamondDrawButton = () => {
   return (
     <div>
       <Button
-        variant="outline"
+        variant={isSelected ? "secondary" : "outline"}
         size="icon"
-        onClick={() => setIsDrawing(!isDrawing)}
+        onClick={() => {
+          setIsDrawing(!isDrawing);
+          onClick();
+        }}
         className={isDrawing ? "bg-zinc-200 dark:bg-zinc-800" : ""}
       >
         <Diamond className="h-4 w-4" />

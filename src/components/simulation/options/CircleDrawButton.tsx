@@ -1,6 +1,7 @@
 import { MaterialMapping } from "@/components/simulation/materials/Material";
 import {
   gridRefAtom,
+  isCanvasHoveredRefAtom,
   materialColorRefAtom,
   selectedMaterialAtom,
 } from "@/components/simulation/simulationState";
@@ -14,7 +15,13 @@ interface Point {
   y: number;
 }
 
-const CircleDrawButton = () => {
+const CircleDrawButton = ({
+  isSelected,
+  onClick,
+}: {
+  isSelected: boolean;
+  onClick: () => void;
+}) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [startPoint, setStartPoint] = useState<Point | null>(null);
   const [selectedMaterial] = useAtom(selectedMaterialAtom);
@@ -65,57 +72,7 @@ const CircleDrawButton = () => {
     ctx.stroke();
   };
 
-  const handleEndDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDrawing || !startPoint || !gridRef.current) return;
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    const endX = e.clientX - rect.left;
-    const endY = e.clientY - rect.top;
-
-    const particleSize = 4;
-    const radius = Math.sqrt(
-      Math.pow(endX - startPoint.x, 2) + Math.pow(endY - startPoint.y, 2)
-    );
-
-    const isMobile = window.innerWidth < 768;
-    const isSmall = window.innerWidth < 640;
-    const mobileOffset = isMobile
-      ? isSmall
-        ? window.innerHeight * 0.4
-        : window.innerHeight * 0.3
-      : 0;
-
-    // Calculate the bounding box of the circle
-    const startCol = Math.floor((startPoint.x - radius) / particleSize);
-    const startRow = Math.floor(
-      (startPoint.y - radius - mobileOffset) / particleSize
-    );
-    const endCol = Math.floor((startPoint.x + radius) / particleSize);
-    const endRow = Math.floor(
-      (startPoint.y + radius - mobileOffset) / particleSize
-    );
-
-    // Fill the circle with particles
-    for (let row = startRow; row <= endRow; row++) {
-      for (let col = startCol; col <= endCol; col++) {
-        const dx = col * particleSize + particleSize / 2 - startPoint.x;
-        const dy =
-          row * particleSize + particleSize / 2 - (startPoint.y - mobileOffset);
-
-        // Check if the current particle is within the circle
-        if (dx * dx + dy * dy <= radius * radius) {
-          const MaterialClass = MaterialMapping[selectedMaterial];
-          gridRef.current.set(
-            col,
-            row,
-            new MaterialClass(row * gridRef.current.columns + col, {
-              color: materialColorRef.current,
-            })
-          );
-        }
-      }
-    }
-
+  const handleEndDrawing = () => {
     setIsDrawing(false);
     setStartPoint(null);
     if (canvasRef.current) {
@@ -223,9 +180,12 @@ const CircleDrawButton = () => {
   return (
     <div>
       <Button
-        variant="outline"
+        variant={isSelected ? "secondary" : "outline"}
         size="icon"
-        onClick={() => setIsDrawing(!isDrawing)}
+        onClick={() => {
+          setIsDrawing(!isDrawing);
+          onClick();
+        }}
         className={isDrawing ? "bg-zinc-200 dark:bg-zinc-800" : ""}
       >
         <Circle className="h-4 w-4" />
@@ -247,6 +207,7 @@ const CircleDrawButton = () => {
           onMouseDown={handleStartDrawing}
           onMouseMove={handleDrawing}
           onMouseUp={handleEndDrawing}
+          onMouseLeave={handleEndDrawing}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}

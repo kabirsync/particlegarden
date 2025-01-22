@@ -48,17 +48,15 @@ const Simulation = () => {
           width: "100%",
           height: "100%",
           touchAction: "none",
-        }} // TouchAction prevents scrolling on touch
+        }}
         onCreated={(state) => {
           rendererRef.current = state.gl;
         }}
         onMouseEnter={() => {
           isCanvasHoveredRef.current = true;
-          console.log(isCanvasHoveredRef.current);
         }}
         onMouseLeave={() => {
           isCanvasHoveredRef.current = false;
-          console.log(isCanvasHoveredRef.current);
         }}
       >
         <ambientLight intensity={Math.PI / 2} />
