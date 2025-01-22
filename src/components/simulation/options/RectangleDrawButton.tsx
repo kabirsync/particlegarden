@@ -14,7 +14,13 @@ interface Point {
   y: number;
 }
 
-const RectangleDrawButton = () => {
+const RectangleDrawButton = ({
+  isSelected,
+  onClick,
+}: {
+  isSelected: boolean;
+  onClick: () => void;
+}) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [startPoint, setStartPoint] = useState<Point | null>(null);
   const [selectedMaterial] = useAtom(selectedMaterialAtom);
@@ -197,9 +203,12 @@ const RectangleDrawButton = () => {
   return (
     <div>
       <Button
-        variant="outline"
+        variant={isSelected ? "secondary" : "outline"}
         size="icon"
-        onClick={() => setIsDrawing(!isDrawing)}
+        onClick={() => {
+          setIsDrawing(!isDrawing);
+          onClick();
+        }}
         className={isDrawing ? "bg-zinc-200 dark:bg-zinc-800" : ""}
       >
         <Square className="h-4 w-4" />

@@ -8,6 +8,7 @@ import {
   chanceToCatchRefAtom,
   chanceToMeltRefAtom,
   diagonalSpreadRefAtom,
+  drawModeAtom,
   extinguishMaterialRefAtom,
   FPSAtom,
   gridRefAtom,
@@ -35,10 +36,21 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   BufferGeometry,
   Float32BufferAttribute,
+  Mesh,
   Points,
   PointsMaterial,
 } from "three";
 import { Grid } from "./Grid";
+import {
+  isInCircle,
+  isInRectangle,
+  isInTriangle,
+  isInDiamond,
+  drawCircle,
+  drawRectangle,
+  drawTriangle,
+  drawDiamond,
+} from "@/lib/shapes";
 
 interface SimulationParticlesProps {
   dimensions: Dimension;
@@ -76,6 +88,11 @@ const SimulationParticles = ({
   const mousePositionRef = useRef({ u: 0, v: 0 });
   const mouseOverRef = useRef(false);
   const [imageData] = useAtom(imageDataAtom);
+  const [drawMode] = useAtom(drawModeAtom);
+  const [startPoint, setStartPoint] = useState<{ x: number; y: number } | null>(
+    null
+  );
+  const previewCircleRef = useRef<Mesh | null>(null);
 
   const backgroundColor =
     theme === "light" ? backgroundColorLight : backgroundColorDark;
@@ -192,12 +209,35 @@ const SimulationParticles = ({
         mouseRow >= 0 &&
         mouseRow < rows
       ) {
-        handleMouseAction(
-          mouseColumn,
-          mouseRow,
-          selectedMaterial as MaterialOptionsType,
-          strokeSizeRef.current
-        );
+        if (drawMode === "brush") {
+          handleMouseAction(
+            mouseColumn,
+            mouseRow,
+            selectedMaterial as MaterialOptionsType,
+            strokeSizeRef.current
+          );
+        } else if (drawMode === "circle") {
+          if (!startPoint) {
+            setStartPoint({ x: mouseColumn, y: mouseRow });
+          } else {
+            const dx = mouseColumn - startPoint.x;
+            const dy = mouseRow - startPoint.y;
+            const radius = Math.sqrt(dx * dx + dy * dy);
+
+            if (previewCircleRef.current) {
+              previewCircleRef.current.position.set(
+                startPoint.x * particleSize,
+                (rows - startPoint.y) * particleSize,
+                1
+              );
+              previewCircleRef.current.scale.set(
+                radius * particleSize * 2,
+                radius * particleSize * 2,
+                1
+              );
+            }
+          }
+        }
       }
     }
 
@@ -208,29 +248,50 @@ const SimulationParticles = ({
     const materialColor = materialColorRef.current;
 
     // Detect cells under mouse hover
-    let isCellUnderMouse = (col: number, row: number) => {
-      void col;
-      void row;
-      return false;
-    };
-    if (mouseOverRef.current) {
+    const isCellUnderMouse = (col: number, row: number) => {
+      if (!mouseOverRef.current) return false;
+
       const u = mousePositionRef.current.u;
       const v = mousePositionRef.current.v;
-
       const mouseXWorld = u * dimensions.width;
       const mouseYWorld = (1 - v) * dimensions.height;
-
       const mouseColumn = Math.floor(mouseXWorld / particleSize);
       const mouseRow = Math.floor(mouseYWorld / particleSize);
 
-      const radiusSquared = Math.pow(strokeSizeRef.current / 2, 2);
+      if (startPoint) {
+        switch (drawMode) {
+          case "circle":
+            return isInCircle({ col, row, startPoint, mouseColumn, mouseRow });
+          case "rectangle":
+            return isInRectangle({
+              col,
+              row,
+              startPoint,
+              mouseColumn,
+              mouseRow,
+            });
+          case "triangle":
+            return isInTriangle({
+              col,
+              row,
+              startPoint,
+              mouseColumn,
+              mouseRow,
+            });
+          case "diamond":
+            return isInDiamond({ col, row, startPoint, mouseColumn, mouseRow });
+        }
+      }
 
-      isCellUnderMouse = (col: number, row: number) => {
+      if (drawMode === "brush") {
+        const radiusSquared = Math.pow(strokeSizeRef.current / 2, 2);
         const dx = col - mouseColumn;
         const dy = row - mouseRow;
         return dx * dx + dy * dy <= radiusSquared;
-      };
-    }
+      }
+
+      return false;
+    };
 
     for (let index = 0; index < grid.length; index++) {
       const square = grid[index];
@@ -241,7 +302,62 @@ const SimulationParticles = ({
       const color = isHovered
         ? selectedMaterial === "Empty"
           ? backgroundColor
-          : materialColor // Highlight color under mouse
+          : startPoint &&
+            mousePositionRef.current &&
+            ["circle", "rectangle", "triangle", "diamond"].includes(drawMode)
+          ? (() => {
+              const mouseXWorld = mousePositionRef.current.u * dimensions.width;
+              const mouseYWorld =
+                (1 - mousePositionRef.current.v) * dimensions.height;
+              const mouseColumn = Math.floor(mouseXWorld / particleSize);
+              const mouseRow = Math.floor(mouseYWorld / particleSize);
+
+              let isInShape = false;
+              switch (drawMode) {
+                case "circle":
+                  isInShape = isInCircle({
+                    col,
+                    row,
+                    startPoint,
+                    mouseColumn,
+                    mouseRow,
+                  });
+                  break;
+                case "rectangle":
+                  isInShape = isInRectangle({
+                    col,
+                    row,
+                    startPoint,
+                    mouseColumn,
+                    mouseRow,
+                  });
+                  break;
+                case "triangle":
+                  isInShape = isInTriangle({
+                    col,
+                    row,
+                    startPoint,
+                    mouseColumn,
+                    mouseRow,
+                  });
+                  break;
+                case "diamond":
+                  isInShape = isInDiamond({
+                    col,
+                    row,
+                    startPoint,
+                    mouseColumn,
+                    mouseRow,
+                  });
+                  break;
+              }
+
+              // Use the exact same color instance from materialColor
+              return isInShape ? materialColor.clone() : backgroundColor;
+            })()
+          : drawMode === "brush"
+          ? materialColor.clone()
+          : backgroundColor
         : square?.stateOfMatter === "empty"
         ? backgroundColor
         : square?.color ?? backgroundColor;
@@ -260,6 +376,36 @@ const SimulationParticles = ({
     setFrame((prev) => prev + 1);
   });
 
+  const handleShapeDrawing = () => {
+    if (!mousePositionRef.current || !startPoint) return;
+
+    const mouseXWorld = mousePositionRef.current.u * dimensions.width;
+    const mouseYWorld = (1 - mousePositionRef.current.v) * dimensions.height;
+    const mouseColumn = Math.floor(mouseXWorld / particleSize);
+    const mouseRow = Math.floor(mouseYWorld / particleSize);
+
+    const drawProps = {
+      startPoint,
+      mouseColumn,
+      mouseRow,
+      columns,
+      rows,
+      selectedMaterial: selectedMaterial as MaterialOptionsType,
+      handleMouseAction,
+    };
+
+    if (drawMode === "circle") {
+      drawCircle(drawProps);
+    } else if (drawMode === "rectangle") {
+      drawRectangle(drawProps);
+    } else if (drawMode === "triangle") {
+      drawTriangle(drawProps);
+    } else if (drawMode === "diamond") {
+      drawDiamond(drawProps);
+    }
+    setStartPoint(null);
+  };
+
   if (!isReady) return null;
 
   return (
@@ -273,14 +419,29 @@ const SimulationParticles = ({
               const u = event.uv.x;
               const v = event.uv.y;
               mousePositionRef.current = { u, v };
+              // Set startPoint for all shape types
+              if (
+                ["circle", "rectangle", "triangle", "diamond"].includes(
+                  drawMode
+                )
+              ) {
+                const mouseXWorld = u * dimensions.width;
+                const mouseYWorld = (1 - v) * dimensions.height;
+                const mouseColumn = Math.floor(mouseXWorld / particleSize);
+                const mouseRow = Math.floor(mouseYWorld / particleSize);
+                setStartPoint({ x: mouseColumn, y: mouseRow });
+              }
             }
           }
         }}
         onPointerUp={(event) => {
           if (event.isPrimary) {
             mouseDownRef.current = false;
+            if (startPoint) {
+              handleShapeDrawing();
+            }
+            handleSaveToLocalStorage({ gridRef, key: "autoSaveRedo" });
           }
-          handleSaveToLocalStorage({ gridRef, key: "autoSaveRedo" });
         }}
         onPointerMove={(event) => {
           if (event.isPrimary && event.uv) {

@@ -134,4 +134,23 @@ export const acidStrengthRefAtom = atom(() => ({
 }));
 export const acidStrengthAtom = atom(acidDefaultStrength);
 
+// --------- Image Options ---------
+
 export const imageDataAtom = atom<HTMLImageElement | null>(null);
+
+// --------- Draw Options ---------
+
+export const drawModeAtom = atom<
+  "brush" | "rectangle" | "circle" | "triangle" | "diamond"
+>("brush");
+
+export const drawModeRefAtom = atom<{
+  current: "brush" | "rectangle" | "circle" | "triangle" | "diamond";
+}>(() => ({
+  current: "brush",
+}));
+
+export const isCanvasHoveredAtom = atom(false);
+export const isCanvasHoveredRefAtom = atom(() => ({
+  current: false,
+}));
