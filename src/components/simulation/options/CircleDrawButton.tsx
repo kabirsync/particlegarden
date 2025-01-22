@@ -1,7 +1,6 @@
 import { MaterialMapping } from "@/components/simulation/materials/Material";
 import {
   gridRefAtom,
-  isCanvasHoveredRefAtom,
   materialColorRefAtom,
   selectedMaterialAtom,
 } from "@/components/simulation/simulationState";
