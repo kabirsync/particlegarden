@@ -41,6 +41,16 @@ import {
   PointsMaterial,
 } from "three";
 import { Grid } from "./Grid";
+import {
+  isInCircle,
+  isInRectangle,
+  isInTriangle,
+  isInDiamond,
+  drawCircle,
+  drawRectangle,
+  drawTriangle,
+  drawDiamond,
+} from "@/lib/shapes";
 
 interface SimulationParticlesProps {
   dimensions: Dimension;
@@ -251,13 +261,25 @@ const SimulationParticles = ({
       if (startPoint) {
         switch (drawMode) {
           case "circle":
-            return isInCircle(col, row, startPoint, mouseColumn, mouseRow);
+            return isInCircle({ col, row, startPoint, mouseColumn, mouseRow });
           case "rectangle":
-            return isInRectangle(col, row, startPoint, mouseColumn, mouseRow);
+            return isInRectangle({
+              col,
+              row,
+              startPoint,
+              mouseColumn,
+              mouseRow,
+            });
           case "triangle":
-            return isInTriangle(col, row, startPoint, mouseColumn, mouseRow);
+            return isInTriangle({
+              col,
+              row,
+              startPoint,
+              mouseColumn,
+              mouseRow,
+            });
           case "diamond":
-            return isInDiamond(col, row, startPoint, mouseColumn, mouseRow);
+            return isInDiamond({ col, row, startPoint, mouseColumn, mouseRow });
         }
       }
 
@@ -293,40 +315,40 @@ const SimulationParticles = ({
               let isInShape = false;
               switch (drawMode) {
                 case "circle":
-                  isInShape = isInCircle(
+                  isInShape = isInCircle({
                     col,
                     row,
                     startPoint,
                     mouseColumn,
-                    mouseRow
-                  );
+                    mouseRow,
+                  });
                   break;
                 case "rectangle":
-                  isInShape = isInRectangle(
+                  isInShape = isInRectangle({
                     col,
                     row,
                     startPoint,
                     mouseColumn,
-                    mouseRow
-                  );
+                    mouseRow,
+                  });
                   break;
                 case "triangle":
-                  isInShape = isInTriangle(
+                  isInShape = isInTriangle({
                     col,
                     row,
                     startPoint,
                     mouseColumn,
-                    mouseRow
-                  );
+                    mouseRow,
+                  });
                   break;
                 case "diamond":
-                  isInShape = isInDiamond(
+                  isInShape = isInDiamond({
                     col,
                     row,
                     startPoint,
                     mouseColumn,
-                    mouseRow
-                  );
+                    mouseRow,
+                  });
                   break;
               }
 
@@ -354,229 +376,6 @@ const SimulationParticles = ({
     setFrame((prev) => prev + 1);
   });
 
-  // Shape preview functions
-  const isInCircle = (
-    col: number,
-    row: number,
-    startPoint: { x: number; y: number },
-    mouseColumn: number,
-    mouseRow: number
-  ): boolean => {
-    const dx = col - startPoint.x;
-    const dy = row - startPoint.y;
-    const radius = Math.sqrt(
-      Math.pow(mouseColumn - startPoint.x, 2) +
-        Math.pow(mouseRow - startPoint.y, 2)
-    );
-    return dx * dx + dy * dy <= radius * radius;
-  };
-
-  const isInRectangle = (
-    col: number,
-    row: number,
-    startPoint: { x: number; y: number },
-    mouseColumn: number,
-    mouseRow: number
-  ): boolean => {
-    const left = Math.min(startPoint.x, mouseColumn);
-    const right = Math.max(startPoint.x, mouseColumn);
-    const top = Math.min(startPoint.y, mouseRow);
-    const bottom = Math.max(startPoint.y, mouseRow);
-    return col >= left && col <= right && row >= top && row <= bottom;
-  };
-
-  const isInTriangle = (
-    col: number,
-    row: number,
-    startPoint: { x: number; y: number },
-    mouseColumn: number,
-    mouseRow: number
-  ): boolean => {
-    const dx = mouseColumn - startPoint.x;
-    const dy = mouseRow - startPoint.y;
-
-    // Only check points within the bounding box of the triangle
-    const minX = Math.min(startPoint.x, startPoint.x + dx);
-    const maxX = Math.max(startPoint.x, startPoint.x + dx);
-    const minY = Math.min(startPoint.y, startPoint.y + dy);
-    const maxY = Math.max(startPoint.y, startPoint.y + dy);
-
-    if (col < minX || col > maxX || row < minY || row > maxY) {
-      return false;
-    }
-
-    return isPointInTriangle(
-      col,
-      row,
-      startPoint.x,
-      startPoint.y,
-      startPoint.x + dx,
-      startPoint.y,
-      startPoint.x + dx / 2,
-      startPoint.y + dy
-    );
-  };
-
-  const isInDiamond = (
-    col: number,
-    row: number,
-    startPoint: { x: number; y: number },
-    mouseColumn: number,
-    mouseRow: number
-  ): boolean => {
-    const dx = mouseColumn - startPoint.x;
-    const dy = mouseRow - startPoint.y;
-    const normalizedX = Math.abs(col - startPoint.x) / Math.abs(dx);
-    const normalizedY = Math.abs(row - startPoint.y) / Math.abs(dy);
-    return normalizedX + normalizedY <= 1;
-  };
-
-  // Shape drawing functions
-  const drawCircle = (
-    startPoint: { x: number; y: number },
-    mouseColumn: number,
-    mouseRow: number
-  ) => {
-    const radius = Math.sqrt(
-      Math.pow(mouseColumn - startPoint.x, 2) +
-        Math.pow(mouseRow - startPoint.y, 2)
-    );
-
-    for (let y = -radius; y <= radius; y++) {
-      for (let x = -radius; x <= radius; x++) {
-        if (x * x + y * y <= radius * radius) {
-          const col = Math.floor(startPoint.x + x);
-          const row = Math.floor(startPoint.y + y);
-          if (col >= 0 && col < columns && row >= 0 && row < rows) {
-            handleMouseAction(
-              col,
-              row,
-              selectedMaterial as MaterialOptionsType,
-              1
-            );
-          }
-        }
-      }
-    }
-  };
-
-  const drawRectangle = (
-    startPoint: { x: number; y: number },
-    mouseColumn: number,
-    mouseRow: number
-  ) => {
-    const left = Math.min(startPoint.x, mouseColumn);
-    const right = Math.max(startPoint.x, mouseColumn);
-    const top = Math.min(startPoint.y, mouseRow);
-    const bottom = Math.max(startPoint.y, mouseRow);
-
-    for (let row = top; row <= bottom; row++) {
-      for (let col = left; col <= right; col++) {
-        if (col >= 0 && col < columns && row >= 0 && row < rows) {
-          handleMouseAction(
-            col,
-            row,
-            selectedMaterial as MaterialOptionsType,
-            1
-          );
-        }
-      }
-    }
-  };
-
-  const drawTriangle = (
-    startPoint: { x: number; y: number },
-    mouseColumn: number,
-    mouseRow: number
-  ) => {
-    const dx = mouseColumn - startPoint.x;
-    const dy = mouseRow - startPoint.y;
-
-    // If width OR height is 1 particle or less, just place at start point
-    if (Math.abs(dx) <= 1 || Math.abs(dy) <= 1) {
-      handleMouseAction(
-        startPoint.x,
-        startPoint.y,
-        selectedMaterial as MaterialOptionsType,
-        1
-      );
-      return;
-    }
-
-    // Draw full triangle
-    const minX = Math.min(startPoint.x, startPoint.x + dx);
-    const maxX = Math.max(startPoint.x, startPoint.x + dx);
-    const minY = Math.min(startPoint.y, startPoint.y + dy);
-    const maxY = Math.max(startPoint.y, startPoint.y + dy);
-
-    for (let row = minY; row <= maxY; row++) {
-      for (let col = minX; col <= maxX; col++) {
-        if (
-          isPointInTriangle(
-            col,
-            row,
-            startPoint.x,
-            startPoint.y,
-            startPoint.x + dx,
-            startPoint.y,
-            startPoint.x + dx / 2,
-            startPoint.y + dy
-          )
-        ) {
-          handleMouseAction(
-            col,
-            row,
-            selectedMaterial as MaterialOptionsType,
-            1
-          );
-        }
-      }
-    }
-  };
-
-  const drawDiamond = (
-    startPoint: { x: number; y: number },
-    mouseColumn: number,
-    mouseRow: number
-  ) => {
-    const dx = mouseColumn - startPoint.x;
-    const dy = mouseRow - startPoint.y;
-
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < columns; col++) {
-        const normalizedX = Math.abs(col - startPoint.x) / Math.abs(dx);
-        const normalizedY = Math.abs(row - startPoint.y) / Math.abs(dy);
-
-        if (normalizedX + normalizedY <= 1) {
-          handleMouseAction(
-            col,
-            row,
-            selectedMaterial as MaterialOptionsType,
-            1
-          );
-        }
-      }
-    }
-  };
-
-  // Helper function for triangle
-  const isPointInTriangle = (
-    px: number,
-    py: number,
-    x1: number,
-    y1: number,
-    x2: number,
-    y2: number,
-    x3: number,
-    y3: number
-  ) => {
-    const area = Math.abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1)) / 2;
-    const a1 = Math.abs((x1 - px) * (y2 - py) - (x2 - px) * (y1 - py)) / 2;
-    const a2 = Math.abs((x2 - px) * (y3 - py) - (x3 - px) * (y2 - py)) / 2;
-    const a3 = Math.abs((x3 - px) * (y1 - py) - (x1 - px) * (y3 - py)) / 2;
-    return Math.abs(area - (a1 + a2 + a3)) < 0.01;
-  };
-
   const handleShapeDrawing = () => {
     if (!mousePositionRef.current || !startPoint) return;
 
@@ -585,14 +384,24 @@ const SimulationParticles = ({
     const mouseColumn = Math.floor(mouseXWorld / particleSize);
     const mouseRow = Math.floor(mouseYWorld / particleSize);
 
+    const drawProps = {
+      startPoint,
+      mouseColumn,
+      mouseRow,
+      columns,
+      rows,
+      selectedMaterial: selectedMaterial as MaterialOptionsType,
+      handleMouseAction,
+    };
+
     if (drawMode === "circle") {
-      drawCircle(startPoint, mouseColumn, mouseRow);
+      drawCircle(drawProps);
     } else if (drawMode === "rectangle") {
-      drawRectangle(startPoint, mouseColumn, mouseRow);
+      drawRectangle(drawProps);
     } else if (drawMode === "triangle") {
-      drawTriangle(startPoint, mouseColumn, mouseRow);
+      drawTriangle(drawProps);
     } else if (drawMode === "diamond") {
-      drawDiamond(startPoint, mouseColumn, mouseRow);
+      drawDiamond(drawProps);
     }
     setStartPoint(null);
   };
