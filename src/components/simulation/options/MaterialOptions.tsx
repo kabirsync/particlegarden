@@ -55,7 +55,7 @@ const MaterialOptions = () => {
         <div className="text-xs flex gap-2 items-center">
           <Shapes className="h-5 w-5" /> Shapes
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-4 flex-wrap">
           <Button
             variant={drawMode === "brush" ? "secondary" : "outline"}
             size="icon"
