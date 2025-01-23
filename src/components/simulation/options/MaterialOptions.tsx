@@ -58,7 +58,7 @@ const MaterialOptions = () => {
         <div className="flex gap-2">
           <RectangleImageDrawButton />
         </div>
-        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 content-start gap-4">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-3 content-start gap-4">
           {selectableMaterialOptions.map((material) => {
             return <MaterialButton key={material} material={material} />;
           })}
