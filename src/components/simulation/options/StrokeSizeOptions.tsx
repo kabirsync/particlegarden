@@ -1,19 +1,22 @@
-import { strokeSizeRefAtom } from "@/components/simulation/simulationState";
+import {
+  strokeSizeAtom,
+  strokeSizeRefAtom,
+} from "@/components/simulation/simulationState";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { defaultStrokeSize } from "@/lib/constants";
 
 import { useAtom } from "jotai";
-import { useState } from "react";
 
 const StrokeSizeOptions = () => {
   const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
-  const [strokeSize, setStrokeSize] = useState(defaultStrokeSize);
+  const [strokeSize, setStrokeSize] = useAtom(strokeSizeAtom);
+
   const handleStrokeSizeChange = (value: number) => {
     setStrokeSize(value);
     strokeSizeRef.current = value;
   };
+
   return (
     <div className="flex flex-col gap-2">
       <Label htmlFor="strokeSize" className="text-xs">

@@ -2,6 +2,7 @@ import SimulationParticles from "@/components/simulation/SimulationParticles";
 import {
   drawModeAtom,
   isCanvasHoveredRefAtom,
+  strokeSizeAtom,
   strokeSizeRefAtom,
 } from "@/components/simulation/simulationState";
 import { useTheme } from "@/components/theme/useTheme";
@@ -9,7 +10,7 @@ import { useContainerSize } from "@/hooks/useContainerSize";
 import { useViewportSize } from "@/hooks/useViewportSize";
 import { Canvas } from "@react-three/fiber";
 import { useAtom } from "jotai";
-import { MouseEvent, useRef, useEffect } from "react";
+import { MouseEvent, useCallback, useEffect, useRef } from "react";
 import { WebGLRenderer } from "three";
 
 const Simulation = () => {
@@ -19,16 +20,24 @@ const Simulation = () => {
   const rendererRef = useRef<WebGLRenderer | null>(null);
   const [isCanvasHoveredRef] = useAtom(isCanvasHoveredRefAtom);
   const [strokeSizeRef] = useAtom(strokeSizeRefAtom);
-  // const [drawModeRef] = useAtom(drawModeRefAtom);
+  const [, setStrokeSize] = useAtom(strokeSizeAtom);
   const [drawMode] = useAtom(drawModeAtom);
   const handleContextMenu = (event: MouseEvent<HTMLDivElement>) => {
-    event.preventDefault(); // Prevent the default context menu from appearing
+    event.preventDefault();
   };
 
   const getCursorStyle = () => {
     const drawShapes = ["circle", "rectangle", "triangle", "diamond"];
     return drawShapes.includes(drawMode) ? "crosshair" : "pointer";
   };
+
+  const handleStrokeSizeChange = useCallback(
+    (newSize: number) => {
+      setStrokeSize(newSize);
+      strokeSizeRef.current = newSize;
+    },
+    [setStrokeSize, strokeSizeRef]
+  );
 
   useEffect(() => {
     const element = containerRef.current;
@@ -42,13 +51,13 @@ const Simulation = () => {
           1,
           Math.min(50, strokeSizeRef.current + delta)
         );
-        strokeSizeRef.current = newSize;
+        handleStrokeSizeChange(newSize);
       }
     };
 
     element.addEventListener("wheel", handleWheel, { passive: false });
     return () => element.removeEventListener("wheel", handleWheel);
-  }, [containerRef, isCanvasHoveredRef, strokeSizeRef]);
+  }, [containerRef, isCanvasHoveredRef, strokeSizeRef, handleStrokeSizeChange]);
 
   return (
     <div

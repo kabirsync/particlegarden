@@ -47,6 +47,7 @@ export const selectedMaterialAtom = atom<SelectableMaterials>(
 
 export const materialColorAtom = atom(defaultMaterialColor);
 export const strokeSizeRefAtom = atom(() => ({ current: defaultStrokeSize }));
+export const strokeSizeAtom = atom(defaultStrokeSize);
 export const materialColorRefAtom = atom(() => ({
   current: defaultMaterialColor,
 }));
