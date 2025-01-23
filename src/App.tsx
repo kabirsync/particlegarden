@@ -5,9 +5,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { LoaderIcon } from "lucide-react";
+import { ChevronDownIcon, ChevronUpIcon, LoaderIcon } from "lucide-react";
 import { PostHogProvider } from "posthog-js/react";
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 const options = {
   api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
@@ -18,6 +18,32 @@ const Simulation = React.lazy(
 );
 
 function App() {
+  const [showUpChevron, setShowUpChevron] = useState(false);
+  const [showDownChevron, setShowDownChevron] = useState(false);
+
+  useEffect(() => {
+    const viewport = document.querySelector(
+      "[data-radix-scroll-area-viewport]"
+    ) as HTMLDivElement;
+
+    if (!viewport) return;
+
+    const checkScroll = () => {
+      const isNotAtTop = viewport.scrollTop > 0;
+      const isNotAtBottom =
+        viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight > 1;
+
+      setShowUpChevron(isNotAtTop);
+      setShowDownChevron(isNotAtBottom);
+    };
+
+    viewport.addEventListener("scroll", checkScroll);
+    // Initial check
+    checkScroll();
+
+    return () => viewport.removeEventListener("scroll", checkScroll);
+  }, []);
+
   return (
     <PostHogProvider
       apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
@@ -32,10 +58,20 @@ function App() {
               <div className="h-[40px] md:h-[60px] border-b border-zinc-400 dark:border-zinc-800 px-3 py-2">
                 <EngineOptions />
               </div>
-              <div className="h-[calc(100%-40px)] md:h-[calc(100%-60px)] flex md:flex-col w-full border-b md:border-0 border-zinc-400 dark:border-zinc-800">
-                <ScrollArea className="order-1 md:order-2 h-[100%] flex-1 border-r md:border-r-0 md:border-t border-zinc-400 dark:border-zinc-800 py-3">
+              <div className="h-[calc(100%-40px)] md:h-[calc(100%-60px)] flex flex-col md:items-center w-full border-b md:border-0 border-zinc-400 dark:border-zinc-800">
+                <div className="h-5 flex justify-center items-center">
+                  {showUpChevron && (
+                    <ChevronUpIcon className="w-4 h-4 z-10 bg-white dark:bg-zinc-950 rounded-full" />
+                  )}
+                </div>
+                <ScrollArea className="h-[100%] flex-1 border-r md:border-r-0  border-zinc-400 dark:border-zinc-800 relative">
                   <MaterialOptions />
                 </ScrollArea>
+                <div className="h-5 flex justify-center items-center">
+                  {showDownChevron && (
+                    <ChevronDownIcon className="w-4 h-4  z-10 bg-white dark:bg-zinc-950 rounded-full" />
+                  )}
+                </div>
               </div>
             </div>
             <div className="md:order-1 flex-1 bg-[#DFDFDF] dark:bg-[#010101]">
