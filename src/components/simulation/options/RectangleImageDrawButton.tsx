@@ -1,5 +1,8 @@
 import Wood from "@/components/simulation/materials/Wood";
-import { gridRefAtom } from "@/components/simulation/simulationState";
+import {
+  gridRefAtom,
+  particleSizeAtom,
+} from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAtom } from "jotai";
@@ -30,6 +33,7 @@ const RectangleImageDrawButton = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [gridRef] = useAtom(gridRefAtom);
+  const [particleSize] = useAtom(particleSizeAtom);
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -229,7 +233,6 @@ const RectangleImageDrawButton = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const particleSize = 4;
     canvas.width = gridRef.current.columns;
     canvas.height = gridRef.current.rows;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
