@@ -1,9 +1,12 @@
+import { selectableMaterialOptions } from "@/components/simulation/materials/Material";
 import AcidOptions from "@/components/simulation/options/AcidOptions";
 import CombustibleOptions from "@/components/simulation/options/CombustbleOptions";
 import FlammableOptions from "@/components/simulation/options/FlammableOptions";
 import LimitedLifeOptions from "@/components/simulation/options/LimitedLifeOptions";
 import LiquidOptions from "@/components/simulation/options/LiquidOptions";
+import MaterialButton from "@/components/simulation/options/MaterialButton";
 import MoveVerticalOptions from "@/components/simulation/options/MoveVerticalOptions";
+import RectangleImageDrawButton from "@/components/simulation/options/RectangleImageDrawButton";
 import StrokeColorOptions from "@/components/simulation/options/StrokeColorOptions";
 import StrokeSizeOptions from "@/components/simulation/options/StrokeSizeOptions";
 import {
@@ -51,6 +54,17 @@ const MaterialOptions = () => {
 
   return (
     <div className="flex flex-col gap-3 mb-3">
+      <div className="px-3 flex flex-col justify-start-full gap-4">
+        <div className="flex gap-2">
+          <RectangleImageDrawButton />
+        </div>
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 content-start gap-4">
+          {selectableMaterialOptions.map((material) => {
+            return <MaterialButton key={material} material={material} />;
+          })}
+        </div>
+      </div>
+      <Separator className="mt-2" />
       <div className="px-3 flex flex-col gap-4">
         <div className="text-xs flex gap-2 items-center">
           <Shapes className="h-5 w-5" /> Shapes
@@ -96,22 +110,6 @@ const MaterialOptions = () => {
           >
             <Diamond className="h-4 w-4" />
           </Button>
-          {/* <RectangleDrawButton
-            onClick={() => setDrawMode("rectangle")}
-            isSelected={drawMode === "rectangle"}
-          />
-          <CircleDrawButton
-            onClick={() => setDrawMode("circle")}
-            isSelected={drawMode === "circle"}
-          />
-          <TriangleDrawButton
-            onClick={() => setDrawMode("triangle")}
-            isSelected={drawMode === "triangle"}
-          />
-          <DiamondDrawButton
-            onClick={() => setDrawMode("diamond")}
-            isSelected={drawMode === "diamond"}
-          /> */}
         </div>
       </div>
       <Separator className="mt-2" />
