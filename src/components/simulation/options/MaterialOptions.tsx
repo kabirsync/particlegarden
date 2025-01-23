@@ -13,6 +13,7 @@ import {
   drawModeAtom,
   drawModeRefAtom,
 } from "@/components/simulation/simulationState";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useAtom } from "jotai";
@@ -55,8 +56,14 @@ const MaterialOptions = () => {
   return (
     <div className="flex flex-col gap-3 mb-3">
       <div className="px-3 flex flex-col justify-start-full gap-4">
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <RectangleImageDrawButton />
+          <Badge
+            variant="outline"
+            className="!border-green-800 bg-green-700 bg-opacity-20"
+          >
+            New
+          </Badge>
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-3 content-start gap-4">
           {selectableMaterialOptions.map((material) => {
@@ -68,6 +75,12 @@ const MaterialOptions = () => {
       <div className="px-3 flex flex-col gap-4">
         <div className="text-xs flex gap-2 items-center">
           <Shapes className="h-5 w-5" /> Shapes
+          <Badge
+            variant="outline"
+            className="!border-green-800 bg-green-700 bg-opacity-20"
+          >
+            New
+          </Badge>
         </div>
         <div className="flex gap-4 flex-wrap">
           <Button
