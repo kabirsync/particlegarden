@@ -332,7 +332,16 @@ const RectangleImageDrawButton = () => {
           onMouseDown={handleStartDrawing}
           onMouseMove={handleDrawing}
           onMouseUp={handleEndDrawing}
-          onTouchStart={handleTouchStart}
+          onTouchStart={(e) => {
+            const target = e.currentTarget;
+            const passiveListener = () => {};
+            target.addEventListener("touchstart", passiveListener, {
+              passive: true,
+            });
+            handleTouchStart(e);
+            // Clean up by removing the listener
+            target.removeEventListener("touchstart", passiveListener);
+          }}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         />
