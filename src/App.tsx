@@ -3,8 +3,8 @@ import MaterialOptions from "@/components/simulation/options/MaterialOptions";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Toaster } from "@/components/ui/sonner";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
+// import { Analytics } from "@vercel/analytics/react";
+// import { SpeedInsights } from "@vercel/speed-insights/react";
 import { ChevronDownIcon, ChevronUpIcon, LoaderIcon } from "lucide-react";
 import { PostHogProvider } from "posthog-js/react";
 import React, { Suspense, useEffect, useState } from "react";
@@ -50,8 +50,8 @@ function App() {
       options={options}
     >
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <Analytics />
-        <SpeedInsights />
+        {/* <Analytics />
+        <SpeedInsights /> */}
         <div className="h-dvh flex flex-col dark:bg-zinc-950 bg-white text-zinc-900 dark:text-zinc-300 ">
           <div className="h-full flex flex-col md:flex-row">
             <div className="md:order-2 sm:min-h-[240px] h-[40%] sm:h-[30%] md:h-[100%] md:w-[350px] flex flex-col md:border-l border-zinc-400 dark:border-zinc-800">
