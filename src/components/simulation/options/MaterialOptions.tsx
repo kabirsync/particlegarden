@@ -9,54 +9,49 @@ import MoveVerticalOptions from "@/components/simulation/options/MoveVerticalOpt
 import RectangleImageDrawButton from "@/components/simulation/options/RectangleImageDrawButton";
 import StrokeColorOptions from "@/components/simulation/options/StrokeColorOptions";
 import StrokeSizeOptions from "@/components/simulation/options/StrokeSizeOptions";
-// import {
-//   drawModeAtom,
-//   drawModeRefAtom,
-// } from "@/components/simulation/simulationState";
-import { Badge } from "@/components/ui/badge";
-// import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-// import { useAtom } from "jotai";
 import {
-  Brush,
-  // Circle, Diamond,
-  Shapes,
-  //  Square, Triangle
-} from "lucide-react";
-// import { useEffect } from "react";
+  drawModeAtom,
+  drawModeRefAtom,
+} from "@/components/simulation/simulationState";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { useAtom } from "jotai";
+import { Brush, Circle, Diamond, Shapes, Square, Triangle } from "lucide-react";
+import { useEffect } from "react";
 
 const MaterialOptions = () => {
-  // const [drawMode, setDrawMode] = useAtom(drawModeAtom);
-  // const [drawModeRef] = useAtom(drawModeRefAtom);
+  const [drawMode, setDrawMode] = useAtom(drawModeAtom);
+  const [drawModeRef] = useAtom(drawModeRefAtom);
 
-  // const handleBrushDraw = () => {
-  //   setDrawMode("brush");
-  //   drawModeRef.current = "brush";
-  // };
+  const handleBrushDraw = () => {
+    setDrawMode("brush");
+    drawModeRef.current = "brush";
+  };
 
-  // const handleCircleDraw = () => {
-  //   setDrawMode("circle");
-  //   drawModeRef.current = "circle";
-  // };
+  const handleCircleDraw = () => {
+    setDrawMode("circle");
+    drawModeRef.current = "circle";
+  };
 
-  // const handleRectangleDraw = () => {
-  //   setDrawMode("rectangle");
-  //   drawModeRef.current = "rectangle";
-  // };
+  const handleRectangleDraw = () => {
+    setDrawMode("rectangle");
+    drawModeRef.current = "rectangle";
+  };
 
-  // const handleTriangleDraw = () => {
-  //   setDrawMode("triangle");
-  //   drawModeRef.current = "triangle";
-  // };
+  const handleTriangleDraw = () => {
+    setDrawMode("triangle");
+    drawModeRef.current = "triangle";
+  };
 
-  // const handleDiamondDraw = () => {
-  //   setDrawMode("diamond");
-  //   drawModeRef.current = "diamond";
-  // };
+  const handleDiamondDraw = () => {
+    setDrawMode("diamond");
+    drawModeRef.current = "diamond";
+  };
 
-  // useEffect(() => {
-  //   setDrawMode(drawModeRef.current);
-  // }, [drawModeRef, setDrawMode]);
+  useEffect(() => {
+    setDrawMode(drawModeRef.current);
+  }, [drawModeRef, setDrawMode]);
 
   return (
     <div className="flex flex-col gap-3 mb-3">
@@ -87,7 +82,7 @@ const MaterialOptions = () => {
             New
           </Badge>
         </div>
-        {/* <div className="flex gap-4 flex-wrap">
+        <div className="flex gap-4 flex-wrap">
           <Button
             variant={drawMode === "brush" ? "secondary" : "outline"}
             size="icon"
@@ -128,7 +123,7 @@ const MaterialOptions = () => {
           >
             <Diamond className="h-4 w-4" />
           </Button>
-        </div> */}
+        </div>
       </div>
       <Separator className="mt-2" />
       <div className="flex flex-col gap-4 px-3">
