@@ -5,6 +5,7 @@ import {
 } from "@/components/simulation/simulationState";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { handleSaveToLocalStorage } from "@/lib/utils";
 import { useAtom } from "jotai";
 import { ImageIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -329,9 +330,18 @@ const RectangleImageDrawButton = () => {
             cursor: "crosshair",
             touchAction: "none", // Prevent default touch actions
           }}
-          onMouseDown={handleStartDrawing}
+          onMouseDown={(e) => {
+            handleSaveToLocalStorage({
+              gridRef,
+              key: "autoSaveUndo",
+            });
+            handleStartDrawing(e);
+          }}
           onMouseMove={handleDrawing}
-          onMouseUp={handleEndDrawing}
+          onMouseUp={(e) => {
+            handleEndDrawing(e);
+            handleSaveToLocalStorage({ gridRef, key: "autoSaveRedo" });
+          }}
           onTouchStart={(e) => {
             const target = e.currentTarget;
             const passiveListener = () => {};
