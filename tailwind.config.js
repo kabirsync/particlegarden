@@ -13,6 +13,16 @@ export default {
       screens: {
         xs: "440px",
       },
+      keyframes: {
+        "long-ping": {
+          "0%": { transform: "scale(1)", opacity: "1" },
+          "75%": { transform: "scale(3)", opacity: ".5" },
+          "100%": { transform: "scale(4)", opacity: "0" },
+        },
+      },
+      animation: {
+        "long-ping": "long-ping 2s cubic-bezier(0, 0, 0.2, 1)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

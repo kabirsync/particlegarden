@@ -296,7 +296,7 @@ const RectangleImageDrawButton = () => {
         );
       }
     }
-
+    console.log("Image placed successfully!");
     toast.success("Image placed successfully!");
   };
 

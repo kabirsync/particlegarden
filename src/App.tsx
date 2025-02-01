@@ -3,6 +3,7 @@ import EngineOptions from "@/components/simulation/options/EngineOptions";
 import MaterialOptions from "@/components/simulation/options/MaterialOptions";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
 import { ChevronDownIcon, ChevronUpIcon, LoaderIcon } from "lucide-react";
 import { PostHogProvider } from "posthog-js/react";
@@ -62,8 +63,11 @@ function App() {
                   )}
                 </div>
                 <ScrollArea className="h-[100%] flex-1 border-r md:border-r-0  border-zinc-400 dark:border-zinc-800 relative">
-                  <Likes />
-                  <MaterialOptions />
+                  <div className="flex flex-col gap-3">
+                    <Likes />
+                    <Separator />
+                    <MaterialOptions />
+                  </div>
                 </ScrollArea>
                 <div className="h-5 flex justify-center items-center">
                   {showDownChevron && (
