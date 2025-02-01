@@ -23,13 +23,13 @@ export const throttle = (func: (...args: any[]) => void, limit: number) => {
 };
 
 export const getLocalStorageSize = () => {
-  let total = 0;
+  // let total = 0;
   for (const key in localStorage) {
     if (Object.prototype.hasOwnProperty.call(localStorage, key)) {
-      total += key.length + localStorage[key].length;
+      // total += key.length + localStorage[key].length;
     }
   }
-  console.log(`LocalStorage Size: ${(total / 1024).toFixed(2)} KB`);
+  // console.log(`LocalStorage Size: ${(total / 1024).toFixed(2)} KB`);
 };
 
 export const uint8ArrayToBase64 = (uint8Array: Uint8Array) => {
@@ -91,7 +91,7 @@ export const handleSaveToLocalStorage = ({
       if (success) {
         localStorage.setItem(key, compressedBase64);
         onSucces();
-        console.log("Data successfully compressed and saved!");
+        // console.log("Data successfully compressed and saved!");
         getLocalStorageSize();
       } else {
         console.error("Worker error:", error);
@@ -128,7 +128,7 @@ export const handleLoadFromLocalStorage = ({
       gridRef.current = Grid.fromJSON(gridData);
       onSucces();
     } else {
-      console.log("No data found in localStorage.");
+      // console.log("No data found in localStorage.");
     }
   } catch (error) {
     console.error("Error decompressing and loading data:", error);
