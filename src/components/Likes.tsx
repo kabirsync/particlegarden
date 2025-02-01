@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/supabase";
-import { Heart } from "lucide-react";
+import { ArrowLeft, Heart } from "lucide-react";
 
 const Likes = () => {
   // const queryClient = useQueryClient();
@@ -57,7 +57,10 @@ const Likes = () => {
           active:animate-long-ping`}
         onClick={handleLike}
       />
-      <span className="text-xs">Like this project? Click here!</span>
+      <span className="text-xs flex items-center gap-1">
+        <ArrowLeft className="h-3 w-3" />
+        Click if you like the project
+      </span>
     </div>
   );
 };
