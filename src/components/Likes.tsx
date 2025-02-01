@@ -1,33 +1,32 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/supabase";
 import { Heart } from "lucide-react";
 
 const Likes = () => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const [isLiked, setIsLiked] = useState(() => {
     return localStorage.getItem("isLiked") === "true";
   });
 
-  const fetchLikes = async () => {
-    const { data, error } = await supabase
-      .from("likes")
-      .select("count")
-      .order("id", { ascending: true })
-      .limit(1);
+  // const fetchLikes = async () => {
+  //   const { data, error } = await supabase
+  //     .from("likes")
+  //     .select("count")
+  //     .order("id", { ascending: true })
+  //     .limit(1);
 
-    if (error) {
-      throw new Error(error.message);
-    }
+  //   if (error) {
+  //     throw new Error(error.message);
+  //   }
 
-    return data?.[0];
-  };
+  //   return data?.[0];
+  // };
 
-  // useQuery to load likes count
-  const { data, error, isPending } = useQuery({
-    queryKey: ["likes"],
-    queryFn: fetchLikes,
-  });
+  // const { data, error, isPending } = useQuery({
+  //   queryKey: ["likes"],
+  //   queryFn: fetchLikes,
+  // });
 
   const incrementMutation = useMutation({
     mutationFn: async () => {
@@ -36,9 +35,9 @@ const Likes = () => {
         throw new Error(error.message);
       }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["likes"] });
-    },
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries({ queryKey: ["likes"] });
+    // },
   });
 
   const handleLike = () => {
@@ -48,10 +47,6 @@ const Likes = () => {
     }
     incrementMutation.mutate();
   };
-
-  if (isPending) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-  if (!data) return <div>No data available</div>;
 
   return (
     <div className="flex items-center gap-3 px-3">
