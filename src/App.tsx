@@ -52,10 +52,10 @@ function App() {
         <div className="h-dvh flex flex-col dark:bg-zinc-950 bg-white text-zinc-900 dark:text-zinc-300 ">
           <div className="h-full flex flex-col md:flex-row">
             <div className="md:order-2 sm:min-h-[240px] h-[40%] sm:h-[30%] md:h-[100%] md:w-[350px] flex flex-col md:border-l border-zinc-400 dark:border-zinc-800">
-              <div className="h-[44px] md:h-[44px] border-b border-zinc-400 dark:border-zinc-800 flex flex-col">
+              <div className="h-[48px] md:h-[48px] border-b border-zinc-400 dark:border-zinc-800 flex flex-col">
                 <EngineOptions />
               </div>
-              <div className="h-[calc(100%-44px)] md:h-[calc(100%-44px)] flex flex-col md:items-center w-full border-b md:border-0 border-zinc-400 dark:border-zinc-800">
+              <div className="h-[calc(100%-48px)] md:h-[calc(100%-48px)] flex flex-col md:items-center w-full border-b md:border-0 border-zinc-400 dark:border-zinc-800">
                 <div className="h-5 flex justify-center items-center">
                   {showUpChevron && (
                     <ChevronUpIcon className="w-4 h-4 z-10 bg-white dark:bg-zinc-950 rounded-full" />
